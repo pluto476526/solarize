@@ -1,0 +1,333 @@
+{% extends 'visualisation/main.html' %}
+{% load static %}
+
+{% block main %}
+
+<!-- Content Start -->
+<div class="content">
+    <!-- Navbar Start -->
+    {% include 'visualisation/nav.html' %}
+    <!-- Navbar End -->
+
+
+    <!-- Solar Metrics Start -->
+    <div class="container-fluid pt-4 px-4">
+        <div class="row g-4">
+            <div class="col-sm-6 col-xl-3">
+                <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                    <i class="fas fa-solar-panel fa-3x text-warning"></i>
+                    <div class="ms-3">
+                        <p class="mb-2">Current Solar Output</p>
+                        <h6 class="mb-0">4.2 MW</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-3">
+                <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                    <i class="fas fa-bolt fa-3x text-warning"></i>
+                    <div class="ms-3">
+                        <p class="mb-2">Peak Generation Today</p>
+                        <h6 class="mb-0">5.8 MW</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-3">
+                <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                    <i class="fas fa-chart-line fa-3x text-info"></i>
+                    <div class="ms-3">
+                        <p class="mb-2">Forecast Accuracy</p>
+                        <h6 class="mb-0">94.2%</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-3">
+                <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                    <i class="fas fa-cloud-sun fa-3x text-success"></i>
+                    <div class="ms-3">
+                        <p class="mb-2">Cloud Impact</p>
+                        <h6 class="mb-0">-3.5%</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Solar Metrics End -->
+
+
+    <!-- Solar Charts Start -->
+    <div class="container-fluid pt-4 px-4">
+        <div class="row g-4">
+            <div class="col-sm-12 col-xl-8">
+                <div class="bg-secondary text-center rounded p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h6 class="mb-0">24-Hour Solar Forecast vs Actual</h6>
+                        <a href="forecasts.html">View Details</a>
+                    </div>
+                    <canvas id="solar-forecast-chart"></canvas>
+                </div>
+            </div>
+            <div class="col-sm-12 col-xl-4">
+                <div class="bg-secondary text-center rounded p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h6 class="mb-0">Daily Irradiance Pattern</h6>
+                        <a href="irradiance.html">View Details</a>
+                    </div>
+                    <canvas id="irradiance-pattern-chart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Solar Charts End -->
+
+
+    <!-- Solar Farms Start -->
+    <div class="container-fluid pt-4 px-4">
+        <div class="bg-secondary text-center rounded p-4">
+            <div class="d-flex align-items-center justify-content-between mb-4">
+                <h6 class="mb-0">Managed Solar Farms</h6>
+                <a href="locations.html">Manage All</a>
+            </div>
+            <div class="table-responsive">
+                <table class="table text-start align-middle table-bordered table-hover mb-0">
+                    <thead>
+                        <tr class="text-white">
+                            <th scope="col">Solar Farm</th>
+                            <th scope="col">Capacity</th>
+                            <th scope="col">Current Output</th>
+                            <th scope="col">Efficiency</th>
+                            <th scope="col">Forecast Accuracy</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Solar Farm Alpha</td>
+                            <td>10 MW</td>
+                            <td>8.4 MW</td>
+                            <td>84%</td>
+                            <td>96.1%</td>
+                            <td><span class="badge bg-success">Optimal</span></td>
+                            <td>
+                                <a class="btn btn-sm btn-warning me-1" href="">Forecast</a>
+                                <a class="btn btn-sm btn-primary" href="">Details</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Solar Farm Beta</td>
+                            <td>15 MW</td>
+                            <td>12.2 MW</td>
+                            <td>81%</td>
+                            <td>92.7%</td>
+                            <td><span class="badge bg-success">Optimal</span></td>
+                            <td>
+                                <a class="btn btn-sm btn-warning me-1" href="">Forecast</a>
+                                <a class="btn btn-sm btn-primary" href="">Details</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Commercial Site Gamma</td>
+                            <td>2 MW</td>
+                            <td>1.5 MW</td>
+                            <td>75%</td>
+                            <td>89.5%</td>
+                            <td><span class="badge bg-warning">Attention</span></td>
+                            <td>
+                                <a class="btn btn-sm btn-warning me-1" href="">Forecast</a>
+                                <a class="btn btn-sm btn-primary" href="">Details</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Residential Complex Delta</td>
+                            <td>1 MW</td>
+                            <td>0.8 MW</td>
+                            <td>80%</td>
+                            <td>94.3%</td>
+                            <td><span class="badge bg-success">Optimal</span></td>
+                            <td>
+                                <a class="btn btn-sm btn-warning me-1" href="">Forecast</a>
+                                <a class="btn btn-sm btn-primary" href="">Details</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Industrial Park Epsilon</td>
+                            <td>5 MW</td>
+                            <td>3.9 MW</td>
+                            <td>78%</td>
+                            <td>91.8%</td>
+                            <td><span class="badge bg-success">Optimal</span></td>
+                            <td>
+                                <a class="btn btn-sm btn-warning me-1" href="">Forecast</a>
+                                <a class="btn btn-sm btn-primary" href="">Details</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- Solar Farms End -->
+
+
+    <!-- Solar Widgets Start -->
+    <div class="container-fluid pt-4 px-4">
+        <div class="row g-4">
+            <div class="col-sm-12 col-md-6 col-xl-4">
+                <div class="h-100 bg-secondary rounded p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <h6 class="mb-0">Solar Performance Alerts</h6>
+                        <a href="alerts.html">View All</a>
+                    </div>
+                    <div class="d-flex align-items-center border-bottom py-3">
+                        <div class="rounded-circle bg-warning d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
+                            <i class="fas fa-cloud text-dark"></i>
+                        </div>
+                        <div class="w-100 ms-3">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-0">Cloud Cover Increasing</h6>
+                                <small>2 hours ago</small>
+                            </div>
+                            <span>Solar Farm Alpha efficiency dropping</span>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center border-bottom py-3">
+                        <div class="rounded-circle bg-info d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
+                            <i class="fas fa-thermometer-half text-dark"></i>
+                        </div>
+                        <div class="w-100 ms-3">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-0">Temperature Alert</h6>
+                                <small>5 hours ago</small>
+                            </div>
+                            <span>High temps affecting panel efficiency</span>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center border-bottom py-3">
+                        <div class="rounded-circle bg-danger d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
+                            <i class="fas fa-tint text-dark"></i>
+                        </div>
+                        <div class="w-100 ms-3">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-0">Rain Forecast</h6>
+                                <small>1 day ago</small>
+                            </div>
+                            <span>Possible efficiency drop tomorrow</span>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center pt-3">
+                        <div class="rounded-circle bg-success d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
+                            <i class="fas fa-sun text-dark"></i>
+                        </div>
+                        <div class="w-100 ms-3">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-0">Optimal Conditions</h6>
+                                <small>2 days ago</small>
+                            </div>
+                            <span>Weekend forecast shows peak generation</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6 col-xl-4">
+                <div class="h-100 bg-secondary rounded p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h6 class="mb-0">Sunlight Schedule</h6>
+                        <a href="irradiance.html">View Details</a>
+                    </div>
+                    <div class="mb-4">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Sunrise</span>
+                            <span class="text-warning">6:24 AM</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Peak Sun Hours</span>
+                            <span class="text-warning">10:00 AM - 3:00 PM</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Solar Noon</span>
+                            <span class="text-warning">12:42 PM</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span>Sunset</span>
+                            <span class="text-warning">7:18 PM</span>
+                        </div>
+                    </div>
+                    <div id="calender"></div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6 col-xl-4">
+                <div class="h-100 bg-secondary rounded p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h6 class="mb-0">Solar Quick Actions</h6>
+                        <a href="">View All</a>
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-warning mb-2" type="button">
+                            <i class="fas fa-cloud-sun me-2"></i>Generate Solar Forecast
+                        </button>
+                        <button class="btn btn-primary mb-2" type="button">
+                            <i class="fas fa-map-marker-alt me-2"></i>Add Solar Farm
+                        </button>
+                        <button class="btn btn-info mb-2" type="button">
+                            <i class="fas fa-chart-bar me-2"></i>Solar Analytics Report
+                        </button>
+                        <button class="btn btn-success mb-2" type="button">
+                            <i class="fas fa-file-export me-2"></i>Export Solar Data
+                        </button>
+                        <button class="btn btn-secondary mb-2" type="button">
+                            <i class="fas fa-cog me-2"></i>System Settings
+                        </button>
+                    </div>
+                    <div class="mt-4">
+                        <h6 class="mb-3">Solar System Status</h6>
+                        <div class="mb-2">
+                            <small>Irradiance Data: <span class="text-success">Active</span></small>
+                            <div class="progress mb-1" style="height: 5px;">
+                                <div class="progress-bar bg-success" role="progressbar" style="width: 95%;"></div>
+                            </div>
+                        </div>
+                        <div class="mb-2">
+                            <small>Solar Forecast Engine: <span class="text-success">Optimal</span></small>
+                            <div class="progress mb-1" style="height: 5px;">
+                                <div class="progress-bar bg-success" role="progressbar" style="width: 98%;"></div>
+                            </div>
+                        </div>
+                        <div class="mb-2">
+                            <small>Weather API: <span class="text-warning">Stable</span></small>
+                            <div class="progress mb-1" style="height: 5px;">
+                                <div class="progress-bar bg-warning" role="progressbar" style="width: 85%;"></div>
+                            </div>
+                        </div>
+                        <div class="mb-2">
+                            <small>Panel Efficiency Tracking: <span class="text-success">Active</span></small>
+                            <div class="progress mb-1" style="height: 5px;">
+                                <div class="progress-bar bg-success" role="progressbar" style="width: 92%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Solar Widgets End -->
+
+
+    <!-- Footer Start -->
+    <div class="container-fluid pt-4 px-4">
+        <div class="bg-secondary rounded-top p-4">
+            <div class="row">
+                <div class="col-12 col-sm-6 text-center text-sm-start">
+                    &copy; <a href="#">Solarize Solar Forecasting</a>, All Rights Reserved. 
+                </div>
+                <div class="col-12 col-sm-6 text-center text-sm-end">
+                    AI-Powered Solar Energy Predictions
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer End -->
+</div>
+<!-- Content End -->
+
+
+{% endblock %}

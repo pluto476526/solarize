@@ -60,19 +60,50 @@
             <div class="col-sm-12 col-xl-8">
                 <div class="bg-secondary text-center rounded p-4">
                     <div class="d-flex align-items-center justify-content-between mb-4">
-                        <h6 class="mb-0">24-Hour Solar Forecast vs Actual</h6>
-                        <a href="forecasts.html">View Details</a>
+                    <h6 class="mb-0">Nairobi, KE Daily Solar Irradiance Chart</h6>
+                    <div class="dropdown">
+                        <a href="#" class="" type="button" id="optionsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            Options
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end p-3 bg-secondary" style="min-width: 250px;">
+                            <form id="irradianceOptions">
+                                <!-- Location Selection -->
+                                <div class="mb-3">
+                                    <label for="locationSelect" class="form-label small fw-bold text-muted">LOCATION</label>
+                                    <select class="form-select form-select-sm" id="locationSelect">
+                                        <option selected>Select location</option>
+                                        {% for l in locations %}
+                                            <option value="{{ l.id }}">{{ l.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                
+                                <!-- Timeframe Selection -->
+                                <div class="mb-3">
+                                    <label for="timeframeSelect" class="form-label small fw-bold text-muted">TIMEFRAME</label>
+                                    <select class="form-select form-select-sm" id="timeframeSelect">
+                                        <option selected>Timeframe</option>
+                                        <option value="1 week">1 Week</option>
+                                        <option value="1 month">1 Month</option>
+                                    </select>
+                                </div>
+                                
+                                <!-- Apply Button -->
+                                <button type="submit" class="btn btn-sm btn-primary w-100">Apply Filters</button>
+                            </form>
+                        </div>
                     </div>
-                    <canvas id="solar-forecast-chart"></canvas>
+                </div>
+                    <div id="irradiance-chart">{{ irradiance_chart|safe }}</div>
                 </div>
             </div>
             <div class="col-sm-12 col-xl-4">
                 <div class="bg-secondary text-center rounded p-4">
                     <div class="d-flex align-items-center justify-content-between mb-4">
-                        <h6 class="mb-0">Daily Irradiance Pattern</h6>
+                        <h6 class="mb-0">24-Hour Solar Forecast vs Actual</h6>
                         <a href="irradiance.html">View Details</a>
                     </div>
-                    <canvas id="irradiance-pattern-chart"></canvas>
+                    <div id="irradiance-pattern-chart"></div>
                 </div>
             </div>
         </div>

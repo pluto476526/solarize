@@ -10,7 +10,7 @@ def insert_irradiance_data_query():
     ON CONFLICT (insert_date, parameter, lon, lat) DO NOTHING;
     """
 
-def get_irradiance_ohlc_data(bucket: str = "i week"):
+def irradiance_ohlc_query(bucket: str = "i week"):
     return f"""
     SELECT time_bucket('{bucket}', insert_date) AS bucket,
         first(value, insert_date) AS open,
@@ -20,6 +20,7 @@ def get_irradiance_ohlc_data(bucket: str = "i week"):
     FROM irradiance_data
     WHERE parameter = 'ALLSKY_SFC_SW_DWN'
     GROUP BY bucket
-    ORDER BY bucket;
+    ORDER BY bucket DESC
+    LIMIT 160;
     """
 

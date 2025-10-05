@@ -1,0 +1,696 @@
+{% extends 'visualisation/main.html' %}
+{% load static %}
+
+{% block main %}
+
+<!-- Content Start -->
+<div class="content">
+    <!-- Navbar Start -->
+    {% include 'visualisation/nav.html' %}
+    <!-- Navbar End -->
+
+    <!-- Report Header Start -->
+    <div class="container-fluid pt-4 px-4">
+        <div class="row g-4">
+            <div class="col-12">
+                <div class="bg-secondary rounded p-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h2 class="text-white mb-1">Solar Analysis Report</h2>
+                            <h4 class="text-warning mb-0">Nairobi, Kenya</h4>
+                            <p class="mb-0 text-light">Coordinates: -1.286389, 36.817223</p>
+                        </div>
+                        <div class="text-end">
+                            <span class="badge bg-success fs-6">Overall Score: 71/100</span>
+                            <p class="mb-0 text-light mt-2">Report Date: 2025-10-05</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Report Header End -->
+
+    <!-- Key Metrics Start -->
+    <div class="container-fluid pt-4 px-4">
+        <div class="row g-4">
+            <div class="col-sm-6 col-xl-3">
+                <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                    <i class="fas fa-bolt fa-3x text-warning"></i>
+                    <div class="ms-3">
+                        <p class="mb-2">Annual Production</p>
+                        <h6 class="mb-0">7,078 MWh</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-3">
+                <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                    <i class="fas fa-solar-panel fa-3x text-info"></i>
+                    <div class="ms-3">
+                        <p class="mb-2">Capacity Factor</p>
+                        <h6 class="mb-0">16.2%</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-3">
+                <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                    <i class="fas fa-chart-line fa-3x text-success"></i>
+                    <div class="ms-3">
+                        <p class="mb-2">Payback Period</p>
+                        <h6 class="mb-0">0.0 Years</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-3">
+                <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                    <i class="fas fa-tree fa-3x text-primary"></i>
+                    <div class="ms-3">
+                        <p class="mb-2">Carbon Offset</p>
+                        <h6 class="mb-0">2,831 tons/yr</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Key Metrics End -->
+
+    <!-- Location Score & Performance Start -->
+    <div class="container-fluid pt-4 px-4">
+        <div class="row g-4">
+            <!-- Location Score Card -->
+            <div class="col-sm-12 col-xl-4">
+                <div class="bg-secondary rounded p-4">
+                    <h5 class="mb-4">Location Score</h5>
+                    <div class="text-center mb-4">
+                        <div class="display-4 text-warning fw-bold">71</div>
+                        <span class="badge bg-success fs-6">Good</span>
+                    </div>
+                    <div class="mt-4">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Annual Production</span>
+                            <span class="fw-bold text-success">100/100</span>
+                        </div>
+                        <div class="progress mb-3">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: 100%"></div>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Seasonal Consistency</span>
+                            <span class="fw-bold text-warning">40/100</span>
+                        </div>
+                        <div class="progress mb-3">
+                            <div class="progress-bar bg-warning" role="progressbar" style="width: 40%"></div>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Peak Alignment</span>
+                            <span class="fw-bold text-info">62/100</span>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar bg-info" role="progressbar" style="width: 62%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Seasonal Performance -->
+            <div class="col-sm-12 col-xl-8">
+                <div class="bg-secondary rounded p-4">
+                    <h5 class="mb-4">Seasonal Performance</h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="border rounded p-3 mb-3">
+                                <div class="d-flex justify-content-between">
+                                    <span class="fw-bold">Best Month</span>
+                                    <span class="text-success">January</span>
+                                </div>
+                                <div class="text-end">850,593 kWh</div>
+                            </div>
+                            <div class="border rounded p-3">
+                                <div class="d-flex justify-content-between">
+                                    <span class="fw-bold">Peak Daily</span>
+                                    <span class="text-warning">33,617 kWh</span>
+                                </div>
+                                <div class="text-end">Jan 5, 2024</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="border rounded p-3 mb-3">
+                                <div class="d-flex justify-content-between">
+                                    <span class="fw-bold">Worst Month</span>
+                                    <span class="text-danger">June</span>
+                                </div>
+                                <div class="text-end">344,328 kWh</div>
+                            </div>
+                            <div class="border rounded p-3">
+                                <div class="d-flex justify-content-between">
+                                    <span class="fw-bold">Seasonal Variation</span>
+                                    <span class="text-info">59.5%</span>
+                                </div>
+                                <div class="text-end">High Variation</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Location Score & Performance End -->
+
+    <!-- Scenario Analysis Start -->
+    <div class="container-fluid pt-4 px-4">
+        <div class="bg-secondary rounded p-4">
+            <div class="d-flex align-items-center justify-content-between mb-4">
+                <h5 class="mb-0">Scenario Analysis</h5>
+                <small class="text-light">Compared to Standard Residential (100%)</small>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Scenario</th>
+                            <th>Annual Production</th>
+                            <th>Efficiency Ratio</th>
+                            <th>Configuration</th>
+                            <th>Performance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <span class="fw-bold">Flat Roof</span>
+                                <span class="badge bg-success ms-2">Best</span>
+                            </td>
+                            <td>7,306,553 kWh</td>
+                            <td>4,003.59</td>
+                            <td>5° tilt, 180° azimuth</td>
+                            <td>
+                                <div class="progress" style="height: 20px;">
+                                    <div class="progress-bar bg-success" style="width: 103%">103%</div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="fw-bold">West-Facing</span></td>
+                            <td>7,134,457 kWh</td>
+                            <td>3,909.29</td>
+                            <td>20° tilt, 270° azimuth</td>
+                            <td>
+                                <div class="progress" style="height: 20px;">
+                                    <div class="progress-bar bg-info" style="width: 98%">98%</div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="table-warning">
+                            <td><span class="fw-bold">Standard Residential</span></td>
+                            <td>7,078,430 kWh</td>
+                            <td>3,878.59</td>
+                            <td>20° tilt, 180° azimuth</td>
+                            <td>
+                                <div class="progress" style="height: 20px;">
+                                    <div class="progress-bar bg-warning" style="width: 100%">100%</div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="fw-bold">East-Facing</span></td>
+                            <td>6,756,673 kWh</td>
+                            <td>3,702.29</td>
+                            <td>20° tilt, 90° azimuth</td>
+                            <td>
+                                <div class="progress" style="height: 20px;">
+                                    <div class="progress-bar bg-primary" style="width: 92%">92%</div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="fw-bold">Optimized Tilt</span></td>
+                            <td>6,687,387 kWh</td>
+                            <td>3,664.32</td>
+                            <td>30° tilt, 180° azimuth</td>
+                            <td>
+                                <div class="progress" style="height: 20px;">
+                                    <div class="progress-bar bg-primary" style="width: 94%">94%</div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- Scenario Analysis End -->
+
+    <!-- Financial Analysis Start -->
+    <div class="container-fluid pt-4 px-4">
+        <div class="row g-4">
+            <div class="col-sm-12 col-xl-6">
+                <div class="bg-secondary rounded p-4">
+                    <h5 class="mb-4">Financial Analysis</h5>
+                    <div class="row">
+                        <div class="col-6 mb-3">
+                            <div class="border rounded p-3 text-center">
+                                <div class="text-warning fw-bold fs-5">$20,000</div>
+                                <small>Initial Cost</small>
+                            </div>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <div class="border rounded p-3 text-center">
+                                <div class="text-success fw-bold fs-5">$2.83M</div>
+                                <small>Annual Energy Value</small>
+                            </div>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <div class="border rounded p-3 text-center">
+                                <div class="text-info fw-bold fs-5">0.0 Years</div>
+                                <small>Payback Period</small>
+                            </div>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <div class="border rounded p-3 text-center">
+                                <div class="text-success fw-bold fs-5">283,037%</div>
+                                <small>20-Year ROI</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-3 p-3 bg-dark rounded">
+                        <h6 class="text-warning">Incentive Impact</h6>
+                        <div class="d-flex justify-content-between">
+                            <span>Tax Credit:</span>
+                            <span class="fw-bold">$6,000</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span>Effective Cost:</span>
+                            <span class="fw-bold">$14,000</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-xl-6">
+                <div class="bg-secondary rounded p-4">
+                    <h5 class="mb-4">Monthly Savings Breakdown</h5>
+                    <div class="table-responsive">
+                        <table class="table table-sm table-borderless">
+                            <tbody>
+                                <tr>
+                                    <td>January</td>
+                                    <td>
+                                        <div class="progress" style="height: 15px;">
+                                            <div class="progress-bar bg-success" style="width: 100%">$340,237</div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>February</td>
+                                    <td>
+                                        <div class="progress" style="height: 15px;">
+                                            <div class="progress-bar bg-success" style="width: 90%">$307,525</div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>March</td>
+                                    <td>
+                                        <div class="progress" style="height: 15px;">
+                                            <div class="progress-bar bg-success" style="width: 88%">$299,656</div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>April</td>
+                                    <td>
+                                        <div class="progress" style="height: 15px;">
+                                            <div class="progress-bar bg-warning" style="width: 64%">$216,733</div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>May</td>
+                                    <td>
+                                        <div class="progress" style="height: 15px;">
+                                            <div class="progress-bar bg-warning" style="width: 52%">$177,261</div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>June</td>
+                                    <td>
+                                        <div class="progress" style="height: 15px;">
+                                            <div class="progress-bar bg-danger" style="width: 40%">$137,731</div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Financial Analysis End -->
+
+    <!-- Environmental Impact & Recommendations Start -->
+    <div class="container-fluid pt-4 px-4">
+        <div class="row g-4">
+            <!-- Environmental Impact -->
+            <div class="col-sm-12 col-xl-6">
+                <div class="bg-secondary rounded p-4">
+                    <h5 class="mb-4">Environmental Impact</h5>
+                    <div class="row text-center">
+                        <div class="col-6 mb-3">
+                            <div class="border rounded p-3">
+                                <i class="fas fa-tree fa-2x text-success mb-2"></i>
+                                <div class="fw-bold">424,705</div>
+                                <small>Trees Planted Equivalent</small>
+                            </div>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <div class="border rounded p-3">
+                                <i class="fas fa-car fa-2x text-warning mb-2"></i>
+                                <div class="fw-bold">1,770</div>
+                                <small>Cars Off Road</small>
+                            </div>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <div class="border rounded p-3">
+                                <i class="fas fa-home fa-2x text-info mb-2"></i>
+                                <div class="fw-bold">7,078</div>
+                                <small>Homes Powered</small>
+                            </div>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <div class="border rounded p-3">
+                                <i class="fas fa-bolt fa-2x text-warning mb-2"></i>
+                                <div class="fw-bold">4,167 kW</div>
+                                <small>Peak Grid Relief</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- System Recommendations -->
+            <div class="col-sm-12 col-xl-6">
+                <div class="bg-secondary rounded p-4">
+                    <h5 class="mb-4">System Recommendations</h5>
+                    <div class="mb-3">
+                        <h6>Optimal Configuration</h6>
+                        <div class="d-flex justify-content-between border-bottom pb-2 mb-2">
+                            <span>System Size:</span>
+                            <span class="fw-bold">8.0 kW</span>
+                        </div>
+                        <div class="d-flex justify-content-between border-bottom pb-2 mb-2">
+                            <span>Tilt Angle:</span>
+                            <span class="fw-bold">-1°</span>
+                        </div>
+                        <div class="d-flex justify-content-between border-bottom pb-2 mb-2">
+                            <span>Azimuth:</span>
+                            <span class="fw-bold">180°</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span>Annual Production:</span>
+                            <span class="fw-bold">7,078,430 kWh</span>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <h6>Battery Storage</h6>
+                        <span class="badge bg-success">Low Priority</span>
+                        <small class="text-light d-block mt-1">Good evening production reduces storage needs</small>
+                    </div>
+                    <div>
+                        <h6>Maintenance Schedule</h6>
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-check text-success me-2"></i>Clean panels quarterly in dusty areas</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Annual professional inspection</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Monitor production monthly</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Trim vegetation seasonally</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Environmental Impact & Recommendations End -->
+
+    <!-- Documentation Section Start -->
+    <div class="container-fluid pt-4 px-4">
+        <div class="row g-4">
+            <div class="col-12">
+                <div class="bg-secondary rounded p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h5 class="mb-0">Report Documentation</h5>
+                        <button type="button" class="btn btn-sm btn-outline-light" data-bs-toggle="collapse" data-bs-target="#reportDocsCollapse">
+                            <i class="fas fa-question-circle me-1"></i>Toggle Help
+                        </button>
+                    </div>
+                    
+                    <div class="collapse show" id="reportDocsCollapse">
+                        <div class="accordion" id="reportDocsAccordion">
+                            
+                            <!-- Report Overview -->
+                            <div class="accordion-item bg-dark border-dark">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button bg-dark text-light" type="button" data-bs-toggle="collapse" data-bs-target="#overviewDocs">
+                                        <i class="fas fa-chart-bar me-2"></i>Report Overview
+                                    </button>
+                                </h2>
+                                <div id="overviewDocs" class="accordion-collapse collapse show" data-bs-parent="#reportDocsAccordion">
+                                    <div class="accordion-body">
+                                        <p class="text-light">This comprehensive solar analysis report provides detailed insights into your solar energy production potential, financial returns, and environmental impact.</p>
+                                        <div class="row g-3 mt-3">
+                                            <div class="col-md-6">
+                                                <h6 class="text-warning">Overall Score (71/100)</h6>
+                                                <p class="text-light small">A weighted score evaluating location suitability, production potential, and financial viability. Scores above 70 indicate good solar potential.</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h6 class="text-warning">Location Analysis</h6>
+                                                <p class="text-light small">Based on coordinates: -1.286389, 36.817223 (Nairobi, Kenya). This location shows strong annual production with moderate seasonal variation.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Key Metrics Documentation -->
+                            <div class="accordion-item bg-dark border-dark">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button bg-dark text-light collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#metricsDocs">
+                                        <i class="fas fa-tachometer-alt me-2"></i>Key Metrics Explained
+                                    </button>
+                                </h2>
+                                <div id="metricsDocs" class="accordion-collapse collapse" data-bs-parent="#reportDocsAccordion">
+                                    <div class="accordion-body">
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <h6 class="text-warning">Annual Production (7,078 MWh)</h6>
+                                                <p class="text-light small">Total electricity generated per year. 1 MWh = 1,000 kWh, enough to power approximately 330 homes for one day.</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h6 class="text-warning">Capacity Factor (16.2%)</h6>
+                                                <p class="text-light small">Ratio of actual energy output to maximum possible output. 16.2% is typical for fixed-tilt systems in this region.</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h6 class="text-warning">Payback Period (0.0 Years)</h6>
+                                                <p class="text-light small">Time required to recover initial investment. 0.0 years indicates immediate positive return due to high energy value.</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h6 class="text-warning">Carbon Offset (2,831 tons/yr)</h6>
+                                                <p class="text-light small">Annual CO2 emissions avoided by using solar instead of fossil fuels. Equivalent to planting 424,705 trees.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Location Score Documentation -->
+                            <div class="accordion-item bg-dark border-dark">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button bg-dark text-light collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#scoreDocs">
+                                        <i class="fas fa-star me-2"></i>Location Scoring System
+                                    </button>
+                                </h2>
+                                <div id="scoreDocs" class="accordion-collapse collapse" data-bs-parent="#reportDocsAccordion">
+                                    <div class="accordion-body">
+                                        <div class="row g-3">
+                                            <div class="col-md-4">
+                                                <h6 class="text-success">Annual Production (100/100)</h6>
+                                                <p class="text-light small">Measures total yearly energy output potential. Perfect score indicates excellent annual production capacity.</p>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <h6 class="text-warning">Seasonal Consistency (40/100)</h6>
+                                                <p class="text-light small">Evaluates production stability across seasons. Lower score indicates significant seasonal variation (59.5% difference between best/worst months).</p>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <h6 class="text-info">Peak Alignment (62/100)</h6>
+                                                <p class="text-light small">Measures how well production peaks match energy demand patterns. Moderate score suggests some misalignment with usage patterns.</p>
+                                            </div>
+                                        </div>
+                                        <div class="alert alert-info mt-3">
+                                            <small>
+                                                <i class="fas fa-info-circle me-2"></i>
+                                                <strong>Scoring Scale:</strong> 90-100 = Excellent, 70-89 = Good, 50-69 = Fair, Below 50 = Poor
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Scenario Analysis Documentation -->
+                            <div class="accordion-item bg-dark border-dark">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button bg-dark text-light collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#scenarioDocs">
+                                        <i class="fas fa-random me-2"></i>Scenario Analysis
+                                    </button>
+                                </h2>
+                                <div id="scenarioDocs" class="accordion-collapse collapse" data-bs-parent="#reportDocsAccordion">
+                                    <div class="accordion-body">
+                                        <p class="text-light">Compares different installation configurations to help optimize your system design.</p>
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <h6 class="text-success">Flat Roof (103%)</h6>
+                                                <p class="text-light small">5° tilt provides optimal performance in equatorial regions by maximizing exposure to overhead sun.</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h6 class="text-info">West-Facing (98%)</h6>
+                                                <p class="text-light small">Good for matching afternoon energy demand, though slightly less efficient than south-facing.</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h6 class="text-warning">Standard Residential (100%)</h6>
+                                                <p class="text-light small">20° tilt, 180° azimuth represents typical residential installation. Used as baseline comparison.</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h6 class="text-primary">Optimized Tilt (94%)</h6>
+                                                <p class="text-light small">30° tilt underperforms in this location due to proximity to equator where flatter angles are better.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Financial Analysis Documentation -->
+                            <div class="accordion-item bg-dark border-dark">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button bg-dark text-light collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#financialDocs">
+                                        <i class="fas fa-dollar-sign me-2"></i>Financial Analysis
+                                    </button>
+                                </h2>
+                                <div id="financialDocs" class="accordion-collapse collapse" data-bs-parent="#reportDocsAccordion">
+                                    <div class="accordion-body">
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <h6 class="text-warning">Initial Cost vs Energy Value</h6>
+                                                <p class="text-light small">$20,000 initial investment generates $2.83M in annual energy value, indicating extremely favorable economics.</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h6 class="text-info">Payback Period (0.0 Years)</h6>
+                                                <p class="text-light small">Immediate payback suggests the system generates more value than cost from day one, accounting for incentives.</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h6 class="text-success">20-Year ROI (283,037%)</h6>
+                                                <p class="text-light small">Exceptional return on investment over system lifetime, factoring in maintenance and degradation.</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h6 class="text-warning">Monthly Savings Pattern</h6>
+                                                <p class="text-light small">Shows seasonal variation in energy production value, with peak savings in January and lowest in June.</p>
+                                            </div>
+                                        </div>
+                                        <div class="alert alert-warning mt-3">
+                                            <small>
+                                                <i class="fas fa-exclamation-triangle me-2"></i>
+                                                <strong>Note:</strong> Financial calculations assume $0.40/kWh energy rate and 30% federal tax credit. Actual results may vary based on local rates and incentives.
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Environmental Impact Documentation -->
+                            <div class="accordion-item bg-dark border-dark">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button bg-dark text-light collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#environmentalDocs">
+                                        <i class="fas fa-leaf me-2"></i>Environmental Impact
+                                    </button>
+                                </h2>
+                                <div id="environmentalDocs" class="accordion-collapse collapse" data-bs-parent="#reportDocsAccordion">
+                                    <div class="accordion-body">
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <h6 class="text-success">Trees Planted Equivalent</h6>
+                                                <p class="text-light small">424,705 mature trees would be needed to absorb the same amount of CO2 that this system avoids annually.</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h6 class="text-warning">Cars Off Road</h6>
+                                                <p class="text-light small">Equivalent to removing 1,770 average passenger vehicles from the road each year.</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h6 class="text-info">Homes Powered</h6>
+                                                <p class="text-light small">7,078 average households can be powered by this system annually.</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h6 class="text-warning">Peak Grid Relief</h6>
+                                                <p class="text-light small">4,167 kW of peak demand reduction, helping stabilize local electrical grid during high usage periods.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Recommendations Documentation -->
+                            <div class="accordion-item bg-dark border-dark">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button bg-dark text-light collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#recommendationDocs">
+                                        <i class="fas fa-lightbulb me-2"></i>System Recommendations
+                                    </button>
+                                </h2>
+                                <div id="recommendationDocs" class="accordion-collapse collapse" data-bs-parent="#reportDocsAccordion">
+                                    <div class="accordion-body">
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <h6 class="text-warning">Optimal Configuration</h6>
+                                                <p class="text-light small">8.0 kW system with -1° tilt and 180° azimuth recommended for maximum efficiency in Nairobi's equatorial location.</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h6 class="text-success">Battery Storage Priority</h6>
+                                                <p class="text-light small">Low priority indicates consistent production throughout daylight hours reduces need for energy storage.</p>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <h6 class="text-info">Maintenance Schedule</h6>
+                                                <p class="text-light small">Quarterly cleaning recommended due to dust accumulation. Annual professional inspections ensure optimal performance.</p>
+                                            </div>
+                                        </div>
+                                        <div class="alert alert-success mt-3">
+                                            <small>
+                                                <i class="fas fa-check-circle me-2"></i>
+                                                <strong>Key Insight:</strong> This location shows excellent solar potential with immediate financial returns and significant environmental benefits.
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Documentation Section End -->
+
+    <!-- Footer Start -->
+    <div class="container-fluid pt-4 px-4">
+        <div class="bg-secondary rounded-top p-4">
+            <div class="row">
+                <div class="col-12 col-sm-6 text-center text-sm-start">
+                    &copy; <a href="#">Solar Analysis Report</a>, All Rights Reserved. 
+                </div>
+                <div class="col-12 col-sm-6 text-center text-sm-end">
+                    Comprehensive Solar Energy Assessment
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer End -->
+</div>
+<!-- Content End -->
+
+{% endblock %}

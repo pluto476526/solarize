@@ -3,7 +3,7 @@
 
 
 from django.utils.timezone import now
-from datetime import timedelta
+from datetime import datetime, timedelta
 from celery import shared_task
 import pandas as pd
 import logging
@@ -51,8 +51,14 @@ def fetch_nasa_data(self):
     NASA_POWER_API = "https://power.larc.nasa.gov/api/temporal/daily/point"
     
     # Get last 30 days of data (NASA typically has 2-3 day latency)
-    end_date = now() - timedelta(days=365)
-    start_date = end_date - timedelta(days=400)
+    # end_date = now() - timedelta(days=365)
+    # start_date = end_date - timedelta(days=400)
+    end_date = "2025-05-31"
+    start_date = "2015-05-1"
+    
+    end_date = datetime.strptime(end_date, "%Y-%m-%d")
+    start_date = datetime.strptime(start_date, "%Y-%m-%d")
+
     RE_params = (
         "ALLSKY_SFC_SW_DWN,ALLSKY_KT"
     )

@@ -57,7 +57,7 @@
     <!-- Solar Charts Start -->
     <div class="container-fluid pt-4 px-4">
         <div class="row g-4">
-            <div class="col-sm-12 col-xl-8">
+            <div class="col-sm-12 col-xl-12">
                 <div class="bg-secondary text-center rounded p-4">
                     <div class="d-flex align-items-center justify-content-between mb-4">
                     <h6 class="mb-0">Nairobi, KE Daily Solar Irradiance Chart</h6>
@@ -97,7 +97,7 @@
                     <div id="irradiance-chart">{{ irradiance_chart|safe }}</div>
                 </div>
             </div>
-            <div class="col-sm-12 col-xl-4">
+          <!--   <div class="col-sm-12 col-xl-4">
                 <div class="bg-secondary text-center rounded p-4">
                     <div class="d-flex align-items-center justify-content-between mb-4">
                         <h6 class="mb-0">24-Hour Solar Forecast vs Actual</h6>
@@ -105,7 +105,7 @@
                     </div>
                     <div id="irradiance-pattern-chart"></div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
     <!-- Solar Charts End -->
@@ -341,6 +341,467 @@
         </div>
     </div>
     <!-- Solar Widgets End -->
+
+
+    <!-- Data Sources & Methodology Documentation -->
+    <div class="container-fluid pt-4 px-4">
+        <div class="row g-4">
+            <div class="col-12">
+                <div class="bg-secondary rounded p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h5 class="mb-0">Data Sources & Methodology</h5>
+                        <button type="button" class="btn btn-sm btn-outline-light" data-bs-toggle="collapse" data-bs-target="#dataSourcesCollapse">
+                            <i class="fas fa-database me-1"></i>Toggle Data Documentation
+                        </button>
+                    </div>
+                    
+                    <div class="collapse show" id="dataSourcesCollapse">
+                        <div class="accordion" id="dataSourcesAccordion">
+                            
+                            <!-- API Providers Section -->
+                            <div class="accordion-item bg-dark border-dark">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button bg-dark text-light" type="button" data-bs-toggle="collapse" data-bs-target="#apiProviders">
+                                        <i class="fas fa-cloud me-2"></i>API Data Providers
+                                    </button>
+                                </h2>
+                                <div id="apiProviders" class="accordion-collapse collapse show" data-bs-parent="#dataSourcesAccordion">
+                                    <div class="accordion-body">
+                                        <div class="row g-4">
+                                            <div class="col-md-4 text-center">
+                                                <div class="border rounded p-3 bg-dark">
+                                                    <i class="fas fa-university fa-2x text-warning mb-3"></i>
+                                                    <h6 class="text-warning">NREL PVWatts</h6>
+                                                    <p class="text-light small mb-2">National Renewable Energy Laboratory</p>
+                                                    <span class="badge bg-success">Primary Data Source</span>
+                                                    <p class="text-light small mt-2">Provides solar resource data and energy production calculations</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 text-center">
+                                                <div class="border rounded p-3 bg-dark">
+                                                    <i class="fas fa-rocket fa-2x text-info mb-3"></i>
+                                                    <h6 class="text-info">NASA POWER</h6>
+                                                    <p class="text-light small mb-2">Prediction of Worldwide Energy Resources</p>
+                                                    <span class="badge bg-info">Meteorological Data</span>
+                                                    <p class="text-light small mt-2">Satellite-derived solar radiation and weather data</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 text-center">
+                                                <div class="border rounded p-3 bg-dark">
+                                                    <i class="fas fa-cloud-sun fa-2x text-primary mb-3"></i>
+                                                    <h6 class="text-primary">OpenWeather</h6>
+                                                    <p class="text-light small mb-2">Global Weather Data</p>
+                                                    <span class="badge bg-primary">Real-time Weather</span>
+                                                    <p class="text-light small mt-2">Current weather conditions and short-term forecasts</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="alert alert-info mt-3">
+                                            <small>
+                                                <i class="fas fa-sync-alt me-2"></i>
+                                                <strong>Data Integration:</strong> We combine historical satellite data from NASA with real-time weather information and NREL's validated performance models to generate accurate forecasts.
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- PVWatts API Process -->
+                            <div class="accordion-item bg-dark border-dark">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button bg-dark text-light collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#pvwattsProcess">
+                                        <i class="fas fa-cogs me-2"></i>PVWatts Data Processing
+                                    </button>
+                                </h2>
+                                <div id="pvwattsProcess" class="accordion-collapse collapse" data-bs-parent="#dataSourcesAccordion">
+                                    <div class="accordion-body">
+                                        <h6 class="text-warning mb-3">How PVWatts Calculations Work</h6>
+                                        <div class="row g-3 mb-4">
+                                            <div class="col-md-6">
+                                                <h6 class="text-info">Input Parameters</h6>
+                                                <ul class="text-light small">
+                                                    <li><strong>Location Data:</strong> Latitude, longitude, and elevation</li>
+                                                    <li><strong>System Parameters:</strong> Capacity, tilt, azimuth, array type</li>
+                                                    <li><strong>Weather Data:</strong> Typical Meteorological Year (TMY) data</li>
+                                                    <li><strong>Loss Factors:</strong> System losses, shading, soiling</li>
+                                                </ul>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h6 class="text-info">Calculation Engine</h6>
+                                                <ul class="text-light small">
+                                                    <li><strong>Solar Geometry:</strong> Sun position and path calculations</li>
+                                                    <li><strong>Irradiance Model:</strong> Global horizontal to plane-of-array conversion</li>
+                                                    <li><strong>Performance Model:</strong> DC to AC power conversion</li>
+                                                    <li><strong>Loss Accounting:</strong> Applied system and environmental losses</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                        <h6 class="text-warning mb-3">Data Processing Pipeline</h6>
+                                        <div class="row text-center mb-4">
+                                            <div class="col-md-3">
+                                                <div class="border rounded p-2 bg-success">
+                                                    <small class="fw-bold">Step 1</small>
+                                                    <div class="text-light">API Request</div>
+                                                    <i class="fas fa-paper-plane mt-1"></i>
+                                                </div>
+                                                <small class="text-light">Send location & system parameters</small>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="border rounded p-2 bg-info">
+                                                    <small class="fw-bold">Step 2</small>
+                                                    <div class="text-light">Data Retrieval</div>
+                                                    <i class="fas fa-download mt-1"></i>
+                                                </div>
+                                                <small class="text-light">Fetch solar resource data</small>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="border rounded p-2 bg-warning">
+                                                    <small class="fw-bold">Step 3</small>
+                                                    <div class="text-light">Calculation</div>
+                                                    <i class="fas fa-calculator mt-1"></i>
+                                                </div>
+                                                <small class="text-light">Perform energy simulations</small>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="border rounded p-2 bg-primary">
+                                                    <small class="fw-bold">Step 4</small>
+                                                    <div class="text-light">Results</div>
+                                                    <i class="fas fa-chart-bar mt-1"></i>
+                                                </div>
+                                                <small class="text-light">Generate production estimates</small>
+                                            </div>
+                                        </div>
+
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <h6 class="text-success">Output Data Structure</h6>
+                                                <div class="bg-dark p-3 rounded">
+                                                    <code class="text-light small">
+    {<br>
+    &nbsp;&nbsp;"ac_monthly": [850593, 789812, ...],<br>
+    &nbsp;&nbsp;"poa_monthly": [182.4, 175.2, ...],<br>
+    &nbsp;&nbsp;"dn_monthly": [215.6, 208.9, ...],<br>
+    &nbsp;&nbsp;"dc_monthly": [895432, 825671, ...],<br>
+    &nbsp;&nbsp;"ac_annual": 7078430<br>
+    }
+                                                    </code>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h6 class="text-success">Data Fields Explained</h6>
+                                                <ul class="text-light small">
+                                                    <li><strong>ac_monthly:</strong> AC energy output (kWh)</li>
+                                                    <li><strong>poa_monthly:</strong> Plane of array irradiance (kWh/m²)</li>
+                                                    <li><strong>dn_monthly:</strong> Direct normal irradiance (kWh/m²)</li>
+                                                    <li><strong>dc_monthly:</strong> DC energy output (kWh)</li>
+                                                    <li><strong>ac_annual:</strong> Total annual production (kWh)</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Data Quality & Accuracy -->
+                            <div class="accordion-item bg-dark border-dark">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button bg-dark text-light collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#dataQuality">
+                                        <i class="fas fa-check-circle me-2"></i>Data Quality & Accuracy
+                                    </button>
+                                </h2>
+                                <div id="dataQuality" class="accordion-collapse collapse" data-bs-parent="#dataSourcesAccordion">
+                                    <div class="accordion-body">
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <h6 class="text-warning">Accuracy Estimates</h6>
+                                                <div class="table-responsive">
+                                                    <table class="table table-sm table-dark">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Data Type</th>
+                                                                <th>Accuracy</th>
+                                                                <th>Uncertainty</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>Annual Production</td>
+                                                                <td><span class="badge bg-success">±5%</span></td>
+                                                                <td>High Confidence</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Monthly Estimates</td>
+                                                                <td><span class="badge bg-warning">±10%</span></td>
+                                                                <td>Medium Confidence</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Hourly Forecasts</td>
+                                                                <td><span class="badge bg-info">±15%</span></td>
+                                                                <td>Weather Dependent</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Seasonal Patterns</td>
+                                                                <td><span class="badge bg-success">±8%</span></td>
+                                                                <td>High Confidence</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h6 class="text-warning">Limitations & Considerations</h6>
+                                                <div class="text-light small">
+                                                    <div class="mb-2">
+                                                        <i class="fas fa-exclamation-triangle text-warning me-2"></i>
+                                                        <strong>Local Variations:</strong> Microclimates and hyper-local shading not accounted for
+                                                    </div>
+                                                    <div class="mb-2">
+                                                        <i class="fas fa-exclamation-triangle text-warning me-2"></i>
+                                                        <strong>System Degradation:</strong> Assumes 0.5% annual panel degradation
+                                                    </div>
+                                                    <div class="mb-2">
+                                                        <i class="fas fa-exclamation-triangle text-warning me-2"></i>
+                                                        <strong>Weather Anomalies:</strong> Unusual weather patterns may affect accuracy
+                                                    </div>
+                                                    <div class="mb-2">
+                                                        <i class="fas fa-exclamation-triangle text-warning me-2"></i>
+                                                        <strong>Maintenance Impact:</strong> Assumes regular system maintenance
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="alert alert-warning mt-3">
+                                            <small>
+                                                <i class="fas fa-info-circle me-2"></i>
+                                                <strong>Note:</strong> These estimates represent typical performance under average weather conditions. Actual production may vary based on local factors, system maintenance, and unusual weather events.
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Temporal Data Resolution -->
+                            <div class="accordion-item bg-dark border-dark">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button bg-dark text-light collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#temporalData">
+                                        <i class="fas fa-clock me-2"></i>Temporal Data Resolution
+                                    </button>
+                                </h2>
+                                <div id="temporalData" class="accordion-collapse collapse" data-bs-parent="#dataSourcesAccordion">
+                                    <div class="accordion-body">
+                                        <div class="row g-3">
+                                            <div class="col-md-4 text-center">
+                                                <div class="border rounded p-3">
+                                                    <i class="fas fa-calendar-alt fa-2x text-primary mb-2"></i>
+                                                    <h6 class="text-primary">Historical Data</h6>
+                                                    <p class="text-light small">22+ years of satellite observations</p>
+                                                    <span class="badge bg-dark">1999-2021</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 text-center">
+                                                <div class="border rounded p-3">
+                                                    <i class="fas fa-sun fa-2x text-warning mb-2"></i>
+                                                    <h6 class="text-warning">Typical Year</h6>
+                                                    <p class="text-light small">Composite of typical weather patterns</p>
+                                                    <span class="badge bg-dark">TMY3 Format</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 text-center">
+                                                <div class="border rounded p-3">
+                                                    <i class="fas fa-cloud-sun-rain fa-2x text-info mb-2"></i>
+                                                    <h6 class="text-info">Real-time Updates</h6>
+                                                    <p class="text-light small">Updated with current weather conditions</p>
+                                                    <span class="badge bg-dark">Daily Updates</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <h6 class="text-warning mt-4 mb-3">Data Update Frequency</h6>
+                                        <div class="table-responsive">
+                                            <table class="table table-sm table-dark">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Data Type</th>
+                                                        <th>Update Frequency</th>
+                                                        <th>Latency</th>
+                                                        <th>Source</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Solar Resource Data</td>
+                                                        <td>Annual</td>
+                                                        <td>6-12 months</td>
+                                                        <td>NASA POWER</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Weather Forecasts</td>
+                                                        <td>Hourly</td>
+                                                        <td>15-30 minutes</td>
+                                                        <td>OpenWeather</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Performance Models</td>
+                                                        <td>As Needed</td>
+                                                        <td>Real-time</td>
+                                                        <td>NREL PVWatts</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>System Calculations</td>
+                                                        <td>On Demand</td>
+                                                        <td>2-5 seconds</td>
+                                                        <td>Our Processing</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- How We Use The Data -->
+                            <div class="accordion-item bg-dark border-dark">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button bg-dark text-light collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#dataUsage">
+                                        <i class="fas fa-chart-line me-2"></i>How We Process & Use The Data
+                                    </button>
+                                </h2>
+                                <div id="dataUsage" class="accordion-collapse collapse" data-bs-parent="#dataSourcesAccordion">
+                                    <div class="accordion-body">
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <h6 class="text-warning">Data Enhancement Process</h6>
+                                                <ul class="text-light small">
+                                                    <li class="mb-2">
+                                                        <strong>Location Interpolation:</strong> We enhance spatial resolution by interpolating between NASA's 1°×1° grid points
+                                                    </li>
+                                                    <li class="mb-2">
+                                                        <strong>Seasonal Adjustment:</strong> Apply local climate patterns to typical meteorological year data
+                                                    </li>
+                                                    <li class="mb-2">
+                                                        <strong>Real-time Correction:</strong> Adjust forecasts based on current weather conditions from OpenWeather
+                                                    </li>
+                                                    <li class="mb-2">
+                                                        <strong>Performance Modeling:</strong> Use NREL's validated algorithms for system-specific calculations
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h6 class="text-warning">Application in Reports</h6>
+                                                <ul class="text-light small">
+                                                    <li class="mb-2">
+                                                        <strong>Financial Calculations:</strong> Convert energy production to monetary value using local utility rates
+                                                    </li>
+                                                    <li class="mb-2">
+                                                        <strong>Scenario Analysis:</strong> Compare multiple system configurations using same baseline data
+                                                    </li>
+                                                    <li class="mb-2">
+                                                        <strong>Environmental Impact:</strong> Calculate CO2 offsets using EPA conversion factors
+                                                    </li>
+                                                    <li class="mb-2">
+                                                        <strong>Performance Scoring:</strong> Normalize data to create comparable location scores
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="row mt-3">
+                                            <div class="col-12">
+                                                <h6 class="text-warning">Data Validation & Quality Assurance</h6>
+                                                <div class="bg-dark p-3 rounded">
+                                                    <div class="row text-center">
+                                                        <div class="col-md-3">
+                                                            <div class="text-success">
+                                                                <i class="fas fa-check-circle fa-2x mb-2"></i>
+                                                                <div>Cross-Validation</div>
+                                                                <small class="text-light">Multiple data sources</small>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <div class="text-info">
+                                                                <i class="fas fa-chart-area fa-2x mb-2"></i>
+                                                                <div>Statistical Analysis</div>
+                                                                <small class="text-light">Outlier detection</small>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <div class="text-warning">
+                                                                <i class="fas fa-balance-scale fa-2x mb-2"></i>
+                                                                <div>Benchmarking</div>
+                                                                <small class="text-light">Against known installations</small>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <div class="text-primary">
+                                                                <i class="fas fa-user-check fa-2x mb-2"></i>
+                                                                <div>User Feedback</div>
+                                                                <small class="text-light">Real-world validation</small>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- References & Citations -->
+                            <div class="accordion-item bg-dark border-dark">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button bg-dark text-light collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#references">
+                                        <i class="fas fa-book me-2"></i>References & Technical Details
+                                    </button>
+                                </h2>
+                                <div id="references" class="accordion-collapse collapse" data-bs-parent="#dataSourcesAccordion">
+                                    <div class="accordion-body">
+                                        <h6 class="text-warning mb-3">Technical References</h6>
+                                        <div class="text-light small">
+                                            <div class="mb-2">
+                                                <strong>NREL PVWatts Version 6:</strong> Dobos, A. P. (2014). PVWatts Version 5 Manual. National Renewable Energy Laboratory.
+                                            </div>
+                                            <div class="mb-2">
+                                                <strong>NASA POWER Data:</strong> Stackhouse, P. W., et al. (2018). NASA POWER: Prediction of Worldwide Energy Resources.
+                                            </div>
+                                            <div class="mb-2">
+                                                <strong>TMY3 Data Format:</strong> Wilcox, S., & Marion, W. (2008). Users Manual for TMY3 Data Sets. National Renewable Energy Laboratory.
+                                            </div>
+                                            <div class="mb-2">
+                                                <strong>Performance Modeling:</strong> Fuentes, M. K. (1987). A Simplified Thermal Model for Flat-Plate Photovoltaic Arrays.
+                                            </div>
+                                        </div>
+                                        
+                                        <h6 class="text-warning mt-4 mb-3">API Endpoints Used</h6>
+                                        <div class="bg-dark p-3 rounded">
+                                            <code class="text-light small">
+    // NREL PVWatts API<br>
+    https://developer.nrel.gov/api/pvwatts/v6.json<br><br>
+
+    // NASA POWER API<br>
+    https://power.larc.nasa.gov/api/temporal/daily/point<br><br>
+
+    // OpenWeather API<br>
+    https://api.openweathermap.org/data/2.5/forecast
+                                            </code>
+                                        </div>
+                                        
+                                        <div class="alert alert-success mt-3">
+                                            <small>
+                                                <i class="fas fa-graduation-cap me-2"></i>
+                                                <strong>Educational Resource:</strong> For more detailed technical information about solar energy modeling and the algorithms used, visit the 
+                                                <a href="https://www.nrel.gov/pvwatts.html" class="alert-link" target="_blank">NREL PVWatts Documentation</a>.
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
     <!-- Footer Start -->

@@ -1,0 +1,378 @@
+{% extends 'visualisation/main.html' %}
+{% load static %}
+
+{% block main %}
+
+<!-- Content Start -->
+<div class="content">
+    <!-- Navbar Start -->
+    {% include 'visualisation/nav.html' %}
+    <!-- Navbar End -->
+
+
+    <!-- Solar Metrics Start -->
+    <div class="container-fluid pt-4 px-4">
+        <div class="row g-4">
+            <div class="col-sm-6 col-xl-3">
+                <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                    <i class="fas fa-solar-panel fa-3x text-warning"></i>
+                    <div class="ms-3">
+                        <p class="mb-2">Current Solar Output</p>
+                        <h6 class="mb-0">4.2 MW</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-3">
+                <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                    <i class="fas fa-bolt fa-3x text-warning"></i>
+                    <div class="ms-3">
+                        <p class="mb-2">Peak Generation Today</p>
+                        <h6 class="mb-0">5.8 MW</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-3">
+                <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                    <i class="fas fa-chart-line fa-3x text-info"></i>
+                    <div class="ms-3">
+                        <p class="mb-2">Forecast Accuracy</p>
+                        <h6 class="mb-0">94.2%</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-3">
+                <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                    <i class="fas fa-cloud-sun fa-3x text-success"></i>
+                    <div class="ms-3">
+                        <p class="mb-2">Cloud Impact</p>
+                        <h6 class="mb-0">-3.5%</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Solar Metrics End -->
+
+
+    <!-- Solar Charts Start -->
+    <div class="container-fluid pt-4 px-4">
+        <div class="row g-4">
+            <div class="col-sm-12 col-xl-12">
+                <div class="bg-secondary text-center rounded p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h6 class="mb-0">Energy Forecast Parameters</h6>
+                        <button type="button" class="btn btn-sm btn-outline-light" id="addLocation">
+                            <i class="fas fa-plus me-1"></i>Add Location
+                        </button>
+                    </div>
+                    
+                    <form method="post">
+                        {% csrf_token %}
+                        <!-- Locations Container -->
+                        <div id="locationsContainer">
+                            <!-- Default Location -->
+                            <div class="location-group mb-4 p-3 border rounded bg-secondary" data-location-index="0">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h6 class="mb-0 text-dark">Location #1</h6>
+                                    <button type="button" class="btn btn-sm btn-outline-danger remove-location" disabled>
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                                
+                                <div class="row g-3">
+                                    <!-- Location Name -->
+                                    <div class="col-md-12">
+                                        <label for="locationName_0" class="form-label">Location Name</label>
+                                        <input type="text" class="form-control location-name" id="locationName_0" name="locations[0][name]" 
+                                               placeholder="e.g., Nairobi" value="Nairobi" required>
+                                    </div>
+                                    
+                                    <!-- Coordinates -->
+                                    <div class="col-md-6">
+                                        <label for="lat_0" class="form-label">Latitude</label>
+                                        <input type="number" class="form-control" id="lat_0" name="locations[0][lat]" 
+                                               step="any" placeholder="Enter latitude" value="-1.286389" required>
+                                    </div>
+                                    
+                                    <div class="col-md-6">
+                                        <label for="lon_0" class="form-label">Longitude</label>
+                                        <input type="number" class="form-control" id="lon_0" name="locations[0][lon]" 
+                                               step="any" placeholder="Enter longitude" value="36.817223" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- System Configuration (Shared across all locations) -->
+                        <div class="row g-3 mt-3">
+                            <div class="col-12">
+                                <h6 class="border-bottom pb-2 mb-3">System Configuration</h6>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="system_capacity" class="form-label">System Capacity (kW)</label>
+                                <input type="number" class="form-control" id="system_capacity" name="system_capacity" 
+                                       step="0.1" value="5" min="0">
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="azimuth" class="form-label">Azimuth (°)</label>
+                                <input type="number" class="form-control" id="azimuth" name="azimuth" 
+                                       value="180" min="0" max="360">
+                                <div class="form-text">0° = North, 180° = South</div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="tilt" class="form-label">Tilt Angle (°)</label>
+                                <input type="number" class="form-control" id="tilt" name="tilt" 
+                                       value="20" min="0" max="90">
+                            </div>
+
+                            <!-- Array Type -->
+                            <div class="col-md-6">
+                                <label for="array_type" class="form-label">Array Type</label>
+                                <select class="form-select" id="array_type" name="array_type">
+                                    <option value="0">Fixed - Open Rack</option>
+                                    <option value="1">Fixed - Roof Mount</option>
+                                    <option value="2">1-Axis Tracking</option>
+                                    <option value="3">1-Axis Backtracking</option>
+                                    <option value="4">2-Axis Tracking</option>
+                                </select>
+                            </div>
+
+                            <!-- Module Type -->
+                            <div class="col-md-6">
+                                <label for="module_type" class="form-label">Module Type</label>
+                                <select class="form-select" id="module_type" name="module_type">
+                                    <option value="0">Standard</option>
+                                    <option value="1">Premium</option>
+                                    <option value="2">Thin Film</option>
+                                </select>
+                            </div>
+
+                            <!-- Losses -->
+                            <div class="col-12">
+                                <label for="losses" class="form-label">System Losses (%)</label>
+                                <input type="range" class="form-range" id="losses" name="losses" 
+                                       min="0" max="100" value="14" step="1">
+                                <div class="d-flex justify-content-between">
+                                    <small>0%</small>
+                                    <small id="lossesValue">14%</small>
+                                    <small>100%</small>
+                                </div>
+                            </div>
+
+                            <!-- Timeframe -->
+                            <div class="col-12">
+                                <label class="form-label">Timeframe</label>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="timeframe" 
+                                           id="hourly" value="hourly" checked>
+                                    <label class="form-check-label" for="hourly">Hourly</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="timeframe" 
+                                           id="monthly" value="monthly">
+                                    <label class="form-check-label" for="monthly">Monthly</label>
+                                </div>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <div class="col-12 mt-4">
+                                <button type="submit" class="btn btn-primary btn-lg w-100">
+                                    <i class="fas fa-bolt me-2"></i>Generate Energy Forecasts
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    <!-- Solar Forecast Form End -->
+
+
+    <div class="container-fluid pt-4 px-4">
+        <div class="row g-4">
+            <div class="col-sm-12 col-xl-12">
+                <div class="bg-secondary rounded p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h6 class="mb-0">Parameters Documentation</h6>
+                        <button type="button" class="btn btn-sm btn-outline-light" data-bs-toggle="collapse" data-bs-target="#docsCollapse">
+                            <i class="fas fa-book me-1"></i>Toggle Documentation
+                        </button>
+                    </div>
+                    
+                    <div class="collapse show" id="docsCollapse">
+                        <div class="accordion" id="docsAccordion">
+                            
+                            <!-- Locations Section -->
+                            <div class="accordion-item bg-dark border-dark">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button bg-dark text-light" type="button" data-bs-toggle="collapse" data-bs-target="#locationsDocs">
+                                        <i class="fas fa-map-marker-alt me-2"></i>Locations Parameters
+                                    </button>
+                                </h2>
+                                <div id="locationsDocs" class="accordion-collapse collapse show" data-bs-parent="#docsAccordion">
+                                    <div class="accordion-body">
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <h6 class="text-warning">Location Name</h6>
+                                                <p class="text-light small mb-2">A descriptive name for your location (e.g., "Nairobi Office", "Home System"). This helps you identify different installations.</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h6 class="text-warning">Coordinates</h6>
+                                                <p class="text-light small mb-2">Geographic coordinates of your solar installation:</p>
+                                                <ul class="text-light small">
+                                                    <li><strong>Latitude:</strong> North/South position (-90° to 90°)</li>
+                                                    <li><strong>Longitude:</strong> East/West position (-180° to 180°)</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="alert alert-info mt-2">
+                                            <small><i class="fas fa-lightbulb me-2"></i>You can add multiple locations to compare energy production across different sites.</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- System Configuration Section -->
+                            <div class="accordion-item bg-dark border-dark">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button bg-dark text-light collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#systemDocs">
+                                        <i class="fas fa-solar-panel me-2"></i>System Configuration
+                                    </button>
+                                </h2>
+                                <div id="systemDocs" class="accordion-collapse collapse" data-bs-parent="#docsAccordion">
+                                    <div class="accordion-body">
+                                        <div class="row g-3">
+                                            <div class="col-md-4">
+                                                <h6 class="text-warning">System Capacity</h6>
+                                                <p class="text-light small">Total rated power output of your solar array in kilowatts (kW). For example, a 5kW system can produce up to 5,000 watts under ideal conditions.</p>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <h6 class="text-warning">Azimuth</h6>
+                                                <p class="text-light small">The compass direction your solar panels face:</p>
+                                                <ul class="text-light small">
+                                                    <li>0° = North</li>
+                                                    <li>90° = East</li>
+                                                    <li>180° = South (Recommended in Northern Hemisphere)</li>
+                                                    <li>270° = West</li>
+                                                </ul>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <h6 class="text-warning">Tilt Angle</h6>
+                                                <p class="text-light small">The vertical angle of your panels (0° to 90°):</p>
+                                                <ul class="text-light small">
+                                                    <li>0° = Flat</li>
+                                                    <li>20°-40° = Typical roof pitch</li>
+                                                    <li>90° = Vertical wall</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Array & Module Types -->
+                            <div class="accordion-item bg-dark border-dark">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button bg-dark text-light collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#typesDocs">
+                                        <i class="fas fa-cogs me-2"></i>Array & Module Types
+                                    </button>
+                                </h2>
+                                <div id="typesDocs" class="accordion-collapse collapse" data-bs-parent="#docsAccordion">
+                                    <div class="accordion-body">
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <h6 class="text-warning">Array Type</h6>
+                                                <div class="text-light small">
+                                                    <p><strong>Fixed - Open Rack:</strong> Panels mounted on ground-mounted structures with air circulation</p>
+                                                    <p><strong>Fixed - Roof Mount:</strong> Panels mounted directly on rooftops</p>
+                                                    <p><strong>1-Axis Tracking:</strong> Panels rotate on single axis to follow sun</p>
+                                                    <p><strong>1-Axis Backtracking:</strong> Single-axis tracking with row-shading avoidance</p>
+                                                    <p><strong>2-Axis Tracking:</strong> Panels rotate on both axes for optimal sun tracking</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h6 class="text-warning">Module Type</h6>
+                                                <div class="text-light small">
+                                                    <p><strong>Standard:</strong> Typical silicon panels (15-17% efficiency)</p>
+                                                    <p><strong>Premium:</strong> High-efficiency panels (19-22% efficiency)</p>
+                                                    <p><strong>Thin Film:</strong> Lightweight, flexible panels (10-13% efficiency)</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Losses & Timeframe -->
+                            <div class="accordion-item bg-dark border-dark">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button bg-dark text-light collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#advancedDocs">
+                                        <i class="fas fa-chart-line me-2"></i>Advanced Parameters
+                                    </button>
+                                </h2>
+                                <div id="advancedDocs" class="accordion-collapse collapse" data-bs-parent="#docsAccordion">
+                                    <div class="accordion-body">
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <h6 class="text-warning">System Losses</h6>
+                                                <p class="text-light small">Total energy losses in your system including:</p>
+                                                <ul class="text-light small">
+                                                    <li>Inverter efficiency losses</li>
+                                                    <li>DC/AC wiring losses</li>
+                                                    <li>Soiling (dirt on panels)</li>
+                                                    <li>Shading losses</li>
+                                                    <li>Age-related degradation</li>
+                                                </ul>
+                                                <p class="text-light small">Typical values range from 10-20%.</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h6 class="text-warning">Timeframe</h6>
+                                                <div class="text-light small">
+                                                    <p><strong>Hourly:</strong> Detailed hour-by-hour energy production data for precise analysis</p>
+                                                    <p><strong>Monthly:</strong> Monthly aggregated data for long-term planning and performance tracking</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="alert alert-warning mt-3">
+                                            <small>
+                                                <i class="fas fa-exclamation-triangle me-2"></i>
+                                                <strong>Note:</strong> These parameters significantly impact energy production estimates. Use accurate values for your specific installation for best results.
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Footer Start -->
+    <div class="container-fluid pt-4 px-4">
+        <div class="bg-secondary rounded-top p-4">
+            <div class="row">
+                <div class="col-12 col-sm-6 text-center text-sm-start">
+                    &copy; <a href="#">Solarize Solar Forecasting</a>, All Rights Reserved. 
+                </div>
+                <div class="col-12 col-sm-6 text-center text-sm-end">
+                    AI-Powered Solar Energy Predictions
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer End -->
+</div>
+<!-- Content End -->
+
+
+{% endblock %}

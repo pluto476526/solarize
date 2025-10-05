@@ -49,7 +49,7 @@ class DataManager:
 
     def get_irradiance_ohlc_data(self, bucket: str = "1 week"):
         try:
-            query = queries.get_irradiance_ohlc_data(bucket)
+            query = queries.irradiance_ohlc_query(bucket)
             
             with self.db.cursor() as cur:
                 cur.execute(query)

@@ -7,7 +7,7 @@
 
 Solarize is a comprehensive Django web application for solar energy production analysis, prediction, and optimization. It combines physical solar modeling with machine learning to provide accurate energy production forecasts and financial analysis.
 
-## 🌟 Features
+## Features
 
 ### Core Functionality
 - **Solar Production Simulation**: PVWatts-based energy production modeling
@@ -24,7 +24,7 @@ Solarize is a comprehensive Django web application for solar energy production a
 - **Pattern Recognition**: Machine learning enhanced production forecasts
 - **Comprehensive Reporting**: Detailed analysis and recommendations
 
-## 🏗️ Architecture
+## Architecture
 
 ### Technology Stack
 - **Backend**: Django 4.2+
@@ -41,7 +41,7 @@ Solarize is a comprehensive Django web application for solar energy production a
 4. **ML Prediction**: LightGBM pattern enhancement
 5. **Analysis & Visualization**: Comparative results and insights
 
-## 📊 Machine Learning Methodology
+## Machine Learning Methodology
 
 ### Approach
 Solarize uses a hybrid approach that enhances traditional PVWatts simulations with machine learning:
@@ -69,16 +69,16 @@ model = LGBMRegressor(
 )
 ```
 
-## 🚀 Installation
+## Installation
 
 ### Prerequisites
-- Python 3.8+
+- Python 3+
 - PostgreSQL 12+ with TimescaleDB extension
-- Redis (for caching, optional)
+- Redis
 
 ### Step 1: Clone Repository
 ```bash
-git clone https://github.com/your-username/solarize.git
+git clone https://github.com/pluto476526/solarize.git
 cd solarize
 ```
 
@@ -111,7 +111,6 @@ cp .env.example .env
 ### Step 5: Database Migrations
 ```bash
 python manage.py migrate
-python manage.py createcachetable
 ```
 
 ### Step 6: Create Superuser
@@ -126,7 +125,7 @@ python manage.py runserver
 
 Visit `http://localhost:8000` to access the application.
 
-## 📈 Usage
+## Usage
 
 ### 1. Location Setup
 Add solar installation locations with:
@@ -153,15 +152,10 @@ Configure your solar system:
 - **Environmental Impact**: Carbon offset metrics
 - **Scenario Comparison**: Different configurations
 
-## 🗄️ Database Schema
+## Database Schema
 
 ### TimescaleDB Hypertables
 Solarize uses TimescaleDB hypertables for efficient time-series data storage:
-
-```sql
--- Example hypertable for production data
-SELECT create_hypertable('solar_production_data', 'timestamp');
-```
 
 ### Key Models
 - `Location`: Geographic and system parameters
@@ -170,46 +164,8 @@ SELECT create_hypertable('solar_production_data', 'timestamp');
 - `MLModel`: Trained machine learning models
 - `AnalysisReport`: Generated reports and insights
 
-## 🔧 Configuration
 
-### Environment Variables
-```ini
-DEBUG=True
-SECRET_KEY=your-secret-key
-DATABASE_URL=postgres://user:pass@localhost/solarize
-ALLOWED_HOSTS=localhost,127.0.0.1
-TIME_ZONE=UTC
-```
-
-### Django Settings
-Key configuration in `settings.py`:
-```python
-INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'solarize',  # main app
-    'django_plotly_dash',  # for Plotly integration
-    'bootstrap5',  # frontend framework
-]
-
-# TimescaleDB configuration
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'solarize',
-        'USER': 'your_username',
-        'PASSWORD': 'your_password',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
-}
-```
-
-## 📊 API Endpoints
+## API Endpoints
 
 ### REST API
 - `GET /api/locations/` - List all locations
@@ -222,7 +178,7 @@ DATABASES = {
 - PDF report generation
 - JSON API for integration
 
-## 🤖 Machine Learning Integration
+## Machine Learning Integration
 
 ### Training Process
 1. **Data Collection**: Historical production + environmental data
@@ -237,7 +193,7 @@ DATABASES = {
 - **Hybrid Approach**: Average of both methods
 - **Pattern Analysis**: Comparative insights
 
-## 📈 Visualization
+## Visualization
 
 ### Plotly Dashboards
 - **Production Charts**: Hourly, daily, monthly views
@@ -251,7 +207,7 @@ DATABASES = {
 - **Real-time Updates**: Live data integration
 - **Responsive Design**: Mobile-friendly interfaces
 
-## 🔍 Monitoring & Analytics
+## Monitoring & Analytics
 
 ### Performance Metrics
 - **Model Accuracy**: Pattern correlation scores
@@ -269,41 +225,7 @@ logger.info("Analysis completed", extra={'location_id': location.id})
 logger.warning("Weather data unavailable", extra={'date': date})
 ```
 
-## 🚀 Deployment
-
-### Production Setup
-1. **Web Server**: Gunicorn + Nginx
-2. **Database**: TimescaleDB with connection pooling
-3. **Caching**: Redis for session storage
-4. **Static Files**: CDN or dedicated storage
-5. **SSL**: HTTPS encryption
-
-### Docker Deployment
-```dockerfile
-# Dockerfile example
-FROM python:3.9-slim
-WORKDIR /app
-COPY requirements.txt .
-RUN pip install -r requirements.txt
-COPY . .
-CMD ["gunicorn", "solarize.wsgi:application", "--bind", "0.0.0.0:8000"]
-```
-
-### Environment-Specific Settings
-- **Development**: Debug mode, local database
-- **Staging**: Production-like with test data
-- **Production**: Optimized, secure configuration
-
-## 🤝 Contributing
-
-### Development Setup
-1. Fork the repository
-2. Create feature branch: `git checkout -b feature/amazing-feature`
-3. Commit changes: `git commit -m 'Add amazing feature'`
-4. Push to branch: `git push origin feature/amazing-feature`
-5. Open Pull Request
-
-### Code Style
+## Code Style
 ```bash
 # Format code
 black solarize/
@@ -316,60 +238,37 @@ mypy solarize/
 pytest
 ```
 
-### Testing
-```bash
-# Run tests
-python manage.py test
 
-# Coverage report
-coverage run manage.py test
-coverage report
-```
-
-## 📚 Documentation
-
-### Additional Resources
-- [API Documentation](docs/api.md)
-- [Database Schema](docs/database.md)
-- [ML Methodology](docs/ml-methodology.md)
-- [Deployment Guide](docs/deployment.md)
-
-### Key Concepts
+## Key Concepts
 - **PVWatts**: NREL's photovoltaic energy production model
 - **TimescaleDB**: Time-series optimized PostgreSQL
 - **LightGBM**: Microsoft's gradient boosting framework
 - **PVLib**: Python library for photovoltaic system modeling
 
-## 📄 License
+## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
-
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - **NREL**: For PVWatts API and solar modeling algorithms
 - **TimescaleDB**: For time-series database technology
 - **Plotly**: For interactive visualization library
 - **LightGBM**: For machine learning framework
 
-## 📞 Support
+## Support
 
 For support and questions:
-- **Documentation**: Check the docs folder
-- **Issues**: GitHub Issues page
-- **Email**: support@solarize.example.com
+- **Email**: pkibuka@milky-way.space
 
-## 🗺️ Roadmap
+## Roadmap
 
 ### Upcoming Features
 - [ ] Real-time monitoring integration
 - [ ] Advanced battery storage modeling
 - [ ] Multi-currency financial analysis
-- [ ] Mobile application
-- [ ] API rate limiting and authentication
+- [ ] API
 - [ ] Advanced ML model explainability
 
 ### Research & Development
-- [ ] Transfer learning for new locations
 - [ ] Ensemble modeling techniques
 - [ ] Anomaly detection for system monitoring
 - [ ] Climate change impact projections
@@ -378,6 +277,6 @@ For support and questions:
 
 <div align="center">
   
-**Solarize** - Harnessing the power of the sun with data intelligence ☀️📊
+**Solarize** - Harnessing the power of the sun with data intelligence
 
 </div>

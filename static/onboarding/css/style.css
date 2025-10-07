@@ -1402,10 +1402,7 @@ footer a:hover {
 04.FEATURES
 
 -------------------------------- */
-.features {
-	padding: 100px 0 100px 0;
-	border-top: 15px double #fff;
-}
+
 
 @media only screen and (max-width : 480px) {
 	.features {
@@ -1449,14 +1446,9 @@ footer a:hover {
 	letter-spacing: 5px;
 	font-size: 40px;
 	font-weight: 700;
-	margin-top: -145px;
-	margin-bottom: 100px;
 	color: whitesmoke;
 }
 
-.services {
-    padding: 0 0 200px;
-}
 
 .services h6 {
     text-transform: uppercase;
@@ -1811,16 +1803,9 @@ footer a:hover {
 
 -------------------------------- */
  #clients{
-	 background-color: #ffeedb;
-	 padding: 0 0 50px;
-	 border-bottom: 15px double #fff;
+	 border-bottom: 15px solid #1a1a00;
  }
 
- .svgcolor-light, .svgcolor-dark {
-    position: relative;
-    top: -2px;
-    z-index: 3;
-}
 
 #owl-demo{
 	  padding-top: 30px;

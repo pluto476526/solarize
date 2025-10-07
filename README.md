@@ -1,341 +1,383 @@
-# Renewable Energy Output Forecaster 🌞💨⚡
+# Solarize - Solar Energy Analysis Platform
 
-A Django-based web application that predicts solar and wind energy generation using open weather data and machine learning. This platform helps energy providers, solar farm operators, and homeowners optimize their renewable energy usage without requiring physical sensors.
+![Django](https://img.shields.io/badge/Django-4.2-green)
+![PostgreSQL](https://img.shields.io/badge/TimescaleDB-Supported-blue)
+![Plotly](https://img.shields.io/badge/Plotly-Charts-orange)
+![Machine Learning](https://img.shields.io/badge/ML-LightGBM-yellow)
+
+Solarize is a comprehensive Django web application for solar energy production analysis, prediction, and optimization. It combines physical solar modeling with machine learning to provide accurate energy production forecasts and financial analysis.
 
 ## 🌟 Features
 
 ### Core Functionality
-- **Real-time Energy Forecasting**: Predict solar/wind power output for 24-72 hours ahead
-- **Multiple Data Source Integration**: Aggregate data from various open weather APIs
-- **Machine Learning Pipeline**: Automated model training and prediction
-- **Interactive Dashboard**: Visualize forecasts, historical data, and performance metrics
-- **RESTful API**: Programmatic access to forecasting data
-- **Alert System**: Notifications for unusual generation patterns or forecast errors
+- **Solar Production Simulation**: PVWatts-based energy production modeling
+- **Machine Learning Enhancement**: LightGBM-based environmental pattern learning
+- **Multi-location Support**: Compare solar potential across different sites
+- **Financial Analysis**: ROI, payback period, and savings calculations
+- **Environmental Impact**: Carbon offset and environmental benefit tracking
+- **Interactive Visualizations**: Plotly-powered charts and dashboards
 
 ### Advanced Capabilities
-- **Uncertainty Quantification**: Prediction intervals (P10, P50, P90) for risk assessment
-- **Anomaly Detection**: Identify underperforming systems or data quality issues
-- **Multi-location Support**: Manage forecasts for multiple sites simultaneously
-- **Seasonal Analysis**: Long-term trend analysis and seasonal pattern recognition
-- **Export Functionality**: Download forecasts and reports in multiple formats
+- **Real-time Weather Integration**: Environmental data-driven predictions
+- **Scenario Analysis**: Compare different system configurations
+- **Time-series Data Storage**: TimescaleDB for efficient time-series data
+- **Pattern Recognition**: Machine learning enhanced production forecasts
+- **Comprehensive Reporting**: Detailed analysis and recommendations
 
-## 🏗️ System Architecture
+## 🏗️ Architecture
 
+### Technology Stack
+- **Backend**: Django 4.2+
+- **Database**: TimescaleDB (PostgreSQL extension)
+- **Machine Learning**: LightGBM, scikit-learn
+- **Visualization**: Plotly Python, Chart.js
+- **Frontend**: Bootstrap 5, JavaScript
+- **Solar Calculations**: PVLib Python
+
+### Data Flow
+1. **Input Processing**: User parameters + location data
+2. **Solar Simulation**: PVWatts physical modeling
+3. **Feature Engineering**: Environmental and temporal features
+4. **ML Prediction**: LightGBM pattern enhancement
+5. **Analysis & Visualization**: Comparative results and insights
+
+## 📊 Machine Learning Methodology
+
+### Approach
+Solarize uses a hybrid approach that enhances traditional PVWatts simulations with machine learning:
+
+```python
+# Core Philosophy: Enhance, Don't Replace
+PVWatts (Physical Model) + LightGBM (Environmental Patterns) = Enhanced Predictions
 ```
-┌─────────────────┐     ┌──────────────────┐       ┌─────────────────┐
-│   Data Sources  │───▶   Django Backend     ───▶    Frontend       │
-│                 │     │                  │       │                 │
-│ • OpenWeather   │     │ • Data Ingestion │       │ • Dashboard     │
-│ • NASA POWER    │     │ • ML Pipeline    │       │ • Analytics     │
-│ • NOAA          │     │ • API Endpoints  │       │ • User Mgmt     │
-└─────────────────┘     └──────────────────┘       └─────────────────┘
-                                 │
-                                 ▼
-                        ┌──────────────────┐
-                        │   Data Storage   │
-                        │                  │
-                        │ • PostgreSQL     │
-                        │ • timescaledb    │
-                        │ • Redis          │
-                        └──────────────────┘
+
+### Feature Engineering
+- **Astronomical Features**: Sun elevation, azimuth, solar position
+- **Temporal Features**: Hour, day of year, month, seasonal patterns
+- **Environmental Features**: Temperature, humidity, cloud cover, wind speed
+- **Interaction Features**: Temperature × sun elevation, cloud cover × sun elevation
+
+### Model Architecture
+```python
+model = LGBMRegressor(
+    n_estimators=300,
+    learning_rate=0.05,
+    num_leaves=63,
+    random_state=42,
+    max_depth=-1,
+    min_child_samples=20
+)
 ```
 
-## 🚀 Quick Start
+## 🚀 Installation
 
 ### Prerequisites
-
 - Python 3.8+
-- PostgreSQL 12+
-- Redis 6+
-- Git
+- PostgreSQL 12+ with TimescaleDB extension
+- Redis (for caching, optional)
 
-### Installation
-
-1. **Clone the repository**
+### Step 1: Clone Repository
 ```bash
-git clone https://github.com/yourusername/renewable-energy-forecaster.git
-cd renewable-energy-forecaster
+git clone https://github.com/your-username/solarize.git
+cd solarize
 ```
 
-2. **Set up virtual environment**
+### Step 2: Set Up Python Environment
 ```bash
 python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
-```
-
-3. **Install dependencies**
-```bash
 pip install -r requirements.txt
 ```
 
-4. **Configure environment variables**
+### Step 3: Database Setup
+```bash
+# Install TimescaleDB
+# Follow: https://docs.timescale.com/install/latest/
+
+# Create database
+sudo -u postgres psql
+CREATE DATABASE solarize;
+\c solarize
+CREATE EXTENSION IF NOT EXISTS timescaledb;
+```
+
+### Step 4: Configuration
 ```bash
 cp .env.example .env
-# Edit .env with your configuration
+# Edit .env with your settings:
+# DATABASE_URL, SECRET_KEY, DEBUG, etc.
 ```
 
-5. **Database setup**
+### Step 5: Database Migrations
 ```bash
 python manage.py migrate
-python manage.py create_initial_locations
+python manage.py createcachetable
 ```
 
-6. **Start the development server**
+### Step 6: Create Superuser
+```bash
+python manage.py createsuperuser
+```
+
+### Step 7: Run Development Server
 ```bash
 python manage.py runserver
 ```
 
-## ⚙️ Configuration
+Visit `http://localhost:8000` to access the application.
+
+## 📈 Usage
+
+### 1. Location Setup
+Add solar installation locations with:
+- **Location Name**: Descriptive identifier
+- **Coordinates**: Latitude and longitude
+- **System Configuration**: Capacity, azimuth, tilt
+
+### 2. System Configuration
+Configure your solar system:
+- **System Capacity**: Total rated power (kW)
+- **Azimuth**: Panel direction (0°=North, 180°=South)
+- **Tilt Angle**: Panel inclination (0°-90°)
+- **Array Type**: Fixed roof, tracking, etc.
+- **Module Type**: Standard, premium, thin film
+
+### 3. Analysis Parameters
+- **System Losses**: Efficiency losses (10-20%)
+- **Timeframe**: Hourly or monthly analysis
+- **Environmental Data**: Weather integration
+
+### 4. Generating Reports
+- **Production Forecasts**: Energy generation predictions
+- **Financial Analysis**: ROI and payback calculations
+- **Environmental Impact**: Carbon offset metrics
+- **Scenario Comparison**: Different configurations
+
+## 🗄️ Database Schema
+
+### TimescaleDB Hypertables
+Solarize uses TimescaleDB hypertables for efficient time-series data storage:
+
+```sql
+-- Example hypertable for production data
+SELECT create_hypertable('solar_production_data', 'timestamp');
+```
+
+### Key Models
+- `Location`: Geographic and system parameters
+- `SolarProduction`: Time-series energy data
+- `WeatherData`: Environmental conditions
+- `MLModel`: Trained machine learning models
+- `AnalysisReport`: Generated reports and insights
+
+## 🔧 Configuration
 
 ### Environment Variables
-
 ```ini
-# Database
-DATABASE_URL=postgres://user:password@localhost:5432/energy_forecaster
-
-# Cache
-REDIS_URL=redis://localhost:6379/0
-
-# API Keys
-OPENWEATHER_API_KEY=your_api_key_here
-NASA_POWER_USERNAME=your_username
-NASA_POWER_PASSWORD=your_password
-
-# Django Settings
 DEBUG=True
-SECRET_KEY=your_secret_key
+SECRET_KEY=your-secret-key
+DATABASE_URL=postgres://user:pass@localhost/solarize
 ALLOWED_HOSTS=localhost,127.0.0.1
+TIME_ZONE=UTC
 ```
 
-### Data Source Configuration
-
-Edit `config/data_sources.yaml` to configure your data sources:
-
-```yaml
-openweather:
-  api_key: "your_api_key"
-  update_frequency: 3600  # seconds
-
-nasa_power:
-  parameters:
-    - ALLSKY_SFC_SW_DWN  # Solar radiation
-    - T2M                # Temperature
-    - WS2M               # Wind speed
-```
-
-## 📊 Project Structure
-
-```
-energy_forecaster/
-├── apps/
-│   ├── data_collection/     # Data ingestion from APIs
-│   ├── ml_pipeline/         # Machine learning models
-│   ├── dashboard/           # Frontend views and templates
-│   ├── api/                 # REST API endpoints
-│   └── alerts/              # Notification system
-├── config/                  # Configuration files
-├── static/                  # CSS, JS, images
-├── media/                   # User uploads and exports
-├── tests/                   # Test suites
-└── manage.py
-```
-
-## 🔧 Usage
-
-### Basic Forecasting
-
-1. **Add a Location**
-   - Navigate to the dashboard
-   - Click "Add Location"
-   - Enter coordinates or address
-   - Specify energy system parameters (solar panel capacity, wind turbine specs)
-
-2. **View Forecasts**
-   - Access the main dashboard for overview
-   - Drill down to location-specific details
-   - Compare forecast vs actual performance
-
-3. **Generate Reports**
-   - Export forecasts as CSV, PDF, or Excel
-   - Schedule automated report generation
-   - Access via API for integration with other systems
-
-### API Usage
-
+### Django Settings
+Key configuration in `settings.py`:
 ```python
-import requests
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'solarize',  # main app
+    'django_plotly_dash',  # for Plotly integration
+    'bootstrap5',  # frontend framework
+]
 
-# Get forecast for a location
-response = requests.get(
-    "http://localhost:8000/api/forecast/location/1/",
-    headers={"Authorization": "Token your_api_token"}
-)
-
-# Historical data
-response = requests.get(
-    "http://localhost:8000/api/historical/location/1/?days=30"
-)
+# TimescaleDB configuration
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'solarize',
+        'USER': 'your_username',
+        'PASSWORD': 'your_password',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
+}
 ```
 
-## 🤖 Machine Learning Models
+## 📊 API Endpoints
 
-### Current Models
+### REST API
+- `GET /api/locations/` - List all locations
+- `POST /api/analysis/` - Create new analysis
+- `GET /api/reports/<id>/` - Get analysis report
+- `GET /api/production-data/` - Time-series production data
 
-1. **Solar Forecasting**
-   - Gradient Boosting Regressor (primary)
-   - Random Forest (fallback)
-   - Physical model (clear-sky baseline)
+### Data Export
+- CSV export of production data
+- PDF report generation
+- JSON API for integration
 
-2. **Wind Forecasting**
-   - Power curve modeling
-   - Temporal pattern recognition
-   - Directional effects consideration
+## 🤖 Machine Learning Integration
 
-### Model Training
+### Training Process
+1. **Data Collection**: Historical production + environmental data
+2. **Feature Engineering**: Create ML-ready features
+3. **Model Training**: LightGBM with cross-validation
+4. **Validation**: Pattern correlation and physical plausibility checks
+5. **Deployment**: Model persistence and inference
 
-```bash
-# Train solar models
-python manage.py train_models --model-type solar --location all
+### Prediction Methods
+- **PVWatts Only**: Standard physical simulation
+- **Environment-Based**: Pure ML prediction
+- **Hybrid Approach**: Average of both methods
+- **Pattern Analysis**: Comparative insights
 
-# Evaluate model performance
-python manage.py evaluate_models --days 30
+## 📈 Visualization
 
-# Generate feature importance report
-python manage.py feature_importance --output report.html
+### Plotly Dashboards
+- **Production Charts**: Hourly, daily, monthly views
+- **Comparative Analysis**: Multiple scenarios
+- **Financial Metrics**: ROI, savings, payback
+- **Environmental Impact**: Carbon offset visualization
+
+### Interactive Features
+- **Zoom and Pan**: Detailed data exploration
+- **Data Export**: Chart data download
+- **Real-time Updates**: Live data integration
+- **Responsive Design**: Mobile-friendly interfaces
+
+## 🔍 Monitoring & Analytics
+
+### Performance Metrics
+- **Model Accuracy**: Pattern correlation scores
+- **Data Quality**: Environmental data validation
+- **System Health**: Database and application monitoring
+- **User Analytics**: Usage patterns and preferences
+
+### Logging
+```python
+import logging
+logger = logging.getLogger('solarize')
+
+# Usage examples
+logger.info("Analysis completed", extra={'location_id': location.id})
+logger.warning("Weather data unavailable", extra={'date': date})
 ```
 
-## 📈 Data Sources
+## 🚀 Deployment
 
-| Source | Data Type | Frequency | Cost | Usage |
-|--------|-----------|-----------|------|-------|
-| OpenWeatherMap | Forecasts | 3-hourly | Freemium | Primary forecasting |
-| NASA POWER | Historical | Daily | Free | Model training |
-| NOAA | Historical | Hourly | Free | Validation |
-| Open-Meteo | Backup | Hourly | Free | Fallback source |
+### Production Setup
+1. **Web Server**: Gunicorn + Nginx
+2. **Database**: TimescaleDB with connection pooling
+3. **Caching**: Redis for session storage
+4. **Static Files**: CDN or dedicated storage
+5. **SSL**: HTTPS encryption
 
-## 🧪 Testing
+### Docker Deployment
+```dockerfile
+# Dockerfile example
+FROM python:3.9-slim
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+COPY . .
+CMD ["gunicorn", "solarize.wsgi:application", "--bind", "0.0.0.0:8000"]
+```
 
-Run the test suite to ensure everything works correctly:
+### Environment-Specific Settings
+- **Development**: Debug mode, local database
+- **Staging**: Production-like with test data
+- **Production**: Optimized, secure configuration
 
+## 🤝 Contributing
+
+### Development Setup
+1. Fork the repository
+2. Create feature branch: `git checkout -b feature/amazing-feature`
+3. Commit changes: `git commit -m 'Add amazing feature'`
+4. Push to branch: `git push origin feature/amazing-feature`
+5. Open Pull Request
+
+### Code Style
 ```bash
-# Run all tests
+# Format code
+black solarize/
+isort solarize/
+
+# Type checking
+mypy solarize/
+
+# Testing
+pytest
+```
+
+### Testing
+```bash
+# Run tests
 python manage.py test
 
-# Run specific app tests
-python manage.py test apps.ml_pipeline
-
-# Generate test coverage report
+# Coverage report
 coverage run manage.py test
 coverage report
 ```
 
-## 🐳 Docker Deployment
+## 📚 Documentation
 
-### Using Docker Compose
+### Additional Resources
+- [API Documentation](docs/api.md)
+- [Database Schema](docs/database.md)
+- [ML Methodology](docs/ml-methodology.md)
+- [Deployment Guide](docs/deployment.md)
 
-```bash
-# Build and start all services
-docker-compose up -d
-
-# View logs
-docker-compose logs -f
-
-# Run management commands
-docker-compose exec web python manage.py migrate
-```
-
-### Production Deployment
-
-1. **Set up reverse proxy (nginx)**
-2. **Configure SSL certificates**
-3. **Set up database backups**
-4. **Configure monitoring and alerts**
-
-## 🔍 Monitoring & Analytics
-
-The application includes built-in monitoring:
-
-- **Performance metrics** via Django Debug Toolbar
-- **Error tracking** with Sentry integration
-- **API usage analytics**
-- **Model performance tracking**
-
-## 🤝 Contributing
-
-We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## 📋 Roadmap
-
-### Phase 1 (Current)
-- [x] Basic solar forecasting
-- [x] Dashboard interface
-- [x] API endpoints
-- [x] Historical data integration
-
-### Phase 2 (Next)
-- [ ] Wind energy forecasting
-- [ ] Advanced uncertainty modeling
-- [ ] Mobile application
-- [ ] Third-party integrations
-
-### Phase 3 (Future)
-- [ ] Hybrid system optimization
-- [ ] Energy trading recommendations
-- [ ] Climate change impact analysis
-
-## 🐛 Troubleshooting
-
-### Common Issues
-
-**Data ingestion failures:**
-```bash
-# Check API connectivity
-python manage.py test_api_connectivity
-
-# Reset failed data collections
-python manage.py reset_failed_jobs
-```
-
-**Model performance degradation:**
-```bash
-# Retrain models with recent data
-python manage.py retrain_models --days 60
-
-# Compare model versions
-python manage.py model_comparison
-```
-
-### Getting Help
-
-- Check the [FAQ](docs/FAQ.md)
-- Open an [issue](https://github.com/yourusername/renewable-energy-forecaster/issues)
-- Contact the development team
+### Key Concepts
+- **PVWatts**: NREL's photovoltaic energy production model
+- **TimescaleDB**: Time-series optimized PostgreSQL
+- **LightGBM**: Microsoft's gradient boosting framework
+- **PVLib**: Python library for photovoltaic system modeling
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
 
 ## 🙏 Acknowledgments
 
-- Weather data providers: OpenWeatherMap, NASA, NOAA
-- Machine learning libraries: scikit-learn, XGBoost
-- Visualization libraries: Chart.js, D3.js
-- Django community for excellent documentation and packages
+- **NREL**: For PVWatts API and solar modeling algorithms
+- **TimescaleDB**: For time-series database technology
+- **Plotly**: For interactive visualization library
+- **LightGBM**: For machine learning framework
 
-## 📞 Contact
+## 📞 Support
 
-- Project Lead: [Your Name](mailto:your.email@example.com)
-- Issues: [GitHub Issues](https://github.com/yourusername/renewable-energy-forecaster/issues)
-- Documentation: [Project Wiki](https://github.com/yourusername/renewable-energy-forecaster/wiki)
+For support and questions:
+- **Documentation**: Check the docs folder
+- **Issues**: GitHub Issues page
+- **Email**: support@solarize.example.com
+
+## 🗺️ Roadmap
+
+### Upcoming Features
+- [ ] Real-time monitoring integration
+- [ ] Advanced battery storage modeling
+- [ ] Multi-currency financial analysis
+- [ ] Mobile application
+- [ ] API rate limiting and authentication
+- [ ] Advanced ML model explainability
+
+### Research & Development
+- [ ] Transfer learning for new locations
+- [ ] Ensemble modeling techniques
+- [ ] Anomaly detection for system monitoring
+- [ ] Climate change impact projections
 
 ---
 
-**Note**: This is a development version. For production use, ensure proper security configuration and data validation.
+<div align="center">
+  
+**Solarize** - Harnessing the power of the sun with data intelligence ☀️📊
 
-*Built with ❤️ using Django and modern web technologies*
+</div>

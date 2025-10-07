@@ -17,6 +17,23 @@ def profile_view(request):
     return render(request, "visualisation/profile.html", context)
 
 
+def features_view(request):
+    context = {}
+    return render(request, "onboarding/features.html", context)
+
+def data_sources_view(request):
+    context = {}
+    return render(request, "onboarding/data_sources.html", context)
+
+def solutions_view(request):
+    context = {}
+    return render(request, "onboarding/solutions.html", context)
+
+def machine_learning_view(request):
+    context = {}
+    return render(request, "onboarding/machine_learning.html", context)
+
+
 def signin_view(request):
     if request.user.is_authenticated:
         return redirect("home")

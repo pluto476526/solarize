@@ -1,13 +1,18 @@
-from django.shortcuts import render
+## visualisation/views.py
+## pkibuka@milky-way.space
+
+from django.shortcuts import render, redirect
 from django.conf import settings
 from data_factory.database.manager import DataManager
 from data_factory.database.connection import DatabaseConnection
 from data_factory.solar_advisor.solarize import SolarAdvisor
 import plotly.graph_objects as go
 from plotly.offline import plot
+from typing import Dict
 import logging
 import json
 import os
+import calendar
 
 logger = logging.getLogger(__name__)
 
@@ -18,6 +23,70 @@ def import_locations():
     with open(path, mode="r") as f:
         locations = json.load(f)
         return locations
+
+def monthly_savings_chart(monthly_savings: Dict):
+    # Sort months (1–12) and map to names
+    months = sorted(map(int, monthly_savings.keys()))
+    month_names = [calendar.month_abbr[m] for m in months]
+    savings = [monthly_savings[str(m)] for m in months]
+
+    # Create line chart
+    fig = go.Figure(data=[
+        go.Scatter(
+            x=month_names,
+            y=savings,
+            mode="lines+markers",
+            name="Savings"
+        )
+    ])
+
+    fig.update_layout(
+        xaxis_title="Month",
+        yaxis_title="Savings",
+        xaxis=dict(tickmode="array", tickvals=month_names),
+        xaxis_rangeslider_visible=False,
+        template="plotly_dark"
+    )
+
+    # Convert figure to HTML div
+    savings_chart = plot(fig, output_type="div", include_plotlyjs=False)
+    return savings_chart
+
+def scenario_efficiency_chart(scenario_data: Dict):
+    scenarios = [d["scenario"] for d in scenario_data]
+    annual_kwh = [d["annual_kwh"] for d in scenario_data]
+    efficiency = [d["efficiency_ratio"] for d in scenario_data]
+    percent_opt = [d["percent_of_optional"] for d in scenario_data]
+
+    # Build bubble chart
+    fig = go.Figure()
+
+    fig.add_trace(go.Scatter(
+        x=efficiency,
+        y=annual_kwh,
+        mode="markers",
+        text=scenarios,
+        textposition="top center",
+        marker=dict(
+            size=[p/2 for p in percent_opt],  # scale bubble size
+            sizemode="area",
+            color=percent_opt,
+            colorscale="Viridis",
+            showscale=True,
+            line=dict(width=1, color="DarkSlateGrey")
+        ),
+        hovertemplate="<b>%{text}</b><br>Efficiency: %{x}<br>Annual kWh: %{y}<br>Optional: %{marker.size}<extra></extra>"
+    ))
+
+    fig.update_layout(
+        xaxis_title="Efficiency Ratio",
+        yaxis_title="Annual kWh",
+        template="plotly_dark"
+    )
+
+    efficiency_chart = plot(fig, output_type="div", include_plotlyjs=False)
+    return efficiency_chart
+
 
 def index_view(request):
     locations = import_locations()
@@ -97,8 +166,28 @@ def energy_forecasts_view(request):
     return render(request, "visualisation/energy_forecasts.html", context)
 
 
+
 def energy_forecasts_report_view(request):
     reports = request.session.get("energy_forecasts")
-    context = {"reports": reports}
-    logger.debug(context)
+
+    if not reports:
+        return redirect("energy-forecasts")
+
+    savings_chart = None
+
+    for report in reports:
+        monthly_savings = report["financial_analysis"]["monthly_savings_breakdown"]
+        savings_chart = monthly_savings_chart(monthly_savings)
+        report["savings_chart"] = savings_chart
+
+        scenario_data = report["scenario_analysis"]
+        efficiency_chart = scenario_efficiency_chart(scenario_data)
+        report["efficiency_chart"] = efficiency_chart
+
+    context = {
+        "reports": reports,
+    }
+
     return render(request, "visualisation/energy_forecast_report.html", context)
+
+

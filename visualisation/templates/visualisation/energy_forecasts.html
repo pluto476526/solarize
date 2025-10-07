@@ -356,6 +356,718 @@
     </div>
 
 
+    <!-- Machine Learning Methodology Documentation -->
+    <div class="container-fluid pt-4 px-4">
+        <div class="row g-4">
+            <div class="col-12">
+                <div class="bg-secondary rounded p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h5 class="mb-0">Machine Learning Methodology</h5>
+                        <button type="button" class="btn btn-sm btn-outline-light" data-bs-toggle="collapse" data-bs-target="#mlMethodologyCollapse">
+                            <i class="fas fa-brain me-1"></i>Toggle ML Documentation
+                        </button>
+                    </div>
+                    
+                    <div class="collapse show" id="mlMethodologyCollapse">
+                        <div class="accordion" id="mlMethodologyAccordion">
+                            
+                            <!-- ML Overview Section -->
+                            <div class="accordion-item bg-dark border-dark">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button bg-dark text-light" type="button" data-bs-toggle="collapse" data-bs-target="#mlOverview">
+                                        <i class="fas fa-project-diagram me-2"></i>Machine Learning Approach
+                                    </button>
+                                </h2>
+                                <div id="mlOverview" class="accordion-collapse collapse show" data-bs-parent="#mlMethodologyAccordion">
+                                    <div class="accordion-body">
+                                        <div class="row g-4">
+                                            <div class="col-md-4 text-center">
+                                                <div class="border rounded p-3 bg-dark">
+                                                    <i class="fas fa-sun fa-2x text-warning mb-3"></i>
+                                                    <h6 class="text-warning">Pattern Enhancement</h6>
+                                                    <p class="text-light small mb-2">Beyond Standard PVWatts</p>
+                                                    <span class="badge bg-success">Core Philosophy</span>
+                                                    <p class="text-light small mt-2">We enhance PVWatts simulations with real environmental patterns</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 text-center">
+                                                <div class="border rounded p-3 bg-dark">
+                                                    <i class="fas fa-wind fa-2x text-info mb-3"></i>
+                                                    <h6 class="text-info">Environmental Intelligence</h6>
+                                                    <p class="text-light small mb-2">Weather-Aware Predictions</p>
+                                                    <span class="badge bg-info">Real-time Adaptation</span>
+                                                    <p class="text-light small mt-2">Learn how local weather affects solar production patterns</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 text-center">
+                                                <div class="border rounded p-3 bg-dark">
+                                                    <i class="fas fa-chart-line fa-2x text-primary mb-3"></i>
+                                                    <h6 class="text-primary">LightGBM Framework</h6>
+                                                    <p class="text-light small mb-2">Gradient Boosting Excellence</p>
+                                                    <span class="badge bg-primary">Model Architecture</span>
+                                                    <p class="text-light small mt-2">Fast, accurate tree-based models for complex relationships</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="alert alert-info mt-3">
+                                            <small>
+                                                <i class="fas fa-lightbulb me-2"></i>
+                                                <strong>ML Philosophy:</strong> Instead of replacing PVWatts, we use machine learning to understand how environmental factors modulate its predictions, creating weather-aware enhancements without circular logic.
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Feature Engineering Process -->
+                            <div class="accordion-item bg-dark border-dark">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button bg-dark text-light collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#featureEngineering">
+                                        <i class="fas fa-cogs me-2"></i>Feature Engineering
+                                    </button>
+                                </h2>
+                                <div id="featureEngineering" class="accordion-collapse collapse" data-bs-parent="#mlMethodologyAccordion">
+                                    <div class="accordion-body">
+                                        <h6 class="text-warning mb-3">Intelligent Feature Creation</h6>
+                                        <div class="row g-3 mb-4">
+                                            <div class="col-md-6">
+                                                <h6 class="text-info">Astronomical Features</h6>
+                                                <ul class="text-light small">
+                                                    <li><strong>Sun Elevation:</strong> Angle of sun above horizon (0-90°)</li>
+                                                    <li><strong>Sun Azimuth:</strong> Compass direction of sun (0-360°)</li>
+                                                    <li><strong>Solar Position:</strong> Calculated using PVLib for precise location</li>
+                                                    <li><strong>Daylight Hours:</strong> Derived from elevation patterns</li>
+                                                </ul>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h6 class="text-info">Temporal Features</h6>
+                                                <ul class="text-light small">
+                                                    <li><strong>Hour of Day:</strong> 24-hour cyclic pattern</li>
+                                                    <li><strong>Day of Year:</strong> Seasonal variations (1-365)</li>
+                                                    <li><strong>Month:</strong> Broader seasonal patterns</li>
+                                                    <li><strong>Day of Week:</strong> Weekly human activity patterns</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                        <h6 class="text-warning mb-3">Environmental Interaction Features</h6>
+                                        <div class="row text-center mb-4">
+                                            <div class="col-md-4">
+                                                <div class="border rounded p-2 bg-success">
+                                                    <small class="fw-bold">Temperature Effect</small>
+                                                    <div class="text-light small">temp × sun_elevation</div>
+                                                    <i class="fas fa-thermometer-half mt-1"></i>
+                                                </div>
+                                                <small class="text-light">Temperature matters more when sun is high</small>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="border rounded p-2 bg-info">
+                                                    <small class="fw-bold">Cloud Impact</small>
+                                                    <div class="text-light small">cloud_cover × sun_elevation</div>
+                                                    <i class="fas fa-cloud mt-1"></i>
+                                                </div>
+                                                <small class="text-light">Clouds affect production differently by time of day</small>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="border rounded p-2 bg-warning">
+                                                    <small class="fw-bold">Seasonal Weather</small>
+                                                    <div class="text-light small">temp × dayofyear</div>
+                                                    <i class="fas fa-calendar-alt mt-1"></i>
+                                                </div>
+                                                <small class="text-light">Temperature effects vary by season</small>
+                                            </div>
+                                        </div>
+
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <h6 class="text-success">Feature Selection Rationale</h6>
+                                                <div class="bg-dark p-3 rounded">
+                                                    <code class="text-light small">
+    # Core Feature Set<br>
+    features = [<br>
+    &nbsp;&nbsp;'temp', 'humidity', 'cloud_cover', 'wind_speed',<br>
+    &nbsp;&nbsp;'sun_elevation', 'sun_azimuth', 'hour', 'dayofyear',<br>
+    &nbsp;&nbsp;'month', 'temp_effect', 'cloud_sun_interaction'<br>
+    ]
+                                                    </code>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h6 class="text-success">Physical Basis</h6>
+                                                <ul class="text-light small">
+                                                    <li><strong>Temperature:</strong> Affects panel efficiency (-0.3% to -0.5% per °C)</li>
+                                                    <li><strong>Cloud Cover:</strong> Direct impact on irradiance</li>
+                                                    <li><strong>Humidity:</strong> Affects atmospheric scattering</li>
+                                                    <li><strong>Wind Speed:</strong> Cooling effect on panels</li>
+                                                    <li><strong>Solar Geometry:</strong> Fundamental to energy capture</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Model Architecture -->
+                            <div class="accordion-item bg-dark border-dark">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button bg-dark text-light collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#modelArchitecture">
+                                        <i class="fas fa-network-wired me-2"></i>Model Architecture & Training
+                                    </button>
+                                </h2>
+                                <div id="modelArchitecture" class="accordion-collapse collapse" data-bs-parent="#mlMethodologyAccordion">
+                                    <div class="accordion-body">
+                                        <h6 class="text-warning mb-3">LightGBM Configuration</h6>
+                                        <div class="row g-3 mb-4">
+                                            <div class="col-md-6">
+                                                <h6 class="text-info">Model Parameters</h6>
+                                                <div class="bg-dark p-3 rounded">
+                                                    <code class="text-light small">
+    model = LGBMRegressor(<br>
+    &nbsp;&nbsp;n_estimators=300,<br>
+    &nbsp;&nbsp;learning_rate=0.05,<br>
+    &nbsp;&nbsp;num_leaves=63,<br>
+    &nbsp;&nbsp;random_state=42,<br>
+    &nbsp;&nbsp;max_depth=-1,<br>
+    &nbsp;&nbsp;min_child_samples=20<br>
+    )
+                                                    </code>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h6 class="text-info">Parameter Rationale</h6>
+                                                <ul class="text-light small">
+                                                    <li><strong>n_estimators=300:</strong> Balance between performance and overfitting</li>
+                                                    <li><strong>learning_rate=0.05:</strong> Stable convergence with good performance</li>
+                                                    <li><strong>num_leaves=63:</strong> Sufficient complexity for weather patterns</li>
+                                                    <li><strong>max_depth=-1:</strong> No limit for complex relationships</li>
+                                                    <li><strong>min_child_samples=20:</strong> Prevent overfitting on small groups</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                        <h6 class="text-warning mb-3">Training Process</h6>
+                                        <div class="row text-center mb-4">
+                                            <div class="col-md-3">
+                                                <div class="border rounded p-2 bg-primary">
+                                                    <small class="fw-bold">Step 1</small>
+                                                    <div class="text-light">Data Split</div>
+                                                    <i class="fas fa-code-branch mt-1"></i>
+                                                </div>
+                                                <small class="text-light">80% training, 20% validation</small>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="border rounded p-2 bg-info">
+                                                    <small class="fw-bold">Step 2</small>
+                                                    <div class="text-light">Feature Scaling</div>
+                                                    <i class="fas fa-balance-scale mt-1"></i>
+                                                </div>
+                                                <small class="text-light">Automatic handling by LightGBM</small>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="border rounded p-2 bg-warning">
+                                                    <small class="fw-bold">Step 3</small>
+                                                    <div class="text-light">Model Training</div>
+                                                    <i class="fas fa-graduation-cap mt-1"></i>
+                                                </div>
+                                                <small class="text-light">Gradient boosting iterations</small>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="border rounded p-2 bg-success">
+                                                    <small class="fw-bold">Step 4</small>
+                                                    <div class="text-light">Validation</div>
+                                                    <i class="fas fa-check-double mt-1"></i>
+                                                </div>
+                                                <small class="text-light">Performance assessment</small>
+                                            </div>
+                                        </div>
+
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <h6 class="text-success">Training Strategy</h6>
+                                                <ul class="text-light small">
+                                                    <li><strong>Time-aware Split:</strong> Maintain temporal order in train/validation</li>
+                                                    <li><strong>No Data Leakage:</strong> Strict separation of training and validation periods</li>
+                                                    <li><strong>Early Stopping:</strong> Automatic stopping if validation doesn't improve</li>
+                                                    <li><strong>Cross-Validation:</strong> Seasonal folds for robust performance</li>
+                                                </ul>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h6 class="text-success">Model Objectives</h6>
+                                                <ul class="text-light small">
+                                                    <li><strong>Learn Environmental Patterns:</strong> How weather affects production</li>
+                                                    <li><strong>Capture Non-linear Relationships:</strong> Complex weather interactions</li>
+                                                    <li><strong>Maintain Physical Plausibility:</strong> Respect solar energy principles</li>
+                                                    <li><strong>Generalize to New Conditions:</strong> Work beyond training data</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Prediction Methodology -->
+                            <div class="accordion-item bg-dark border-dark">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button bg-dark text-light collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#predictionMethodology">
+                                        <i class="fas fa-chart-bar me-2"></i>Prediction & Enhancement Strategy
+                                    </button>
+                                </h2>
+                                <div id="predictionMethodology" class="accordion-collapse collapse" data-bs-parent="#mlMethodologyAccordion">
+                                    <div class="accordion-body">
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <h6 class="text-warning">Multi-Approach Forecasting</h6>
+                                                <div class="table-responsive">
+                                                    <table class="table table-sm table-dark">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Approach</th>
+                                                                <th>Method</th>
+                                                                <th>Use Case</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td><span class="badge bg-warning">PVWatts Only</span></td>
+                                                                <td>Standard simulation</td>
+                                                                <td>Baseline comparison</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><span class="badge bg-info">Environment-Based</span></td>
+                                                                <td>Pure ML prediction</td>
+                                                                <td>Weather-aware estimates</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><span class="badge bg-success">Hybrid</span></td>
+                                                                <td>Average of both</td>
+                                                                <td>Robust production</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><span class="badge bg-primary">Pattern Analysis</span></td>
+                                                                <td>Compare approaches</td>
+                                                                <td>Insight generation</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h6 class="text-warning">Prediction Workflow</h6>
+                                                <div class="text-light small">
+                                                    <div class="mb-2">
+                                                        <i class="fas fa-sun text-warning me-2"></i>
+                                                        <strong>Input Processing:</strong> Generate solar position and temporal features
+                                                    </div>
+                                                    <div class="mb-2">
+                                                        <i class="fas fa-wind text-info me-2"></i>
+                                                        <strong>Weather Integration:</strong> Combine with environmental data
+                                                    </div>
+                                                    <div class="mb-2">
+                                                        <i class="fas fa-cogs text-primary me-2"></i>
+                                                        <strong>Model Inference:</strong> Generate environment-based predictions
+                                                    </div>
+                                                    <div class="mb-2">
+                                                        <i class="fas fa-balance-scale text-success me-2"></i>
+                                                        <strong>Comparison:</strong> Analyze vs PVWatts baseline
+                                                    </div>
+                                                    <div class="mb-2">
+                                                        <i class="fas fa-chart-line text-warning me-2"></i>
+                                                        <strong>Pattern Validation:</strong> Ensure physical plausibility
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <h6 class="text-warning mt-4 mb-3">Output Interpretation</h6>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="bg-dark p-3 rounded mb-3">
+                                                    <h6 class="text-success">When ML > PVWatts</h6>
+                                                    <ul class="text-light small">
+                                                        <li>Local weather patterns differ from TMY averages</li>
+                                                        <li>Unusual weather conditions (heat waves, storms)</li>
+                                                        <li>Microclimate effects not in PVWatts</li>
+                                                        <li>Recent climate changes</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="bg-dark p-3 rounded mb-3">
+                                                    <h6 class="text-info">When PVWatts > ML</h6>
+                                                    <ul class="text-light small">
+                                                        <li>Standard weather conditions</li>
+                                                        <li>Limited environmental data</li>
+                                                        <li>Well-matched location to TMY data</li>
+                                                        <li>Conservative estimation needed</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="alert alert-warning mt-3">
+                                            <small>
+                                                <i class="fas fa-exclamation-triangle me-2"></i>
+                                                <strong>Important:</strong> Without measured production data, we focus on pattern enhancement and comparative analysis rather than absolute accuracy validation. The value is in understanding how environmental factors affect energy production.
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Model Validation & Performance -->
+                            <div class="accordion-item bg-dark border-dark">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button bg-dark text-light collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#modelValidation">
+                                        <i class="fas fa-check-double me-2"></i>Validation & Performance Metrics
+                                    </button>
+                                </h2>
+                                <div id="modelValidation" class="accordion-collapse collapse" data-bs-parent="#mlMethodologyAccordion">
+                                    <div class="accordion-body">
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <h6 class="text-warning">Validation Strategy</h6>
+                                                <div class="table-responsive">
+                                                    <table class="table table-sm table-dark">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Validation Type</th>
+                                                                <th>Method</th>
+                                                                <th>Purpose</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>Temporal Split</td>
+                                                                <td>80/20 time-based</td>
+                                                                <td>Real-world performance</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Seasonal Validation</td>
+                                                                <td>By month/season</td>
+                                                                <td>Seasonal robustness</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Pattern Correlation</td>
+                                                                <td>Daily profile matching</td>
+                                                                <td>Shape accuracy</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Physical Plausibility</td>
+                                                                <td>Domain knowledge checks</td>
+                                                                <td>Model sanity</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h6 class="text-warning">Performance Indicators</h6>
+                                                <div class="text-light small">
+                                                    <div class="mb-2">
+                                                        <i class="fas fa-wave-square text-info me-2"></i>
+                                                        <strong>Daily Pattern Correlation:</strong> Compare hour-by-hour shapes (>0.95 target)
+                                                    </div>
+                                                    <div class="mb-2">
+                                                        <i class="fas fa-mountain text-warning me-2"></i>
+                                                        <strong>Seasonal Pattern Match:</strong> Monthly production curves
+                                                    </div>
+                                                    <div class="mb-2">
+                                                        <i class="fas fa-sun text-success me-2"></i>
+                                                        <strong>Peak Production Timing:</strong> Noon alignment verification
+                                                    </div>
+                                                    <div class="mb-2">
+                                                        <i class="fas fa-cloud text-primary me-2"></i>
+                                                        <strong>Weather Response:</strong> Appropriate cloud/rain effects
+                                                    </div>
+                                                    <div class="mb-2">
+                                                        <i class="fas fa-thermometer-half text-danger me-2"></i>
+                                                        <strong>Temperature Sensitivity:</strong> Expected efficiency losses
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <h6 class="text-warning mt-4 mb-3">Quality Assurance Checks</h6>
+                                        <div class="row text-center">
+                                            <div class="col-md-2">
+                                                <div class="text-success">
+                                                    <i class="fas fa-check-circle fa-2x mb-2"></i>
+                                                    <div>Zero Production</div>
+                                                    <small class="text-light">At night</small>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="text-info">
+                                                    <i class="fas fa-chart-line fa-2x mb-2"></i>
+                                                    <div>Smooth Curves</div>
+                                                    <small class="text-light">No spikes</small>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="text-warning">
+                                                    <i class="fas fa-clock fa-2x mb-2"></i>
+                                                    <div>Noon Peak</div>
+                                                    <small class="text-light">Solar noon</small>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="text-primary">
+                                                    <i class="fas fa-cloud-rain fa-2x mb-2"></i>
+                                                    <div>Cloud Response</div>
+                                                    <small class="text-light">Reduced output</small>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="text-danger">
+                                                    <i class="fas fa-temperature-high fa-2x mb-2"></i>
+                                                    <div>Temp Effect</div>
+                                                    <small class="text-light">Efficiency loss</small>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="text-secondary">
+                                                    <i class="fas fa-calendar-alt fa-2x mb-2"></i>
+                                                    <div>Seasonal Pattern</div>
+                                                    <small class="text-light">Summer peak</small>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="alert alert-info mt-3">
+                                            <small>
+                                                <i class="fas fa-chart-bar me-2"></i>
+                                                <strong>Performance Note:</strong> Since we lack measured production data, we validate against physical principles and pattern consistency rather than absolute accuracy. The model's value is in providing environmental context to PVWatts simulations.
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Limitations & Considerations -->
+                            <div class="accordion-item bg-dark border-dark">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button bg-dark text-light collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#mlLimitations">
+                                        <i class="fas fa-exclamation-triangle me-2"></i>Limitations & Considerations
+                                    </button>
+                                </h2>
+                                <div id="mlLimitations" class="accordion-collapse collapse" data-bs-parent="#mlMethodologyAccordion">
+                                    <div class="accordion-body">
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <h6 class="text-warning">Methodological Limitations</h6>
+                                                <div class="text-light small">
+                                                    <div class="mb-2">
+                                                        <i class="fas fa-ruler-combined text-warning me-2"></i>
+                                                        <strong>No Ground Truth:</strong> Cannot validate absolute accuracy without measured data
+                                                    </div>
+                                                    <div class="mb-2">
+                                                        <i class="fas fa-project-diagram text-info me-2"></i>
+                                                        <strong>Pattern Learning:</strong> Essentially learning PVWatts + local weather effects
+                                                    </div>
+                                                    <div class="mb-2">
+                                                        <i class="fas fa-cloud-sun text-primary me-2"></i>
+                                                        <strong>Weather Data Quality:</strong> Dependent on accuracy of environmental inputs
+                                                    </div>
+                                                    <div class="mb-2">
+                                                        <i class="fas fa-calendar-alt text-success me-2"></i>
+                                                        <strong>Training Period:</strong> Limited to available historical data period
+                                                    </div>
+                                                    <div class="mb-2">
+                                                        <i class="fas fa-tree text-danger me-2"></i>
+                                                        <strong>Local Factors:</strong> Cannot account for hyper-local shading or obstructions
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h6 class="text-warning">Appropriate Use Cases</h6>
+                                                <div class="text-light small">
+                                                    <div class="mb-2">
+                                                        <i class="fas fa-chart-line text-success me-2"></i>
+                                                        <strong>Pattern Analysis:</strong> Understanding weather impacts on production
+                                                    </div>
+                                                    <div class="mb-2">
+                                                        <i class="fas fa-balance-scale text-info me-2"></i>
+                                                        <strong>Comparative Studies:</strong> Different locations or system configurations
+                                                    </div>
+                                                    <div class="mb-2">
+                                                        <i class="fas fa-cloud text-warning me-2"></i>
+                                                        <strong>Weather Scenarios:</strong> How production changes with weather conditions
+                                                    </div>
+                                                    <div class="mb-2">
+                                                        <i class="fas fa-map-marked-alt text-primary me-2"></i>
+                                                        <strong>Regional Analysis:</strong> Understanding geographic variations
+                                                    </div>
+                                                    <div class="mb-2">
+                                                        <i class="fas fa-graduation-cap text-secondary me-2"></i>
+                                                        <strong>Educational Use:</strong> Learning solar energy patterns and relationships
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <h6 class="text-warning mt-4 mb-3">When to Trust ML Enhancements</h6>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="bg-success bg-opacity-25 p-3 rounded mb-3">
+                                                    <h6 class="text-success">High Confidence Scenarios</h6>
+                                                    <ul class="text-light small">
+                                                        <li>Consistent patterns across multiple approaches</li>
+                                                        <li>Strong physical basis for predictions</li>
+                                                        <li>Good weather data quality and coverage</li>
+                                                        <li>Reasonable seasonal variations</li>
+                                                        <li>Plausible daily production curves</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="bg-warning bg-opacity-25 p-3 rounded mb-3">
+                                                    <h6 class="text-warning">Lower Confidence Scenarios</h6>
+                                                    <ul class="text-light small">
+                                                        <li>Extreme weather conditions outside training data</li>
+                                                        <li>Poor quality or missing environmental data</li>
+                                                        <li>Conflicting signals between different approaches</li>
+                                                        <li>Unphysical predictions (negative energy, etc.)</li>
+                                                        <li>Limited historical data for training</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="alert alert-success mt-3">
+                                            <small>
+                                                <i class="fas fa-hands-helping me-2"></i>
+                                                <strong>Best Practice:</strong> Use the ML-enhanced predictions as a complementary perspective to PVWatts, not a replacement. The greatest value comes from comparing both approaches and understanding the reasons for differences.
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Technical Implementation -->
+                            <div class="accordion-item bg-dark border-dark">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button bg-dark text-light collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#technicalImplementation">
+                                        <i class="fas fa-code me-2"></i>Technical Implementation
+                                    </button>
+                                </h2>
+                                <div id="technicalImplementation" class="accordion-collapse collapse" data-bs-parent="#mlMethodologyAccordion">
+                                    <div class="accordion-body">
+                                        <h6 class="text-warning mb-3">Core Code Architecture</h6>
+                                        <div class="row g-3 mb-4">
+                                            <div class="col-md-6">
+                                                <h6 class="text-info">Key Dependencies</h6>
+                                                <div class="bg-dark p-3 rounded">
+                                                    <code class="text-light small">
+    import pandas as pd<br>
+    import numpy as np<br>
+    from lightgbm import LGBMRegressor<br>
+    import pvlib  # Solar position calculations<br>
+    from sklearn.metrics import mean_absolute_error
+                                                    </code>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h6 class="text-info">Data Flow</h6>
+                                                <ul class="text-light small">
+                                                    <li><strong>Input:</strong> PVWatts output + environmental data</li>
+                                                    <li><strong>Processing:</strong> Feature engineering + solar calculations</li>
+                                                    <li><strong>Training:</strong> LightGBM on environmental patterns</li>
+                                                    <li><strong>Output:</strong> Enhanced predictions + comparative analysis</li>
+                                                    <li><strong>Validation:</strong> Pattern checks + physical plausibility</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                        <h6 class="text-warning mb-3">Implementation Example</h6>
+                                        <div class="bg-dark p-3 rounded mb-4">
+                                            <code class="text-light small">
+    # Feature Engineering<br>
+    def create_ml_features(data, latitude, longitude):<br>
+    &nbsp;&nbsp;# Solar position calculations<br>
+    &nbsp;&nbsp;solar_position = pvlib.solarposition.get_solarposition(<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;time=data.index, latitude=latitude, longitude=longitude<br>
+    &nbsp;&nbsp;)<br>
+    &nbsp;&nbsp;data['sun_elevation'] = solar_position['elevation']<br>
+    &nbsp;&nbsp;data['sun_azimuth'] = solar_position['azimuth']<br>
+    <br>
+    &nbsp;&nbsp;# Temporal features<br>
+    &nbsp;&nbsp;data['hour'] = data.index.hour<br>
+    &nbsp;&nbsp;data['dayofyear'] = data.index.dayofyear<br>
+    &nbsp;&nbsp;data['month'] = data.index.month<br>
+    <br>
+    &nbsp;&nbsp;# Interaction features<br>
+    &nbsp;&nbsp;data['temp_effect'] = data['temp'] * data['sun_elevation'].clip(0)<br>
+    &nbsp;&nbsp;data['cloud_sun_interaction'] = data['cloud_cover'] * data['sun_elevation'].clip(0)<br>
+    <br>
+    &nbsp;&nbsp;return data
+                                            </code>
+                                        </div>
+
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <h6 class="text-success">Model Training Code</h6>
+                                                <div class="bg-dark p-3 rounded">
+                                                    <code class="text-light small">
+    # Prepare features and target<br>
+    features = ['temp', 'humidity', 'cloud_cover', 'wind_speed',<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'sun_elevation', 'sun_azimuth', 'hour', <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'dayofyear', 'month', 'temp_effect',<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'cloud_sun_interaction']<br>
+    <br>
+    X = data[features]<br>
+    y = data['ac_energy']  # Learn to predict from environment<br>
+    <br>
+    # Time-based split<br>
+    split_idx = int(len(data) * 0.8)<br>
+    X_train, X_val = X.iloc[:split_idx], X.iloc[split_idx:]<br>
+    y_train, y_val = y.iloc[:split_idx], y.iloc[split_idx:]<br>
+    <br>
+    # Train model<br>
+    model = LGBMRegressor(n_estimators=300, learning_rate=0.05,<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;num_leaves=63, random_state=42)<br>
+    model.fit(X_train, y_train)
+                                                    </code>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h6 class="text-success">Prediction & Analysis</h6>
+                                                <div class="bg-dark p-3 rounded">
+                                                    <code class="text-light small">
+    # Generate predictions<br>
+    env_based_pred = model.predict(X_val)<br>
+    pvwatts_baseline = data['ac_energy'].iloc[split_idx:]<br>
+    <br>
+    # Comparative analysis<br>
+    daily_correlation = np.corrcoef(<br>
+    &nbsp;&nbsp;pvwatts_baseline.groupby(data.index.hour).mean(),<br>
+    &nbsp;&nbsp;env_based_pred.groupby(data.index.hour).mean()<br>
+    )[0,1]<br>
+    <br>
+    print(f"Daily pattern correlation: {daily_correlation:.3f}")<br>
+    <br>
+    # Hybrid approach<br>
+    hybrid_pred = (pvwatts_baseline.values + env_based_pred) / 2
+                                                    </code>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="alert alert-info mt-3">
+                                            <small>
+                                                <i class="fas fa-laptop-code me-2"></i>
+                                                <strong>Development Note:</strong> The implementation focuses on clean, maintainable code with clear physical basis for all features. The model is designed to be interpretable and physically plausible rather than a black box.
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <!-- Footer Start -->
     <div class="container-fluid pt-4 px-4">

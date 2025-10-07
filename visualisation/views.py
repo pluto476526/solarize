@@ -191,3 +191,7 @@ def energy_forecasts_report_view(request):
     return render(request, "visualisation/energy_forecast_report.html", context)
 
 
+def machine_learning_view(request):
+    context = {}
+    return render(request, "visualisation/machine_learning.html", context)
+

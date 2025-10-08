@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     "onboarding.apps.OnboardingConfig",
-    "visualisation.apps.VisualisationConfig",
+    "analytics.apps.AnalyticsConfig",
     "data_factory.apps.DataFactoryConfig",
 ]
 

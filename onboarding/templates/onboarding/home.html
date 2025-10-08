@@ -2,13 +2,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Solarize - Solar Energy Modelling Platform</title>
+  <title>Solarize - Solar Energy Modeling Platform</title>
   <!-- META TAGS -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
   <meta name="author" content="Solarize Team">
-  <meta name="description" content="Accurate solar energy forecasting using advanced statistical models and real-time data">
+  <meta name="description" content="Advanced solar energy modeling using NREL PVWatts, PVlib and NASA climate data">
 
   <!-- STYLES -->
   <link rel="stylesheet" href="{% static 'onboarding/css/bootstrap.min.css' %}">
@@ -31,16 +31,13 @@
       display: inline;
     }
   </style>
-
-
 </head>
 
 <body class="animsition" style="background: black;">
   <!-- HEADER  -->
   <header class="main-header">
     <div class="container-fluid">
-        <!-- box header -->
-        <div class="box-header">
+          <div class="box-header">
             <div class="box-logo">
                 <span class="" style="cursor: pointer; display: flex; align-items: center; font-size: 2rem;"><svg version="1.0" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="50px" height="50px" viewBox="0 0 64 64" enable-background="new 0 0 64 64" xml:space="preserve" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <path fill-rule="evenodd" clip-rule="evenodd" fill="#394240" d="M32,14.002c-9.941,0-18,8.059-18,18s8.059,18,18,18 s18-8.059,18-18S41.941,14.002,32,14.002z M32,48.002c-8.837,0-16-7.164-16-16s7.163-16,16-16s16,7.164,16,16 S40.837,48.002,32,48.002z"></path> <path fill-rule="evenodd" clip-rule="evenodd" fill="#394240" d="M63,31H53c-0.553,0-1,0.447-1,1s0.447,1,1,1h10 c0.553,0,1-0.447,1-1S63.553,31,63,31z"></path> <path fill-rule="evenodd" clip-rule="evenodd" fill="#394240" d="M11.457,36.469l-3.863,1.035 c-0.534,0.145-0.851,0.693-0.707,1.227c0.143,0.533,0.69,0.85,1.225,0.705l3.863-1.035c0.533-0.143,0.85-0.689,0.707-1.225 C12.539,36.643,11.99,36.326,11.457,36.469z"></path> <path fill-rule="evenodd" clip-rule="evenodd" fill="#394240" d="M49.32,22c0.277,0.479,0.888,0.643,1.367,0.365l8.66-5 c0.479-0.275,0.643-0.887,0.365-1.365c-0.275-0.479-0.887-0.643-1.365-0.365l-8.66,5C49.208,20.912,49.045,21.521,49.32,22z"></path> <path fill-rule="evenodd" clip-rule="evenodd" fill="#394240" d="M17.858,46.143c-0.39-0.391-1.023-0.389-1.414,0l-2.828,2.828 c-0.391,0.391-0.39,1.025,0.001,1.414c0.39,0.391,1.022,0.391,1.413,0l2.828-2.828C18.249,47.168,18.249,46.533,17.858,46.143z"></path> <path fill-rule="evenodd" clip-rule="evenodd" fill="#394240" d="M42,14.68c0.479,0.275,1.09,0.113,1.367-0.367l5-8.66 C48.644,5.174,48.48,4.562,48,4.287c-0.478-0.277-1.088-0.113-1.365,0.365l-4.999,8.662C41.358,13.793,41.522,14.402,42,14.68z"></path> <path fill-rule="evenodd" clip-rule="evenodd" fill="#394240" d="M26.824,51.318c-0.532-0.143-1.08,0.176-1.225,0.707l-1.035,3.863 c-0.143,0.535,0.176,1.082,0.709,1.225c0.533,0.145,1.08-0.172,1.223-0.707l1.035-3.863C27.676,52.012,27.359,51.463,26.824,51.318 z"></path> <path fill-rule="evenodd" clip-rule="evenodd" fill="#394240" d="M32,12c0.554,0,1.001-0.447,1.002-1V1c0-0.553-0.447-1-1.002-1 c-0.551,0-0.998,0.447-0.999,1l0.001,10C31.002,11.553,31.449,12,32,12z"></path> <path fill-rule="evenodd" clip-rule="evenodd" fill="#394240" d="M38.402,52.025c-0.141-0.533-0.689-0.85-1.225-0.707 c-0.533,0.143-0.848,0.691-0.707,1.225l1.035,3.863c0.144,0.535,0.693,0.85,1.227,0.707s0.849-0.689,0.705-1.225L38.402,52.025z"></path> <path fill-rule="evenodd" clip-rule="evenodd" fill="#394240" d="M20.637,14.312c0.275,0.479,0.887,0.643,1.363,0.367 c0.48-0.277,0.645-0.887,0.368-1.367l-5-8.66C17.092,4.174,16.48,4.01,16,4.287c-0.477,0.275-0.641,0.887-0.365,1.365 L20.637,14.312z"></path> <path fill-rule="evenodd" clip-rule="evenodd" fill="#394240" d="M47.558,46.141c-0.388-0.389-1.022-0.389-1.414,0 c-0.391,0.391-0.388,1.025,0,1.414l2.828,2.828c0.392,0.393,1.025,0.389,1.415,0c0.391-0.391,0.391-1.021-0.001-1.414 L47.558,46.141z"></path> <path fill-rule="evenodd" clip-rule="evenodd" fill="#394240" d="M4.654,17.365l8.662,4.998c0.477,0.277,1.088,0.113,1.363-0.363 c0.277-0.48,0.115-1.09-0.364-1.367l-8.661-5C5.176,15.355,4.564,15.52,4.287,16C4.013,16.477,4.176,17.088,4.654,17.365z"></path> <path fill-rule="evenodd" clip-rule="evenodd" fill="#394240" d="M52.027,38.4l3.863,1.035c0.535,0.145,1.082-0.176,1.225-0.709 c0.144-0.533-0.172-1.08-0.707-1.223l-3.863-1.035c-0.531-0.145-1.081,0.172-1.225,0.707C51.176,37.709,51.496,38.256,52.027,38.4z "></path> <path fill-rule="evenodd" clip-rule="evenodd" fill="#394240" d="M12,32c0.001-0.555-0.445-1-0.998-1.002L1,31 c-0.552,0-1,0.445-1,1c0.001,0.551,0.448,1,1.001,1l10.001-0.002C11.553,32.998,12.001,32.551,12,32z"></path> <path fill-rule="evenodd" clip-rule="evenodd" fill="#394240" d="M52.545,27.529l3.863-1.035c0.535-0.143,0.85-0.693,0.706-1.227 c-0.142-0.531-0.688-0.848-1.224-0.705l-3.863,1.035c-0.533,0.141-0.85,0.691-0.707,1.225 C51.461,27.355,52.012,27.67,52.545,27.529z"></path> <circle fill-rule="evenodd" clip-rule="evenodd" fill="#F9EBB2" cx="32" cy="32" r="16"></circle> <path fill-rule="evenodd" clip-rule="evenodd" fill="#394240" d="M14.68,42c-0.275-0.48-0.886-0.645-1.365-0.369l-8.661,5.002 C4.176,46.91,4.01,47.52,4.287,48c0.277,0.477,0.889,0.641,1.367,0.365l8.66-5.002C14.791,43.088,14.957,42.479,14.68,42z"></path> <path fill-rule="evenodd" clip-rule="evenodd" fill="#394240" d="M46.144,17.855c0.389,0.393,1.022,0.389,1.414,0l2.828-2.828 c0.392-0.391,0.39-1.023-0.002-1.414c-0.388-0.391-1.021-0.391-1.412,0l-2.828,2.828C45.752,16.83,45.754,17.465,46.144,17.855z"></path> <path fill-rule="evenodd" clip-rule="evenodd" fill="#394240" d="M22,49.32c-0.479-0.277-1.088-0.113-1.365,0.363l-5,8.664 c-0.275,0.477-0.115,1.088,0.365,1.365c0.479,0.273,1.09,0.109,1.367-0.367l4.998-8.662C22.641,50.207,22.48,49.596,22,49.32z"></path> <path fill-rule="evenodd" clip-rule="evenodd" fill="#394240" d="M37.178,12.68c0.531,0.145,1.078-0.176,1.225-0.707l1.035-3.863 c0.143-0.535-0.176-1.084-0.709-1.225c-0.531-0.145-1.08,0.172-1.223,0.707l-1.035,3.863C36.324,11.986,36.645,12.535,37.178,12.68 z"></path> <path fill-rule="evenodd" clip-rule="evenodd" fill="#394240" d="M32,52c-0.553-0.002-0.998,0.445-1,0.998l0.002,10.004 C31.002,63.551,31.445,64,32,64c0.553,0,1-0.449,1.001-1l-0.003-10.002C32.998,52.447,32.555,52,32,52z"></path> <path fill-rule="evenodd" clip-rule="evenodd" fill="#394240" d="M25.6,11.973c0.139,0.533,0.691,0.85,1.225,0.707 c0.532-0.141,0.846-0.691,0.707-1.225l-1.035-3.863c-0.145-0.535-0.693-0.852-1.227-0.707c-0.531,0.143-0.85,0.689-0.705,1.225 L25.6,11.973z"></path> <path fill-rule="evenodd" clip-rule="evenodd" fill="#394240" d="M43.363,49.686C43.088,49.209,42.48,49.043,42,49.32 c-0.479,0.275-0.641,0.885-0.367,1.365l5.004,8.66c0.275,0.479,0.883,0.645,1.363,0.367c0.479-0.277,0.642-0.889,0.367-1.367 L43.363,49.686z"></path> <path fill-rule="evenodd" clip-rule="evenodd" fill="#394240" d="M16.443,17.855c0.387,0.395,1.023,0.391,1.414,0 c0.391-0.387,0.387-1.02,0-1.414l-2.828-2.828c-0.393-0.391-1.025-0.389-1.415,0.002c-0.39,0.389-0.392,1.021,0.001,1.412 L16.443,17.855z"></path> <path fill-rule="evenodd" clip-rule="evenodd" fill="#394240" d="M59.348,46.633l-8.663-4.998 c-0.478-0.275-1.087-0.115-1.363,0.367c-0.278,0.477-0.112,1.086,0.364,1.363l8.664,5c0.477,0.275,1.086,0.115,1.363-0.365 C59.988,47.52,59.824,46.91,59.348,46.633z"></path> <path fill-rule="evenodd" clip-rule="evenodd" fill="#394240" d="M11.974,25.598L8.11,24.562c-0.536-0.143-1.083,0.176-1.225,0.709 c-0.144,0.531,0.171,1.08,0.707,1.225l3.863,1.033c0.531,0.146,1.081-0.174,1.225-0.707C12.825,26.293,12.505,25.746,11.974,25.598 z"></path> <path fill-rule="evenodd" clip-rule="evenodd" fill="#394240" d="M32,20.002c-0.553,0-1,0.447-1,1s0.447,1,1,1 c5.522,0,10,4.477,10,10c0,0.553,0.447,1,1,1s1-0.447,1-1C44,25.375,38.627,20.002,32,20.002z"></path> </g> </g></svg> &nbsp; SOLARIZE</span>
             </div>
@@ -50,26 +47,22 @@
             </a>
             <!-- box-primary-nav-trigger -->
         </div>
-        <!-- end box header -->
-
         <!-- nav -->
         <nav>
             <ul class="box-primary-nav">
                 <li class="box-label">SOLARIZE</li>
 
                 <li><a href="">Home</a> <i class="lnr lnr-home"></i></li>
-                <li><a href="#integrated-tech">Integrated Technologies</a></li>
+                <li><a href="#integrated-tech">Modeling Technologies</a></li>
                 <li><a href="#data-sources">Data Sources</a></li>
                 <li><a href="#solutions">Solutions</a></li>
-                <li><a href="#machine-learning">Machine Learning</a></li>
-                <li><a href="#pricing">Pricing</a></li>
-                <li><a href="#testimonials">Testimonials</a></li>
+                <li><a href="#advanced-analytics">Advanced Analytics</a></li>
                 <li><a href="#contact">Contact</a></li>
 
                 <li class="box-label">ACCOUNT</li>
 
                 {% if request.user.is_authenticated %}
-                <li><a href="{% url 'dash' %}">Dash</a></li>
+                <li><a href="{% url 'dash' %}">Dashboard</a></li>
                 <li><a href="">Log out</a></li>
                 {% else %}
                 <li><a href="{% url 'signin' %}">Sign In</a></li>
@@ -89,16 +82,15 @@
             <div class="table-cell">
                 <h3 class="box-headline letters rotate-2">
                     <span class="box-words-wrapper" style="color: aliceblue;">
-                        <b class="is-visible">DATA &nbsp;&amp;&nbsp; SCIENCE.</b>
-                        <b>&nbsp;ACCURATE &nbsp;&amp;&nbsp; RELIABLE.</b>
+                        <b class="is-visible">PRECISE &nbsp;&amp;&nbsp; RELIABLE.</b>
+                        <b>&nbsp;SOLAR &nbsp;MODELING &nbsp;PLATFORM.</b>
                     </span>
                 </h3>
-                <h1 style="color: aliceblue;">SOLAR ENERGY MODELLING</h1>
-                <h4 style="color: aliceblue;">Advanced Analytics Powered by NASA, NREL, NOAA & OpenWeather Data</h4>
+                <h1 style="color: aliceblue;">SOLAR ENERGY MODELING</h1>
+                <h4 style="color: aliceblue;">Harnessing the power of the sun with data intelligence.</h4>
                 <p style="color: aliceblue;"><span id="hero"></span><span id="cursor">|</span></p>
                 
                 <div class="mt-50">
-                  <!-- <a href="#contact" class="default-btn">Start Free Trial</a> -->
                   <a href="#features" class="default-btn btn-light">Learn More</a> &nbsp;
                   {% if request.user.is_authenticated %}
                   <a href="{% url 'dash' %}" class="default-btn">Go to Dashboard</a>
@@ -116,82 +108,27 @@
     </div>
   </header>
 
-
     <section id="integrated-tech" class="features">
       <div class="container">
         <div class="row center mb-50">
           <div class="col-md-8 col-md-offset-2 col-sm-12">
             <div class="section-title-parralax">
               <div class="process-numbers">01</div>
-              <h2>Integrated Technologies</h2>
-              <p>Our platform seamlessly combines astronomical data, real-time weather, and machine learning to transform complex information into actionable, reliable solar forecasts.</p>
+              <h2>Modeling Technologies</h2>
+              <p>Our platform combines industry-standard solar modeling with advanced analytics to deliver precise energy production estimates.</p>
             </div>
           </div>
         </div>
         <div class="row g-4">
-          <!-- Feature 1: Astronomical Data -->
+          <!-- Feature 1: NREL PVWatts -->
           <div class="col-lg-4 col-md-6">
             <div class="card h-100 border-0 shadow-sm">
               <div class="card-body text-center p-4">
                 <div class="mb-3">
-                  <svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#e3e3e3"><path d="M449.14-549q16.86 0 28.36-11.64t11.5-28.5q0-16.86-11.64-28.36t-28.5-11.5q-16.86 0-28.36 11.64t-11.5 28.5q0 16.86 11.64 28.36t28.5 11.5ZM837-80q-34 0-109-41.5T568-224q-21 8-43.47 11-22.48 3-45.53 3-112 0-190.5-78.5T210-479q0-23 3-45t11-43q-61-85-102.5-160.5T80-836q0-18 12.5-30.5T125-879q35 0 96 36.5T347-770q-16 7-30.5 15T288-736q-33-20-67.5-38T151-808q21 47 46.5 91.5T253-627q36-56 95-89t131-33q112 0 191 79t79 191q0 71-33 130t-89 95q45 30 90 56t93 47q-16-35-34.5-70T737-289q11-14 19.5-28t15.5-30q36 65 72 126t36 96q0 20-12.5 32.5T837-80ZM549.18-369q12.82 0 21.32-8.68 8.5-8.67 8.5-21.5 0-12.82-8.68-21.32-8.67-8.5-21.5-8.5-12.82 0-21.32 8.68-8.5 8.67-8.5 21.5 0 12.82 8.68 21.32 8.67 8.5 21.5 8.5ZM599-509q8 0 14-6t6-14q0-8-6-14t-14-6q-8 0-14 6t-6 14q0 8 6 14t14 6Zm-94 237q-70-56-139.5-125.5T272-507l-1 13.5-1 13.5q0 48 19.5 88t51.5 69q32 29 74.5 43t89.5 8Zm68-20q52-26 84-76t32-111.7q0-88.3-61-148.8Q567-689 478.7-689q-61.7 0-111.2 32T292-573q59.66 79.23 130.83 150.11Q494-352 573-292Zm-186-94Zm103-105Z"/></svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#e3e3e3"><path d="M80-80l80-400h640l80 400H80Zm40-740v-60h120v60H120Zm34 680h296v-110H176l-22 110Zm80-460-43-42 85-85 43 42-85 85Zm-46 290h262v-110H210l-22 110Zm292-390q-74 0-125-52.5T300-880h60q3 50 37 85t83 35q49 0 83-35t37-85h60q-4 75-55 127.5T480-700Zm0-180Zm-30 360v-120h60v120h-60Zm60 380h296l-22-110H510v110Zm0-170h262l-22-110H510v110Zm216-291-85-85 42-42 86 84-43 43Zm-6-219v-60h120v60H720Z"/></svg>
                 </div>
-                <h5 class="card-title mb-3">Astronomical Data</h5>
-                <p class="card-text mb-4">Sun position, sunrise/sunset times, solar noon, and daylight duration calculations</p>
-                <ul class="list-unstyled text-start">
-                  <li class="mb-2"><i class="fa fa-check text-success me-2"></i>Sun path tracking</li>
-                  <li class="mb-2"><i class="fa fa-check text-success me-2"></i>Seasonal variations</li>
-                  <li><i class="fa fa-check text-success me-2"></i>Azimuth & elevation angles</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          
-          <!-- Feature 2: Weather Data -->
-          <div class="col-lg-4 col-md-6">
-            <div class="card h-100 border-0 shadow-sm">
-              <div class="card-body text-center p-4">
-                <div class="mb-3">
-                  <svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#e3e3e3"><path d="M298-278q-77-20-127.5-84T120-510q0-79 37.5-140.5T240-754q45-42 82.5-64l37.5-22v99q0 25 18 42.5t43 17.5q14 0 26-6t20-17l13-16q43 24 71.5 62.5T592-572l-52 52q-2-34-16.5-64.5T486-641q-15 8-31.5 14t-33.5 6q-45 0-76-31.5T303-729q-49 45-86 99t-37 120q0 41 16.5 75.5T241-375q-1-4-1-7v-7q0-23 9.5-44.5T276-472l84-84 86 84q6 6 10.5 12.5T465-445l-46 46q-2-8-6-16t-10-14l-43-43-42 43q-8 8-13 18.5t-5 21.5q0 23 14.5 39t36.5 19l-53 53Zm62-278Zm0 0ZM258-70l-42-42 592-592 42 42-184 184h184v60H606l-30 30 70 70h204v60H706l115 115-42 42-115-115v146h-60v-206l-70-70-30 30v246h-60v-186L258-70Z"/></svg>
-                </div>
-                <h5 class="card-title mb-3">Weather Data</h5>
-                <p class="card-text mb-4">Real-time weather conditions, cloud cover analysis, temperature, and atmospheric pressure integration.</p>
-                <ul class="list-unstyled text-start">
-                  <li class="mb-2"><i class="fa fa-check text-success me-2"></i>Cloud cover forecasting</li>
-                  <li class="mb-2"><i class="fa fa-check text-success me-2"></i>Temperature adjustments</li>
-                  <li><i class="fa fa-check text-success me-2"></i>Precipitation impact analysis</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          
-          <!-- Feature 3: Irradiance Analysis -->
-          <div class="col-lg-4 col-md-6">
-            <div class="card h-100 border-0 shadow-sm">
-              <div class="card-body text-center p-4">
-                <div class="mb-3">
-                  <svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#e3e3e3"><path d="M560-32v-60q125 0 212.5-87.32T860-392h60q0 75-28.5 140.5t-77 114q-48.5 48.5-114 77T560-32Zm0-120v-60q69 0 124.5-55.5T740-392h60q0 95-72.5 167.5T560-152ZM222-49q-11.67 0-23.33-4.5Q187-58 179-66L9-236q-8-8-12.5-19.56Q-8-267.11-8-278.67q0-12.33 4.43-23.21Q.87-312.75 9-321l151-151q17-17 42.5-17t42.5 17l64 64 37-37-64-64q-17-17.31-17-42.16Q265-576 282-593l75-75q17.38-17 42.69-17T442-668l64 64 37-37-64-64q-17-17.38-17-42.69T479-790l151-151q8.86-9 19.93-13.5T673-959q12 0 23 4t20 13l170 170q8.87 8.52 12.93 19.75 4.07 11.24 4.07 23.63 0 11.62-5 23.12-5 11.5-13 19.5L734-535q-23 23-42.5 23T649-535l-64-64-37 37 64 64q17 17.38 16.5 42.69T611-413l-74 74q-17.38 17-42.69 17T452-339l-64-64-37 37 64 64q17 17 17 42.5T415-217L264-66q-8.25 8.13-19.12 12.57Q234-49 222-49Zm0-59 54-54-170-170-54 54 170 170Zm97-97 54-54-170-170-54 54 170 170Zm176-176 74-74-170-170-74 74 170 170Zm197-197 54-54-170-170-54 54 170 170Zm97-97 54-54-170-170-54 54 170 170ZM447-503Z"/></svg>
-                </div>
-                <h5 class="card-title mb-3">Irradiance Analysis</h5>
-                <p class="card-text mb-4">Global horizontal irradiance (GHI), direct normal irradiance (DNI), and diffuse horizontal irradiance (DHI) measurements.</p>
-                <ul class="list-unstyled text-start">
-                  <li class="mb-2"><i class="fa fa-check text-success me-2"></i>Real-time irradiance data</li>
-                  <li class="mb-2"><i class="fa fa-check text-success me-2"></i>Historical patterns</li>
-                  <li><i class="fa fa-check text-success me-2"></i>Spectral analysis</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          
-          <!-- Feature 4: PVWatts Forecasting -->
-          <div class="col-lg-4 col-md-6">
-            <div class="card h-100 border-0 shadow-sm">
-              <div class="card-body text-center p-4">
-                <div class="mb-3">
-                  <svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#e3e3e3"><path d="m80-80 80-400h640l80 400H80Zm40-740v-60h120v60H120Zm34 680h296v-110H176l-22 110Zm80-460-43-42 85-85 43 42-85 85Zm-46 290h262v-110H210l-22 110Zm292-390q-74 0-125-52.5T300-880h60q3 50 37 85t83 35q49 0 83-35t37-85h60q-4 75-55 127.5T480-700Zm0-180Zm-30 360v-120h60v120h-60Zm60 380h296l-22-110H510v110Zm0-170h262l-22-110H510v110Zm216-291-85-85 42-42 86 84-43 43Zm-6-219v-60h120v60H720Z"/></svg>
-                </div>
-                <h5 class="card-title mb-3">PVWatts Forecasting</h5>
-                <p class="card-text mb-4">NREL's PVWatts API for accurate energy production forecasts based on system parameters.</p>
+                <h5 class="card-title mb-3">NREL PVWatts</h5>
+                <p class="card-text mb-4">Industry-standard modeling for quick and reliable solar energy production estimates.</p>
                 <ul class="list-unstyled text-start">
                   <li class="mb-2"><i class="fa fa-check text-success me-2"></i>System capacity modeling</li>
                   <li class="mb-2"><i class="fa fa-check text-success me-2"></i>Tilt & azimuth optimization</li>
@@ -201,37 +138,91 @@
             </div>
           </div>
           
-          <!-- Feature 5: Detailed Analytics -->
+          <!-- Feature 2: PVlib Modeling -->
           <div class="col-lg-4 col-md-6">
             <div class="card h-100 border-0 shadow-sm">
               <div class="card-body text-center p-4">
                 <div class="mb-3">
-                  <svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#e3e3e3"><path d="M614-160v-83H450v-207H345v83H80v-226h265v83h105v-207h164v-83h266v226H614v-83H510v354h104v-82h266v225H614Zm60-60h146v-105H674v105ZM140-427h145v-106H140v106Zm534-207h146v-106H674v106Zm0 414v-105 105ZM285-427v-106 106Zm389-207v-106 106Z"/></svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#e3e3e3"><path d="M222-49q-11.67 0-23.33-4.5Q187-58 179-66L9-236q-8-8-12.5-19.56Q-8-267.11-8-278.67q0-12.33 4.43-23.21Q.87-312.75 9-321l151-151q17-17 42.5-17t42.5 17l64 64 37-37-64-64q-17-17.31-17-42.16Q265-576 282-593l75-75q17.38-17 42.69-17T442-668l64 64 37-37-64-64q-17-17.38-17-42.69T479-790l151-151q8.86-9 19.93-13.5T673-959q12 0 23 4t20 13l170 170q8.87 8.52 12.93 19.75 4.07 11.24 4.07 23.63 0 11.62-5 23.12-5 11.5-13 19.5L734-535q-23 23-42.5 23T649-535l-64-64-37 37 64 64q17 17.38 16.5 42.69T611-413l-74 74q-17.38 17-42.69 17T452-339l-64-64-37 37 64 64q17 17 17 42.5T415-217L264-66q-8.25 8.13-19.12 12.57Q234-49 222-49Z"/></svg>
                 </div>
-                <h5 class="card-title mb-3">Detailed Analytics</h5>
-                <p class="card-text mb-4">Comprehensive reports with financial analysis, environmental impact, and performance metrics.</p>
+                <h5 class="card-title mb-3">PVlib Modeling</h5>
+                <p class="card-text mb-4">Advanced photovoltaic system modeling for detailed performance analysis.</p>
                 <ul class="list-unstyled text-start">
-                  <li class="mb-2"><i class="fa fa-check text-success me-2"></i>Financial ROI calculations</li>
-                  <li class="mb-2"><i class="fa fa-check text-success me-2"></i>Carbon offset tracking</li>
-                  <li><i class="fa fa-check text-success me-2"></i>Performance scoring</li>
+                  <li class="mb-2"><i class="fa fa-check text-success me-2"></i>Detailed system modeling</li>
+                  <li class="mb-2"><i class="fa fa-check text-success me-2"></i>Module & inverter specs</li>
+                  <li><i class="fa fa-check text-success me-2"></i>Advanced performance metrics</li>
                 </ul>
               </div>
             </div>
           </div>
           
-          <!-- Feature 6: Machine Learning -->
+          <!-- Feature 3: NASA Climate Data -->
           <div class="col-lg-4 col-md-6">
             <div class="card h-100 border-0 shadow-sm">
               <div class="card-body text-center p-4">
                 <div class="mb-3">
-                  <svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#e3e3e3"><path d="M297-160q-8 0-15-4t-11-11l-84-150h71l42 80h90v-30h-72l-42-80H171l-63-110q-2-4-3-7.5t-1-7.5q0-2 4-15l63-110h105l42-80h72v-30h-90l-42 80h-71l84-150q4-7 11-11t15-4h118q13 0 21.5 8.5T445-770v175h-85l-30 30h115v130h-98l-39-80h-98l-30 30h108l40 80h117v215q0 13-8.5 21.5T415-160H297Zm273 0q-29 0-49.5-20.5T500-230q0-21 11-38t29-25v-374q-18-8-29-25t-11-38q0-29 20.5-49.5T570-800q29 0 49.5 20.5T640-730q0 21-11 38t-29 25v114l100-60q-3-31 18-54t52-23q29 0 49.5 20.5T840-620q0 29-20.5 49.5T770-550q-11 0-21-3t-18-8l-108 65 116 93q7-3 15-5t16-2q29 0 49.5 20.5T840-340q0 29-20.5 49.5T770-270q-35 0-55.5-27T702-356l-102-82v146q17 8 28 24.5t11 37.5q0 29-20 49.5T570-160Z"/></svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#e3e3e3"><path d="m187-551 106 45q18-36 38.5-71t43.5-67l-79-16-109 109Zm154 81 133 133q57-26 107-59t81-64q81-81 119-166t41-192q-107 3-192 41T464-658q-31 31-64 81t-59 107Zm229-96q-20-20-20-49.5t20-49.5q20-20 49.5-20t49.5 20q20 20 20 49.5T669-566q-20 20-49.5 20T570-566Zm-15 383 109-109-16-79q-32 23-67 43.5T510-289l45 106Zm326-694q9 136-34 248T705-418l-2 2-2 2 22 110q3 15-1.5 29T706-250L535-78l-85-198-170-170-198-85 172-171q11-11 25-15.5t29-1.5l110 22q1-1 2-1.5t2-1.5q99-99 211-142.5T881-877ZM149-325q35-35 85.5-35.5T320-326q35 35 34.5 85.5T319-155q-26 26-80.5 43T75-80q15-109 31.5-164t42.5-81Zm42 43q-14 15-25 47t-19 82q50-8 82-19t47-25q19-17 19.5-42.5T278-284q-19-18-44.5-17.5T191-282Z"/></svg>
                 </div>
-                <h5 class="card-title mb-3">Machine Learning</h5>
-                <p class="card-text mb-4">Advanced algorithms eg lightGBM for better modelling accuracy.</p>
+                <h5 class="card-title mb-3">NASA Climate Data</h5>
+                <p class="card-text mb-4">Long-term climate modeling and analysis for strategic solar planning.</p>
                 <ul class="list-unstyled text-start">
-                  <li class="mb-2"><i class="fa fa-check text-success me-2"></i>Pattern recognition</li>
-                  <li class="mb-2"><i class="fa fa-check text-success me-2"></i>Anomaly detection</li>
-                  <li><i class="fa fa-check text-success me-2"></i>Continuous learning</li>
+                  <li class="mb-2"><i class="fa fa-check text-success me-2"></i>Climate trend analysis</li>
+                  <li class="mb-2"><i class="fa fa-check text-success me-2"></i>Seasonal variations</li>
+                  <li><i class="fa fa-check text-success me-2"></i>Long-term projections</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Feature 4: Astronomical Calculations -->
+          <div class="col-lg-4 col-md-6">
+            <div class="card h-100 border-0 shadow-sm">
+              <div class="card-body text-center p-4">
+                <div class="mb-3">
+                  <svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#e3e3e3"><path d="M449.14-549q16.86 0 28.36-11.64t11.5-28.5q0-16.86-11.64-28.36t-28.5-11.5q-16.86 0-28.36 11.64t-11.5 28.5q0 16.86 11.64 28.36t28.5 11.5ZM837-80q-34 0-109-41.5T568-224q-21 8-43.47 11-22.48 3-45.53 3-112 0-190.5-78.5T210-479q0-23 3-45t11-43q-61-85-102.5-160.5T80-836q0-18 12.5-30.5T125-879q35 0 96 36.5T347-770q-16 7-30.5 15T288-736q-33-20-67.5-38T151-808q21 47 46.5 91.5T253-627q36-56 95-89t131-33q112 0 191 79t79 191q0 71-33 130t-89 95q45 30 90 56t93 47q-16-35-34.5-70T737-289q11-14 19.5-28t15.5-30q36 65 72 126t36 96q0 20-12.5 32.5T837-80ZM549.18-369q12.82 0 21.32-8.68 8.5-8.67 8.5-21.5 0-12.82-8.68-21.32-8.67-8.5-21.5-8.5-12.82 0-21.32 8.68-8.5 8.67-8.5 21.5 0 12.82 8.68 21.32 8.67 8.5 21.5 8.5ZM599-509q8 0 14-6t6-14q0-8-6-14t-14-6q-8 0-14 6t-6 14q0 8 6 14t14 6Zm-94 237q-70-56-139.5-125.5T272-507l-1 13.5-1 13.5q0 48 19.5 88t51.5 69q32 29 74.5 43t89.5 8Zm68-20q52-26 84-76t32-111.7q0-88.3-61-148.8Q567-689 478.7-689q-61.7 0-111.2 32T292-573q59.66 79.23 130.83 150.11Q494-352 573-292Zm-186-94Zm103-105Z"/></svg>
+                </div>
+                <h5 class="card-title mb-3">Astronomical Calculations</h5>
+                <p class="card-text mb-4">Precise sun positioning, solar geometry, and irradiance calculations.</p>
+                <ul class="list-unstyled text-start">
+                  <li class="mb-2"><i class="fa fa-check text-success me-2"></i>Sun path tracking</li>
+                  <li class="mb-2"><i class="fa fa-check text-success me-2"></i>Solar position algorithms</li>
+                  <li><i class="fa fa-check text-success me-2"></i>GHI/DNI/DHI calculations</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Feature 5: Weather Integration -->
+          <div class="col-lg-4 col-md-6">
+            <div class="card h-100 border-0 shadow-sm">
+              <div class="card-body text-center p-4">
+                <div class="mb-3">
+                  <svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#e3e3e3"><path d="M298-278q-77-20-127.5-84T120-510q0-79 37.5-140.5T240-754q45-42 82.5-64l37.5-22v99q0 25 18 42.5t43 17.5q14 0 26-6t20-17l13-16q43 24 71.5 62.5T592-572l-52 52q-2-34-16.5-64.5T486-641q-15 8-31.5 14t-33.5 6q-45 0-76-31.5T303-729q-49 45-86 99t-37 120q0 41 16.5 75.5T241-375q-1-4-1-7v-7q0-23 9.5-44.5T276-472l84-84 86 84q6 6 10.5 12.5T465-445l-46 46q-2-8-6-16t-10-14l-43-43-42 43q-8 8-13 18.5t-5 21.5q0 23 14.5 39t36.5 19l-53 53Zm62-278Zm0 0ZM258-70l-42-42 592-592 42 42-184 184h184v60H606l-30 30 70 70h204v60H706l115 115-42 42-115-115v146h-60v-206l-70-70-30 30v246h-60v-186L258-70Z"/></svg>
+                </div>
+                <h5 class="card-title mb-3">Weather Integration</h5>
+                <p class="card-text mb-4">Real-time weather data integration for accurate system performance modeling.</p>
+                <ul class="list-unstyled text-start">
+                  <li class="mb-2"><i class="fa fa-check text-success me-2"></i>Current conditions</li>
+                  <li class="mb-2"><i class="fa fa-check text-success me-2"></i>Temperature effects</li>
+                  <li><i class="fa fa-check text-success me-2"></i>Cloud cover analysis</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Feature 6: Air Quality Analysis -->
+          <div class="col-lg-4 col-md-6">
+            <div class="card h-100 border-0 shadow-sm">
+              <div class="card-body text-center p-4">
+                <div class="mb-3">
+                  <svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#e3e3e3"><path d="M480-40q-125 0-212.5-87.5T180-340v-300H480q125 0 212.5 87.5T780-340v300q0 125-87.5 212.5T480-40Zm-53-105 207-185q10-9 6-21.5T622-506l-162-16 97-133q4-5 3.5-10.5T556-676q-5-5-11.5-5t-11.5 5L327-491q-10 9-6 21.5t18 14.5l162 16-98 133q-4 5-3.5 10.5T405-285q5 5 11 5t11-5Zm53 105Zm-30-360v-120h60v120h-60Z"/></svg>
+                </div>
+                <h5 class="card-title mb-3">Air Quality Analysis</h5>
+                <p class="card-text mb-4">Comprehensive air quality data and its impact on solar performance.</p>
+                <ul class="list-unstyled text-start">
+                  <li class="mb-2"><i class="fa fa-check text-success me-2"></i>Pollution impact analysis</li>
+                  <li class="mb-2"><i class="fa fa-check text-success me-2"></i>Aerosol optical depth</li>
+                  <li><i class="fa fa-check text-success me-2"></i>Atmospheric clarity</li>
                 </ul>
               </div>
             </div>
@@ -258,17 +249,17 @@
             <div class="section-title-parralax">
               <div class="process-numbers">02</div>
               <h2>Data Sources</h2>
-              <p>Powered by multiple trusted data APIs for maximum forecast accuracy</p>
+              <p>Powered by multiple trusted data APIs for comprehensive solar modeling</p>
             </div>
           </div>
         </div>
         <div class="row">
           <div class="col-md-4 col-sm-6 col-xs-12 wow fadeInUp">
             <div class="benefits_1_single mb-50">
-              <svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#e3e3e3"><path d="M290-840q57 0 105.5 27t84.5 78q42-54 89-79.5T670-840q89 0 149.5 60.5T880-629q0 15-1.5 29.5T873-570h-62q5-15 7-29.5t2-29.5q0-66-42-108.5T670-780q-51 0-95 31.5T504-660h-49q-26-56-70-88t-95-32q-66 0-108 42.5T140-629q0 15 2 29.5t7 29.5H87q-4-15-5.5-29.5T80-629q0-90 60.5-150.5T290-840Zm-98 450h78q38 42 89.5 91.5T480-186q69-63 120-112.5t89-91.5h79q-42 49-102 108.5T521-144l-41 37-41-37q-85-78-145-137.5T192-390Zm250 60q9 0 16-5.5t10-14.5l61-181 46 68q5 6 11 9.5t14 3.5h310v-60H617l-72-106q-5-7-12-10t-15-3q-9 0-16.5 5.5T491-609l-60 181-47-69q-5-6-10.5-9.5T360-510H50v60h292l72 107q5 7 12.5 10t15.5 3Zm38-153Z"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#e3e3e3"><path d="M80-80l80-400h640l80 400H80Zm40-740v-60h120v60H120Zm34 680h296v-110H176l-22 110Zm80-460-43-42 85-85 43 42-85 85Zm-46 290h262v-110H210l-22 110Zm292-390q-74 0-125-52.5T300-880h60q3 50 37 85t83 35q49 0 83-35t37-85h60q-4 75-55 127.5T480-700Zm0-180Zm-30 360v-120h60v120h-60Zm60 380h296l-22-110H510v110Zm0-170h262l-22-110H510v110Zm216-291-85-85 42-42 86 84-43 43Zm-6-219v-60h120v60H720Z"/></svg>
               <h6 style="color: aliceblue;">NREL PVWatts</h6>
               <p>
-                National Renewable Energy Laboratory's solar performance calculator.
+                Industry-standard solar energy modeling and performance calculator.
               </p>
             </div>
           </div>
@@ -277,7 +268,7 @@
               <svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#e3e3e3"><path d="m187-551 106 45q18-36 38.5-71t43.5-67l-79-16-109 109Zm154 81 133 133q57-26 107-59t81-64q81-81 119-166t41-192q-107 3-192 41T464-658q-31 31-64 81t-59 107Zm229-96q-20-20-20-49.5t20-49.5q20-20 49.5-20t49.5 20q20 20 20 49.5T669-566q-20 20-49.5 20T570-566Zm-15 383 109-109-16-79q-32 23-67 43.5T510-289l45 106Zm326-694q9 136-34 248T705-418l-2 2-2 2 22 110q3 15-1.5 29T706-250L535-78l-85-198-170-170-198-85 172-171q11-11 25-15.5t29-1.5l110 22q1-1 2-1.5t2-1.5q99-99 211-142.5T881-877ZM149-325q35-35 85.5-35.5T320-326q35 35 34.5 85.5T319-155q-26 26-80.5 43T75-80q15-109 31.5-164t42.5-81Zm42 43q-14 15-25 47t-19 82q50-8 82-19t47-25q19-17 19.5-42.5T278-284q-19-18-44.5-17.5T191-282Z"/></svg>
               <h6 style="color: aliceblue;">NASA POWER</h6>
               <p>
-                Satellite-derived solar radiation and meteorological data.
+                Satellite-derived solar radiation and meteorological data for climate modeling.
               </p>
             </div>
           </div>
@@ -286,25 +277,25 @@
               <svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#e3e3e3"><path d="M450-770v-150h60v150h-60Zm256 106-42-42 106-107 42 43-106 106Zm64 214v-60h150v60H770ZM450-40v-150h60v150h-60ZM253-665 148-770l42-42 106 106-43 41Zm518 517L664-254l41-41 108 104-42 43ZM40-450v-60h150v60H40Zm151 302-43-42 105-105 22 20 22 21-106 106Zm289-92q-100 0-170-70t-70-170q0-100 70-170t170-70q100 0 170 70t70 170q0 100-70 170t-170 70Zm0-60q75 0 127.5-52.5T660-480q0-75-52.5-127.5T480-660q-75 0-127.5 52.5T300-480q0 75 52.5 127.5T480-300Zm0-180Z"/></svg>
               <h6 style="color: aliceblue;">OpenWeather</h6>
               <p>
-                Real-time weather conditions and short-term forecasts.
+                Real-time weather conditions and atmospheric data integration.
               </p>
             </div>
           </div>
           <div class="col-md-4 col-sm-6 col-xs-12 wow fadeInUp" data-wow-delay=".3s">
             <div class="benefits_1_single mb-50">
-              <svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#e3e3e3"><path d="M480-180q125 0 212.5-87.5T780-480v-300H480q-125 0-212.5 87.5T180-480q0 125 87.5 212.5T480-180Zm-53-105 207-185q10-9 6-21.5T622-506l-162-16 97-133q4-5 3.5-10.5T556-676q-5-5-11.5-5t-11.5 5L327-491q-10 9-6 21.5t18 14.5l162 16-98 133q-4 5-3.5 10.5T405-285q5 5 11 5t11-5Zm53 165q-67 0-126-22.5T247-205l-76 76q-5 5-10 7t-11 2q-12 0-21-9t-9-21q0-6 2-11t7-10l76-76q-40-48-62.5-107T120-480q0-150 105-255t255-105h360v360q0 150-105 255T480-120Zm0-360Z"/></svg>
-              <h6 style="color: aliceblue;">NOAA Data</h6>
+              <svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#e3e3e3"><path d="M480-180q125 0 212.5-87.5T780-480v-300H480q-125 0-212.5 87.5T180-480q0 125 87.5 212.5T480-180Zm-53-105 207-185q10-9 6-21.5T622-506l-162-16 97-133q4-5 3.5-10.5T556-676q-5-5-11.5-5t-11.5 5L327-491q-10 9-6 21.5t18 14.5l162 16-98 133q-4 5-3.5 10.5T405-285q5 5 11 5t11-5Zm53 105Zm-30-360v-120h60v120h-60Z"/></svg>
+              <h6 style="color: aliceblue;">OpenMeteo</h6>
               <p>
-                Atmospheric and environmental data from NOAA.
+                Comprehensive air quality data and atmospheric measurements.
               </p>
             </div>
           </div>
           <div class="col-md-4 col-sm-6 col-xs-12 wow fadeInUp">
             <div class="benefits_1_single mb-50">
               <svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#e3e3e3"><path d="M283-272q-40 34-83.5 30.5T124-272q-32-27-42.5-69.5T98-429l82-137q-27-21-43-52.63-16-31.64-16-68.37 0-63.53 45.24-108.76Q211.48-841 275-841t108.76 45.24Q429-750.53 429-687q0 63.53-45.24 108.76Q338.52-533 275-533q-10.8 0-21.6-1.5T233-539l-84 141q-14 23-8.82 45.11 5.17 22.1 22 36Q179-303 201.5-301.5T244-317l433-372q40-34 84-31t76 30q32 27 42.5 70T863-532l-81 137q27 21 43 52.63 16 31.64 16 68.37 0 63.52-45.54 108.76Q749.91-120 685.96-120 622-120 577.5-165.24 533-210.48 533-274t44.5-108.76Q622-428 686-428q10.73 0 20.87 1 10.13 1 20.13 4l84-140q14-23 8.82-45.11-5.17-22.1-22-36Q781-658 758.5-659.5T716-644L283-272Zm-7.84-321q38.84 0 66.34-27.66t27.5-66.5q0-38.84-27.66-66.34t-66.5-27.5q-38.84 0-66.34 27.66t-27.5 66.5q0 38.84 27.66 66.34t66.5 27.5Zm410.97 413q39.14 0 67-27.66Q781-235.32 781-274.16t-27.87-66.34q-27.86-27.5-67-27.5Q647-368 620-340.34q-27 27.66-27 66.5t27 66.34q27 27.5 66.13 27.5ZM275-687Zm412 413Z"/></svg>
-              <h6 style="color: aliceblue;">Forecasting Models</h6>
+              <h6 style="color: aliceblue;">PVlib Python</h6>
               <p>
-                Advanced SARIMA models and XGBoost algorithms for solar energy prediction.
+                Open-source photovoltaic system modeling and simulation library.
               </p>
             </div>
           </div>
@@ -330,34 +321,34 @@
         <div class="row center">
           <div class="col-md-8 col-md-offset-2 col-sm-12">
             <div class="section-title-parralax">
-              <div class="process-numbers">04</div>
+              <div class="process-numbers">03</div>
               <h2>Solutions</h2>
-              <p class="module-subtitle" style="color: aliceblue;">Tailored forecasting solutions for every scale and application</p>
+              <p class="module-subtitle" style="color: aliceblue;">Comprehensive solar modeling solutions for every application</p>
             </div>
           </div>
         </div>
         <div class="row">
           <div class="col-lg-6 right col-full right-0">
             <i class="lnr lnr-home"></i>
-            <h6>Residential Users</h6>
-            <p>Optimize your home energy usage, plan battery storage, and maximize solar self-consumption with personalized forecasts.</p>
+            <h6>Residential Modeling</h6>
+            <p>Accurate energy production estimates for home solar systems with detailed performance analysis.</p>
           </div>
           <div class="col-lg-6 left col-full left-0">
             <i class="lnr lnr-apartment"></i>
-            <h6>Commercial Buildings</h6>
-            <p>Maximize ROI on solar investments and optimize energy consumption patterns for commercial facilities.</p>
+            <h6>Commercial Systems</h6>
+            <p>Comprehensive modeling for commercial solar installations with ROI analysis and system optimization.</p>
           </div>
         </div>
         <div class="row">
           <div class="col-lg-6 right col-full right-0">
             <i class="lnr lnr-sun"></i>
-            <h6>Solar Installation Companies</h6>
-            <p>Provide accurate system performance estimates and optimize designs for maximum efficiency.</p>
+            <h6>Solar Developers</h6>
+            <p>Professional-grade modeling tools for system design, performance estimates, and client proposals.</p>
           </div>
           <div class="col-lg-6 left col-full left-0">
-            <i class="lnr lnr-apartment"></i>
-            <h6>Researchers & Analysts</h6>
-            <p>Access comprehensive solar data and advanced analytics for research and development projects.</p>
+            <i class="lnr lnr-chart-bars"></i>
+            <h6>Research & Education</h6>
+            <p>Access to comprehensive solar data and advanced modeling capabilities for academic research.</p>
           </div>
         </div>
         <div class="row mt-5">
@@ -374,15 +365,15 @@
       </div>
     </section>
 
-    <!-- Machine Learning Overview -->
-    <section id="machine-learning" class="mb-100" style="background-color: #1a1a00;">
+    <!-- Advanced Analytics -->
+    <section id="advanced-analytics" class="mb-100" style="background-color: #1a1a00;">
       <div class="container">
           <div class="row center">
             <div class="col-md-8 col-md-offset-2 col-sm-12">
               <div class="section-title-parralax">
-                <div class="process-numbers">05</div>
-                <h2>Environment-aware Modelling</h2>
-                <p class="module-subtitle" style="color: aliceblue;">Data-driven models that improve NREL's PvWatts solar simulations with environmental data.</p>
+                <div class="process-numbers">04</div>
+                <h2>Advanced Analytics</h2>
+                <p class="module-subtitle" style="color: aliceblue;">Comprehensive data analysis and modeling capabilities</p>
               </div>
             </div>
           </div>
@@ -391,17 +382,17 @@
                   <div class="card h-100 bg-secondary border-0">
                       <div class="card-body p-4">
                           <div class="text-center mb-4">
-                              <span class="lnr lnr-cloud-sync text-warning mb-3"></span>
-                              <h5 class="text-warning">Weather-Aware Modeling</h5>
+                              <i class="fa fa-sun-o text-warning mb-3" style="font-size: 48px;"></i>
+                              <h5 class="text-warning">Solar Radiation Analysis</h5>
                           </div>
-                          <p class="card-text">Our forecasting models analyze real-time weather conditions, temperature patterns, and atmospheric data to enhance standard solar simulations with current environmental factors.</p>
+                          <p class="card-text">Detailed analysis of global horizontal irradiance (GHI), direct normal irradiance (DNI), and diffuse horizontal irradiance (DHI) with comprehensive charts and reports.</p>
                           <div class="mt-4">
-                              <h6 class="text-info mb-3">Data Sources:</h6>
+                              <h6 class="text-info mb-3">Key Metrics:</h6>
                               <ul class="list-unstyled text-light small">
-                                  <li class="mb-2"><i class="fa fa-check-circle text-success me-2"></i> Live weather conditions</li>
-                                  <li class="mb-2"><i class="fa fa-check-circle text-success me-2"></i> Temperature efficiency data</li>
-                                  <li class="mb-2"><i class="fa fa-check-circle text-success me-2"></i> Cloud cover measurements</li>
-                                  <li class="mb-2"><i class="fa fa-check-circle text-success me-2"></i> Seasonal climate patterns</li>
+                                  <li class="mb-2"><i class="fa fa-check-circle text-success me-2"></i> Hourly radiation data</li>
+                                  <li class="mb-2"><i class="fa fa-check-circle text-success me-2"></i> Seasonal variations</li>
+                                  <li class="mb-2"><i class="fa fa-check-circle text-success me-2"></i> Spectral analysis</li>
+                                  <li class="mb-2"><i class="fa fa-check-circle text-success me-2"></i> Performance ratios</li>
                               </ul>
                           </div>
                       </div>
@@ -412,18 +403,17 @@
                   <div class="card h-100 bg-secondary border-0">
                       <div class="card-body p-4">
                           <div class="text-center mb-4">
-                              <span class="lnr lnr-chart-bars text-warning mb-3"></span>
-                              <h5 class="text-warning">Pattern Recognition</h5>
+                              <i class="fa fa-cloud text-warning mb-3" style="font-size: 48px;"></i>
+                              <h5 class="text-warning">Weather & Climate Integration</h5>
                           </div>
-                          <p class="card-text">We enhance standard solar simulations by identifying how local environmental conditions affect energy production, providing adjustments based on actual weather patterns.</p>
+                          <p class="card-text">Real-time weather data and NASA climate modeling integrated with solar performance analysis for accurate system modeling under various conditions.</p>
                           <div class="mt-4">
-                              <h6 class="text-info mb-3">Technical Approach:</h6>
+                              <h6 class="text-info mb-3">Data Integration:</h6>
                               <ul class="list-unstyled text-light small">
-                                  <li class="mb-2"><i class="fa fa-check-circle text-primary me-2"></i> Gradient Boosting models</li>
-                                  <li class="mb-2"><i class="fa fa-check-circle text-warning me-2"></i> Solar position calculations</li>
-                                  <li class="mb-2"><i class="fa fa-check-circle text-info me-2"></i> Weather interaction analysis</li>
-                                  <li class="mb-2"><i class="fa fa-check-circle text-success me-2"></i> Time-based patterns</li>
-
+                                  <li class="mb-2"><i class="fa fa-check-circle text-primary me-2"></i> Current weather conditions</li>
+                                  <li class="mb-2"><i class="fa fa-check-circle text-warning me-2"></i> Temperature effects</li>
+                                  <li class="mb-2"><i class="fa fa-check-circle text-info me-2"></i> Cloud cover impact</li>
+                                  <li class="mb-2"><i class="fa fa-check-circle text-success me-2"></i> Climate trends</li>
                               </ul>
                           </div>
                       </div>
@@ -434,17 +424,17 @@
                   <div class="card h-100 bg-secondary border-0">
                       <div class="card-body p-4">
                           <div class="text-center mb-4">
-                              <i class="fa fa-rocket text-warning mb-3"></i>
-                              <h5 class="text-warning">Proven Results</h5>
+                              <i class="fa fa-line-chart text-warning mb-3" style="font-size: 48px;"></i>
+                              <h5 class="text-warning">Experimental ML Enhancement</h5>
                           </div>
-                          <p class="card-text">Our approach delivers more reliable short-term forecasts compared to standard simulations alone, combining physical models with data-driven adjustments for better accuracy.</p>
+                          <p class="card-text">Advanced machine learning experiments to enhance standard PVWatts models by incorporating real-time weather data and environmental factors.</p>
                           <div class="mt-4">
-                              <h6 class="text-info mb-3">Key Benefits:</h6>
+                              <h6 class="text-info mb-3">ML Features:</h6>
                               <ul class="list-unstyled text-light small">
-                                  <li class="mb-2"><i class="fa fa-check-circle text-success me-2"></i> Improved forecast reliability</li>
-                                  <li class="mb-2"><i class="fa fa-check-circle text-warning me-2"></i>C urrent condition adjustments</li>
-                                  <li class="mb-2"><i class="fa fa-check-circle text-primary me-2"></i>Weather impact analysis</li>
-                                  <li class="mb-2"><i class="fa fa-check-circle text-info me-2"></i> Rapid processing</li>
+                                  <li class="mb-2"><i class="fa fa-check-circle text-success me-2"></i> Weather-aware corrections</li>
+                                  <li class="mb-2"><i class="fa fa-check-circle text-warning me-2"></i> Pattern recognition</li>
+                                  <li class="mb-2"><i class="fa fa-check-circle text-primary me-2"></i> Model optimization</li>
+                                  <li class="mb-2"><i class="fa fa-check-circle text-info me-2"></i> Performance validation</li>
                               </ul>
                           </div>
                       </div>
@@ -452,46 +442,52 @@
               </div>
           </div>
 
-          <!-- Performance Metrics -->
+          <!-- Dashboard Features -->
           <div class="row mt-5">
               <div class="col-12">
                   <div class="bg-dark rounded p-4">
                       <div class="row text-center">
                           <div class="col-md-3">
                               <div class="border-right border-light">
-                                  <h4 class="text-warning mb-1">15+</h4>
-                                  <small class="text-light">Environmental Factors</small>
+                                  <h4 class="text-warning mb-1">PVWatts</h4>
+                                  <small class="text-light">Basic Modeling</small>
                               </div>
                           </div>
                           <div class="col-md-3">
                               <div class="border-right border-light">
-                                  <h4 class="text-warning mb-1">95%</h4>
-                                  <small class="text-light">Pattern Consistency</small>
+                                  <h4 class="text-warning mb-1">PVlib</h4>
+                                  <small class="text-light">Advanced Modeling</small>
                               </div>
                           </div>
                           <div class="col-md-3">
                               <div class="border-right border-light">
-                                  <h4 class="text-warning mb-1">&lt;2s</h4>
-                                  <small class="text-light">Processing Time</small>
+                                  <h4 class="text-warning mb-1">NASA Climate</h4>
+                                  <small class="text-light">Long-term Analysis</small>
                               </div>
                           </div>
                           <div class="col-md-3">
-                              <h4 class="text-warning mb-1">24/7</h4>
-                              <small class="text-light">System Monitoring</small>
+                              <h4 class="text-warning mb-1">Real-time Data</h4>
+                              <small class="text-light">Weather & Air Quality</small>
                           </div>
                       </div>
                   </div>
               </div>
           </div>
 
-          <!-- Integration Section -->
+          <!-- Dashboard Access Section -->
           <div class="row mt-5">
               <div class="col-12 text-center">
                   <div class="bg-secondary rounded p-5">
                       <div class="d-flex justify-content-center gap-3 flex-wrap">
-                          <a href="{% url 'machine_learning' %}" class="default-btn text-warning">
-                              View Technical Details <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                          {% if request.user.is_authenticated %}
+                          <a href="{% url 'dash' %}" class="default-btn text-warning">
+                              Go to Dashboard <i class="fa fa-angle-double-right" aria-hidden="true"></i>
                           </a>
+                          {% else %}
+                          <a href="{% url 'signin' %}" class="default-btn text-warning">
+                              Access Dashboard <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                          </a>
+                          {% endif %}
                       </div>
                   </div>
               </div>
@@ -506,9 +502,9 @@
           <div class="col-md-8 col-md-offset-2 col-sm-12">
             <div class="row center">
               <div class="section-title-parralax">
-                <div class="process-numbers">06</div>
+                <div class="process-numbers">05</div>
                 <h2>Our Prices</h2>
-                <p class="module-subtitle" style="color: aliceblue;">Simple, transparent pricing that scales with your needs</p>
+                <p class="module-subtitle" style="color: aliceblue;">Simple, transparent pricing that scales with your modeling needs</p>
               </div>
             </div>
           </div>
@@ -517,16 +513,16 @@
         <div class="row center">
           <div class="col-md-4 col-sm-6 col-xs-12">
             <div class="pricing_plan">
-              <div class="plan_title"><h6>Starter</h6></div>
+              <div class="plan_title"><h6>Basic</h6></div>
               <div class="plan_price">
                 <i class="fa fa-usd" aria-hidden="true"></i>
                   <div class="numscroller" style="color: aliceblue;" data-slno='1' data-min='0' data-max='49' data-delay='20' data-increment="5">49</div>
               </div>
               <ul class="list">
-                <li>1 Location</li>
-                <li>Basic Forecasts</li>
+                <li>PVWatts Modeling</li>
+                <li>Basic Solar Reports</li>
                 <li>Email Support</li>
-                <li><strong>No</strong> API Access</li>
+                <li><strong>Limited</strong> API Access</li>
                 <li><strong>No</strong> Advanced Analytics</li>
               </ul>
               <a href="#contact" class="default-btn text-warning"> Get Started <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
@@ -541,11 +537,11 @@
                   <div class="numscroller" style="color: aliceblue;" data-slno='1' data-min='0' data-max='149' data-delay='15' data-increment="5">149</div>
               </div>
               <ul class="list">
-                <li style="color: aliceblue;">Up to 5 Locations</li>
-                <li style="color: aliceblue;">Advanced Forecasts</li>
+                <li style="color: aliceblue;">PVWatts + PVlib Modeling</li>
+                <li style="color: aliceblue;">Advanced Analytics</li>
                 <li style="color: aliceblue;">Priority Support</li>
                 <li style="color: aliceblue;"><strong>Full</strong> API Access</li>
-                <li style="color: aliceblue;"><strong>Basic</strong> Analytics</li>
+                <li style="color: aliceblue;">Weather Integration</li>
               </ul>
               <a href="#contact" class="default-btn" style="color: aliceblue;"> Start Free Trial <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
             </div>
@@ -559,11 +555,11 @@
                   <div class="numscroller" style="color: aliceblue;" data-slno='1' data-min='0' data-max='499' data-delay='13' data-increment="5">499</div>
               </div>
               <ul class="list">
-                <li>Unlimited Locations</li>
-                <li>Advanced Models</li>
+                <li>All Modeling Features</li>
+                <li>NASA Climate Data</li>
                 <li>24/7 Dedicated Support</li>
                 <li><strong>Full</strong> API Access</li>
-                <li><strong>Advanced</strong> Analytics</li>
+                <li><strong>Advanced</strong> ML Features</li>
               </ul>
               <a href="#contact" class="default-btn"> Contact Sales <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
             </div>
@@ -572,17 +568,15 @@
       </div>
     </section>
 
-    
-
     <!-- Testimonials -->
     <section id="testimonials" class="testimonials mb-100" style="background-color: #1a1a00;">
       <div class="container">
         <div class="row center">
           <div class="col-md-8 col-md-offset-2 col-sm-12">
             <div class="section-title-parralax">
-              <div class="process-numbers">07</div>
-              <h2>Trusted by Industry Leaders</h2>
-              <p class="module-subtitle" style="color: aliceblue;">See what our customers say about Solarize.</p>
+              <div class="process-numbers">06</div>
+              <h2>Trusted by Solar Professionals</h2>
+              <p class="module-subtitle" style="color: aliceblue;">See what our customers say about Solarize modeling platform.</p>
             </div>
           </div>
         </div>
@@ -590,7 +584,7 @@
             <div class="col-md-4">
                 <div class="card h-100 bg-secondary border-0">
                     <div class="card-body p-4">
-                        <p class="card-text">"The API integration was seamless, and the support team was incredibly helpful. Solarize has become an essential tool for our energy management platform."</p>
+                        <p class="card-text">"The combination of PVWatts and PVlib modeling gives us the flexibility we need for different project types. The dashboard analytics are incredibly detailed and accurate."</p>
                         <div class="d-flex align-items-center mt-4">
                             <div class="flex-shrink-0">
                                 <div class="bg-warning rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
@@ -599,7 +593,7 @@
                             </div>
                             <div class="flex-grow-1 ms-3">
                                 <h6 class="mb-0 text-warning">Amanda Lee</h6>
-                                <small class="text-muted">CTO at EnergyFlow Solutions</small>
+                                <small class="text-muted">Solar Designer at SunTech Solutions</small>
                             </div>
                         </div>
                     </div>
@@ -609,7 +603,7 @@
             <div class="col-md-4">
                 <div class="card h-100 bg-secondary border-0">
                     <div class="card-body p-4">
-                        <p class="card-text">"As a commercial building manager, Solarize helps us optimize our energy consumption and reduce costs. The accurate forecasts allow us to plan our energy usage around solar generation peaks."</p>
+                        <p class="card-text">"The NASA climate data integration has been game-changing for our long-term project planning. Being able to model system performance under different climate scenarios is invaluable."</p>
                         <div class="d-flex align-items-center mt-4">
                             <div class="flex-shrink-0">
                                 <div class="bg-warning rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
@@ -618,7 +612,7 @@
                             </div>
                             <div class="flex-grow-1 ms-3">
                                 <h6 class="mb-0 text-warning">Michael Rodriguez</h6>
-                                <small class="text-muted">Facility Manager at GreenTech Towers</small>
+                                <small class="text-muted">Project Manager at Renewable Futures</small>
                             </div>
                         </div>
                     </div>
@@ -628,7 +622,7 @@
             <div class="col-md-4">
                 <div class="card h-100 bg-secondary border-0">
                     <div class="card-body p-4">
-                        <p class="card-text">"The statistical models provide remarkably accurate predictions that have improved our grid management efficiency by 23%. The detailed reports are invaluable for our planning."</p>
+                        <p class="card-text">"The experimental ML features have helped us refine our models significantly. The ability to correct PVWatts outputs with real weather data has improved our accuracy by 18%."</p>
                         <div class="d-flex align-items-center mt-4">
                             <div class="flex-shrink-0">
                                 <div class="bg-warning rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
@@ -637,7 +631,7 @@
                             </div>
                             <div class="flex-grow-1 ms-3">
                                 <h6 class="mb-0 text-warning">Sarah Johnson</h6>
-                                <small class="text-muted">Operations Director at City Utilities</small>
+                                <small class="text-muted">Research Lead at Solar Analytics Lab</small>
                             </div>
                         </div>
                     </div>
@@ -652,19 +646,19 @@
       <div class="container">
         <div class="col-md-6 col-sm-12">
           <div class="row">
-            <h4>Start optimizing your solar energy</h4>
+            <h4>Start modeling your solar projects</h4>
               <p class="libre-text mt-50">
-                Join utilities, commercial buildings, and solar farms that use our forecasting platform to maximize their renewable energy investments and operational efficiency.
+                Join solar professionals, researchers, and developers who use our modeling platform to accurately estimate energy production and optimize system designs.
               </p>
 
             <a href="#contact" class="default-btn"> Get in touch <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
           </div>
         </div>
 
-        <!-- Data Sources Section -->
+        <!-- Platform Features -->
         <div class="col-md-offset-1 col-md-5 col-sm-12">
             <div class="row">
-              <p class="libre-text mt-50">The future is Solarize.</p>
+              <p class="libre-text mt-50">Advanced solar modeling made accessible.</p>
           </div>
         </div>
       </div>
@@ -678,9 +672,9 @@
               <div class="col-md-6 col-xs-12">
                   <div class="footer-widget contact-widget">
                     <span style="display: flex; align-items: center;">
-                      <svg version="1.0" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="50px" height="50px" viewBox="0 0 64 64" enable-background="new 0 0 64 64" xml:space="preserve" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <path fill-rule="evenodd" clip-rule="evenodd" fill="#394240" d="M32,14.002c-9.941,0-18,8.059-18,18s8.059,18,18,18 s18-8.059,18-18S41.941,14.002,32,14.002z M32,48.002c-8.837,0-16-7.164-16-16s7.163-16,16-16s16,7.164,16,16 S40.837,48.002,32,48.002z"></path> <path fill-rule="evenodd" clip-rule="evenodd" fill="#394240" d="M63,31H53c-0.553,0-1,0.447-1,1s0.447,1,1,1h10 c0.553,0,1-0.447,1-1S63.553,31,63,31z"></path> <path fill-rule="evenodd" clip-rule="evenodd" fill="#394240" d="M11.457,36.469l-3.863,1.035 c-0.534,0.145-0.851,0.693-0.707,1.227c0.143,0.533,0.69,0.85,1.225,0.705l3.863-1.035c0.533-0.143,0.85-0.689,0.707-1.225 C12.539,36.643,11.99,36.326,11.457,36.469z"></path> <path fill-rule="evenodd" clip-rule="evenodd" fill="#394240" d="M49.32,22c0.277,0.479,0.888,0.643,1.367,0.365l8.66-5 c0.479-0.275,0.643-0.887,0.365-1.365c-0.275-0.479-0.887-0.643-1.365-0.365l-8.66,5C49.208,20.912,49.045,21.521,49.32,22z"></path> <path fill-rule="evenodd" clip-rule="evenodd" fill="#394240" d="M17.858,46.143c-0.39-0.391-1.023-0.389-1.414,0l-2.828,2.828 c-0.391,0.391-0.39,1.025,0.001,1.414c0.39,0.391,1.022,0.391,1.413,0l2.828-2.828C18.249,47.168,18.249,46.533,17.858,46.143z"></path> <path fill-rule="evenodd" clip-rule="evenodd" fill="#394240" d="M42,14.68c0.479,0.275,1.09,0.113,1.367-0.367l5-8.66 C48.644,5.174,48.48,4.562,48,4.287c-0.478-0.277-1.088-0.113-1.365,0.365l-4.999,8.662C41.358,13.793,41.522,14.402,42,14.68z"></path> <path fill-rule="evenodd" clip-rule="evenodd" fill="#394240" d="M26.824,51.318c-0.532-0.143-1.08,0.176-1.225,0.707l-1.035,3.863 c-0.143,0.535,0.176,1.082,0.709,1.225c0.533,0.145,1.08-0.172,1.223-0.707l1.035-3.863C27.676,52.012,27.359,51.463,26.824,51.318 z"></path> <path fill-rule="evenodd" clip-rule="evenodd" fill="#394240" d="M32,12c0.554,0,1.001-0.447,1.002-1V1c0-0.553-0.447-1-1.002-1 c-0.551,0-0.998,0.447-0.999,1l0.001,10C31.002,11.553,31.449,12,32,12z"></path> <path fill-rule="evenodd" clip-rule="evenodd" fill="#394240" d="M38.402,52.025c-0.141-0.533-0.689-0.85-1.225-0.707 c-0.533,0.143-0.848,0.691-0.707,1.225l1.035,3.863c0.144,0.535,0.693,0.85,1.227,0.707s0.849-0.689,0.705-1.225L38.402,52.025z"></path> <path fill-rule="evenodd" clip-rule="evenodd" fill="#394240" d="M20.637,14.312c0.275,0.479,0.887,0.643,1.363,0.367 c0.48-0.277,0.645-0.887,0.368-1.367l-5-8.66C17.092,4.174,16.48,4.01,16,4.287c-0.477,0.275-0.641,0.887-0.365,1.365 L20.637,14.312z"></path> <path fill-rule="evenodd" clip-rule="evenodd" fill="#394240" d="M47.558,46.141c-0.388-0.389-1.022-0.389-1.414,0 c-0.391,0.391-0.388,1.025,0,1.414l2.828,2.828c0.392,0.393,1.025,0.389,1.415,0c0.391-0.391,0.391-1.021-0.001-1.414 L47.558,46.141z"></path> <path fill-rule="evenodd" clip-rule="evenodd" fill="#394240" d="M4.654,17.365l8.662,4.998c0.477,0.277,1.088,0.113,1.363-0.363 c0.277-0.48,0.115-1.09-0.364-1.367l-8.661-5C5.176,15.355,4.564,15.52,4.287,16C4.013,16.477,4.176,17.088,4.654,17.365z"></path> <path fill-rule="evenodd" clip-rule="evenodd" fill="#394240" d="M52.027,38.4l3.863,1.035c0.535,0.145,1.082-0.176,1.225-0.709 c0.144-0.533-0.172-1.08-0.707-1.223l-3.863-1.035c-0.531-0.145-1.081,0.172-1.225,0.707C51.176,37.709,51.496,38.256,52.027,38.4z "></path> <path fill-rule="evenodd" clip-rule="evenodd" fill="#394240" d="M12,32c0.001-0.555-0.445-1-0.998-1.002L1,31 c-0.552,0-1,0.445-1,1c0.001,0.551,0.448,1,1.001,1l10.001-0.002C11.553,32.998,12.001,32.551,12,32z"></path> <path fill-rule="evenodd" clip-rule="evenodd" fill="#394240" d="M52.545,27.529l3.863-1.035c0.535-0.143,0.85-0.693,0.706-1.227 c-0.142-0.531-0.688-0.848-1.224-0.705l-3.863,1.035c-0.533,0.141-0.85,0.691-0.707,1.225 C51.461,27.355,52.012,27.67,52.545,27.529z"></path> <circle fill-rule="evenodd" clip-rule="evenodd" fill="#F9EBB2" cx="32" cy="32" r="16"></circle> <path fill-rule="evenodd" clip-rule="evenodd" fill="#394240" d="M14.68,42c-0.275-0.48-0.886-0.645-1.365-0.369l-8.661,5.002 C4.176,46.91,4.01,47.52,4.287,48c0.277,0.477,0.889,0.641,1.367,0.365l8.66-5.002C14.791,43.088,14.957,42.479,14.68,42z"></path> <path fill-rule="evenodd" clip-rule="evenodd" fill="#394240" d="M46.144,17.855c0.389,0.393,1.022,0.389,1.414,0l2.828-2.828 c0.392-0.391,0.39-1.023-0.002-1.414c-0.388-0.391-1.021-0.391-1.412,0l-2.828,2.828C45.752,16.83,45.754,17.465,46.144,17.855z"></path> <path fill-rule="evenodd" clip-rule="evenodd" fill="#394240" d="M22,49.32c-0.479-0.277-1.088-0.113-1.365,0.363l-5,8.664 c-0.275,0.477-0.115,1.088,0.365,1.365c0.479,0.273,1.09,0.109,1.367-0.367l4.998-8.662C22.641,50.207,22.48,49.596,22,49.32z"></path> <path fill-rule="evenodd" clip-rule="evenodd" fill="#394240" d="M37.178,12.68c0.531,0.145,1.078-0.176,1.225-0.707l1.035-3.863 c0.143-0.535-0.176-1.084-0.709-1.225c-0.531-0.145-1.08,0.172-1.223,0.707l-1.035,3.863C36.324,11.986,36.645,12.535,37.178,12.68 z"></path> <path fill-rule="evenodd" clip-rule="evenodd" fill="#394240" d="M32,52c-0.553-0.002-0.998,0.445-1,0.998l0.002,10.004 C31.002,63.551,31.445,64,32,64c0.553,0,1-0.449,1.001-1l-0.003-10.002C32.998,52.447,32.555,52,32,52z"></path> <path fill-rule="evenodd" clip-rule="evenodd" fill="#394240" d="M25.6,11.973c0.139,0.533,0.691,0.85,1.225,0.707 c0.532-0.141,0.846-0.691,0.707-1.225l-1.035-3.863c-0.145-0.535-0.693-0.852-1.227-0.707c-0.531,0.143-0.85,0.689-0.705,1.225 L25.6,11.973z"></path> <path fill-rule="evenodd" clip-rule="evenodd" fill="#394240" d="M43.363,49.686C43.088,49.209,42.48,49.043,42,49.32 c-0.479,0.275-0.641,0.885-0.367,1.365l5.004,8.66c0.275,0.479,0.883,0.645,1.363,0.367c0.479-0.277,0.642-0.889,0.367-1.367 L43.363,49.686z"></path> <path fill-rule="evenodd" clip-rule="evenodd" fill="#394240" d="M16.443,17.855c0.387,0.395,1.023,0.391,1.414,0 c0.391-0.387,0.387-1.02,0-1.414l-2.828-2.828c-0.393-0.391-1.025-0.389-1.415,0.002c-0.39,0.389-0.392,1.021,0.001,1.412 L16.443,17.855z"></path> <path fill-rule="evenodd" clip-rule="evenodd" fill="#394240" d="M59.348,46.633l-8.663-4.998 c-0.478-0.275-1.087-0.115-1.363,0.367c-0.278,0.477-0.112,1.086,0.364,1.363l8.664,5c0.477,0.275,1.086,0.115,1.363-0.365 C59.988,47.52,59.824,46.91,59.348,46.633z"></path> <path fill-rule="evenodd" clip-rule="evenodd" fill="#394240" d="M11.974,25.598L8.11,24.562c-0.536-0.143-1.083,0.176-1.225,0.709 c-0.144,0.531,0.171,1.08,0.707,1.225l3.863,1.033c0.531,0.146,1.081-0.174,1.225-0.707C12.825,26.293,12.505,25.746,11.974,25.598 z"></path> <path fill-rule="evenodd" clip-rule="evenodd" fill="#394240" d="M32,20.002c-0.553,0-1,0.447-1,1s0.447,1,1,1 c5.522,0,10,4.477,10,10c0,0.553,0.447,1,1,1s1-0.447,1-1C44,25.375,38.627,20.002,32,20.002z"></path> </g> </g></svg> &nbsp;
+                       &nbsp;
                       <span>SOLARIZE</span></span>
-                      <p>Solarize provides accurate solar energy forecasting using advanced statistical models and real-time data from NASA, WeatherAPI, and other sources.</p>
+                      <p>Solarize provides advanced solar energy modeling using NREL PVWatts, PVlib, and NASA climate data with comprehensive analytics.</p>
                       <ul class="social-icons">
                           <li>
                               <a class="linkedin" href="#"><i class="fa fa-linkedin"></i></a>
@@ -709,12 +703,13 @@
               <!-- Start Company Links -->
               <div class="col-md-3 col-xs-12">
                   <div class="footer-widget company-links">
-                      <h4>Company</h4>
+                      <h4>Platform</h4>
         <ul class="footer-links">
-          <li><a href="#features">Technology</a></li>
+          <li><a href="#integrated-tech">Modeling Tech</a></li>
+          <li><a href="#data-sources">Data Sources</a></li>
           <li><a href="#solutions">Solutions</a></li>
+          <li><a href="#advanced-analytics">Analytics</a></li>
           <li><a href="#pricing">Pricing</a></li>
-          <li><a href="#testimonials">Testimonials</a></li>
           <li><a href="#contact">Contact</a></li>
         </ul>
                   </div>
@@ -726,7 +721,7 @@
           <div class="copyright-section">
               <div class="row">
                   <div class="col-md-6">
-                      <p>&copy; 2023 Solarize - Solar Energy Forecasting Platform</p>
+                      <p>&copy; 2023 Solarize - Solar Energy Modeling Platform</p>
                   </div><!-- .col-md-6 -->
               </div><!-- .row -->
           </div>
@@ -754,22 +749,20 @@
         smoothScroll.init();
       });
 
-      
-
-
     const hero = document.getElementById("hero");
     const cursor = document.getElementById("cursor");
 
     const text = [
-      "Model solar generation with 95% accuracy using ",
-      "astronomical data, statistical models, and machine learning"
+      "Model energy production with NREL PVWatts and PVlib,",
+      "and analyze climate patterns using NASA data"
     ];
+
 
     let line = 0;
     let char = 0;
     let deleting = false;
     let targetDeleteIndex = null;
-    let output = ""; // holds the full text so far
+    let output = "";
 
     function typeChar() {
       if (line >= text.length) return;
@@ -778,11 +771,9 @@
       let currentText = text[line];
 
       if (!deleting) {
-        // Typing forward
         hero.innerHTML = output + currentText.slice(0, char + 1);
         char++;
 
-        // Trigger backspace sequence (4% chance)
         if (Math.random() < 0.04 && char > 5 && char < currentText.length - 5) {
           targetDeleteIndex = hero.innerHTML.lastIndexOf(" ");
           if (targetDeleteIndex > 0) {
@@ -795,14 +786,12 @@
         if (char < currentText.length) {
           setTimeout(typeChar, speed);
         } else {
-          // Save finished line, move to next
           output += currentText + "<br>";
           char = 0;
           line++;
           setTimeout(typeChar, 600);
         }
       } else {
-        // Backspacing until target word boundary
         hero.innerHTML = hero.innerHTML.slice(0, -1);
 
         if (hero.innerHTML.length > targetDeleteIndex) {
@@ -814,17 +803,11 @@
       }
     }
 
-    // Blinking cursor
     setInterval(() => {
       cursor.style.opacity = cursor.style.opacity === "0" ? "1" : "0";
     }, 500);
 
-    // Start typing
     typeChar();
-
-
-</script>
-
-  </script>
+    </script>
 </body>
 </html>

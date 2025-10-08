@@ -123,10 +123,10 @@ def index_view(request):
         "locations": locations,
         "irradiance_chart": irradiance_chart,
     }
-    return render(request, "visualisation/index.html", context)
+    return render(request, "analytics/index.html", context)
 
 
-def energy_forecasts_view(request):
+def pvwatts_modelling_view(request):
     advisor = SolarAdvisor()
     reports = []
     location_idx = 0
@@ -159,19 +159,19 @@ def energy_forecasts_view(request):
 
             location_idx += 1
         
-        request.session["energy_forecasts"] = reports
-        return redirect("energy_forecasts_report")
+        request.session["pvwatts_report"] = reports
+        return redirect("pvwatts_report")
 
     context = {}
-    return render(request, "visualisation/energy_forecasts.html", context)
+    return render(request, "analytics/pvwatts_modelling.html", context)
 
 
 
-def energy_forecasts_report_view(request):
-    reports = request.session.get("energy_forecasts")
+def pvwatts_report_view(request):
+    reports = request.session.get("pvwatts_report")
 
     if not reports:
-        return redirect("energy-forecasts")
+        return redirect("pvwatts_modelling")
 
     savings_chart = None
 
@@ -188,10 +188,31 @@ def energy_forecasts_report_view(request):
         "reports": reports,
     }
 
-    return render(request, "visualisation/energy_forecast_report.html", context)
+    return render(request, "analytics/pvwatts_report.html", context)
 
+
+def pvlib_modelling_view(request):
+    context = {}
+    return render(request, "analytics/pvlib_modelling.html", context)
+
+
+def climate_modelling_view(request):
+    context = {}
+    return render(request, "analytics/climate_modelling.html", context)
+
+def astronomy_view(request):
+    context = {}
+    return render(request, "analytics/astronomy.html", context)
+
+def weather_view(request):
+    context = {}
+    return render(request, "analytics/weather.html", context)
+
+def air_quality_view(request):
+    context = {}
+    return render(request, "analytics/air_quality.html", context)
 
 def machine_learning_view(request):
     context = {}
-    return render(request, "visualisation/machine_learning.html", context)
+    return render(request, "analytics/machine_learning.html", context)
 

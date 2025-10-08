@@ -8,13 +8,14 @@ from celery import shared_task
 import pandas as pd
 import logging
 import requests
+import openmeteo_requests
 from data_factory.database.connection import DatabaseConnection
 from data_factory.database.manager import DataManager
 
 logger = logging.getLogger(__name__)
 
 
-def process_data(data):
+def process_nasa_data(data):
     coords = data["geometry"]["coordinates"]
     lon, lat, elev = coords
     all_dfs = []
@@ -78,7 +79,7 @@ def fetch_nasa_data(self):
         return None
 
     data = response.json()
-    df = process_data(data)
+    df = process_nasa_data(data)
 
     try:
         conn = DatabaseConnection()
@@ -90,7 +91,3 @@ def fetch_nasa_data(self):
     
     except Exception as e:
         logger.error(f"Failed to save to db: {e}")
-
-
-
-

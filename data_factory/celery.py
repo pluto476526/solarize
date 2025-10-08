@@ -21,6 +21,6 @@ app.conf.beat_schedule = {
     "fetch-and-save-NASA-data": {
         "task": "data_factory.tasks.fetch_nasa_data",
         "schedule": 60,
-    }
+    },
 }
 

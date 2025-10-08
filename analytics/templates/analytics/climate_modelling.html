@@ -1,0 +1,381 @@
+{% extends 'analytics/main.html' %}
+{% load static %}
+
+{% block main %}
+
+<!-- Content Start -->
+<div class="content">
+    <!-- Navbar Start -->
+    {% include 'analytics/nav.html' %}
+    <!-- Navbar End -->
+
+    <div class="container-fluid px-4">
+        <!-- Header -->
+        <div class="row mb-3">
+            <div class="col-12">
+                <h1 class="h3 text-primary"><i class="fas fa-globe-americas me-2"></i>NASA Climate Modeling</h1>
+                <p class="text-muted small">Configure parameters for NASA climate models and climate change projections</p>
+            </div>
+        </div>
+
+        <!-- Compact Form Layout -->
+        <div class="row g-3">
+            <!-- Model Configuration -->
+            <div class="col-lg-6">
+                <div class="card shadow-sm h-100 bg-secondary p-4">
+                    <div class="">
+                        <h6 class="mb-0 text-warning px-3"><i class="fas fa-cogs me-1"></i>Model Configuration</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-2">
+                            <div class="col-6">
+                                <label class="form-label small">Climate Model</label>
+                                <select class="form-select form-select-sm">
+                                    <option selected>GISS ModelE</option>
+                                    <option>GEOS</option>
+                                    <option>MERRA-2</option>
+                                    <option>CMIP6 Ensemble</option>
+                                </select>
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small">Scenario</label>
+                                <select class="form-select form-select-sm">
+                                    <option selected>SSP2-4.5</option>
+                                    <option>SSP1-2.6</option>
+                                    <option>SSP3-7.0</option>
+                                    <option>SSP5-8.5</option>
+                                    <option>Historical</option>
+                                </select>
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small">Start Year</label>
+                                <input type="number" class="form-control form-control-sm" value="2020" min="1850" max="2100">
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small">End Year</label>
+                                <input type="number" class="form-control form-control-sm" value="2100" min="1850" max="2100">
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small">Time Resolution</label>
+                                <select class="form-select form-select-sm">
+                                    <option>Monthly</option>
+                                    <option selected>Annual</option>
+                                    <option>Decadal</option>
+                                </select>
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small">Ensemble Member</label>
+                                <select class="form-select form-select-sm">
+                                    <option selected>r1i1p1f1</option>
+                                    <option>r2i1p1f1</option>
+                                    <option>r3i1p1f1</option>
+                                    <option>Multi-Model Mean</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Geographic Parameters -->
+            <div class="col-lg-6">
+                <div class="card shadow-sm h-100 bg-secondary p-4">
+                    <div class="">
+                        <h6 class="mb-0 text-warning px-3"><i class="fas fa-map me-1"></i>Geographic Parameters</h6>
+                    </div>
+                    <div class="card-body p-3">
+                        <div class="row g-2">
+                            <div class="col-6">
+                                <label class="form-label small">Region</label>
+                                <select class="form-select form-select-sm">
+                                    <option selected>Global</option>
+                                    <option>Northern Hemisphere</option>
+                                    <option>Southern Hemisphere</option>
+                                    <option>Tropics (20°S-20°N)</option>
+                                    <option>Custom Bounding Box</option>
+                                </select>
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small">Spatial Resolution</label>
+                                <select class="form-select form-select-sm">
+                                    <option>1° × 1°</option>
+                                    <option selected>2° × 2.5°</option>
+                                    <option>5° × 5°</option>
+                                </select>
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small">Min Latitude</label>
+                                <input type="number" class="form-control form-control-sm" value="-90" min="-90" max="90">
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small">Max Latitude</label>
+                                <input type="number" class="form-control form-control-sm" value="90" min="-90" max="90">
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small">Min Longitude</label>
+                                <input type="number" class="form-control form-control-sm" value="-180" min="-180" max="180">
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small">Max Longitude</label>
+                                <input type="number" class="form-control form-control-sm" value="180" min="-180" max="180">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Climate Variables -->
+            <div class="col-lg-6">
+                <div class="card shadow-sm h-100 bg-secondary p-4">
+                    <div class="">
+                        <h6 class="mb-0 text-warning px-3"><i class="fas fa-chart-line me-1"></i>Climate Variables</h6>
+                    </div>
+                    <div class="card-body p-3">
+                        <div class="row g-2">
+                            <div class="col-6">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" checked>
+                                    <label class="form-check-label small">Surface Temperature</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" checked>
+                                    <label class="form-check-label small">Precipitation</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox">
+                                    <label class="form-check-label small">Sea Level Pressure</label>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox">
+                                    <label class="form-check-label small">Relative Humidity</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox">
+                                    <label class="form-check-label small">Wind Speed</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox">
+                                    <label class="form-check-label small">Solar Radiation</label>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox">
+                                    <label class="form-check-label small">Cloud Cover</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox">
+                                    <label class="form-check-label small">Sea Ice Concentration</label>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox">
+                                    <label class="form-check-label small">CO₂ Concentration</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox">
+                                    <label class="form-check-label small">Aerosol Optical Depth</label>
+                                </div>
+                            </div>
+                            <div class="col-12 mt-2">
+                                <label class="form-label small">Output Format</label>
+                                <select class="form-select form-select-sm">
+                                    <option selected>NetCDF</option>
+                                    <option>CSV</option>
+                                    <option>JSON</option>
+                                    <option>GeoTIFF</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Simulation Parameters -->
+            <div class="col-lg-6">
+                <div class="card shadow-sm h-100 bg-secondary p-4">
+                    <div class="">
+                        <h6 class="mb-0 text-warning px-3"><i class="fas fa-sliders-h me-1"></i>Simulation Parameters</h6>
+                    </div>
+                    <div class="card-body p-3">
+                        <div class="row g-2">
+                            <div class="col-6">
+                                <label class="form-label small">Ocean Model</label>
+                                <select class="form-select form-select-sm">
+                                    <option selected>Hycom</option>
+                                    <option>MOM5</option>
+                                    <option>MITgcm</option>
+                                    <option>Slab Ocean</option>
+                                </select>
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small">Sea Ice Model</label>
+                                <select class="form-select form-select-sm">
+                                    <option selected>CICE</option>
+                                    <option>LANL</option>
+                                    <option>SIS2</option>
+                                </select>
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small">Carbon Cycle</label>
+                                <select class="form-select form-select-sm">
+                                    <option selected>Interactive</option>
+                                    <option>Prescribed CO₂</option>
+                                    <option>Off</option>
+                                </select>
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small">Aerosols</label>
+                                <select class="form-select form-select-sm">
+                                    <option selected>Interactive</option>
+                                    <option>Prescribed</option>
+                                    <option>Off</option>
+                                </select>
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small">Spin-up Years</label>
+                                <input type="number" class="form-control form-control-sm" value="100" min="0" max="1000">
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small">Output Frequency</label>
+                                <select class="form-select form-select-sm">
+                                    <option>6-hourly</option>
+                                    <option>Daily</option>
+                                    <option selected>Monthly</option>
+                                    <option>Annual</option>
+                                </select>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label small">Model Version</label>
+                                <select class="form-select form-select-sm">
+                                    <option selected>GISS-E2.1</option>
+                                    <option>GISS-E2.2</option>
+                                    <option>ModelE3</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="row mt-3">
+            <div class="col-12">
+                <div class="d-flex justify-content-end gap-2">
+                    <button type="button" class="btn btn-outline-secondary btn-sm">
+                        <i class="fas fa-redo me-1"></i>Reset Parameters
+                    </button>
+                    <button type="button" class="btn btn-primary btn-sm">
+                        <i class="fas fa-satellite me-1"></i>Run Climate Simulation
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Compact Documentation -->
+        <div class="row mt-3">
+            <div class="col-12">
+                <div class="card shadow-sm bg-secondary">
+                   <div class="text-center rounded py-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h6 class="mb-0 text-warning px-3"><i class="fas fa-book me-1"></i>NASA Climate Modeling Documentation</h6>
+                            <button class="btn btn-sm btn-outline-light" type="button" data-bs-toggle="collapse" data-bs-target="#docsCollapse">
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="collapse show" id="docsCollapse">
+                        <div class="card-body p-3">
+                            <div class="row g-3">
+                                <div class="col-md-4">
+                                    <h6 class="text-primary">Model Configuration</h6>
+                                    <ul class="small ps-3">
+                                        <li><strong>Climate Model:</strong> NASA's GISS ModelE, GEOS, or MERRA-2</li>
+                                        <li><strong>Scenario:</strong> SSP pathways representing different future emissions</li>
+                                        <li><strong>Time Period:</strong> Simulation years (historical or future projections)</li>
+                                        <li><strong>Time Resolution:</strong> Temporal granularity of output data</li>
+                                        <li><strong>Ensemble Member:</strong> Different initial conditions for uncertainty analysis</li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-4">
+                                    <h6 class="text-primary">Geographic Parameters</h6>
+                                    <ul class="small ps-3">
+                                        <li><strong>Region:</strong> Geographic domain for analysis (global or regional)</li>
+                                        <li><strong>Spatial Resolution:</strong> Grid spacing in degrees latitude/longitude</li>
+                                        <li><strong>Bounding Box:</strong> Custom geographic domain coordinates</li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-4">
+                                    <h6 class="text-primary">Climate Variables</h6>
+                                    <ul class="small ps-3">
+                                        <li><strong>Surface Temperature:</strong> Near-surface air temperature (°C)</li>
+                                        <li><strong>Precipitation:</strong> Rainfall and snowfall (mm/day)</li>
+                                        <li><strong>Sea Level Pressure:</strong> Atmospheric pressure at sea level (hPa)</li>
+                                        <li><strong>Relative Humidity:</strong> Atmospheric moisture content (%)</li>
+                                        <li><strong>Wind Speed:</strong> Near-surface wind velocity (m/s)</li>
+                                        <li><strong>Solar Radiation:</strong> Incoming shortwave radiation (W/m²)</li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-4">
+                                    <h6 class="text-primary">Simulation Parameters</h6>
+                                    <ul class="small ps-3">
+                                        <li><strong>Ocean Model:</strong> Component simulating ocean circulation and heat transport</li>
+                                        <li><strong>Sea Ice Model:</strong> Component simulating sea ice formation and melt</li>
+                                        <li><strong>Carbon Cycle:</strong> Interactive atmospheric CO₂ or prescribed concentrations</li>
+                                        <li><strong>Aerosols:</strong> Atmospheric particles affecting climate (direct/indirect effects)</li>
+                                        <li><strong>Spin-up Years:</strong> Initialization period for model equilibrium</li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-4">
+                                    <h6 class="text-primary">NASA GISS ModelE</h6>
+                                    <ul class="small ps-3">
+                                        <li><strong>Atmosphere:</strong> 3D primitive equations, 40-120 vertical layers</li>
+                                        <li><strong>Resolution:</strong> Typically 2°×2.5°, with higher resolutions available</li>
+                                        <li><strong>Physics:</strong> Radiation, clouds, convection, boundary layer, land surface</li>
+                                        <li><strong>Chemistry:</strong> Interactive aerosols and atmospheric chemistry</li>
+                                        <li><strong>Coupling:</strong> Fully coupled atmosphere-ocean-sea ice-land system</li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-4">
+                                    <h6 class="text-primary">SSP Scenarios</h6>
+                                    <ul class="small ps-3">
+                                        <li><strong>SSP1-2.6:</strong> Sustainability pathway (~2.6 W/m² radiative forcing)</li>
+                                        <li><strong>SSP2-4.5:</strong> Middle-of-the-road pathway (~4.5 W/m²)</li>
+                                        <li><strong>SSP3-7.0:</strong> Regional rivalry pathway (~7.0 W/m²)</li>
+                                        <li><strong>SSP5-8.5:</strong> Fossil-fueled development pathway (~8.5 W/m²)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="alert alert-info mt-3 p-2 small">
+                                <i class="fas fa-info-circle me-2"></i>
+                                <strong>Note:</strong> NASA's climate models are complex Earth system models that simulate physical, chemical, and biological processes. Simulation times vary based on resolution and complexity, from hours to weeks for century-scale simulations.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Start -->
+    <div class="container-fluid pt-4 px-4">
+        <div class="bg-secondary rounded-top p-4">
+            <div class="row">
+                <div class="col-12 col-sm-6 text-center text-sm-start">
+                    &copy; <a href="#">NASA Climate Modeling Portal</a>, All Rights Reserved. 
+                </div>
+                <div class="col-12 col-sm-6 text-center text-sm-end">
+                    Goddard Institute for Space Studies
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer End -->
+</div>
+
+
+{% endblock %}

@@ -121,7 +121,7 @@
 				<div class="col-md-6 wow fadeInUp">
 					<h3 class="mb-30">NREL PVWatts</h3>
 					<p class="mb-20"><strong>Source:</strong> National Renewable Energy Laboratory (NREL)</p>
-					<p class="mb-30">NREL's PVWatts Calculator is a web application that provides photovoltaic system energy production estimates based on system parameters and historical weather data.</p>
+					<p class="mb-30">NREL's PVWatts Calculator provides reliable photovoltaic system energy production estimates based on system parameters and historical weather data, using industry-standard modeling approaches.</p>
 					
 					<div class="row">
 						<div class="col-md-6">
@@ -147,7 +147,7 @@
 							<li>Direct Normal Irradiance (DNI)</li>
 							<li>Diffuse Horizontal Irradiance (DHI)</li>
 							<li>Ambient temperature</li>
-							<li>Wind speed</li>
+							<li>System performance modeling</li>
 						</ul>
 					</div>
 				</div>
@@ -168,7 +168,7 @@
 				<div class="col-md-6 wow fadeInUp" data-wow-delay=".1s">
 					<h3 class="mb-30">NASA POWER</h3>
 					<p class="mb-20"><strong>Source:</strong> NASA Prediction of Worldwide Energy Resources</p>
-					<p class="mb-30">NASA's POWER project provides solar radiation and meteorological data sets derived from satellite observations and atmospheric models.</p>
+					<p class="mb-30">NASA's POWER project provides solar radiation and meteorological data sets derived from satellite observations, supporting long-term climate modeling and analysis.</p>
 					
 					<div class="row">
 						<div class="col-md-6">
@@ -193,8 +193,8 @@
 							<li>Surface solar irradiance</li>
 							<li>Air temperature at 2m</li>
 							<li>Relative humidity</li>
-							<li>Atmospheric pressure</li>
-							<li>Wind speed at 10m & 50m</li>
+							<li>Climate trend analysis</li>
+							<li>Long-term patterns</li>
 						</ul>
 					</div>
 				</div>
@@ -209,7 +209,7 @@
 				<div class="col-md-6 wow fadeInUp">
 					<h3 class="mb-30">OpenWeather</h3>
 					<p class="mb-20"><strong>Source:</strong> OpenWeather Ltd.</p>
-					<p class="mb-30">OpenWeather provides comprehensive weather data including current conditions, forecasts, and historical data collected from thousands of weather stations and satellites.</p>
+					<p class="mb-30">OpenWeather provides current weather conditions and atmospheric data collected from thousands of weather stations and satellites for real-time environmental analysis.</p>
 					
 					<div class="row">
 						<div class="col-md-6">
@@ -232,10 +232,10 @@
 						<h5>Key Parameters:</h5>
 						<ul class="services-list">
 							<li>Current weather conditions</li>
-							<li>5-day weather forecast</li>
+							<li>Temperature and humidity</li>
 							<li>Cloud cover percentage</li>
-							<li>Precipitation probability</li>
-							<li>Visibility and atmospheric conditions</li>
+							<li>Atmospheric pressure</li>
+							<li>Wind conditions</li>
 						</ul>
 					</div>
 				</div>
@@ -246,31 +246,31 @@
 		</div>
 	</section>
 
-	<!-- NOAA DATA SECTION -->
-	<section id="noaa" class="mt-100 mb-100" style="background-color: #1a1a00; padding: 80px 0;">
+	<!-- OPENMETEO SECTION -->
+	<section id="openmeteo" class="mt-100 mb-100" style="background-color: #1a1a00; padding: 80px 0;">
 		<div class="container">
 			<div class="row">
 				<div class="col-md-6 wow fadeInUp">
-					<img src="{% static 'onboarding/img/noaa.jpg' %}" alt="NOAA Data" class="images">
+					<img src="{% static 'onboarding/img/air_quality.jpg' %}" alt="OpenMeteo Air Quality" class="images">
 				</div>
 				<div class="col-md-6 wow fadeInUp" data-wow-delay=".1s">
-					<h3 class="mb-30">NOAA Data</h3>
-					<p class="mb-20"><strong>Source:</strong> National Oceanic and Atmospheric Administration</p>
-					<p class="mb-30">NOAA provides comprehensive atmospheric and environmental data collected from ground stations, satellites, buoys, and radar systems.</p>
+					<h3 class="mb-30">OpenMeteo Air Quality</h3>
+					<p class="mb-20"><strong>Source:</strong> OpenMeteo</p>
+					<p class="mb-30">OpenMeteo provides comprehensive air quality data and atmospheric measurements to assess environmental impacts on solar system performance and atmospheric clarity.</p>
 					
 					<div class="row">
 						<div class="col-md-6">
 							<ul class="services-list">
-								<li><strong>Data Collection:</strong> Multiple sources</li>
-								<li><strong>Update Frequency:</strong> Varies by dataset</li>
-								<li><strong>Coverage:</strong> Primarily US with global data</li>
+								<li><strong>Data Collection:</strong> Multiple monitoring networks</li>
+								<li><strong>Update Frequency:</strong> Hourly</li>
+								<li><strong>Coverage:</strong> Global</li>
 							</ul>
 						</div>
 						<div class="col-md-6">
 							<ul class="services-list">
-								<li><strong>Data Types:</strong> Atmospheric, oceanic</li>
-								<li><strong>Historical Data:</strong> Decades of records</li>
-								<li><strong>Spatial Resolution:</strong> Varies by dataset</li>
+								<li><strong>Data Types:</strong> Air quality, atmospheric</li>
+								<li><strong>Historical Data:</strong> Available</li>
+								<li><strong>Spatial Resolution:</strong> Varies by region</li>
 							</ul>
 						</div>
 					</div>
@@ -278,11 +278,11 @@
 					<div class="mt-30">
 						<h5>Key Parameters:</h5>
 						<ul class="services-list">
-							<li>Atmospheric pressure data</li>
-							<li>Temperature and humidity profiles</li>
-							<li>Solar radiation measurements</li>
-							<li>Cloud cover and type analysis</li>
-							<li>Precipitation data</li>
+							<li>Particulate matter (PM2.5, PM10)</li>
+							<li>Air quality indices</li>
+							<li>Aerosol optical depth</li>
+							<li>Pollution concentration</li>
+							<li>Atmospheric transparency</li>
 						</ul>
 					</div>
 				</div>
@@ -290,51 +290,95 @@
 		</div>
 	</section>
 
+	<!-- PVLIB SECTION -->
+	<section id="pvlib" class="mt-100 mb-100">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6 wow fadeInUp">
+					<h3 class="mb-30">PVlib Modeling</h3>
+					<p class="mb-20"><strong>Source:</strong> Open-source photovoltaic modeling library</p>
+					<p class="mb-30">PVlib Python provides advanced photovoltaic system modeling capabilities with detailed component specifications and performance analysis for comprehensive system evaluation.</p>
+					
+					<div class="row">
+						<div class="col-md-6">
+							<ul class="services-list">
+								<li><strong>Model Type:</strong> System performance modeling</li>
+								<li><strong>Implementation:</strong> Python library</li>
+								<li><strong>Coverage:</strong> Global applicability</li>
+							</ul>
+						</div>
+						<div class="col-md-6">
+							<ul class="services-list">
+								<li><strong>Data Types:</strong> System specifications</li>
+								<li><strong>Model Features:</strong> Detailed component analysis</li>
+								<li><strong>Integration:</strong> Multiple data sources</li>
+							</ul>
+						</div>
+					</div>
+					
+					<div class="mt-30">
+						<h5>Key Capabilities:</h5>
+						<ul class="services-list">
+							<li>Detailed system component modeling</li>
+							<li>Module and inverter specifications</li>
+							<li>Advanced performance metrics</li>
+							<li>Loss factor analysis</li>
+							<li>System configuration optimization</li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-md-6 wow fadeInUp" data-wow-delay=".1s">
+					<img src="{% static 'onboarding/img/pvlib.jpg' %}" alt="PVlib Modeling" class="images">
+				</div>
+			</div>
+		</div>
+	</section>
+
 	<!-- DATA INTEGRATION SECTION -->
-	<section class="mb-100">
+	<section class="mb-100" style="background-color: #1a1a00; padding: 80px 0;">
 		<div class="container">
 			<div class="row center mb-50">
 				<div class="col-md-8 col-md-offset-2 col-sm-12">
 					<div class="section-title">
-						<h2 class="mb-50">Data Integration & Quality</h2>
-						<p>Our platform intelligently combines data from multiple sources to provide the most accurate solar energy forecasts.</p>
+						<h2 class="mb-50">Data Integration & Modeling</h2>
+						<p>Our platform combines data from multiple reliable sources to provide comprehensive solar energy modeling.</p>
 					</div>
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-md-3 col-sm-6 col-xs-12 wow fadeInUp">
 					<div class="mb-50">
-						<i class="lnr lnr-sync"></i>
-						<h4>Multi-Source Fusion</h4>
+						<i class="lnr lnr-database"></i>
+						<h4>Multiple Data Sources</h4>
 						<p>
-							Intelligent combination of data from all sources for maximum accuracy.
+							Integration of data from NREL, NASA, weather APIs, and air quality networks.
 						</p>
 					</div>
 				</div>
 				<div class="col-md-3 col-sm-6 col-xs-12 wow fadeInUp" data-wow-delay=".1s">
 					<div class="mb-50">
 						<i class="lnr lnr-chart-bars"></i>
-						<h4>Quality Control</h4>
+						<h4>Quality Validation</h4>
 						<p>
-							Automated validation and quality checks on all incoming data streams.
+							Systematic validation and quality checks on all data inputs.
 						</p>
 					</div>
 				</div>
 				<div class="col-md-3 col-sm-6 col-xs-12 wow fadeInUp" data-wow-delay=".2s">
 					<div class="mb-50">
-						<i class="lnr lnr-history"></i>
-						<h4>Real-time Updates</h4>
+						<i class="lnr lnr-cog"></i>
+						<h4>Model Integration</h4>
 						<p>
-							Continuous data refresh with minimal latency for current conditions.
+							Combining PVWatts and PVlib modeling approaches for comprehensive analysis.
 						</p>
 					</div>
 				</div>
 				<div class="col-md-3 col-sm-6 col-xs-12 wow fadeInUp" data-wow-delay=".3s">
 					<div class="mb-50">
-						<i class="lnr lnr-database"></i>
+						<i class="lnr lnr-history"></i>
 						<h4>Historical Analysis</h4>
 						<p>
-							Access to decades of historical data for pattern recognition.
+							Access to decades of historical data for pattern analysis and validation.
 						</p>
 					</div>
 				</div>

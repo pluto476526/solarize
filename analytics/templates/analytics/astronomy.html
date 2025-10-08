@@ -1,0 +1,978 @@
+{% extends 'analytics/main.html' %}
+{% load static %}
+
+{% block main %}
+
+<!-- Content Start -->
+<div class="content">
+    <!-- Navbar Start -->
+    {% include 'analytics/nav.html' %}
+    <!-- Navbar End -->
+
+   <!-- Astronomical Metrics Start -->
+    <div class="container-fluid pt-4 px-4">
+        <div class="row g-4">
+            <!-- Sun Altitude -->
+            <div class="col-sm-6 col-xl-3">
+                <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                    <i class="fas fa-sun fa-3x text-warning"></i>
+                    <div class="ms-3">
+                        <p class="mb-2">Sun Altitude</p>
+                        <h6 class="mb-0">42.7°</h6>
+                        <small class="text-muted">Above horizon</small>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Sun Azimuth -->
+            <div class="col-sm-6 col-xl-3">
+                <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                    <i class="fas fa-compass fa-3x text-info"></i>
+                    <div class="ms-3">
+                        <p class="mb-2">Sun Azimuth</p>
+                        <h6 class="mb-0">187.3°</h6>
+                        <small class="text-muted">From North</small>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Solar Noon -->
+            <div class="col-sm-6 col-xl-3">
+                <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                    <i class="fas fa-clock fa-3x text-primary"></i>
+                    <div class="ms-3">
+                        <p class="mb-2">Solar Noon</p>
+                        <h6 class="mb-0">12:42 PM</h6>
+                        <small class="text-muted">Local time</small>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Daylight Duration -->
+            <div class="col-sm-6 col-xl-3">
+                <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                    <i class="fas fa-calendar-day fa-3x text-success"></i>
+                    <div class="ms-3">
+                        <p class="mb-2">Daylight</p>
+                        <h6 class="mb-0">12h 54m</h6>
+                        <small class="text-muted">Sunrise to sunset</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Astronomical Metrics End -->
+
+    <!-- Current Astronomical Conditions Start -->
+    <div class="container-fluid pt-4 px-4">
+        <div class="row g-4">
+            <!-- Current Sun Position -->
+            <div class="col-sm-12 col-md-6 col-xl-3">
+                <div class="bg-secondary rounded p-4">
+                    <h6 class="mb-3 text-warning">Current Sun Position</h6>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Altitude</span>
+                        <strong>42.7°</strong>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Azimuth</span>
+                        <strong>187.3°</strong>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <span>Zenith</span>
+                        <strong>47.3°</strong>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Sunrise & Sunset Times -->
+            <div class="col-sm-12 col-md-6 col-xl-3">
+                <div class="bg-secondary rounded p-4">
+                    <h6 class="mb-3 text-info">Today's Sun Events</h6>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Sunrise</span>
+                        <strong class="text-warning">6:24 AM</strong>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Sunset</span>
+                        <strong class="text-warning">7:18 PM</strong>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <span>Day Length</span>
+                        <strong class="text-info">12h 54m</strong>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Solar Radiation -->
+            <div class="col-sm-12 col-md-6 col-xl-3">
+                <div class="bg-secondary rounded p-4">
+                    <h6 class="mb-3 text-success">Solar Radiation</h6>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>GHI</span>
+                        <span class="badge bg-success">845 W/m²</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>DNI</span>
+                        <span class="badge bg-info">782 W/m²</span>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <span>DHI</span>
+                        <span class="badge bg-primary">125 W/m²</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Calculation Status -->
+            <div class="col-sm-12 col-md-6 col-xl-3">
+                <div class="bg-secondary rounded p-4">
+                    <h6 class="mb-3 text-primary">PVLib Status</h6>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Last Calculation</span>
+                        <small>Just now</small>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Model Accuracy</span>
+                        <span class="badge bg-success">99.8%</span>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <span>Next Update</span>
+                        <small>1 min</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Current Astronomical Conditions End -->
+
+    <!-- Astronomical Charts Start -->
+    <div class="container-fluid pt-4 px-4">
+        <div class="row g-4">
+            <!-- Sun Path Diagram -->
+            <div class="col-sm-12 col-xl-6">
+                <div class="bg-secondary text-center rounded p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h6 class="mb-0">Sun Path Diagram</h6>
+                        <a href="sunpath.html">View Details</a>
+                        <div class="dropdown">
+                        <a href="#" class="" type="button" id="sunpathOptions" data-bs-toggle="dropdown" aria-expanded="false">
+                            Options
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end p-3 bg-secondary" style="min-width: 250px;">
+                            <form id="sunpathOptionsForm">
+                                <!-- Date Selection -->
+                                <div class="mb-3">
+                                    <label for="pathDate" class="form-label small fw-bold text-muted">DATE</label>
+                                    <input type="date" class="form-control form-control-sm" id="pathDate" value="2023-06-15">
+                                </div>
+                                
+                                <!-- Diagram Type -->
+                                <div class="mb-3">
+                                    <label for="diagramType" class="form-label small fw-bold text-muted">DIAGRAM TYPE</label>
+                                    <select class="form-select form-select-sm" id="diagramType">
+                                        <option selected>Polar</option>
+                                        <option value="cartesian">Cartesian</option>
+                                        <option value="3d">3D Projection</option>
+                                    </select>
+                                </div>
+                                
+                                <!-- Apply Button -->
+                                <button type="submit" class="btn btn-sm btn-primary w-100">Update Diagram</button>
+                            </form>
+                        </div>
+                    </div>
+                    </div>
+                    <div id="sunpath-chart">{{ sunpath_chart|safe }}</div>
+                </div>
+            </div>
+            
+            <!-- Solar Position Timeline -->
+            <div class="col-sm-12 col-xl-6">
+                <div class="bg-secondary text-center rounded p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h6 class="mb-0">Solar Position Timeline</h6>
+                        <a href="timeline.html">View Details</a>
+                    </div>
+                    <div id="solar-timeline-chart">{{ solar_timeline_chart|safe }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Astronomical Charts End -->
+
+    <!-- Detailed Sun Position Data Start -->
+    <div class="container-fluid pt-4 px-4">
+        <div class="bg-secondary text-center rounded p-4">
+            <div class="d-flex align-items-center justify-content-between mb-4">
+                <h6 class="mb-0">Hourly Sun Position Data</h6>
+                <a href="export.html">Export Data</a>
+            </div>
+            <div class="table-responsive">
+                <table class="table text-start align-middle table-bordered table-hover mb-0">
+                    <thead>
+                        <tr class="text-white">
+                            <th scope="col">Time</th>
+                            <th scope="col">Altitude (°)</th>
+                            <th scope="col">Azimuth (°)</th>
+                            <th scope="col">Zenith (°)</th>
+                            <th scope="col">GHI (W/m²)</th>
+                            <th scope="col">DNI (W/m²)</th>
+                            <th scope="col">DHI (W/m²)</th>
+                            <th scope="col">Air Mass</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>06:00</td>
+                            <td>2.1°</td>
+                            <td>68.5°</td>
+                            <td>87.9°</td>
+                            <td>45</td>
+                            <td>125</td>
+                            <td>35</td>
+                            <td>28.4</td>
+                        </tr>
+                        <tr>
+                            <td>07:00</td>
+                            <td>15.3°</td>
+                            <td>78.2°</td>
+                            <td>74.7°</td>
+                            <td>185</td>
+                            <td>342</td>
+                            <td>89</td>
+                            <td>3.8</td>
+                        </tr>
+                        <tr>
+                            <td>08:00</td>
+                            <td>28.7°</td>
+                            <td>89.1°</td>
+                            <td>61.3°</td>
+                            <td>425</td>
+                            <td>598</td>
+                            <td>156</td>
+                            <td>2.1</td>
+                        </tr>
+                        <tr>
+                            <td>09:00</td>
+                            <td>41.2°</td>
+                            <td>102.4°</td>
+                            <td>48.8°</td>
+                            <td>645</td>
+                            <td>745</td>
+                            <td>198</td>
+                            <td>1.5</td>
+                        </tr>
+                        <tr>
+                            <td>10:00</td>
+                            <td>52.1°</td>
+                            <td>118.7°</td>
+                            <td>37.9°</td>
+                            <td>782</td>
+                            <td>845</td>
+                            <td>215</td>
+                            <td>1.3</td>
+                        </tr>
+                        <tr>
+                            <td>11:00</td>
+                            <td>59.8°</td>
+                            <td>138.2°</td>
+                            <td>30.2°</td>
+                            <td>845</td>
+                            <td>892</td>
+                            <td>228</td>
+                            <td>1.2</td>
+                        </tr>
+                        <tr>
+                            <td>12:00</td>
+                            <td>62.4°</td>
+                            <td>180.0°</td>
+                            <td>27.6°</td>
+                            <td>892</td>
+                            <td>925</td>
+                            <td>245</td>
+                            <td>1.1</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- Detailed Sun Position Data End -->
+
+    <!-- Astronomical Widgets Start -->
+    <div class="container-fluid pt-4 px-4">
+        <div class="row g-4">
+            <!-- Solar Position Factors -->
+            <div class="col-sm-12 col-md-6 col-xl-4">
+                <div class="h-100 bg-secondary rounded p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <h6 class="mb-0">Solar Position Factors</h6>
+                        <a href="factors.html">View All</a>
+                    </div>
+                    <div class="d-flex align-items-center border-bottom py-3">
+                        <div class="rounded-circle bg-warning d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
+                            <i class="fas fa-globe-americas text-dark"></i>
+                        </div>
+                        <div class="w-100 ms-3">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-0">Earth Position</h6>
+                                <small>Aphelion</small>
+                            </div>
+                            <span>Distance: 152.1M km</span>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center border-bottom py-3">
+                        <div class="rounded-circle bg-info d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
+                            <i class="fas fa-cloud text-dark"></i>
+                        </div>
+                        <div class="w-100 ms-3">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-0">Air Mass</h6>
+                                <small>1.15</small>
+                            </div>
+                            <span>Atmospheric conditions</span>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center border-bottom py-3">
+                        <div class="rounded-circle bg-success d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
+                            <i class="fas fa-mountain text-dark"></i>
+                        </div>
+                        <div class="w-100 ms-3">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-0">Elevation</h6>
+                                <small>1,650m</small>
+                            </div>
+                            <span>Above sea level</span>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center pt-3">
+                        <div class="rounded-circle bg-primary d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
+                            <i class="fas fa-calendar-alt text-dark"></i>
+                        </div>
+                        <div class="w-100 ms-3">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-0">Day of Year</h6>
+                                <small>166</small>
+                            </div>
+                            <span>June 15th</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Sun & Moon Details -->
+            <div class="col-sm-12 col-md-6 col-xl-4">
+                <div class="h-100 bg-secondary rounded p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h6 class="mb-0">Astronomical Events</h6>
+                        <a href="astronomy.html">Details</a>
+                    </div>
+                    <div class="mb-4">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Civil Sunrise</span>
+                            <span class="text-warning">6:01 AM</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Sunrise</span>
+                            <span class="text-warning">6:24 AM</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Solar Noon</span>
+                            <span class="text-warning">12:42 PM</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-3">
+                            <span>Sunset</span>
+                            <span class="text-warning">7:18 PM</span>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Civil Twilight End</span>
+                            <span class="text-info">7:41 PM</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-3">
+                            <span>Nautical Twilight</span>
+                            <span class="text-info">8:12 PM</span>
+                        </div>
+                        
+                        <div class="progress mb-3" style="height: 20px;">
+                            <div class="progress-bar bg-warning" role="progressbar" style="width: 65%;">
+                                Day Progress: 65%
+                            </div>
+                        </div>
+                        
+                        <div class="text-center mt-3">
+                            <small class="text-muted">Equation of Time: -1m 23s</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Quick Actions & PVLib Status -->
+            <div class="col-sm-12 col-md-6 col-xl-4">
+                <div class="h-100 bg-secondary rounded p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h6 class="mb-0">Quick Actions</h6>
+                    </div>
+                    <div class="d-grid gap-2">
+                        <a href="" class="btn btn-warning mb-2">
+                            <i class="fas fa-sync-alt me-2"></i>Recalculate Positions
+                        </a>
+                        <a href="seasonal.html" class="btn btn-primary mb-2">
+                            <i class="fas fa-calendar me-2"></i>Seasonal Analysis
+                        </a>
+                        <a href="" class="btn btn-info mb-2">
+                            <i class="fas fa-download me-2"></i>Export Data
+                        </a>
+                        <a href="settings.html" class="btn btn-success mb-2">
+                            <i class="fas fa-cogs me-2"></i>PVLib Settings
+                        </a>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <h6 class="mb-3">PVLib Calculation Status</h6>
+                        <div class="mb-2">
+                            <small>Sun Position: <span class="text-success">Optimal</span></small>
+                            <div class="progress mb-1" style="height: 5px;">
+                                <div class="progress-bar bg-success" role="progressbar" style="width: 99%;"></div>
+                            </div>
+                        </div>
+                        <div class="mb-2">
+                            <small>Solar Radiation: <span class="text-success">Active</span></small>
+                            <div class="progress mb-1" style="height: 5px;">
+                                <div class="progress-bar bg-success" role="progressbar" style="width: 95%;"></div>
+                            </div>
+                        </div>
+                        <div class="mb-2">
+                            <small>Atmospheric Model: <span class="text-success">Enabled</span></small>
+                            <div class="progress mb-1" style="height: 5px;">
+                                <div class="progress-bar bg-success" role="progressbar" style="width: 92%;"></div>
+                            </div>
+                        </div>
+                        <div class="mb-2">
+                            <small>Calculation Speed: <span class="text-info">Fast</span></small>
+                            <div class="progress mb-1" style="height: 5px;">
+                                <div class="progress-bar bg-info" role="progressbar" style="width: 94%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Astronomical Widgets End -->
+
+    <!-- Seasonal Analysis Start -->
+    <div class="container-fluid pt-4 px-4">
+        <div class="row g-4">
+            <!-- Seasonal Sun Path -->
+            <div class="col-sm-12 col-xl-6">
+                <div class="bg-secondary rounded p-4">
+                    <h6 class="mb-4 text-warning">Seasonal Sun Path Variations</h6>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Season</th>
+                                    <th>Max Altitude</th>
+                                    <th>Sunrise</th>
+                                    <th>Sunset</th>
+                                    <th>Day Length</th>
+                                    <th>Solar Noon</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Summer Solstice</td>
+                                    <td>78.4°</td>
+                                    <td>5:42 AM</td>
+                                    <td>8:24 PM</td>
+                                    <td>14h 42m</td>
+                                    <td>1:03 PM</td>
+                                </tr>
+                                <tr>
+                                    <td>Spring Equinox</td>
+                                    <td>55.2°</td>
+                                    <td>6:24 AM</td>
+                                    <td>6:36 PM</td>
+                                    <td>12h 12m</td>
+                                    <td>12:30 PM</td>
+                                </tr>
+                                <tr>
+                                    <td>Winter Solstice</td>
+                                    <td>31.8°</td>
+                                    <td>7:18 AM</td>
+                                    <td>5:12 PM</td>
+                                    <td>9h 54m</td>
+                                    <td>12:15 PM</td>
+                                </tr>
+                                <tr>
+                                    <td>Autumn Equinox</td>
+                                    <td>54.9°</td>
+                                    <td>6:30 AM</td>
+                                    <td>6:42 PM</td>
+                                    <td>12h 12m</td>
+                                    <td>12:36 PM</td>
+                                </tr>
+                                <tr>
+                                    <td>Today</td>
+                                    <td>62.4°</td>
+                                    <td>6:24 AM</td>
+                                    <td>7:18 PM</td>
+                                    <td>12h 54m</td>
+                                    <td>12:42 PM</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- PVLib Parameters -->
+            <div class="col-sm-12 col-xl-6">
+                <div class="bg-secondary rounded p-4">
+                    <h6 class="mb-4 text-warning">PVLib Calculation Parameters</h6>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Parameter</th>
+                                    <th>Value</th>
+                                    <th>Unit</th>
+                                    <th>Description</th>
+                                    <th>Source</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Latitude</td>
+                                    <td>33.44</td>
+                                    <td>°</td>
+                                    <td>Location latitude</td>
+                                    <td>GPS</td>
+                                </tr>
+                                <tr>
+                                    <td>Longitude</td>
+                                    <td>-94.04</td>
+                                    <td>°</td>
+                                    <td>Location longitude</td>
+                                    <td>GPS</td>
+                                </tr>
+                                <tr>
+                                    <td>Altitude</td>
+                                    <td>120</td>
+                                    <td>m</td>
+                                    <td>Elevation above sea level</td>
+                                    <td>DEM</td>
+                                </tr>
+                                <tr>
+                                    <td>Pressure</td>
+                                    <td>1013.25</td>
+                                    <td>hPa</td>
+                                    <td>Atmospheric pressure</td>
+                                    <td>Standard</td>
+                                </tr>
+                                <tr>
+                                    <td>Temperature</td>
+                                    <td>15</td>
+                                    <td>°C</td>
+                                    <td>Air temperature</td>
+                                    <td>Weather API</td>
+                                </tr>
+                                <tr>
+                                    <td>Model</td>
+                                    <td>SPA</td>
+                                    <td>-</td>
+                                    <td>Solar Position Algorithm</td>
+                                    <td>NREL</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Seasonal Analysis End -->
+
+    <!-- PVLib Methodology Documentation -->
+    <div class="container-fluid pt-4 px-4">
+        <div class="row g-4">
+            <div class="col-12">
+                <div class="bg-secondary rounded p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h5 class="mb-0">PVLib Astronomical Calculations</h5>
+                        <button type="button" class="btn btn-sm btn-outline-light" data-bs-toggle="collapse" data-bs-target="#pvlibDocsCollapse">
+                            <i class="fas fa-book me-1"></i>Toggle Documentation
+                        </button>
+                    </div>
+                    
+                    <div class="collapse show" id="pvlibDocsCollapse">
+                        <div class="accordion" id="pvlibDocsAccordion">
+                            
+                            <!-- Solar Position Algorithms -->
+                            <div class="accordion-item bg-dark border-dark">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button bg-dark text-light" type="button" data-bs-toggle="collapse" data-bs-target="#solarPositionAlgorithms">
+                                        <i class="fas fa-calculator me-2"></i>Solar Position Algorithms
+                                    </button>
+                                </h2>
+                                <div id="solarPositionAlgorithms" class="accordion-collapse collapse show" data-bs-parent="#pvlibDocsAccordion">
+                                    <div class="accordion-body">
+                                        <div class="row g-4">
+                                            <div class="col-md-6 text-center">
+                                                <div class="border rounded p-3 bg-dark">
+                                                    <i class="fas fa-satellite fa-2x text-warning mb-3"></i>
+                                                    <h6 class="text-warning">SPA Algorithm</h6>
+                                                    <p class="text-light small mb-2">Solar Position Algorithm</p>
+                                                    <span class="badge bg-success">High Precision</span>
+                                                    <p class="text-light small mt-2">NREL's high-accuracy solar position calculator (±0.0003°)</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 text-center">
+                                                <div class="border rounded p-3 bg-dark">
+                                                    <i class="fas fa-bolt fa-2x text-info mb-3"></i>
+                                                    <h6 class="text-info">EPH Algorithm</h6>
+                                                    <p class="text-light small mb-2">Erb & Prša Algorithm</p>
+                                                    <span class="badge bg-info">Fast Calculation</span>
+                                                    <p class="text-light small mt-2">Rapid calculation with good accuracy (±0.01°)</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="alert alert-info mt-3">
+                                            <small>
+                                                <i class="fas fa-info-circle me-2"></i>
+                                                <strong>Algorithm Selection:</strong> PVLib automatically selects the optimal algorithm based on required precision and performance needs.
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Astronomical Parameters -->
+                            <div class="accordion-item bg-dark border-dark">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button bg-dark text-light collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#astronomicalParams">
+                                        <i class="fas fa-star me-2"></i>Astronomical Parameters
+                                    </button>
+                                </h2>
+                                <div id="astronomicalParams" class="accordion-collapse collapse" data-bs-parent="#pvlibDocsAccordion">
+                                    <div class="accordion-body">
+                                        <h6 class="text-warning mb-3">Key Astronomical Calculations</h6>
+                                        <div class="row g-3 mb-4">
+                                            <div class="col-md-6">
+                                                <h6 class="text-info">Position Parameters</h6>
+                                                <ul class="text-light small">
+                                                    <li><strong>Altitude:</strong> Sun's angle above horizon (0-90°)</li>
+                                                    <li><strong>Azimuth:</strong> Sun's compass direction (0-360° from North)</li>
+                                                    <li><strong>Zenith:</strong> Angle from vertical (90° - altitude)</li>
+                                                    <li><strong>Hour Angle:</strong> Sun's position relative to solar noon</li>
+                                                </ul>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h6 class="text-info">Time Parameters</h6>
+                                                <ul class="text-light small">
+                                                    <li><strong>Solar Noon:</strong> Time when sun reaches highest point</li>
+                                                    <li><strong>Sunrise/Sunset:</strong> Times when sun crosses horizon</li>
+                                                    <li><strong>Equation of Time:</strong> Difference between solar and clock time</li>
+                                                    <li><strong>Declination:</strong> Sun's latitude on celestial sphere</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                        <h6 class="text-warning mb-3">PVLib Calculation Methods</h6>
+                                        <div class="row text-center mb-4">
+                                            <div class="col-md-4">
+                                                <div class="border rounded p-2 bg-success">
+                                                    <small class="fw-bold">get_solarposition</small>
+                                                    <div class="text-light">Solar Position</div>
+                                                    <i class="fas fa-sun mt-1"></i>
+                                                </div>
+                                                <small class="text-light">Calculate sun position for given times</small>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="border rounded p-2 bg-info">
+                                                    <small class="fw-bold">sun_rise_set_transit</small>
+                                                    <div class="text-light">Sun Events</div>
+                                                    <i class="fas fa-clock mt-1"></i>
+                                                </div>
+                                                <small class="text-light">Calculate sunrise, sunset, transit</small>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="border rounded p-2 bg-warning">
+                                                    <small class="fw-bold">pyephem</small>
+                                                    <div class="text-light">Ephemeris</div>
+                                                    <i class="fas fa-satellite mt-1"></i>
+                                                </div>
+                                                <small class="text-light">High-precision astronomical calculations</small>
+                                            </div>
+                                        </div>
+
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <h6 class="text-success">Sample PVLib Code</h6>
+                                                <div class="bg-dark p-3 rounded">
+                                                    <code class="text-light small">
+import pvlib<br>
+from pvlib import solarposition<br>
+import pandas as pd<br><br>
+
+# Calculate solar position<br>
+times = pd.date_range('2023-06-15 06:00', '2023-06-15 18:00', <br>
+                      freq='1H', tz='America/Chicago')<br>
+solpos = solarposition.get_solarposition(<br>
+    times, latitude=33.44, longitude=-94.04<br>
+)<br><br>
+
+print(solpos[['apparent_zenith', 'apparent_elevation', 'azimuth']])
+                                                    </code>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h6 class="text-success">Output Data Fields</h6>
+                                                <ul class="text-light small">
+                                                    <li><strong>apparent_zenith:</strong> Zenith angle with refraction</li>
+                                                    <li><strong>apparent_elevation:</strong> Altitude with refraction</li>
+                                                    <li><strong>azimuth:</strong> Sun's compass direction</li>
+                                                    <li><strong>equation_of_time:</strong> Solar vs clock time difference</li>
+                                                    <li><strong>declination:</strong> Sun's celestial latitude</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Atmospheric Models -->
+                            <div class="accordion-item bg-dark border-dark">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button bg-dark text-light collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#atmosphericModels">
+                                        <i class="fas fa-cloud me-2"></i>Atmospheric Models & Corrections
+                                    </button>
+                                </h2>
+                                <div id="atmosphericModels" class="accordion-collapse collapse" data-bs-parent="#pvlibDocsAccordion">
+                                    <div class="accordion-body">
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <h6 class="text-warning">Atmospheric Effects</h6>
+                                                <div class="table-responsive">
+                                                    <table class="table table-sm table-dark">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Effect</th>
+                                                                <th>Correction</th>
+                                                                <th>Impact</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>Refraction</td>
+                                                                <td><span class="badge bg-success">Applied</span></td>
+                                                                <td>+0.57° at horizon</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Air Mass</td>
+                                                                <td><span class="badge bg-success">Calculated</span></td>
+                                                                <td>Path length through atmosphere</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Pressure</td>
+                                                                <td><span class="badge bg-warning">Optional</span></td>
+                                                                <td>Affects refraction</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Temperature</td>
+                                                                <td><span class="badge bg-warning">Optional</span></td>
+                                                                <td>Affects refraction</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h6 class="text-warning">Air Mass Models</h6>
+                                                <div class="text-light small">
+                                                    <div class="mb-2">
+                                                        <i class="fas fa-calculator text-warning me-2"></i>
+                                                        <strong>Kasten-Young (1989):</strong> Recommended for most applications
+                                                    </div>
+                                                    <div class="mb-2">
+                                                        <i class="fas fa-calculator text-warning me-2"></i>
+                                                        <strong>Simple Model:</strong> AM = 1/cos(zenith)
+                                                    </div>
+                                                    <div class="mb-2">
+                                                        <i class="fas fa-calculator text-warning me-2"></i>
+                                                        <strong>Kasten (1966):</strong> Older but widely used model
+                                                    </div>
+                                                    <div class="mb-2">
+                                                        <i class="fas fa-calculator text-warning me-2"></i>
+                                                        <strong>Gueymard (2003):</strong> High-precision model
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="alert alert-warning mt-3">
+                                            <small>
+                                                <i class="fas fa-exclamation-triangle me-2"></i>
+                                                <strong>Note:</strong> Atmospheric refraction makes the sun appear higher than its geometric position, especially near sunrise and sunset.
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Accuracy & Precision -->
+                            <div class="accordion-item bg-dark border-dark">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button bg-dark text-light collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#accuracyPrecision">
+                                        <i class="fas fa-bullseye me-2"></i>Accuracy & Precision
+                                    </button>
+                                </h2>
+                                <div id="accuracyPrecision" class="accordion-collapse collapse" data-bs-parent="#pvlibDocsAccordion">
+                                    <div class="accordion-body">
+                                        <div class="row g-3">
+                                            <div class="col-md-4 text-center">
+                                                <div class="border rounded p-3">
+                                                    <i class="fas fa-crosshairs fa-2x text-primary mb-2"></i>
+                                                    <h6 class="text-primary">SPA Precision</h6>
+                                                    <p class="text-light small">±0.0003° accuracy</p>
+                                                    <span class="badge bg-dark">High Precision</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 text-center">
+                                                <div class="border rounded p-3">
+                                                    <i class="fas fa-tachometer-alt fa-2x text-warning mb-2"></i>
+                                                    <h6 class="text-warning">EPH Precision</h6>
+                                                    <p class="text-light small">±0.01° accuracy</p>
+                                                    <span class="badge bg-dark">Good Precision</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 text-center">
+                                                <div class="border rounded p-3">
+                                                    <i class="fas fa-rocket fa-2x text-info mb-2"></i>
+                                                    <h6 class="text-info">Calculation Speed</h6>
+                                                    <p class="text-light small">~1ms per time point</p>
+                                                    <span class="badge bg-dark">Fast</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <h6 class="text-warning mt-4 mb-3">Comparison of Methods</h6>
+                                        <div class="table-responsive">
+                                            <table class="table table-sm table-dark">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Method</th>
+                                                        <th>Accuracy</th>
+                                                        <th>Speed</th>
+                                                        <th>Memory</th>
+                                                        <th>Use Case</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>SPA (NREL)</td>
+                                                        <td>±0.0003°</td>
+                                                        <td>Medium</td>
+                                                        <td>High</td>
+                                                        <td>High-precision applications</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>EPH (Erb & Prša)</td>
+                                                        <td>±0.01°</td>
+                                                        <td>Fast</td>
+                                                        <td>Low</td>
+                                                        <td>Real-time systems</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>PyEphem</td>
+                                                        <td>±0.001°</td>
+                                                        <td>Slow</td>
+                                                        <td>Medium</td>
+                                                        <td>Astronomical research</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Simple</td>
+                                                        <td>±0.1°</td>
+                                                        <td>Very Fast</td>
+                                                        <td>Very Low</td>
+                                                        <td>Approximate calculations</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- References & Resources -->
+                            <div class="accordion-item bg-dark border-dark">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button bg-dark text-light collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#references">
+                                        <i class="fas fa-book me-2"></i>References & Resources
+                                    </button>
+                                </h2>
+                                <div id="references" class="accordion-collapse collapse" data-bs-parent="#pvlibDocsAccordion">
+                                    <div class="accordion-body">
+                                        <h6 class="text-warning mb-3">Technical References</h6>
+                                        <div class="text-light small">
+                                            <div class="mb-2">
+                                                <strong>I. Reda, A. Andreas (2003):</strong> Solar Position Algorithm for Solar Radiation Applications
+                                            </div>
+                                            <div class="mb-2">
+                                                <strong>NREL SPA:</strong> National Renewable Energy Laboratory Solar Position Algorithm
+                                            </div>
+                                            <div class="mb-2">
+                                                <strong>PVLib Python:</strong> Holmgren, W.F., Hansen, C.W., Mikofski, M.A. (2018)
+                                            </div>
+                                            <div class="mb-2">
+                                                <strong>Astronomical Algorithms:</strong> Meeus, J. (1998) Astronomical Algorithms
+                                            </div>
+                                        </div>
+                                        
+                                        <h6 class="text-warning mt-4 mb-3">PVLib Documentation</h6>
+                                        <div class="bg-dark p-3 rounded">
+                                            <code class="text-light small">
+# Key PVLib modules for astronomical calculations:<br>
+pvlib.solarposition.get_solarposition()<br>
+pvlib.solarposition.sun_rise_set_transit_spa()<br>
+pvlib.irradiance.get_extra_radiation()<br>
+pvlib.atmosphere.get_relative_airmass()<br>
+pvlib.atmosphere.get_absolute_airmass()
+                                            </code>
+                                        </div>
+                                        
+                                        <div class="alert alert-success mt-3">
+                                            <small>
+                                                <i class="fas fa-graduation-cap me-2"></i>
+                                                <strong>Learning Resource:</strong> For detailed technical information about PVLib solar position calculations, visit the 
+                                                <a href="https://pvlib-python.readthedocs.io/" class="alert-link" target="_blank">PVLib Python Documentation</a>.
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Start -->
+    <div class="container-fluid pt-4 px-4">
+        <div class="bg-secondary rounded-top p-4">
+            <div class="row">
+                <div class="col-12 col-sm-6 text-center text-sm-start">
+                    &copy; <a href="#">Astronomical Data Dashboard</a>, All Rights Reserved. 
+                </div>
+                <div class="col-12 col-sm-6 text-center text-sm-end">
+                    Powered by PVLib Python
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer End -->
+</div>
+<!-- Content End -->
+
+{% endblock %}

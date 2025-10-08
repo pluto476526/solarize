@@ -1,0 +1,979 @@
+{% extends 'analytics/main.html' %}
+{% load static %}
+
+{% block main %}
+
+<!-- Content Start -->
+<div class="content">
+    <!-- Navbar Start -->
+    {% include 'analytics/nav.html' %}
+    <!-- Navbar End -->
+
+   <!-- Air Quality Metrics Start -->
+    <div class="container-fluid pt-4 px-4">
+        <div class="row g-4">
+            <!-- PM2.5 -->
+            <div class="col-sm-6 col-xl-3">
+                <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                    <i class="fas fa-wind fa-3x text-warning"></i>
+                    <div class="ms-3">
+                        <p class="mb-2">PM2.5</p>
+                        <h6 class="mb-0">12.3 µg/m³</h6>
+                        <small class="text-muted">Fine Particulate Matter</small>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- PM10 -->
+            <div class="col-sm-6 col-xl-3">
+                <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                    <i class="fas fa-cloud fa-3x text-info"></i>
+                    <div class="ms-3">
+                        <p class="mb-2">PM10</p>
+                        <h6 class="mb-0">23.7 µg/m³</h6>
+                        <small class="text-muted">Coarse Particulate Matter</small>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Air Quality Index -->
+            <div class="col-sm-6 col-xl-3">
+                <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                    <i class="fas fa-lungs fa-3x text-primary"></i>
+                    <div class="ms-3">
+                        <p class="mb-2">Air Quality Index</p>
+                        <h6 class="mb-0">45</h6>
+                        <small class="text-muted">Good</small>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Dominant Pollutant -->
+            <div class="col-sm-6 col-xl-3">
+                <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                    <i class="fas fa-exclamation-triangle fa-3x text-success"></i>
+                    <div class="ms-3">
+                        <p class="mb-2">Dominant Pollutant</p>
+                        <h6 class="mb-0">PM2.5</h6>
+                        <small class="text-muted">Primary concern</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Air Quality Metrics End -->
+
+    <!-- Current Air Quality Conditions Start -->
+    <div class="container-fluid pt-4 px-4">
+        <div class="row g-4">
+            <!-- Primary Pollutants -->
+            <div class="col-sm-12 col-md-6 col-xl-3">
+                <div class="bg-secondary rounded p-4">
+                    <h6 class="mb-3 text-warning">Primary Pollutants</h6>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>PM2.5</span>
+                        <strong>12.3 µg/m³</strong>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>PM10</span>
+                        <strong>23.7 µg/m³</strong>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <span>O₃</span>
+                        <strong>48.2 µg/m³</strong>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Gaseous Pollutants -->
+            <div class="col-sm-12 col-md-6 col-xl-3">
+                <div class="bg-secondary rounded p-4">
+                    <h6 class="mb-3 text-info">Gaseous Pollutants</h6>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>NO₂</span>
+                        <strong class="text-warning">18.5 µg/m³</strong>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>SO₂</span>
+                        <strong class="text-warning">3.2 µg/m³</strong>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <span>CO</span>
+                        <strong class="text-info">0.8 mg/m³</strong>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Additional Parameters -->
+            <div class="col-sm-12 col-md-6 col-xl-3">
+                <div class="bg-secondary rounded p-4">
+                    <h6 class="mb-3 text-success">Additional Parameters</h6>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>NH₃</span>
+                        <span class="badge bg-success">2.1 µg/m³</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>NO</span>
+                        <span class="badge bg-info">5.7 µg/m³</span>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <span>NOₓ</span>
+                        <span class="badge bg-primary">24.2 µg/m³</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Data Status -->
+            <div class="col-sm-12 col-md-6 col-xl-3">
+                <div class="bg-secondary rounded p-4">
+                    <h6 class="mb-3 text-primary">OpenMeteo Status</h6>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Last Update</span>
+                        <small>Just now</small>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Data Quality</span>
+                        <span class="badge bg-success">98.5%</span>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <span>Next Update</span>
+                        <small>1 hour</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Current Air Quality Conditions End -->
+
+    <!-- Air Quality Charts Start -->
+    <div class="container-fluid pt-4 px-4">
+        <div class="row g-4">
+            <!-- Pollutant Concentration Trends -->
+            <div class="col-sm-12 col-xl-6">
+                <div class="bg-secondary text-center rounded p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h6 class="mb-0">Pollutant Concentration Trends</h6>
+                        <a href="trends.html">View Details</a>
+                        <div class="dropdown">
+                        <a href="#" class="" type="button" id="pollutantOptions" data-bs-toggle="dropdown" aria-expanded="false">
+                            Options
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end p-3 bg-secondary" style="min-width: 250px;">
+                            <form id="pollutantOptionsForm">
+                                <!-- Time Range -->
+                                <div class="mb-3">
+                                    <label for="timeRange" class="form-label small fw-bold text-muted">TIME RANGE</label>
+                                    <select class="form-select form-select-sm" id="timeRange">
+                                        <option selected>24 Hours</option>
+                                        <option value="7d">7 Days</option>
+                                        <option value="30d">30 Days</option>
+                                    </select>
+                                </div>
+                                
+                                <!-- Pollutants Selection -->
+                                <div class="mb-3">
+                                    <label for="pollutantSelect" class="form-label small fw-bold text-muted">POLLUTANTS</label>
+                                    <select class="form-select form-select-sm" id="pollutantSelect">
+                                        <option selected>All Pollutants</option>
+                                        <option value="pm">Particulate Matter</option>
+                                        <option value="gases">Gaseous Pollutants</option>
+                                    </select>
+                                </div>
+                                
+                                <!-- Apply Button -->
+                                <button type="submit" class="btn btn-sm btn-primary w-100">Update Chart</button>
+                            </form>
+                        </div>
+                    </div>
+                    </div>
+                    <div id="pollutant-trend-chart">{{ pollutant_trend_chart|safe }}</div>
+                </div>
+            </div>
+            
+            <!-- Air Quality Index Timeline -->
+            <div class="col-sm-12 col-xl-6">
+                <div class="bg-secondary text-center rounded p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h6 class="mb-0">Air Quality Index Timeline</h6>
+                        <a href="aqi-timeline.html">View Details</a>
+                    </div>
+                    <div id="aqi-timeline-chart">{{ aqi_timeline_chart|safe }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Air Quality Charts End -->
+
+    <!-- Detailed Air Quality Data Start -->
+    <div class="container-fluid pt-4 px-4">
+        <div class="bg-secondary text-center rounded p-4">
+            <div class="d-flex align-items-center justify-content-between mb-4">
+                <h6 class="mb-0">Hourly Air Quality Data</h6>
+                <a href="export.html">Export Data</a>
+            </div>
+            <div class="table-responsive">
+                <table class="table text-start align-middle table-bordered table-hover mb-0">
+                    <thead>
+                        <tr class="text-white">
+                            <th scope="col">Time</th>
+                            <th scope="col">PM2.5 (µg/m³)</th>
+                            <th scope="col">PM10 (µg/m³)</th>
+                            <th scope="col">O₃ (µg/m³)</th>
+                            <th scope="col">NO₂ (µg/m³)</th>
+                            <th scope="col">SO₂ (µg/m³)</th>
+                            <th scope="col">CO (mg/m³)</th>
+                            <th scope="col">AQI</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>00:00</td>
+                            <td>15.2</td>
+                            <td>28.4</td>
+                            <td>42.1</td>
+                            <td>22.3</td>
+                            <td>4.1</td>
+                            <td>0.9</td>
+                            <td>52</td>
+                        </tr>
+                        <tr>
+                            <td>03:00</td>
+                            <td>13.8</td>
+                            <td>25.7</td>
+                            <td>38.9</td>
+                            <td>19.6</td>
+                            <td>3.8</td>
+                            <td>0.8</td>
+                            <td>48</td>
+                        </tr>
+                        <tr>
+                            <td>06:00</td>
+                            <td>14.5</td>
+                            <td>26.9</td>
+                            <td>35.2</td>
+                            <td>25.1</td>
+                            <td>4.3</td>
+                            <td>1.1</td>
+                            <td>54</td>
+                        </tr>
+                        <tr>
+                            <td>09:00</td>
+                            <td>16.8</td>
+                            <td>31.2</td>
+                            <td>45.7</td>
+                            <td>32.8</td>
+                            <td>5.2</td>
+                            <td>1.4</td>
+                            <td>58</td>
+                        </tr>
+                        <tr>
+                            <td>12:00</td>
+                            <td>18.2</td>
+                            <td>34.1</td>
+                            <td>52.3</td>
+                            <td>28.7</td>
+                            <td>4.8</td>
+                            <td>1.2</td>
+                            <td>62</td>
+                        </tr>
+                        <tr>
+                            <td>15:00</td>
+                            <td>15.7</td>
+                            <td>29.3</td>
+                            <td>48.9</td>
+                            <td>24.2</td>
+                            <td>4.0</td>
+                            <td>1.0</td>
+                            <td>55</td>
+                        </tr>
+                        <tr>
+                            <td>18:00</td>
+                            <td>13.1</td>
+                            <td>24.5</td>
+                            <td>41.5</td>
+                            <td>20.8</td>
+                            <td>3.5</td>
+                            <td>0.8</td>
+                            <td>49</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- Detailed Air Quality Data End -->
+
+    <!-- Air Quality Widgets Start -->
+    <div class="container-fluid pt-4 px-4">
+        <div class="row g-4">
+            <!-- Health Impact Factors -->
+            <div class="col-sm-12 col-md-6 col-xl-4">
+                <div class="h-100 bg-secondary rounded p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <h6 class="mb-0">Health Impact Factors</h6>
+                        <a href="health-impacts.html">View All</a>
+                    </div>
+                    <div class="d-flex align-items-center border-bottom py-3">
+                        <div class="rounded-circle bg-warning d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
+                            <i class="fas fa-lungs text-dark"></i>
+                        </div>
+                        <div class="w-100 ms-3">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-0">Respiratory Risk</h6>
+                                <small>Low</small>
+                            </div>
+                            <span>PM2.5: 12.3 µg/m³</span>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center border-bottom py-3">
+                        <div class="rounded-circle bg-info d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
+                            <i class="fas fa-heart text-dark"></i>
+                        </div>
+                        <div class="w-100 ms-3">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-0">Cardiovascular</h6>
+                                <small>Moderate</small>
+                            </div>
+                            <span>Ozone levels elevated</span>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center border-bottom py-3">
+                        <div class="rounded-circle bg-success d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
+                            <i class="fas fa-brain text-dark"></i>
+                        </div>
+                        <div class="w-100 ms-3">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-0">Cognitive Impact</h6>
+                                <small>Minimal</small>
+                            </div>
+                            <span>Good air quality</span>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center pt-3">
+                        <div class="rounded-circle bg-primary d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
+                            <i class="fas fa-child text-dark"></i>
+                        </div>
+                        <div class="w-100 ms-3">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-0">Sensitive Groups</h6>
+                                <small>Caution</small>
+                            </div>
+                            <span>Limit prolonged exertion</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Pollutant Sources & Details -->
+            <div class="col-sm-12 col-md-6 col-xl-4">
+                <div class="h-100 bg-secondary rounded p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h6 class="mb-0">Pollutant Sources & Details</h6>
+                        <a href="sources.html">Details</a>
+                    </div>
+                    <div class="mb-4">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Traffic Contribution</span>
+                            <span class="text-warning">45%</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Industrial Sources</span>
+                            <span class="text-warning">25%</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Natural Sources</span>
+                            <span class="text-warning">15%</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-3">
+                            <span>Other Sources</span>
+                            <span class="text-warning">15%</span>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Wind Speed</span>
+                            <span class="text-info">3.2 m/s</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-3">
+                            <span>Dispersion</span>
+                            <span class="text-info">Good</span>
+                        </div>
+                        
+                        <div class="progress mb-3" style="height: 20px;">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: 75%;">
+                                Air Quality: Good (75%)
+                            </div>
+                        </div>
+                        
+                        <div class="text-center mt-3">
+                            <small class="text-muted">Last rainfall: 2 days ago</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Quick Actions & OpenMeteo Status -->
+            <div class="col-sm-12 col-md-6 col-xl-4">
+                <div class="h-100 bg-secondary rounded p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h6 class="mb-0">Quick Actions</h6>
+                    </div>
+                    <div class="d-grid gap-2">
+                        <a href="" class="btn btn-warning mb-2">
+                            <i class="fas fa-sync-alt me-2"></i>Refresh Data
+                        </a>
+                        <a href="forecast.html" class="btn btn-primary mb-2">
+                            <i class="fas fa-chart-line me-2"></i>Air Quality Forecast
+                        </a>
+                        <a href="" class="btn btn-info mb-2">
+                            <i class="fas fa-download me-2"></i>Export Data
+                        </a>
+                        <a href="settings.html" class="btn btn-success mb-2">
+                            <i class="fas fa-cogs me-2"></i>API Settings
+                        </a>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <h6 class="mb-3">OpenMeteo Data Status</h6>
+                        <div class="mb-2">
+                            <small>PM2.5/PM10: <span class="text-success">Active</span></small>
+                            <div class="progress mb-1" style="height: 5px;">
+                                <div class="progress-bar bg-success" role="progressbar" style="width: 95%;"></div>
+                            </div>
+                        </div>
+                        <div class="mb-2">
+                            <small>Gaseous Pollutants: <span class="text-success">Active</span></small>
+                            <div class="progress mb-1" style="height: 5px;">
+                                <div class="progress-bar bg-success" role="progressbar" style="width: 92%;"></div>
+                            </div>
+                        </div>
+                        <div class="mb-2">
+                            <small>Data Latency: <span class="text-success">Low</span></small>
+                            <div class="progress mb-1" style="height: 5px;">
+                                <div class="progress-bar bg-success" role="progressbar" style="width: 88%;"></div>
+                            </div>
+                        </div>
+                        <div class="mb-2">
+                            <small>API Response: <span class="text-info">Fast</span></small>
+                            <div class="progress mb-1" style="height: 5px;">
+                                <div class="progress-bar bg-info" role="progressbar" style="width: 94%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Air Quality Widgets End -->
+
+    <!-- Historical Analysis Start -->
+    <div class="container-fluid pt-4 px-4">
+        <div class="row g-4">
+            <!-- Weekly Pollutant Trends -->
+            <div class="col-sm-12 col-xl-6">
+                <div class="bg-secondary rounded p-4">
+                    <h6 class="mb-4 text-warning">Weekly Pollutant Trends</h6>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Day</th>
+                                    <th>PM2.5</th>
+                                    <th>PM10</th>
+                                    <th>O₃</th>
+                                    <th>NO₂</th>
+                                    <th>AQI</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Monday</td>
+                                    <td>15.2</td>
+                                    <td>28.4</td>
+                                    <td>48.2</td>
+                                    <td>22.3</td>
+                                    <td>52</td>
+                                </tr>
+                                <tr>
+                                    <td>Tuesday</td>
+                                    <td>14.8</td>
+                                    <td>27.1</td>
+                                    <td>45.7</td>
+                                    <td>20.8</td>
+                                    <td>49</td>
+                                </tr>
+                                <tr>
+                                    <td>Wednesday</td>
+                                    <td>16.3</td>
+                                    <td>30.2</td>
+                                    <td>51.3</td>
+                                    <td>25.6</td>
+                                    <td>56</td>
+                                </tr>
+                                <tr>
+                                    <td>Thursday</td>
+                                    <td>18.7</td>
+                                    <td>34.8</td>
+                                    <td>54.1</td>
+                                    <td>29.3</td>
+                                    <td>63</td>
+                                </tr>
+                                <tr>
+                                    <td>Today</td>
+                                    <td>12.3</td>
+                                    <td>23.7</td>
+                                    <td>48.2</td>
+                                    <td>18.5</td>
+                                    <td>45</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- OpenMeteo API Parameters -->
+            <div class="col-sm-12 col-xl-6">
+                <div class="bg-secondary rounded p-4">
+                    <h6 class="mb-4 text-warning">OpenMeteo API Parameters</h6>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Parameter</th>
+                                    <th>Value</th>
+                                    <th>Unit</th>
+                                    <th>Description</th>
+                                    <th>Source</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Latitude</td>
+                                    <td>33.44</td>
+                                    <td>°</td>
+                                    <td>Location latitude</td>
+                                    <td>GPS</td>
+                                </tr>
+                                <tr>
+                                    <td>Longitude</td>
+                                    <td>-94.04</td>
+                                    <td>°</td>
+                                    <td>Location longitude</td>
+                                    <td>GPS</td>
+                                </tr>
+                                <tr>
+                                    <td>Elevation</td>
+                                    <td>120</td>
+                                    <td>m</td>
+                                    <td>Location elevation</td>
+                                    <td>DEM</td>
+                                </tr>
+                                <tr>
+                                    <td>Timezone</td>
+                                    <td>auto</td>
+                                    <td>-</td>
+                                    <td>Automatic timezone</td>
+                                    <td>OpenMeteo</td>
+                                </tr>
+                                <tr>
+                                    <td>Models</td>
+                                    <td>CAMS</td>
+                                    <td>-</td>
+                                    <td>Air quality model</td>
+                                    <td>ECMWF</td>
+                                </tr>
+                                <tr>
+                                    <td>Update Frequency</td>
+                                    <td>Hourly</td>
+                                    <td>-</td>
+                                    <td>Data refresh rate</td>
+                                    <td>OpenMeteo</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Historical Analysis End -->
+
+    <!-- OpenMeteo Methodology Documentation -->
+    <div class="container-fluid pt-4 px-4">
+        <div class="row g-4">
+            <div class="col-12">
+                <div class="bg-secondary rounded p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h5 class="mb-0">OpenMeteo Air Quality Data</h5>
+                        <button type="button" class="btn btn-sm btn-outline-light" data-bs-toggle="collapse" data-bs-target="#openmeteoDocsCollapse">
+                            <i class="fas fa-book me-1"></i>Toggle Documentation
+                        </button>
+                    </div>
+                    
+                    <div class="collapse show" id="openmeteoDocsCollapse">
+                        <div class="accordion" id="openmeteoDocsAccordion">
+                            
+                            <!-- Air Quality Parameters -->
+                            <div class="accordion-item bg-dark border-dark">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button bg-dark text-light" type="button" data-bs-toggle="collapse" data-bs-target="#airQualityParameters">
+                                        <i class="fas fa-wind me-2"></i>Air Quality Parameters & Health Impacts
+                                    </button>
+                                </h2>
+                                <div id="airQualityParameters" class="accordion-collapse collapse show" data-bs-parent="#openmeteoDocsAccordion">
+                                    <div class="accordion-body">
+                                        <div class="row g-4">
+                                            <div class="col-md-6 text-center">
+                                                <div class="border rounded p-3 bg-dark">
+                                                    <i class="fas fa-lungs fa-2x text-warning mb-3"></i>
+                                                    <h6 class="text-warning">Particulate Matter</h6>
+                                                    <p class="text-light small mb-2">PM2.5 & PM10</p>
+                                                    <span class="badge bg-danger">Health Risk</span>
+                                                    <p class="text-light small mt-2">Fine particles that penetrate deep into lungs and bloodstream</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 text-center">
+                                                <div class="border rounded p-3 bg-dark">
+                                                    <i class="fas fa-cloud fa-2x text-info mb-3"></i>
+                                                    <h6 class="text-info">Gaseous Pollutants</h6>
+                                                    <p class="text-light small mb-2">O₃, NO₂, SO₂, CO</p>
+                                                    <span class="badge bg-warning">Respiratory Impact</span>
+                                                    <p class="text-light small mt-2">Gases that cause respiratory irritation and health effects</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="alert alert-info mt-3">
+                                            <small>
+                                                <i class="fas fa-info-circle me-2"></i>
+                                                <strong>Health Advisory:</strong> PM2.5 levels above 12 µg/m³ may affect sensitive groups. Ozone levels above 50 µg/m³ can cause breathing issues.
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Pollutant Details -->
+                            <div class="accordion-item bg-dark border-dark">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button bg-dark text-light collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#pollutantDetails">
+                                        <i class="fas fa-exclamation-triangle me-2"></i>Pollutant Details & Sources
+                                    </button>
+                                </h2>
+                                <div id="pollutantDetails" class="accordion-collapse collapse" data-bs-parent="#openmeteoDocsAccordion">
+                                    <div class="accordion-body">
+                                        <h6 class="text-warning mb-3">Detailed Pollutant Information</h6>
+                                        <div class="row g-3 mb-4">
+                                            <div class="col-md-6">
+                                                <h6 class="text-info">Particulate Matter</h6>
+                                                <ul class="text-light small">
+                                                    <li><strong>PM2.5:</strong> Fine particles ≤2.5µm - from combustion, industrial processes</li>
+                                                    <li><strong>PM10:</strong> Coarse particles ≤10µm - from dust, pollen, construction</li>
+                                                    <li><strong>Health Effects:</strong> Respiratory and cardiovascular diseases</li>
+                                                    <li><strong>Standards:</strong> WHO recommends PM2.5 &lt; 10 µg/m³ annual mean</li>
+                                                </ul>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h6 class="text-info">Gaseous Pollutants</h6>
+                                                <ul class="text-light small">
+                                                    <li><strong>O₃ (Ozone):</strong> Ground-level ozone from chemical reactions</li>
+                                                    <li><strong>NO₂ (Nitrogen Dioxide):</strong> From vehicle emissions, power plants</li>
+                                                    <li><strong>SO₂ (Sulfur Dioxide):</strong> From burning fossil fuels</li>
+                                                    <li><strong>CO (Carbon Monoxide):</strong> From incomplete combustion</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                        <h6 class="text-warning mb-3">Pollutant Sources & Characteristics</h6>
+                                        <div class="row text-center mb-4">
+                                            <div class="col-md-4">
+                                                <div class="border rounded p-2 bg-success">
+                                                    <small class="fw-bold">Transportation</small>
+                                                    <div class="text-light">NO₂, PM, CO</div>
+                                                    <i class="fas fa-car mt-1"></i>
+                                                </div>
+                                                <small class="text-light">Vehicle emissions, traffic</small>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="border rounded p-2 bg-info">
+                                                    <small class="fw-bold">Industry</small>
+                                                    <div class="text-light">SO₂, PM, NOₓ</div>
+                                                    <i class="fas fa-industry mt-1"></i>
+                                                </div>
+                                                <small class="text-light">Manufacturing, power plants</small>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="border rounded p-2 bg-warning">
+                                                    <small class="fw-bold">Natural</small>
+                                                    <div class="text-light">O₃, PM</div>
+                                                    <i class="fas fa-tree mt-1"></i>
+                                                </div>
+                                                <small class="text-light">Wildfires, dust, vegetation</small>
+                                            </div>
+                                        </div>
+
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <h6 class="text-success">Sample OpenMeteo API Call</h6>
+                                                <div class="bg-dark p-3 rounded">
+                                                    <code class="text-light small">
+# OpenMeteo Air Quality API<br>
+https://air-quality-api.open-meteo.com/v1/air-quality?<br>
+latitude=33.44&longitude=-94.04&<br>
+hourly=pm10,pm2_5,ozone,nitrogen_dioxide,<br>
+sulphur_dioxide,carbon_monoxide<br><br>
+
+# Response includes hourly data for all parameters<br>
+# with European CAMS model forecasts
+                                                    </code>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h6 class="text-success">Data Fields & Units</h6>
+                                                <ul class="text-light small">
+                                                    <li><strong>pm2_5:</strong> PM2.5 in µg/m³</li>
+                                                    <li><strong>pm10:</strong> PM10 in µg/m³</li>
+                                                    <li><strong>ozone:</strong> O₃ in µg/m³</li>
+                                                    <li><strong>nitrogen_dioxide:</strong> NO₂ in µg/m³</li>
+                                                    <li><strong>sulphur_dioxide:</strong> SO₂ in µg/m³</li>
+                                                    <li><strong>carbon_monoxide:</strong> CO in mg/m³</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Air Quality Index -->
+                            <div class="accordion-item bg-dark border-dark">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button bg-dark text-light collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#aqiExplanation">
+                                        <i class="fas fa-chart-line me-2"></i>Air Quality Index (AQI) Calculation
+                                    </button>
+                                </h2>
+                                <div id="aqiExplanation" class="accordion-collapse collapse" data-bs-parent="#openmeteoDocsAccordion">
+                                    <div class="accordion-body">
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <h6 class="text-warning">AQI Categories</h6>
+                                                <div class="table-responsive">
+                                                    <table class="table table-sm table-dark">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>AQI</th>
+                                                                <th>Level</th>
+                                                                <th>Health Concern</th>
+                                                                <th>Color</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>0-50</td>
+                                                                <td>Good</td>
+                                                                <td>Minimal impact</td>
+                                                                <td><span class="badge bg-success">Green</span></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>51-100</td>
+                                                                <td>Moderate</td>
+                                                                <td>Acceptable</td>
+                                                                <td><span class="badge bg-warning">Yellow</span></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>101-150</td>
+                                                                <td>Unhealthy for SG</td>
+                                                                <td>Sensitive groups</td>
+                                                                <td><span class="badge bg-orange">Orange</span></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>151-200</td>
+                                                                <td>Unhealthy</td>
+                                                                <td>Everyone affected</td>
+                                                                <td><span class="badge bg-danger">Red</span></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>201-300</td>
+                                                                <td>Very Unhealthy</td>
+                                                                <td>Health warnings</td>
+                                                                <td><span class="badge bg-purple">Purple</span></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>301+</td>
+                                                                <td>Hazardous</td>
+                                                                <td>Emergency conditions</td>
+                                                                <td><span class="badge bg-maroon">Maroon</span></td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h6 class="text-warning">AQI Calculation Method</h6>
+                                                <div class="text-light small">
+                                                    <div class="mb-2">
+                                                        <i class="fas fa-calculator text-warning me-2"></i>
+                                                        <strong>US AQI Standard:</strong> Based on EPA guidelines
+                                                    </div>
+                                                    <div class="mb-2">
+                                                        <i class="fas fa-ruler text-warning me-2"></i>
+                                                        <strong>Breakpoint System:</strong> Linear interpolation between concentration breakpoints
+                                                    </div>
+                                                    <div class="mb-2">
+                                                        <i class="fas fa-chart-bar text-warning me-2"></i>
+                                                        <strong>Worst Pollutant:</strong> AQI determined by highest sub-index
+                                                    </div>
+                                                    <div class="mb-2">
+                                                        <i class="fas fa-sync text-warning me-2"></i>
+                                                        <strong>Real-time:</strong> Calculated from latest measurements
+                                                    </div>
+                                                </div>
+                                                <h6 class="text-warning mt-3">Sensitive Groups</h6>
+                                                <ul class="text-light small">
+                                                    <li>Children and older adults</li>
+                                                    <li>People with lung diseases</li>
+                                                    <li>People with heart conditions</li>
+                                                    <li>Pregnant women</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="alert alert-warning mt-3">
+                                            <small>
+                                                <i class="fas fa-exclamation-triangle me-2"></i>
+                                                <strong>Note:</strong> The AQI value is determined by the pollutant with the highest concentration relative to its health-based standard.
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- OpenMeteo API -->
+                            <div class="accordion-item bg-dark border-dark">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button bg-dark text-light collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#openmeteoAPI">
+                                        <i class="fas fa-code me-2"></i>OpenMeteo API Integration
+                                    </button>
+                                </h2>
+                                <div id="openmeteoAPI" class="accordion-collapse collapse" data-bs-parent="#openmeteoDocsAccordion">
+                                    <div class="accordion-body">
+                                        <div class="row g-3">
+                                            <div class="col-md-4 text-center">
+                                                <div class="border rounded p-3">
+                                                    <i class="fas fa-rocket fa-2x text-primary mb-2"></i>
+                                                    <h6 class="text-primary">Free API</h6>
+                                                    <p class="text-light small">No API key required</p>
+                                                    <span class="badge bg-dark">Open Access</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 text-center">
+                                                <div class="border rounded p-3">
+                                                    <i class="fas fa-sync fa-2x text-warning mb-2"></i>
+                                                    <h6 class="text-warning">Real-time Data</h6>
+                                                    <p class="text-light small">Hourly updates</p>
+                                                    <span class="badge bg-dark">Live Data</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 text-center">
+                                                <div class="border rounded p-3">
+                                                    <i class="fas fa-globe-europe fa-2x text-info mb-2"></i>
+                                                    <h6 class="text-info">Global Coverage</h6>
+                                                    <p class="text-light small">Worldwide locations</p>
+                                                    <span class="badge bg-dark">CAMS Model</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <h6 class="text-warning mt-4 mb-3">API Endpoints & Features</h6>
+                                        <div class="table-responsive">
+                                            <table class="table table-sm table-dark">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Endpoint</th>
+                                                        <th>Data Type</th>
+                                                        <th>Update Frequency</th>
+                                                        <th>Parameters</th>
+                                                        <th>Model</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>/v1/air-quality</td>
+                                                        <td>Current & Forecast</td>
+                                                        <td>Hourly</td>
+                                                        <td>PM, Gases, AQI</td>
+                                                        <td>CAMS European</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>/v1/air-quality</td>
+                                                        <td>Historical</td>
+                                                        <td>Archive</td>
+                                                        <td>PM, Gases</td>
+                                                        <td>CAMS Analysis</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>/v1/air-quality</td>
+                                                        <td>Ensemble</td>
+                                                        <td>Daily</td>
+                                                        <td>Multiple models</td>
+                                                        <td>CAMS + CAMS global</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        
+                                        <div class="alert alert-success mt-3">
+                                            <small>
+                                                <i class="fas fa-graduation-cap me-2"></i>
+                                                <strong>Technical Resource:</strong> For detailed technical information about CAMS air quality data, visit the 
+                                                <a href="https://atmosphere.copernicus.eu/" class="alert-link" target="_blank">Copernicus Atmosphere Monitoring Service</a> and 
+                                                <a href="https://open-meteo.com/" class="alert-link" target="_blank">Open-Meteo Documentation</a>.
+                                            </small>
+                                        </div>
+
+                                        <h6 class="text-warning mt-3">Data Accuracy & Limitations</h6>
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <h6 class="text-success">Strengths</h6>
+                                                <ul class="text-light small">
+                                                    <li>Global coverage including remote areas</li>
+                                                    <li>Consistent data quality</li>
+                                                    <li>Multiple data sources integrated</li>
+                                                    <li>Regular updates and validation</li>
+                                                </ul>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h6 class="text-danger">Limitations</h6>
+                                                <ul class="text-light small">
+                                                    <li>Model resolution limitations</li>
+                                                    <li>Local variations may not be captured</li>
+                                                    <li>Dependence on satellite coverage</li>
+                                                    <li>Urban canyon effects not modeled</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Start -->
+    <div class="container-fluid pt-4 px-4">
+        <div class="bg-secondary rounded-top p-4">
+            <div class="row">
+                <div class="col-12 col-sm-6 text-center text-sm-start">
+                    &copy; <a href="#">Air Quality Data Dashboard</a>, All Rights Reserved. 
+                </div>
+                <div class="col-12 col-sm-6 text-center text-sm-end">
+                    Powered by OpenMeteo Air Quality API
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer End -->
+</div>
+<!-- Content End -->
+
+{% endblock %}

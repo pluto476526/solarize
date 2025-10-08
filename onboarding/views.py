@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 def home_view(request):
     context = {}
-    return render(request, "onboarding/nav.html", context)
+    return render(request, "onboarding/home.html", context)
 
 def profile_view(request):
     context = {}

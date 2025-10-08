@@ -2,13 +2,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Solarize - Solar Energy Modeling Platform</title>
+  <title>Solarize - Solar Energy Modeling</title>
   <!-- META TAGS -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
   <meta name="author" content="Solarize Team">
-  <meta name="description" content="Advanced solar energy modeling using NREL PVWatts, PVlib and NASA climate data">
+  <meta name="description" content="Advanced solar energy modeling using NREL PVWatts and PVlib">
 
   <!-- STYLES -->
   <link rel="stylesheet" href="{% static 'onboarding/css/bootstrap.min.css' %}">
@@ -83,7 +83,7 @@
                 <h3 class="box-headline letters rotate-2">
                     <span class="box-words-wrapper" style="color: aliceblue;">
                         <b class="is-visible">PRECISE &nbsp;&amp;&nbsp; RELIABLE.</b>
-                        <b>&nbsp;SOLAR &nbsp;MODELING &nbsp;PLATFORM.</b>
+                        <b>&nbsp;ACCESSIBLE &nbsp; ADVANCED &nbsp; SOLAR &nbsp;MODELING.</b>
                     </span>
                 </h3>
                 <h1 style="color: aliceblue;">SOLAR ENERGY MODELING</h1>
@@ -522,8 +522,8 @@
                 <li>PVWatts Modeling</li>
                 <li>Basic Solar Reports</li>
                 <li>Email Support</li>
-                <li><strong>Limited</strong> API Access</li>
-                <li><strong>No</strong> Advanced Analytics</li>
+                <li><strong style="color: whitesmoke;">Limited</strong> API Access</li>
+                <li><strong style="color: whitesmoke;">No</strong> Advanced Analytics</li>
               </ul>
               <a href="#contact" class="default-btn text-warning"> Get Started <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
             </div>
@@ -558,8 +558,8 @@
                 <li>All Modeling Features</li>
                 <li>NASA Climate Data</li>
                 <li>24/7 Dedicated Support</li>
-                <li><strong>Full</strong> API Access</li>
-                <li><strong>Advanced</strong> ML Features</li>
+                <li><strong style="color: whitesmoke;">Full</strong> API Access</li>
+                <li><strong style="color: whitesmoke;">Advanced</strong> ML Features</li>
               </ul>
               <a href="#contact" class="default-btn"> Contact Sales <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
             </div>
@@ -641,93 +641,7 @@
       </div>
     </section>
 
-    <!-- Contact -->
-    <section id="contact" class="contact">
-      <div class="container">
-        <div class="col-md-6 col-sm-12">
-          <div class="row">
-            <h4>Start modeling your solar projects</h4>
-              <p class="libre-text mt-50">
-                Join solar professionals, researchers, and developers who use our modeling platform to accurately estimate energy production and optimize system designs.
-              </p>
-
-            <a href="#contact" class="default-btn"> Get in touch <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
-          </div>
-        </div>
-
-        <!-- Platform Features -->
-        <div class="col-md-offset-1 col-md-5 col-sm-12">
-            <div class="row">
-              <p class="libre-text mt-50">Advanced solar modeling made accessible.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="main-footer">
-      <div class="container">
-          <div class="row mt-100 mb-50 footer-widgets">
-              <!-- Start Contact Widget -->
-              <div class="col-md-6 col-xs-12">
-                  <div class="footer-widget contact-widget">
-                    <span style="display: flex; align-items: center;">
-                       &nbsp;
-                      <span>SOLARIZE</span></span>
-                      <p>Solarize provides advanced solar energy modeling using NREL PVWatts, PVlib, and NASA climate data with comprehensive analytics.</p>
-                      <ul class="social-icons">
-                          <li>
-                              <a class="linkedin" href="#"><i class="fa fa-linkedin"></i></a>
-                          </li>
-                          <li>
-                              <a class="twitter" href="#"><i class="fa fa-twitter"></i></a>
-                          </li>
-                          <li>
-                              <a class="github" href="#"><i class="fa fa-github"></i></a>
-                          </li>
-                      </ul>
-                  </div>
-              </div><!-- .col-md-3 -->
-              <!-- End Contact Widget -->
-
-              <!-- Start Contact Info -->
-              <div class="col-md-3 col-xs-12">
-                  <div class="footer-widget twitter-widget">
-                      <h4>Contact</h4>
-                      Email: info@solarize.com <br>
-                      Phone: +1 (555) 123-4567
-                  </div>
-              </div><!-- .col-md-3 -->
-              <!-- End Contact Info -->
-
-              <!-- Start Company Links -->
-              <div class="col-md-3 col-xs-12">
-                  <div class="footer-widget company-links">
-                      <h4>Platform</h4>
-        <ul class="footer-links">
-          <li><a href="#integrated-tech">Modeling Tech</a></li>
-          <li><a href="#data-sources">Data Sources</a></li>
-          <li><a href="#solutions">Solutions</a></li>
-          <li><a href="#advanced-analytics">Analytics</a></li>
-          <li><a href="#pricing">Pricing</a></li>
-          <li><a href="#contact">Contact</a></li>
-        </ul>
-                  </div>
-              </div><!-- .col-md-3 -->
-              <!-- End Company Links -->
-          </div><!-- .row -->
-
-          <!-- Start Copyright -->
-          <div class="copyright-section">
-              <div class="row">
-                  <div class="col-md-6">
-                      <p>&copy; 2023 Solarize - Solar Energy Modeling Platform</p>
-                  </div><!-- .col-md-6 -->
-              </div><!-- .row -->
-          </div>
-          <!-- End Copyright -->
-      </div>
-    </footer>
+    {% include 'onboarding/footer.html' %}
 
     <!-- SCRIPTS -->
     <script type="text/javascript" src="{% static 'onboarding/js/jquery-2.2.3.min.js' %}"></script>

@@ -10,14 +10,14 @@ from datetime import datetime
 from decouple import config
 
 
-from data_factory.solar_advisor.scenario_modelling import ScenarioModelling
-from data_factory.solar_advisor.base_forecast import FetchNRELData
-from data_factory.solar_advisor.financials import FinancialMetrics
-from data_factory.solar_advisor.location_scoring import LocationScorer
-from data_factory.solar_advisor.seasonal_insights import SeasonalInsights
-from data_factory.solar_advisor.environmental_impact import EnvironmentalImpact
-from data_factory.solar_advisor.system_recommendations import SysRecommendations
-from data_factory.solar_advisor.comparative_analysis import ComparativeAnalysis
+from data_factory.pvwatts.scenario_modelling import ScenarioModelling
+from data_factory.pvwatts.base_forecast import FetchNRELData
+from data_factory.pvwatts.financials import FinancialMetrics
+from data_factory.pvwatts.location_scoring import LocationScorer
+from data_factory.pvwatts.seasonal_insights import SeasonalInsights
+from data_factory.pvwatts.environmental_impact import EnvironmentalImpact
+from data_factory.pvwatts.system_recommendations import SysRecommendations
+from data_factory.pvwatts.comparative_analysis import ComparativeAnalysis
 
 import logging
 
@@ -32,7 +32,7 @@ class SolarLocation:
     name: str = "Somewhere in the Milky Way."
 
 
-class SolarAdvisor:
+class PVWattsSimulator:
     def __init__(self):
         self.locations = {}
 

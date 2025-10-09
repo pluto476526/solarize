@@ -20,7 +20,8 @@
         </div>
 
         <!-- Compact Form Layout -->
-        <div class="row g-3">
+        <form method="post" class="row g-3">
+            {% csrf_token %}
             <!-- Location Parameters -->
             <div class="col-lg-6">
                 <div class="card shadow-sm h-100 bg-secondary p-4">
@@ -32,26 +33,26 @@
                         <div class="row g-2">
                             <div class="col-6">
                                 <label class="form-label small">Latitude</label>
-                                <input type="number" class="form-control form-control-sm" value="-1.286389" step="any">
+                                <input type="number" class="form-control form-control-sm" name="lat" value="-1.286389" step="any">
                             </div>
                             <div class="col-6">
                                 <label class="form-label small">Longitude</label>
-                                <input type="number" class="form-control form-control-sm" value="36.817223" step="any">
+                                <input type="number" class="form-control form-control-sm" name="lon" value="36.817223" step="any">
                             </div>
                             <div class="col-6">
                                 <label class="form-label small">Altitude (m)</label>
-                                <input type="number" class="form-control form-control-sm" value="0" step="any">
+                                <input type="number" class="form-control form-control-sm" name="alt" value="0" step="any">
                             </div>
                             <div class="col-6">
                                 <label class="form-label small">Timezone</label>
-                                <select class="form-select form-select-sm">
-                                    <option selected>Africa/Nairobi</option>
+                                <select class="form-select form-select-sm" name="tz">
+                                    <option selected value="Africa/Nairobi">Africa/Nairobi</option>
                                     <option>UTC</option>
                                 </select>
                             </div>
                             <div class="col-12">
                                 <label class="form-label small">Location Name</label>
-                                <input type="text" class="form-control form-control-sm" value="Nairobi">
+                                <input type="text" class="form-control form-control-sm" name="name" value="Nairobi">
                             </div>
                         </div>
                     </div>
@@ -207,21 +208,23 @@
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Action Buttons -->
-        <div class="row mt-3">
-            <div class="col-12">
-                <div class="d-flex justify-content-end gap-2">
-                    <button type="button" class="btn btn-outline-secondary btn-sm">
-                        <i class="fas fa-redo me-1"></i>Reset
-                    </button>
-                    <button type="button" class="btn btn-primary btn-sm">
-                        <i class="fas fa-bolt me-1"></i>Run Simulation
-                    </button>
+            <!-- Action Buttons -->
+            <div class="row mt-3">
+                <div class="col-12">
+                    <div class="d-flex justify-content-end gap-2">
+                        <button type="button" class="btn btn-outline-primary btn-sm">
+                            <i class="fas fa-redo me-1"></i>Reset
+                        </button>
+                        <button type="submit" class="btn btn-warning btn-sm">
+                            <i class="fas fa-bolt me-1"></i>Run Simulation
+                        </button>
+                    </div>
                 </div>
             </div>
-        </div>
+        </form>
+
+        
 
         <!-- Compact Documentation -->
         <div class="row mt-3">

@@ -1,7 +1,7 @@
 ## data_factory/solarize/configurations.py
 ## pkibuka@milky-way.space
 
-from data_factory.solar_advisor.base_forecast import FetchNRELData
+from data_factory.pvwatts.base_forecast import FetchNRELData
 
 class ScenarioModelling:
     def __init__(self, location):

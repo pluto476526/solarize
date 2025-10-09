@@ -5,7 +5,8 @@ from django.shortcuts import render, redirect
 from django.conf import settings
 from data_factory.database.manager import DataManager
 from data_factory.database.connection import DatabaseConnection
-from data_factory.solar_advisor.solarize import SolarAdvisor
+from data_factory.pvwatts.simulator import PVWattsSimulator
+from data_factory.pvlib.simulator import PvlibSimulator
 import plotly.graph_objects as go
 from plotly.offline import plot
 from typing import Dict
@@ -127,7 +128,7 @@ def index_view(request):
 
 
 def pvwatts_modelling_view(request):
-    advisor = SolarAdvisor()
+    simulator = PVWattsSimulator()
     reports = []
     location_idx = 0
     
@@ -152,9 +153,9 @@ def pvwatts_modelling_view(request):
             if not (loc_name and lat and lon):
                 break  
 
-            advisor.add_location(name=loc_name, lat=float(lat), lon=float(lon))
+            simulator.add_location(name=loc_name, lat=float(lat), lon=float(lon))
 
-            report = advisor.generate_report(loc_name, config=system_config)
+            report = simulator.generate_report(loc_name, config=system_config)
             reports.append(report)
 
             location_idx += 1
@@ -191,7 +192,31 @@ def pvwatts_report_view(request):
     return render(request, "analytics/pvwatts_report.html", context)
 
 
-def pvlib_modelling_view(request):
+def pvlib_modelling_view(request):    
+    if request.method == "POST":
+        # system_config = {
+        #     "system_capacity": float(request.POST.get("system_capacity", 5)),
+        #     "azimuth": int(request.POST.get("azimuth", 180)),
+        #     "tilt": int(request.POST.get("tilt", 20)),
+        #     "array_type": int(request.POST.get("array_type", 0)),
+        #     "module_type": int(request.POST.get("module_type", 0)),
+        #     "losses": int(request.POST.get("losses", 14)),
+        #     "timeframe": request.POST.get("timeframe", "hourly"),
+        # }
+
+
+        name = request.POST.get("name")
+        lat = request.POST.get("lat")
+        lon = request.POST.get("lon")
+        alt = request.POST.get("alt")
+        tz = request.POST.get("tz")
+
+        simulator = PvlibSimulator(name=name, lat=lat, lon=lon, alt=alt, tz=tz)
+        report = simulator.run_pvlib_simulation()
+        
+        request.session["pvlib_report"] = report
+        logger.debug(pvlib_report)
+
     context = {}
     return render(request, "analytics/pvlib_modelling.html", context)
 

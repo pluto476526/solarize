@@ -5,7 +5,7 @@
 ![Plotly](https://img.shields.io/badge/Plotly-Charts-orange)
 ![Machine Learning](https://img.shields.io/badge/ML-LightGBM-yellow)
 
-Solarize is a comprehensive solar energy modeling platform that provides accurate energy production estimates using industry-standard modeling tools and multiple data sources. The platform combines NREL PVWatts, PVlib Python, NASA climate data, and real-time environmental information to deliver reliable solar system performance analysis.
+Solarize is a comprehensive solar energy modeling platform that provides accurate energy production estimates using industry-standard modeling tools. The platform combines NREL PVWatts and PVlib to deliver reliable solar system performance analysis.
 
 ## Features
 
@@ -26,7 +26,7 @@ Solarize is a comprehensive solar energy modeling platform that provides accurat
 ### Technology Stack
 - **Backend**: Django 4.2+
 - **Database**: TimescaleDB (PostgreSQL extension)
-- **Modelling**: NREL PVWatts, Python pvlib
+- **Modelling**: NREL PVWatts, Python PVlib
 - **Visualization**: Plotly Python
 - **Frontend**: HTML, css, Bootstrap 5, JavaScript
 - **Solar Calculations**: Python pvlib
@@ -36,33 +36,6 @@ Solarize is a comprehensive solar energy modeling platform that provides accurat
 2. **Solar Simulation**: PVWatts physical modeling, pvlib modelling
 5. **Analysis & Visualization**: Comparative results and insights
 
-## Experimental Machine Learning Methodology
-
-### Approach
-Solarize uses a hybrid approach that enhances traditional PVWatts simulations with machine learning:
-
-```python
-# Core Philosophy: Enhance, Don't Replace
-PVWatts (Physical Model) + LightGBM (Environmental Patterns) = Enhanced Weather Aware Models
-```
-
-### Feature Engineering
-- **Astronomical Features**: Sun elevation, azimuth, solar position
-- **Temporal Features**: Hour, day of year, month, seasonal patterns
-- **Environmental Features**: Temperature, humidity, cloud cover, wind speed
-- **Interaction Features**: Temperature × sun elevation, cloud cover × sun elevation
-
-### Model Architecture
-```python
-model = LGBMRegressor(
-    n_estimators=300,
-    learning_rate=0.05,
-    num_leaves=63,
-    random_state=42,
-    max_depth=-1,
-    min_child_samples=20
-)
-```
 
 ## Installation
 
@@ -70,6 +43,7 @@ model = LGBMRegressor(
 - Python 3+
 - PostgreSQL 12+ with TimescaleDB extension
 - Redis
+- Celery
 
 ### Step 1: Clone Repository
 ```bash

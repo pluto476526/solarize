@@ -1,0 +1,375 @@
+{% extends 'analytics/main.html' %}
+{% load static %}
+
+{% block main %}
+
+<!-- Content Start -->
+<div class="content">
+    <!-- Navbar Start -->
+    {% include 'analytics/nav.html' %}
+    <!-- Navbar End -->
+
+    <div class="container-fluid">
+    <!-- Report Header -->
+    <div class="row pt-2">
+        <div class="col-12">
+            <div class="bg-secondary rounded p-4">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h2 class="text-warning mb-1">PVLib Solar Analysis Report</h2>
+                        <h4 class="text-primary mb-0">Solar Site Analysis</h4>
+                        <p class="mb-0 text-muted">Simulation Period: 1990 Annual Data</p>
+                    </div>
+                    <div class="text-end">
+                        <span class="badge bg-success fs-6">Overall Score: 78/100</span>
+                        <p class="mb-0 text-muted mt-2">Report Date: 2024-01-15</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Key Metrics -->
+    <div class="row pt-4">
+        <div class="col-sm-6 col-xl-3">
+            <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                <i class="fas fa-bolt fa-3x text-warning"></i>
+                <div class="ms-3">
+                    <p class="mb-2">Annual Production</p>
+                    <h6 class="mb-0">125.4 MWh</h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+            <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                <i class="fas fa-solar-panel fa-3x text-info"></i>
+                <div class="ms-3">
+                    <p class="mb-2">Capacity Factor</p>
+                    <h6 class="mb-0">21.5%</h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+            <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                <i class="fas fa-chart-line fa-3x text-success"></i>
+                <div class="ms-3">
+                    <p class="mb-2">System Efficiency</p>
+                    <h6 class="mb-0">85.2%</h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+            <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                <i class="fas fa-sun fa-3x text-primary"></i>
+                <div class="ms-3">
+                    <p class="mb-2">Peak Output</p>
+                    <h6 class="mb-0">98.7 kW</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Performance Analysis -->
+    <div class="row pt-4">
+        <div class="col-sm-12 col-xl-4">
+            <div class="bg-secondary rounded p-4">
+                <h5 class="mb-4">Performance Score</h5>
+                <div class="text-center mb-4">
+                    <div class="display-4 text-primary fw-bold">78</div>
+                    <span class="badge bg-success fs-6">Good</span>
+                </div>
+                <div class="mt-4">
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Energy Yield</span>
+                        <span class="fw-bold text-success">82/100</span>
+                    </div>
+                    <div class="progress mb-3">
+                        <div class="progress-bar bg-success" role="progressbar" style="width: 82%"></div>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>System Losses</span>
+                        <span class="fw-bold text-warning">65/100</span>
+                    </div>
+                    <div class="progress mb-3">
+                        <div class="progress-bar bg-warning" role="progressbar" style="width: 65%"></div>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Weather Impact</span>
+                        <span class="fw-bold text-info">73/100</span>
+                    </div>
+                    <div class="progress">
+                        <div class="progress-bar bg-info" role="progressbar" style="width: 73%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-xl-8">
+            <div class="bg-secondary rounded p-4">
+                <h5 class="mb-4">Seasonal Performance</h5>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="border rounded p-3 mb-3">
+                            <div class="d-flex justify-content-between">
+                                <span class="fw-bold">Best Month</span>
+                                <span class="text-success">July</span>
+                            </div>
+                            <div class="text-end">15,250 kWh</div>
+                        </div>
+                        <div class="border rounded p-3">
+                            <div class="d-flex justify-content-between">
+                                <span class="fw-bold">Peak Hourly</span>
+                                <span class="text-warning">98.7 kWh</span>
+                            </div>
+                            <div class="text-end">1990-06-15 13:00</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="border rounded p-3 mb-3">
+                            <div class="d-flex justify-content-between">
+                                <span class="fw-bold">Worst Month</span>
+                                <span class="text-danger">December</span>
+                            </div>
+                            <div class="text-end">6,845 kWh</div>
+                        </div>
+                        <div class="border rounded p-3">
+                            <div class="d-flex justify-content-between">
+                                <span class="fw-bold">Seasonal Variation</span>
+                                <span class="text-info">55.1%</span>
+                            </div>
+                            <div class="text-end">Moderate Variation</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Technical Analysis -->
+    <div class="row pt-4 px-3">
+        <div class="bg-secondary rounded p-4">
+            <div class="d-flex align-items-center justify-content-between mb-4">
+                <h5 class="mb-0">Technical Analysis</h5>
+                <small class="text-muted">ModelChain Results Summary</small>
+            </div>
+            <div class="row g-4">
+                <div class="col-sm-12 col-xl-8 table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Parameter</th>
+                                <th>Value</th>
+                                <th>Unit</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="fw-bold">AC Power Output</span></td>
+                                <td>125,400</td>
+                                <td>kWh/yr</td>
+                                <td>
+                                    <span class="badge bg-success">Optimal</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><span class="fw-bold">Cell Temperature</span></td>
+                                <td>45.2</td>
+                                <td>°C avg</td>
+                                <td>
+                                    <span class="badge bg-success">Normal</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><span class="fw-bold">Effective Irradiance</span></td>
+                                <td>950</td>
+                                <td>W/m² avg</td>
+                                <td>
+                                    <span class="badge bg-warning">Moderate</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><span class="fw-bold">AOI Modifier</span></td>
+                                <td>0.92</td>
+                                <td>ratio</td>
+                                <td>
+                                    <span class="badge bg-success">Good</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><span class="fw-bold">System Losses</span></td>
+                                <td>14.8</td>
+                                <td>%</td>
+                                <td>
+                                    <span class="badge bg-info">Expected</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-sm-12 col-xl-4">
+                    <div class="bg-white rounded p-3 text-center">
+                        <h6>Performance Ratio</h6>
+                        <div class="display-4 text-primary">0.85</div>
+                        <p class="text-muted">System Performance Index</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- System Configuration -->
+    <div class="row pt-4">
+        <div class="col-sm-12 col-xl-6">
+            <div class="bg-secondary rounded p-4">
+                <h5 class="mb-4">System Configuration</h5>
+                <div class="row">
+                    <div class="col-6 mb-3">
+                        <div class="border rounded p-3 text-center">
+                            <div class="text-primary fw-bold fs-5">100 kW</div>
+                            <small>System Capacity</small>
+                        </div>
+                    </div>
+                    <div class="col-6 mb-3">
+                        <div class="border rounded p-3 text-center">
+                            <div class="text-success fw-bold fs-5">1 Array</div>
+                            <small>Number of Arrays</small>
+                        </div>
+                    </div>
+                    <div class="col-6 mb-3">
+                        <div class="border rounded p-3 text-center">
+                            <div class="text-info fw-bold fs-5">8760 hrs</div>
+                            <small>Simulation Period</small>
+                        </div>
+                    </div>
+                    <div class="col-6 mb-3">
+                        <div class="border rounded p-3 text-center">
+                            <div class="text-success fw-bold fs-5">Hourly</div>
+                            <small>Data Resolution</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-3 p-3 bg-dark rounded text-white">
+                    <h6 class="text-warning">Weather Data</h6>
+                    <div class="d-flex justify-content-between">
+                        <span>Data Source:</span>
+                        <span class="fw-bold">ModelChain Default</span>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <span>Period:</span>
+                        <span class="fw-bold">1990 Annual</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-xl-6">
+            <div class="bg-secondary rounded p-4">
+                <h5 class="mb-4">Loss Analysis</h5>
+                <div class="border rounded p-3 mb-3">
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Soiling Losses</span>
+                        <span class="fw-bold">2.1%</span>
+                    </div>
+                    <div class="progress mb-3" style="height: 8px;">
+                        <div class="progress-bar bg-warning" role="progressbar" style="width: 21%"></div>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Shading Losses</span>
+                        <span class="fw-bold">1.5%</span>
+                    </div>
+                    <div class="progress mb-3" style="height: 8px;">
+                        <div class="progress-bar bg-info" role="progressbar" style="width: 15%"></div>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Inverter Losses</span>
+                        <span class="fw-bold">3.2%</span>
+                    </div>
+                    <div class="progress mb-3" style="height: 8px;">
+                        <div class="progress-bar bg-danger" role="progressbar" style="width: 32%"></div>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between">
+                        <span>DC/AC Losses</span>
+                        <span class="fw-bold">8.0%</span>
+                    </div>
+                    <div class="progress" style="height: 8px;">
+                        <div class="progress-bar bg-primary" role="progressbar" style="width: 80%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recommendations -->
+    <div class="row pt-4 pb-4">
+        <div class="col-sm-12 col-xl-6">
+            <div class="bg-secondary rounded p-4">
+                <h5 class="mb-4">Optimization Recommendations</h5>
+                <div class="row">
+                    <div class="col-12 mb-3">
+                        <div class="border rounded p-3">
+                            <i class="fas fa-sliders fa-2x text-success mb-2"></i>
+                            <div class="fw-bold">Tilt Angle Optimization</div>
+                            <small>Adjust tilt to 30° for 5% gain</small>
+                        </div>
+                    </div>
+                    <div class="col-12 mb-3">
+                        <div class="border rounded p-3">
+                            <i class="fas fa-arrows-alt-h fa-2x text-warning mb-2"></i>
+                            <div class="fw-bold">Tracking System</div>
+                            <small>Single-axis tracking recommended</small>
+                        </div>
+                    </div>
+                    <div class="col-12 mb-3">
+                        <div class="border rounded p-3">
+                            <i class="fas fa-wind fa-2x text-info mb-2"></i>
+                            <div class="fw-bold">Cooling System</div>
+                            <small>Active cooling for temperature management</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-xl-6">
+            <div class="bg-secondary rounded p-4">
+                <h5 class="mb-4">System Recommendations</h5>
+                <div class="mb-3">
+                    <h6>Optimal Configuration</h6>
+                    <div class="d-flex justify-content-between border-bottom pb-2 mb-2">
+                        <span>Inverter Size:</span>
+                        <span class="fw-bold">110 kW</span>
+                    </div>
+                    <div class="d-flex justify-content-between border-bottom pb-2 mb-2">
+                        <span>DC/AC Ratio:</span>
+                        <span class="fw-bold">1.1</span>
+                    </div>
+                    <div class="d-flex justify-content-between border-bottom pb-2 mb-2">
+                        <span>Optimal Tilt:</span>
+                        <span class="fw-bold">30°</span>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <span>Azimuth:</span>
+                        <span class="fw-bold">180°</span>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <h6>Maintenance Schedule</h6>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-check text-success me-2"></i>Monthly performance monitoring</li>
+                        <li><i class="fas fa-check text-success me-2"></i>Quarterly cleaning schedule</li>
+                        <li><i class="fas fa-check text-success me-2"></i>Annual electrical inspection</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
+
+{% endblock %}

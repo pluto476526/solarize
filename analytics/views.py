@@ -154,7 +154,6 @@ def pvwatts_modelling_view(request):
                 break  
 
             simulator.add_location(name=loc_name, lat=float(lat), lon=float(lon))
-
             report = simulator.generate_report(loc_name, config=system_config)
             reports.append(report)
 
@@ -194,31 +193,66 @@ def pvwatts_report_view(request):
 
 def pvlib_modelling_view(request):    
     if request.method == "POST":
-        # system_config = {
-        #     "system_capacity": float(request.POST.get("system_capacity", 5)),
-        #     "azimuth": int(request.POST.get("azimuth", 180)),
-        #     "tilt": int(request.POST.get("tilt", 20)),
-        #     "array_type": int(request.POST.get("array_type", 0)),
-        #     "module_type": int(request.POST.get("module_type", 0)),
-        #     "losses": int(request.POST.get("losses", 14)),
-        #     "timeframe": request.POST.get("timeframe", "hourly"),
-        # }
-
-
         name = request.POST.get("name")
         lat = request.POST.get("lat")
         lon = request.POST.get("lon")
         alt = request.POST.get("alt")
         tz = request.POST.get("tz")
 
-        simulator = PvlibSimulator(name=name, lat=lat, lon=lon, alt=alt, tz=tz)
+        module = request.POST.get("module")
+        module_db = request.POST.get("module_db")
+        inverter = request.POST.get("inverter")
+        inverter_db = request.POST.get("inverter_db")
+        surface_azimuth = request.POST.get("azimuth")
+        surface_tilt = request.POST.get("tilt")
+        temp_model = request.POST.get("temp_model")
+        temp_model_params = request.POST.get("temp_model_params")
+
+        # "timeframe": request.POST.get("timeframe", "hourly"),
+
+        simulator = PvlibSimulator(
+            name=name,
+            lat=lat,
+            lon=lon,
+            alt=alt,
+            tz=tz,
+            module=module,
+            module_db=module_db,
+            inverter=inverter,
+            inverter_db=inverter_db,
+            surface_tilt=surface_tilt,
+            surface_azimuth=surface_azimuth,
+            temp_model=temp_model,
+            temp_model_params=temp_model_params
+        )
+
         report = simulator.run_pvlib_simulation()
-        
         request.session["pvlib_report"] = report
-        logger.debug(pvlib_report)
 
     context = {}
     return render(request, "analytics/pvlib_modelling.html", context)
+
+def pvlib_report_view(request):
+    report = request.session.get("pvlib_report")
+
+    if not report:
+        return redirect("pvlib_modelling")
+
+    # savings_chart = None
+
+    # monthly_savings = report["financial_analysis"]["monthly_savings_breakdown"]
+    # savings_chart = monthly_savings_chart(monthly_savings)
+    # report["savings_chart"] = savings_chart
+
+    # scenario_data = report["scenario_analysis"]
+    # efficiency_chart = scenario_efficiency_chart(scenario_data)
+    # report["efficiency_chart"] = efficiency_chart
+
+    context = {
+        "report": report,
+    }
+
+    return render(request, "analytics/pvlib_report.html", context)
 
 
 def climate_modelling_view(request):

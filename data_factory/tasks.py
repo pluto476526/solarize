@@ -3,11 +3,15 @@
 
 
 from django.utils.timezone import now
+from django.conf import settings
 from datetime import datetime, timedelta
 from celery import shared_task
 import pandas as pd
 import logging
+import json
+import pvlib
 import requests
+import os
 import openmeteo_requests
 from data_factory.database.connection import DatabaseConnection
 from data_factory.database.manager import DataManager
@@ -91,3 +95,46 @@ def fetch_nasa_data(self):
     
     except Exception as e:
         logger.error(f"Failed to save to db: {e}")
+
+
+@shared_task(bind=True)
+def fetch_CEC_modules(self):
+    json_path = os.path.join(settings.BASE_DIR, "config", "cec_modules.json")
+    SAM_URL = "https://raw.githubusercontent.com/NREL/SAM/develop/deploy/libraries/CEC%20Modules.csv"
+    modules = pvlib.pvsystem.retrieve_sam(path=SAM_URL)
+    modules_dict = {}
+
+    for name, params in modules.items():
+        if not name:
+            continue
+        manufacturer = params.get("Manufacturer", "Unknown")
+        modules_dict[name] = manufacturer
+
+    try:
+        with open(json_path, "w", encoding="utf-8") as f:
+            json.dump(modules_dict, f, indent=4, ensure_ascii=False)
+            f.close()
+        logger.info(f"Wrote {len(modules_dict)} modules to {json_path}")
+    except Exception as e:
+        logger.error(f"Failed to write modules JSON file: {e}")
+
+
+@shared_task(bind=True)
+def fetch_CEC_inverters(self):
+    json_path = os.path.join(settings.BASE_DIR, "config", "cec_inverters.json")
+    SAM_URL = "https://raw.githubusercontent.com/NREL/SAM/refs/heads/develop/deploy/libraries/CEC%20Inverters.csv"
+    inverters = pvlib.pvsystem.retrieve_sam(path=SAM_URL) 
+    inverters_dict = {}
+    
+    for name in inverters.keys():
+        # Extract manufacturer from index (before the first colon)
+        manufacturer = name.split("__")[0].strip() if "__" in name else "Unknown"
+        inverters_dict[name] = manufacturer
+
+    try:
+        with open(json_path, "w", encoding="utf-8") as f:
+            json.dump(inverters_dict, f, indent=4, ensure_ascii=False)
+        logger.info(f"Wrote {len(inverters_dict)} inverters to {json_path}")
+
+    except Exception as e:
+        logger.error(f"Failed to write inverters JSON file: {e}")

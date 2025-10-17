@@ -2,95 +2,22 @@
 ## pkibuka@milky-way.space
 
 from django.shortcuts import render, redirect
+from django.http import JsonResponse
 from django.conf import settings
 from data_factory.database.manager import DataManager
 from data_factory.database.connection import DatabaseConnection
 from data_factory.pvwatts.simulator import PVWattsSimulator
 from data_factory.pvlib.simulator import PvlibSimulator
-import plotly.graph_objects as go
-from plotly.offline import plot
-from typing import Dict
+from analytics import utils
 import logging
-import json
-import os
-import calendar
 
 logger = logging.getLogger(__name__)
 
 
-def import_locations():
-    path = os.path.join(settings.BASE_DIR, "config", "locations.json")
-
-    with open(path, mode="r") as f:
-        locations = json.load(f)
-        return locations
-
-def monthly_savings_chart(monthly_savings: Dict):
-    # Sort months (1–12) and map to names
-    months = sorted(map(int, monthly_savings.keys()))
-    month_names = [calendar.month_abbr[m] for m in months]
-    savings = [monthly_savings[str(m)] for m in months]
-
-    # Create line chart
-    fig = go.Figure(data=[
-        go.Scatter(
-            x=month_names,
-            y=savings,
-            mode="lines+markers",
-            name="Savings"
-        )
-    ])
-
-    fig.update_layout(
-        xaxis_title="Month",
-        yaxis_title="Savings",
-        xaxis=dict(tickmode="array", tickvals=month_names),
-        xaxis_rangeslider_visible=False,
-        template="plotly_dark"
-    )
-
-    # Convert figure to HTML div
-    savings_chart = plot(fig, output_type="div", include_plotlyjs=False)
-    return savings_chart
-
-def scenario_efficiency_chart(scenario_data: Dict):
-    scenarios = [d["scenario"] for d in scenario_data]
-    annual_kwh = [d["annual_kwh"] for d in scenario_data]
-    efficiency = [d["efficiency_ratio"] for d in scenario_data]
-    percent_opt = [d["percent_of_optional"] for d in scenario_data]
-
-    # Build bubble chart
-    fig = go.Figure()
-
-    fig.add_trace(go.Scatter(
-        x=efficiency,
-        y=annual_kwh,
-        mode="markers",
-        text=scenarios,
-        textposition="top center",
-        marker=dict(
-            size=[p/2 for p in percent_opt],  # scale bubble size
-            sizemode="area",
-            color=percent_opt,
-            colorscale="Viridis",
-            showscale=True,
-            line=dict(width=1, color="DarkSlateGrey")
-        ),
-        hovertemplate="<b>%{text}</b><br>Efficiency: %{x}<br>Annual kWh: %{y}<br>Optional: %{marker.size}<extra></extra>"
-    ))
-
-    fig.update_layout(
-        xaxis_title="Efficiency Ratio",
-        yaxis_title="Annual kWh",
-        template="plotly_dark"
-    )
-
-    efficiency_chart = plot(fig, output_type="div", include_plotlyjs=False)
-    return efficiency_chart
 
 
 def index_view(request):
-    locations = import_locations()
+    locations = utils.import_locations()
     conn = DatabaseConnection()
     dbm = DataManager(conn)
     df = dbm.get_irradiance_ohlc_data(bucket="1 week")
@@ -177,11 +104,11 @@ def pvwatts_report_view(request):
 
     for report in reports:
         monthly_savings = report["financial_analysis"]["monthly_savings_breakdown"]
-        savings_chart = monthly_savings_chart(monthly_savings)
+        savings_chart = utils.monthly_savings_chart(monthly_savings)
         report["savings_chart"] = savings_chart
 
         scenario_data = report["scenario_analysis"]
-        efficiency_chart = scenario_efficiency_chart(scenario_data)
+        efficiency_chart = utils.scenario_efficiency_chart(scenario_data)
         report["efficiency_chart"] = efficiency_chart
 
     context = {
@@ -191,7 +118,12 @@ def pvwatts_report_view(request):
     return render(request, "analytics/pvwatts_report.html", context)
 
 
-def pvlib_modelling_view(request):    
+def pvlib_modelling_view(request):
+    conn = DatabaseConnection()
+    db = DataManager(conn)
+
+
+
     if request.method == "POST":
         name = request.POST.get("name")
         lat = request.POST.get("lat")
@@ -217,9 +149,7 @@ def pvlib_modelling_view(request):
             alt=alt,
             tz=tz,
             module=module,
-            module_db=module_db,
             inverter=inverter,
-            inverter_db=inverter_db,
             surface_tilt=surface_tilt,
             surface_azimuth=surface_azimuth,
             temp_model=temp_model,
@@ -227,16 +157,23 @@ def pvlib_modelling_view(request):
         )
 
         report = simulator.run_pvlib_simulation()
-        request.session["pvlib_report"] = report
+        report_id = db.save_modelchain_result(report)
+        request.session["pvlib_report"] = report_id
+        return redirect("pvlib_report")
 
     context = {}
     return render(request, "analytics/pvlib_modelling.html", context)
 
 def pvlib_report_view(request):
-    report = request.session.get("pvlib_report")
+    report_id = request.session.get("pvlib_report")
 
-    if not report:
+    if not report_id:
         return redirect("pvlib_modelling")
+
+    conn = DatabaseConnection()
+    db = DataManager(conn)
+    report = db.fetch_modelchain_result(report_id)
+    logger.debug(report)
 
     # savings_chart = None
 
@@ -274,4 +211,25 @@ def air_quality_view(request):
 def machine_learning_view(request):
     context = {}
     return render(request, "analytics/machine_learning.html", context)
+
+
+def module_search(request):
+    query = request.GET.get("q", "").lower()
+    modules = utils.load_CEC_modules()
+    results = [
+        {"name": name, "manufacturer": mfg}
+        for name, mfg in modules.items()
+        if query in name.lower()
+    ][:50]  # limit to 50 results
+    return JsonResponse(results, safe=False)
+
+def inverter_search(request):
+    query = request.GET.get("q", "").lower()
+    modules = utils.load_CEC_inverters()
+    results = [
+        {"name": name, "manufacturer": mfg}
+        for name, mfg in modules.items()
+        if query in name.lower()
+    ][:50]  # limit to 50 results
+    return JsonResponse(results, safe=False)
 

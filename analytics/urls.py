@@ -17,4 +17,6 @@ urlpatterns = [
     path("astronomy/", views.astronomy_view, name="astronomy"),
     path("air-quality/", views.air_quality_view, name="air_quality"),
     path("machine-learning/", views.machine_learning_view, name="machine_learning_dash"),
+    path("module_search/", views.module_search, name="module_search"),
+    path("inverter_search/", views.inverter_search, name="inverter_search"),
 ]

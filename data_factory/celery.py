@@ -18,9 +18,17 @@ app.config_from_object("django.conf:settings", namespace="CELERY")
 app.autodiscover_tasks(["data_factory"])
 
 app.conf.beat_schedule = {
-    "fetch-and-save-NASA-data": {
-        "task": "data_factory.tasks.fetch_nasa_data",
-        "schedule": 60,
+    # "fetch-and-save-NASA-data": {
+    #     "task": "data_factory.tasks.fetch_nasa_data",
+    #     "schedule": 60,
+    # },
+    # "fetch-CEC-modules": {
+    #     "task": "data_factory.tasks.fetch_CEC_modules",
+    #     "schedule": 30,
+    # },
+    "fetch-CEC-inverters": {
+        "task": "data_factory.tasks.fetch_CEC_inverters",
+        "schedule": 30,
     },
 }
 

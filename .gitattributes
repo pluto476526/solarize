@@ -1,0 +1,25 @@
+# --- Language stats configuration ---
+
+# Ignore HTML templates
+templates/* linguist-detectable=false
+*.html linguist-detectable=false
+
+# Ignore static assets
+static/* linguist-detectable=false
+*.css linguist-detectable=false
+*.js linguist-detectable=false
+*.svg linguist-detectable=false
+*.png linguist-detectable=false
+*.jpg linguist-detectable=false
+*.jpeg linguist-detectable=false
+*.gif linguist-detectable=false
+*.ico linguist-detectable=false
+
+
+# Force Python files to count as Python
+*.py linguist-language=Python
+
+# Ignore test data, notebooks, etc.
+tests/* linguist-detectable=false
+*.ipynb linguist-detectable=false
+

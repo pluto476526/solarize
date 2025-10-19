@@ -6,8 +6,9 @@ from django.http import JsonResponse
 from django.conf import settings
 from data_factory.database.manager import DataManager
 from data_factory.database.connection import DatabaseConnection
-from data_factory.simulators.pvwatts import PVWattsSimulator
-from data_factory.simulators.pvlib import PvlibSimulator
+from data_factory.pvwatts.simulator import PVWattsSimulator
+from data_factory.pvlib.simulator import PvlibSimulator
+from data_factory.pvlib.analyzer import Analyzer
 from analytics import utils
 import logging
 
@@ -118,11 +119,9 @@ def pvwatts_report_view(request):
     return render(request, "analytics/pvwatts_report.html", context)
 
 
-def pvlib_modelling_view(request):
+def fixed_mount_system_view(request):
     conn = DatabaseConnection()
     db = DataManager(conn)
-
-
 
     if request.method == "POST":
         name = request.POST.get("name")
@@ -158,11 +157,12 @@ def pvlib_modelling_view(request):
 
         report = simulator.run_pvlib_simulation()
         report_id = db.save_modelchain_result(report)
+        db.close()
         request.session["pvlib_report"] = report_id
         return redirect("pvlib_report")
 
     context = {}
-    return render(request, "analytics/pvlib_modelling.html", context)
+    return render(request, "analytics/fixed_mount_system.html", context)
 
 
 def pvlib_report_view(request):
@@ -175,7 +175,11 @@ def pvlib_report_view(request):
 
     conn = DatabaseConnection()
     db = DataManager(conn)
-    report = db.fetch_modelchain_result(report_id)
+
+    simulation_data = db.fetch_modelchain_result(report_id)
+    analyzer = Analyzer(simulation_data)
+    analysis = analyzer.calculate_score()
+
     ac_aoi = db.fetch_ac_aoi_data(result_id=report_id)
     airmass = db.fetch_airmass_data(result_id=report_id)
     cell_temp = db.fetch_cell_temp_data(result_id=report_id)
@@ -196,7 +200,7 @@ def pvlib_report_view(request):
     weather_chart = utils.weather_chart(weather, param="ghi")
 
     context = {
-        "report": report,
+        "analysis": analysis,
         "ac_aoi_chart": ac_aoi_chart,
         "airmass_chart": airmass_chart,
         "cell_temp_chart": cell_temp_chart,
@@ -209,6 +213,34 @@ def pvlib_report_view(request):
 
     return render(request, "analytics/pvlib_report.html", context)
 
+
+def single_axis_tracking_view(request):
+    context = {}
+    return render(request, "analytics/single_axis_tracking.html", context)
+
+def dual_axis_tracking_view(request):
+    context = {}
+    return render(request, "analytics/dual_axis_tracking.html", context)
+
+def spec_sheet_modelling_view(request):
+    context = {}
+    return render(request, "analytics/spec_sheet_modelling.html", context)
+
+def bifacial_system_view(request):
+    context = {}
+    return render(request, "analytics/bifacial_system.html", context)
+
+def spectral_response_view(request):
+    context = {}
+    return render(request, "analytics/spectral_response.html", context)
+
+def temperature_effects_view(request):
+    context = {}
+    return render(request, "analytics/temperature_effects.html", context)
+
+def system_sizing_view(request):
+    context = {}
+    return render(request, "analytics/system_sizing.html", context)
 
 def climate_modelling_view(request):
     context = {}

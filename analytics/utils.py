@@ -109,8 +109,6 @@ def ac_aoi_chart(ac_aoi: pd.DataFrame, param: str):
         fig = go.Figure()
         fig.update_layout(
             title=f"No data available for '{param}'",
-            xaxis_title="Time",
-            yaxis_title="Value",
             template="plotly_dark"
         )
         return plot(fig, output_type="div", include_plotlyjs=False)
@@ -124,8 +122,6 @@ def ac_aoi_chart(ac_aoi: pd.DataFrame, param: str):
     ))
 
     fig.update_layout(
-        xaxis_title="Time",
-        yaxis_title="Value",
         template="plotly_dark",
         title=param,
         legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
@@ -142,8 +138,6 @@ def airmass_chart(airmass: pd.DataFrame, param: str):
         fig = go.Figure()
         fig.update_layout(
             title=f"No {param} data available",
-            xaxis_title="Time",
-            yaxis_title="Value",
             template="plotly_dark"
         )
         return plot(fig, output_type="div", include_plotlyjs=False)
@@ -157,8 +151,6 @@ def airmass_chart(airmass: pd.DataFrame, param: str):
     ))
 
     fig.update_layout(
-        xaxis_title="Time",
-        yaxis_title="Value",
         template="plotly_dark",
         title=param,
         legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
@@ -176,8 +168,6 @@ def cell_temp_chart(cell_temp: pd.DataFrame):
         fig = go.Figure()
         fig.update_layout(
             title=f"No cell temperature data available",
-            xaxis_title="Time",
-            yaxis_title="Value",
             template="plotly_dark"
         )
         return plot(fig, output_type="div", include_plotlyjs=False)
@@ -191,8 +181,6 @@ def cell_temp_chart(cell_temp: pd.DataFrame):
     ))
 
     fig.update_layout(
-        xaxis_title="Time",
-        yaxis_title="Value",
         template="plotly_dark",
         title="Cell Temperature",
         legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
@@ -209,8 +197,6 @@ def dc_output_chart(dc_output: pd.DataFrame, param: str):
         fig = go.Figure()
         fig.update_layout(
             title=f"No {param} data available",
-            xaxis_title="Time",
-            yaxis_title="Value",
             template="plotly_dark"
         )
         return plot(fig, output_type="div", include_plotlyjs=False)
@@ -224,8 +210,6 @@ def dc_output_chart(dc_output: pd.DataFrame, param: str):
     ))
 
     fig.update_layout(
-        xaxis_title="Time",
-        yaxis_title="Value",
         template="plotly_dark",
         title=param,
         legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
@@ -242,8 +226,6 @@ def diode_params_chart(diode_params: pd.DataFrame, param: str):
         fig = go.Figure()
         fig.update_layout(
             title=f"No {param} data available",
-            xaxis_title="Time",
-            yaxis_title="Value",
             template="plotly_dark"
         )
         return plot(fig, output_type="div", include_plotlyjs=False)
@@ -257,8 +239,6 @@ def diode_params_chart(diode_params: pd.DataFrame, param: str):
     ))
 
     fig.update_layout(
-        xaxis_title="Time",
-        yaxis_title="Value",
         template="plotly_dark",
         title=param,
         legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
@@ -276,8 +256,6 @@ def total_irradiance_chart(total_irradiance: pd.DataFrame, param: str):
         fig = go.Figure()
         fig.update_layout(
             title=f"No {param} data available",
-            xaxis_title="Time",
-            yaxis_title="Value",
             template="plotly_dark"
         )
         return plot(fig, output_type="div", include_plotlyjs=False)
@@ -291,8 +269,6 @@ def total_irradiance_chart(total_irradiance: pd.DataFrame, param: str):
     ))
 
     fig.update_layout(
-        xaxis_title="Time",
-        yaxis_title="Value",
         template="plotly_dark",
         title=param,
         legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
@@ -310,8 +286,6 @@ def solar_position_chart(solar_position: pd.DataFrame, param: str):
         fig = go.Figure()
         fig.update_layout(
             title=f"No {param} data available",
-            xaxis_title="Time",
-            yaxis_title="Value",
             template="plotly_dark"
         )
         return plot(fig, output_type="div", include_plotlyjs=False)
@@ -325,8 +299,6 @@ def solar_position_chart(solar_position: pd.DataFrame, param: str):
     ))
 
     fig.update_layout(
-        xaxis_title="Time",
-        yaxis_title="Value",
         template="plotly_dark",
         title=param,
         legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
@@ -343,8 +315,6 @@ def weather_chart(weather: pd.DataFrame, param: str):
         fig = go.Figure()
         fig.update_layout(
             title=f"No {param} data available",
-            xaxis_title="Time",
-            yaxis_title="Value",
             template="plotly_dark"
         )
         return plot(fig, output_type="div", include_plotlyjs=False)
@@ -358,8 +328,6 @@ def weather_chart(weather: pd.DataFrame, param: str):
     ))
 
     fig.update_layout(
-        xaxis_title="Time",
-        yaxis_title="Value",
         template="plotly_dark",
         title=param,
         legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)

@@ -9,7 +9,7 @@
     {% include 'analytics/nav.html' %}
     <!-- Navbar End -->
 
-    {% if report %}
+    {% if analysis %}
     <div class="container-fluid">
         <!-- Report Header -->
         <div class="row pt-2">
@@ -17,9 +17,9 @@
                 <div class="bg-secondary rounded p-4">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
-                            <h2 class="text-warning mb-1">{{ report.simulation_name }}</h2>
+                            <h2 class="text-warning mb-1">{{ analysis.simulation_name }}</h2>
                             <h4 class="text-primary mb-0">Solar Site Analysis</h4>
-                            <p class="mb-0 text-muted">{{ report.description }}</p>
+                            <p class="mb-0 text-muted">{{ analysis.description }}</p>
                         </div>
                         <div class="text-end">
                             <span class="badge bg-success fs-6">Overall Score: 78/100</span>
@@ -37,7 +37,7 @@
                     <i class="fas fa-bolt fa-3x text-warning"></i>
                     <div class="ms-3">
                         <p class="mb-2">Annual Production</p>
-                        <h6 class="mb-0">125.4 MWh</h6>
+                        <h6 class="mb-0">{{ analysis.production_metrics.annual_energy_kwh }} kWh</h6>
                     </div>
                 </div>
             </div>
@@ -46,7 +46,7 @@
                     <i class="fas fa-solar-panel fa-3x text-info"></i>
                     <div class="ms-3">
                         <p class="mb-2">Capacity Factor</p>
-                        <h6 class="mb-0">21.5%</h6>
+                        <h6 class="mb-0">{{ analysis.production_metrics.capacity_factor_percent }}%</h6>
                     </div>
                 </div>
             </div>
@@ -55,7 +55,7 @@
                     <i class="fas fa-chart-line fa-3x text-success"></i>
                     <div class="ms-3">
                         <p class="mb-2">System Efficiency</p>
-                        <h6 class="mb-0">85.2%</h6>
+                        <h6 class="mb-0">{{ analysis.production_metrics.system_efficiency_percent }}%</h6>
                     </div>
                 </div>
             </div>
@@ -63,8 +63,8 @@
                 <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
                     <i class="fas fa-sun fa-3x text-primary"></i>
                     <div class="ms-3">
-                        <p class="mb-2">Peak Output</p>
-                        <h6 class="mb-0">98.7 kW</h6>
+                        <p class="mb-2">Performance Ratio</p>
+                        <h6 class="mb-0">{{ analysis.production_metrics.performance_ratio_percent }}%</h6>
                     </div>
                 </div>
             </div>
@@ -76,32 +76,24 @@
                 <div class="bg-secondary rounded p-4">
                     <h5 class="mb-4">Performance Score</h5>
                     <div class="text-center mb-4">
-                        <div class="display-4 text-primary fw-bold">78</div>
-                        <span class="badge bg-success fs-6">Good</span>
+                        <div class="display-4 text-primary fw-bold">{{ analysis.overall_score }}</div>
+                        <span class="badge bg-success fs-6">{{ analysis.rating }}</span>
                     </div>
                     <div class="mt-4">
                         <div class="d-flex justify-content-between mb-2">
-                            <span>Energy Yield</span>
-                            <span class="fw-bold text-success">82/100</span>
+                            <span>Peak Alignment</span>
+                            <span class="fw-bold text-warning">{{ analysis.operational_metrics.peak_alignment_factor }}/100</span>
                         </div>
                         <div class="progress mb-3">
-                            <div class="progress-bar bg-success" role="progressbar" style="width: 82%"></div>
+                            <div class="progress-bar bg-warning" role="progressbar" style="width: {{ analysis.operational_metrics.peak_alignment_percent }}%"></div>
                         </div>
                         
                         <div class="d-flex justify-content-between mb-2">
-                            <span>System Losses</span>
-                            <span class="fw-bold text-warning">65/100</span>
-                        </div>
-                        <div class="progress mb-3">
-                            <div class="progress-bar bg-warning" role="progressbar" style="width: 65%"></div>
-                        </div>
-                        
-                        <div class="d-flex justify-content-between mb-2">
-                            <span>Weather Impact</span>
-                            <span class="fw-bold text-info">73/100</span>
+                            <span>Utilization Factor</span>
+                            <span class="fw-bold text-info">{{ analysis.operational_metrics.utilization_factor }}/100</span>
                         </div>
                         <div class="progress">
-                            <div class="progress-bar bg-info" role="progressbar" style="width: 73%"></div>
+                            <div class="progress-bar bg-info" role="progressbar" style="width: {{ analysis.operational_metrics.utilization_factor_percent }}%"></div>
                         </div>
                     </div>
                 </div>
@@ -115,32 +107,54 @@
                             <div class="border rounded p-3 mb-3">
                                 <div class="d-flex justify-content-between">
                                     <span class="fw-bold">Best Month</span>
-                                    <span class="text-success">July</span>
+                                    <span class="text-success" id="best-month-name">July</span>
                                 </div>
-                                <div class="text-end">15,250 kWh</div>
+                                <div class="text-end" id="best-month-production">15,250 kWh</div>
                             </div>
                             <div class="border rounded p-3">
                                 <div class="d-flex justify-content-between">
                                     <span class="fw-bold">Peak Hourly</span>
-                                    <span class="text-warning">98.7 kWh</span>
+                                    <span class="text-warning" id="peak-hourly-production">98.7 kWh</span>
                                 </div>
-                                <div class="text-end">1990-06-15 13:00</div>
+                                <div class="text-end" id="peak-hourly-time">1990-06-15 13:00</div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="border rounded p-3 mb-3">
                                 <div class="d-flex justify-content-between">
                                     <span class="fw-bold">Worst Month</span>
-                                    <span class="text-danger">December</span>
+                                    <span class="text-danger" id="worst-month-name">December</span>
                                 </div>
-                                <div class="text-end">6,845 kWh</div>
+                                <div class="text-end" id="worst-month-production">6,845 kWh</div>
                             </div>
                             <div class="border rounded p-3">
                                 <div class="d-flex justify-content-between">
                                     <span class="fw-bold">Seasonal Variation</span>
-                                    <span class="text-info">55.1%</span>
+                                    <span class="text-info" id="seasonal-variation">55.1%</span>
                                 </div>
-                                <div class="text-end">Moderate Variation</div>
+                                <div class="text-end" id="variation-description">Moderate Variation</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Additional seasonal metrics that can be shown/hidden -->
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <div class="border rounded p-3 mb-3">
+                                <div class="d-flex justify-content-between">
+                                    <span class="fw-bold">Annual Production</span>
+                                    <span class="text-primary" id="annual-production">142,380 kWh</span>
+                                </div>
+                                <div class="text-end small" id="capacity-factor">Capacity Factor: 24.8%</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="border rounded p-3 mb-3">
+                                <div class="d-flex justify-content-between">
+                                    <span class="fw-bold">Avg Monthly</span>
+                                    <span class="text-primary" id="avg-monthly">11,865 kWh</span>
+                                </div>
+                                <div class="text-end small" id="productive-months">12 productive months</div>
                             </div>
                         </div>
                     </div>

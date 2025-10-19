@@ -107,3 +107,7 @@ class PvlibSimulator:
         mc.run_model(weather_data)
         return mc.results
 
+
+
+
+

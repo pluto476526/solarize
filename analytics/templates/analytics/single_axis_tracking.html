@@ -14,9 +14,12 @@
         <!-- Header -->
         <div class="row mb-3 mt-3 px-2">
             <div class="col-12 card shadow-sm bg-secondary">
-                <h1 class="h3 text-primary mt-3"><i class="fas fa-sun me-2"></i>PVLib Solar Energy Modelling</h1>
-                <p class="text-muted small">Configure parameters for PV system modeling and energy production modelling.</p>
-                <p class="text-muted small">Read the documentation below for more details</p>
+                <h1 class="h3 text-primary my-3"><i class="fas fa-sync-alt me-2"></i>Single-Axis Tracking System Simulation</h1>
+                <p class="text-muted small">Single-axis tracking systems dynamically rotate throughout the day to maintain optimal orientation toward the sun, typically following the sun's east-to-west daily path. These advanced systems represent a significant evolution beyond fixed mounting. They employ mechanical tracking mechanisms that can increase energy production by 15-25% compared to optimally tilted fixed arrays. The simulation captures the complex interplay between mechanical movement, changing sun angles, and the resulting energy harvest improvements throughout diurnal and seasonal cycles.</p>
+                
+                <p class="text-muted small">PVLib approaches single-axis tracking simulation through sophisticated algorithms that calculate optimal rotation angles minute-by-minute based on precise solar geometry calculations. The library implements backtracking routines that prevent inter-row shading during morning and evening hours by intentionally misaligning trackers when the sun's low angle would cause shadowing. PVLib models the complete operational sequence including stowing behavior during high wind conditions or nighttime, and restart protocols at dawn. The simulation incorporates mechanical constraints such as rotation limits, movement speed, and power consumption of tracking motors to generate realistic net energy gain calculations.</p>
+                
+                <p class="text-muted small">The comprehensive single-axis tracking simulation provides crucial decision-support for determining when the additional complexity and cost of tracking technology delivers sufficient economic returns. Project developers can accurately quantify the energy gain differential between fixed and tracking systems specific to their location and climate conditions.</p>
             </div>
         </div>
 

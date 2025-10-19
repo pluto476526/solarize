@@ -74,7 +74,49 @@
                     <!-- Energy Modelling -->
                     <div class="nav-item text-uppercase text-muted small px-3 mt-3 mb-1">Energy Modelling</div>
                     <a href="{% url 'pvwatts_modelling' %}" class="nav-item nav-link"><i class="fas fa-bolt me-2"></i>NREL PVWatts</a>
-                    <a href="{% url 'pvlib_modelling' %}" class="nav-item nav-link"><i class="fas fa-bolt me-2"></i>Python pvlib</a>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                            <i class="fas fa-solar-panel me-2"></i>PVlib Simulations
+                        </a>
+                        <div class="dropdown-menu bg-transparent border-0">
+                            <!-- System Configuration -->
+                            <h6 class="dropdown-header text-primary">System Configuration</h6>
+                            <a href="{% url 'fixed_mount_system' %}" class="dropdown-item">
+                                <i class="fas fa-th me-2"></i>Fixed Mount Systems
+                            </a>
+                            <a href="{% url 'single_axis_tracking' %}" class="dropdown-item">
+                                <i class="fas fa-arrows-alt-h me-2"></i>Single-Axis Tracking
+                            </a>
+                            <a href="{% url 'dual_axis_tracking' %}" class="dropdown-item">
+                                <i class="fas fa-arrows-alt me-2"></i>Dual-Axis Tracking
+                            </a>
+                            <a href="{% url 'spec_sheet_modelling' %}" class="dropdown-item">
+                                <i class="fas fa-arrows-alt me-2"></i>Spec Sheet Modelling
+                            </a>
+
+                            
+                            <!-- Advanced Modeling -->
+                            <div class="dropdown-divider"></div>
+                            <h6 class="dropdown-header text-primary">Advanced Modeling</h6>
+                            <a href="{% url 'bifacial_system' %}" class="dropdown-item">
+                                <i class="fas fa-layer-group me-2"></i>Bifacial Systems
+                            </a>
+                            <a href="{% url 'spectral_response' %}" class="dropdown-item">
+                                <i class="fas fa-rainbow me-2"></i>Spectral Response
+                            </a>
+                            <a href="{% url 'temperature_effects' %}" class="dropdown-item">
+                                <i class="fas fa-thermometer-half me-2"></i>Temperature Effects
+                            </a>
+                            
+                            <!-- Component Analysis -->
+                            <div class="dropdown-divider"></div>
+                            <h6 class="dropdown-header text-primary">Component Analysis</h6>
+                            <a href="{% url 'system_sizing' %}" class="dropdown-item">
+                                <i class="fas fa-calculator me-2"></i>System Sizing
+                            </a>
+                        </div>
+                    </div>
+
                     <hr class="my-1 border-secondary">
 
                     <!-- Climate Modelling -->

@@ -1,8 +1,8 @@
 ## data_factory/solarize/comparative_analysis.py
 ## pkibuka@milky-way.space
 
-from data_factory.pvwatts.base_forecast import FetchNRELData
-from data_factory.pvwatts.location_scoring import LocationScorer
+from data_factory.simulators.base_forecast import FetchNRELData
+from data_factory.simulators.location_scoring import LocationScorer
 
 from typing import Dict
 

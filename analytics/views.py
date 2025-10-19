@@ -6,8 +6,8 @@ from django.http import JsonResponse
 from django.conf import settings
 from data_factory.database.manager import DataManager
 from data_factory.database.connection import DatabaseConnection
-from data_factory.pvwatts.simulator import PVWattsSimulator
-from data_factory.pvlib.simulator import PvlibSimulator
+from data_factory.simulators.pvwatts import PVWattsSimulator
+from data_factory.simulators.pvlib import PvlibSimulator
 from analytics import utils
 import logging
 
@@ -164,29 +164,47 @@ def pvlib_modelling_view(request):
     context = {}
     return render(request, "analytics/pvlib_modelling.html", context)
 
-def pvlib_report_view(request):
-    report_id = request.session.get("pvlib_report")
 
-    if not report_id:
-        return redirect("pvlib_modelling")
+def pvlib_report_view(request):
+    # report_id = request.session.get("pvlib_report")
+
+    # if not report_id:
+    #     return redirect("pvlib_modelling")
+
+    report_id = 1
 
     conn = DatabaseConnection()
     db = DataManager(conn)
     report = db.fetch_modelchain_result(report_id)
-    logger.debug(report)
+    ac_aoi = db.fetch_ac_aoi_data(result_id=report_id)
+    airmass = db.fetch_airmass_data(result_id=report_id)
+    cell_temp = db.fetch_cell_temp_data(result_id=report_id)
+    dc_output = db.fetch_dc_output_data(result_id=report_id)
+    diode_params = db.fetch_diode_params_data(result_id=report_id)
+    total_irradiance = db.fetch_total_irradiance_data(result_id=report_id)
+    solar_position = db.fetch_solar_position_data(result_id=report_id)
+    weather = db.fetch_weather_data(result_id=report_id)
+    db.close()
 
-    # savings_chart = None
-
-    # monthly_savings = report["financial_analysis"]["monthly_savings_breakdown"]
-    # savings_chart = monthly_savings_chart(monthly_savings)
-    # report["savings_chart"] = savings_chart
-
-    # scenario_data = report["scenario_analysis"]
-    # efficiency_chart = scenario_efficiency_chart(scenario_data)
-    # report["efficiency_chart"] = efficiency_chart
+    ac_aoi_chart = utils.ac_aoi_chart(ac_aoi, param="ac")
+    airmass_chart = utils.airmass_chart(airmass, param="relative_airmass")
+    cell_temp_chart = utils.cell_temp_chart(cell_temp)
+    dc_output_chart = utils.dc_output_chart(dc_output, param="i_sc")
+    diode_params_chart = utils.diode_params_chart(diode_params, param="i_l")
+    total_irradiance_chart = utils.total_irradiance_chart(total_irradiance, param="poa_global")
+    solar_position_chart = utils.solar_position_chart(solar_position, param="zenith")
+    weather_chart = utils.weather_chart(weather, param="ghi")
 
     context = {
         "report": report,
+        "ac_aoi_chart": ac_aoi_chart,
+        "airmass_chart": airmass_chart,
+        "cell_temp_chart": cell_temp_chart,
+        "dc_output_chart": dc_output_chart,
+        "diode_params_chart": diode_params_chart,
+        "total_irradiance_chart": total_irradiance_chart,
+        "solar_position_chart": solar_position_chart,
+        "weather_chart": weather_chart,
     }
 
     return render(request, "analytics/pvlib_report.html", context)

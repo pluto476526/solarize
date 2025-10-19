@@ -9,367 +9,725 @@
     {% include 'analytics/nav.html' %}
     <!-- Navbar End -->
 
+    {% if report %}
     <div class="container-fluid">
-    <!-- Report Header -->
-    <div class="row pt-2">
-        <div class="col-12">
-            <div class="bg-secondary rounded p-4">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <h2 class="text-warning mb-1">PVLib Solar Analysis Report</h2>
-                        <h4 class="text-primary mb-0">Solar Site Analysis</h4>
-                        <p class="mb-0 text-muted">Simulation Period: 1990 Annual Data</p>
-                    </div>
-                    <div class="text-end">
-                        <span class="badge bg-success fs-6">Overall Score: 78/100</span>
-                        <p class="mb-0 text-muted mt-2">Report Date: 2024-01-15</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Key Metrics -->
-    <div class="row pt-4">
-        <div class="col-sm-6 col-xl-3">
-            <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
-                <i class="fas fa-bolt fa-3x text-warning"></i>
-                <div class="ms-3">
-                    <p class="mb-2">Annual Production</p>
-                    <h6 class="mb-0">125.4 MWh</h6>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-6 col-xl-3">
-            <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
-                <i class="fas fa-solar-panel fa-3x text-info"></i>
-                <div class="ms-3">
-                    <p class="mb-2">Capacity Factor</p>
-                    <h6 class="mb-0">21.5%</h6>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-6 col-xl-3">
-            <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
-                <i class="fas fa-chart-line fa-3x text-success"></i>
-                <div class="ms-3">
-                    <p class="mb-2">System Efficiency</p>
-                    <h6 class="mb-0">85.2%</h6>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-6 col-xl-3">
-            <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
-                <i class="fas fa-sun fa-3x text-primary"></i>
-                <div class="ms-3">
-                    <p class="mb-2">Peak Output</p>
-                    <h6 class="mb-0">98.7 kW</h6>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Performance Analysis -->
-    <div class="row pt-4">
-        <div class="col-sm-12 col-xl-4">
-            <div class="bg-secondary rounded p-4">
-                <h5 class="mb-4">Performance Score</h5>
-                <div class="text-center mb-4">
-                    <div class="display-4 text-primary fw-bold">78</div>
-                    <span class="badge bg-success fs-6">Good</span>
-                </div>
-                <div class="mt-4">
-                    <div class="d-flex justify-content-between mb-2">
-                        <span>Energy Yield</span>
-                        <span class="fw-bold text-success">82/100</span>
-                    </div>
-                    <div class="progress mb-3">
-                        <div class="progress-bar bg-success" role="progressbar" style="width: 82%"></div>
-                    </div>
-                    
-                    <div class="d-flex justify-content-between mb-2">
-                        <span>System Losses</span>
-                        <span class="fw-bold text-warning">65/100</span>
-                    </div>
-                    <div class="progress mb-3">
-                        <div class="progress-bar bg-warning" role="progressbar" style="width: 65%"></div>
-                    </div>
-                    
-                    <div class="d-flex justify-content-between mb-2">
-                        <span>Weather Impact</span>
-                        <span class="fw-bold text-info">73/100</span>
-                    </div>
-                    <div class="progress">
-                        <div class="progress-bar bg-info" role="progressbar" style="width: 73%"></div>
+        <!-- Report Header -->
+        <div class="row pt-2">
+            <div class="col-12">
+                <div class="bg-secondary rounded p-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h2 class="text-warning mb-1">{{ report.simulation_name }}</h2>
+                            <h4 class="text-primary mb-0">Solar Site Analysis</h4>
+                            <p class="mb-0 text-muted">{{ report.description }}</p>
+                        </div>
+                        <div class="text-end">
+                            <span class="badge bg-success fs-6">Overall Score: 78/100</span>
+                            <p class="mb-0 text-muted mt-2">Report Date: 2024-01-15</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-sm-12 col-xl-8">
-            <div class="bg-secondary rounded p-4">
-                <h5 class="mb-4">Seasonal Performance</h5>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="border rounded p-3 mb-3">
-                            <div class="d-flex justify-content-between">
-                                <span class="fw-bold">Best Month</span>
-                                <span class="text-success">July</span>
+        <!-- Key Metrics -->
+        <div class="row pt-4">
+            <div class="col-sm-6 col-xl-3">
+                <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                    <i class="fas fa-bolt fa-3x text-warning"></i>
+                    <div class="ms-3">
+                        <p class="mb-2">Annual Production</p>
+                        <h6 class="mb-0">125.4 MWh</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-3">
+                <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                    <i class="fas fa-solar-panel fa-3x text-info"></i>
+                    <div class="ms-3">
+                        <p class="mb-2">Capacity Factor</p>
+                        <h6 class="mb-0">21.5%</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-3">
+                <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                    <i class="fas fa-chart-line fa-3x text-success"></i>
+                    <div class="ms-3">
+                        <p class="mb-2">System Efficiency</p>
+                        <h6 class="mb-0">85.2%</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-3">
+                <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                    <i class="fas fa-sun fa-3x text-primary"></i>
+                    <div class="ms-3">
+                        <p class="mb-2">Peak Output</p>
+                        <h6 class="mb-0">98.7 kW</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Performance Analysis -->
+        <div class="row pt-4">
+            <div class="col-sm-12 col-xl-4">
+                <div class="bg-secondary rounded p-4">
+                    <h5 class="mb-4">Performance Score</h5>
+                    <div class="text-center mb-4">
+                        <div class="display-4 text-primary fw-bold">78</div>
+                        <span class="badge bg-success fs-6">Good</span>
+                    </div>
+                    <div class="mt-4">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Energy Yield</span>
+                            <span class="fw-bold text-success">82/100</span>
+                        </div>
+                        <div class="progress mb-3">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: 82%"></div>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>System Losses</span>
+                            <span class="fw-bold text-warning">65/100</span>
+                        </div>
+                        <div class="progress mb-3">
+                            <div class="progress-bar bg-warning" role="progressbar" style="width: 65%"></div>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Weather Impact</span>
+                            <span class="fw-bold text-info">73/100</span>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar bg-info" role="progressbar" style="width: 73%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-xl-8">
+                <div class="bg-secondary rounded p-4">
+                    <h5 class="mb-4">Seasonal Performance</h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="border rounded p-3 mb-3">
+                                <div class="d-flex justify-content-between">
+                                    <span class="fw-bold">Best Month</span>
+                                    <span class="text-success">July</span>
+                                </div>
+                                <div class="text-end">15,250 kWh</div>
                             </div>
-                            <div class="text-end">15,250 kWh</div>
-                        </div>
-                        <div class="border rounded p-3">
-                            <div class="d-flex justify-content-between">
-                                <span class="fw-bold">Peak Hourly</span>
-                                <span class="text-warning">98.7 kWh</span>
+                            <div class="border rounded p-3">
+                                <div class="d-flex justify-content-between">
+                                    <span class="fw-bold">Peak Hourly</span>
+                                    <span class="text-warning">98.7 kWh</span>
+                                </div>
+                                <div class="text-end">1990-06-15 13:00</div>
                             </div>
-                            <div class="text-end">1990-06-15 13:00</div>
                         </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="border rounded p-3 mb-3">
-                            <div class="d-flex justify-content-between">
-                                <span class="fw-bold">Worst Month</span>
-                                <span class="text-danger">December</span>
+                        <div class="col-md-6">
+                            <div class="border rounded p-3 mb-3">
+                                <div class="d-flex justify-content-between">
+                                    <span class="fw-bold">Worst Month</span>
+                                    <span class="text-danger">December</span>
+                                </div>
+                                <div class="text-end">6,845 kWh</div>
                             </div>
-                            <div class="text-end">6,845 kWh</div>
-                        </div>
-                        <div class="border rounded p-3">
-                            <div class="d-flex justify-content-between">
-                                <span class="fw-bold">Seasonal Variation</span>
-                                <span class="text-info">55.1%</span>
+                            <div class="border rounded p-3">
+                                <div class="d-flex justify-content-between">
+                                    <span class="fw-bold">Seasonal Variation</span>
+                                    <span class="text-info">55.1%</span>
+                                </div>
+                                <div class="text-end">Moderate Variation</div>
                             </div>
-                            <div class="text-end">Moderate Variation</div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Technical Analysis -->
-    <div class="row pt-4 px-3">
-        <div class="bg-secondary rounded p-4">
-            <div class="d-flex align-items-center justify-content-between mb-4">
-                <h5 class="mb-0">Technical Analysis</h5>
-                <small class="text-muted">ModelChain Results Summary</small>
-            </div>
-            <div class="row g-4">
-                <div class="col-sm-12 col-xl-8 table-responsive">
-                    <table class="table table-hover align-middle">
-                        <thead class="table-dark">
-                            <tr>
-                                <th>Parameter</th>
-                                <th>Value</th>
-                                <th>Unit</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><span class="fw-bold">AC Power Output</span></td>
-                                <td>125,400</td>
-                                <td>kWh/yr</td>
-                                <td>
-                                    <span class="badge bg-success">Optimal</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><span class="fw-bold">Cell Temperature</span></td>
-                                <td>45.2</td>
-                                <td>°C avg</td>
-                                <td>
-                                    <span class="badge bg-success">Normal</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><span class="fw-bold">Effective Irradiance</span></td>
-                                <td>950</td>
-                                <td>W/m² avg</td>
-                                <td>
-                                    <span class="badge bg-warning">Moderate</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><span class="fw-bold">AOI Modifier</span></td>
-                                <td>0.92</td>
-                                <td>ratio</td>
-                                <td>
-                                    <span class="badge bg-success">Good</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><span class="fw-bold">System Losses</span></td>
-                                <td>14.8</td>
-                                <td>%</td>
-                                <td>
-                                    <span class="badge bg-info">Expected</span>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="col-sm-12 col-xl-4">
-                    <div class="bg-white rounded p-3 text-center">
-                        <h6>Performance Ratio</h6>
-                        <div class="display-4 text-primary">0.85</div>
-                        <p class="text-muted">System Performance Index</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- System Configuration -->
-    <div class="row pt-4">
-        <div class="col-sm-12 col-xl-6">
+        <!-- 1. Primary Performance Indicators
+        2. Environmental & Positioning Factors
+        3. Advanced Technical Parameters -->
+        <!-- DC OUTPUT -->
+        <div class="row pt-4 px-3">
             <div class="bg-secondary rounded p-4">
-                <h5 class="mb-4">System Configuration</h5>
-                <div class="row">
-                    <div class="col-6 mb-3">
-                        <div class="border rounded p-3 text-center">
-                            <div class="text-primary fw-bold fs-5">100 kW</div>
-                            <small>System Capacity</small>
-                        </div>
-                    </div>
-                    <div class="col-6 mb-3">
-                        <div class="border rounded p-3 text-center">
-                            <div class="text-success fw-bold fs-5">1 Array</div>
-                            <small>Number of Arrays</small>
-                        </div>
-                    </div>
-                    <div class="col-6 mb-3">
-                        <div class="border rounded p-3 text-center">
-                            <div class="text-info fw-bold fs-5">8760 hrs</div>
-                            <small>Simulation Period</small>
-                        </div>
-                    </div>
-                    <div class="col-6 mb-3">
-                        <div class="border rounded p-3 text-center">
-                            <div class="text-success fw-bold fs-5">Hourly</div>
-                            <small>Data Resolution</small>
-                        </div>
-                    </div>
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <h5 class="mb-0">DC OUTPUT</h5>
+                    <small class="text-muted">View dc output chart</small>
                 </div>
-                <div class="mt-3 p-3 bg-dark rounded text-white">
-                    <h6 class="text-warning">Weather Data</h6>
-                    <div class="d-flex justify-content-between">
-                        <span>Data Source:</span>
-                        <span class="fw-bold">ModelChain Default</span>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <span>Period:</span>
-                        <span class="fw-bold">1990 Annual</span>
-                    </div>
+                <div class="row g-4">
+                   {{ dc_output_chart|safe }}
                 </div>
-            </div>
-        </div>
-
-        <div class="col-sm-12 col-xl-6">
-            <div class="bg-secondary rounded p-4">
-                <h5 class="mb-4">Loss Analysis</h5>
-                <div class="border rounded p-3 mb-3">
-                    <div class="d-flex justify-content-between mb-2">
-                        <span>Soiling Losses</span>
-                        <span class="fw-bold">2.1%</span>
-                    </div>
-                    <div class="progress mb-3" style="height: 8px;">
-                        <div class="progress-bar bg-warning" role="progressbar" style="width: 21%"></div>
-                    </div>
-                    
-                    <div class="d-flex justify-content-between mb-2">
-                        <span>Shading Losses</span>
-                        <span class="fw-bold">1.5%</span>
-                    </div>
-                    <div class="progress mb-3" style="height: 8px;">
-                        <div class="progress-bar bg-info" role="progressbar" style="width: 15%"></div>
-                    </div>
-                    
-                    <div class="d-flex justify-content-between mb-2">
-                        <span>Inverter Losses</span>
-                        <span class="fw-bold">3.2%</span>
-                    </div>
-                    <div class="progress mb-3" style="height: 8px;">
-                        <div class="progress-bar bg-danger" role="progressbar" style="width: 32%"></div>
-                    </div>
-                    
-                    <div class="d-flex justify-content-between">
-                        <span>DC/AC Losses</span>
-                        <span class="fw-bold">8.0%</span>
-                    </div>
-                    <div class="progress" style="height: 8px;">
-                        <div class="progress-bar bg-primary" role="progressbar" style="width: 80%"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Recommendations -->
-    <div class="row pt-4 pb-4">
-        <div class="col-sm-12 col-xl-6">
-            <div class="bg-secondary rounded p-4">
-                <h5 class="mb-4">Optimization Recommendations</h5>
-                <div class="row">
-                    <div class="col-12 mb-3">
-                        <div class="border rounded p-3">
-                            <i class="fas fa-sliders fa-2x text-success mb-2"></i>
-                            <div class="fw-bold">Tilt Angle Optimization</div>
-                            <small>Adjust tilt to 30° for 5% gain</small>
-                        </div>
-                    </div>
-                    <div class="col-12 mb-3">
-                        <div class="border rounded p-3">
-                            <i class="fas fa-arrows-alt-h fa-2x text-warning mb-2"></i>
-                            <div class="fw-bold">Tracking System</div>
-                            <small>Single-axis tracking recommended</small>
-                        </div>
-                    </div>
-                    <div class="col-12 mb-3">
-                        <div class="border rounded p-3">
-                            <i class="fas fa-wind fa-2x text-info mb-2"></i>
-                            <div class="fw-bold">Cooling System</div>
-                            <small>Active cooling for temperature management</small>
+                <!-- Parameter Details -->
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <h6>Parameter Details:</h6>
+                        <div class="table-responsive">
+                            <table class="table table-sm table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Parameter</th>
+                                        <th>Full Name</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><code>i_sc</code></td>
+                                        <td>Short-Circuit Current</td>
+                                        <td>The maximum current output from a solar cell when the terminals are short-circuited (zero voltage), measured in amperes (A). Represents current generation under maximum illumination.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>v_oc</code></td>
+                                        <td>Open-Circuit Voltage</td>
+                                        <td>The maximum voltage output from a solar cell when no current is flowing (open circuit), measured in volts (V). Represents the maximum voltage potential the cell can generate.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>i_mp</code></td>
+                                        <td>Current at Maximum Power</td>
+                                        <td>The current at which the solar cell produces its maximum power output, measured in amperes (A). One of the two coordinates of the maximum power point on the I-V curve.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>v_mp</code></td>
+                                        <td>Voltage at Maximum Power</td>
+                                        <td>The voltage at which the solar cell produces its maximum power output, measured in volts (V). The second coordinate of the maximum power point on the I-V curve.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>p_mp</code></td>
+                                        <td>Power at Maximum Power</td>
+                                        <td>The maximum power output achievable from the solar cell, calculated as P_mp = I_mp × V_mp, measured in watts (W). Represents the optimal operating point for energy production.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>i_x</code></td>
+                                        <td>Current at V = 0.5 × V_oc</td>
+                                        <td>The current output when the cell voltage is half of the open-circuit voltage. Used for characterizing cell performance and calculating fill factor.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>i_xx</code></td>
+                                        <td>Current at V = 0.5 × (V_oc + V_mp)</td>
+                                        <td>The current output at a voltage midway between open-circuit voltage and maximum power voltage. Provides additional characterization points for the I-V curve analysis.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-sm-12 col-xl-6">
+        <!-- AC_AOI -->
+        <div class="row pt-4 px-3">
             <div class="bg-secondary rounded p-4">
-                <h5 class="mb-4">System Recommendations</h5>
-                <div class="mb-3">
-                    <h6>Optimal Configuration</h6>
-                    <div class="d-flex justify-content-between border-bottom pb-2 mb-2">
-                        <span>Inverter Size:</span>
-                        <span class="fw-bold">110 kW</span>
-                    </div>
-                    <div class="d-flex justify-content-between border-bottom pb-2 mb-2">
-                        <span>DC/AC Ratio:</span>
-                        <span class="fw-bold">1.1</span>
-                    </div>
-                    <div class="d-flex justify-content-between border-bottom pb-2 mb-2">
-                        <span>Optimal Tilt:</span>
-                        <span class="fw-bold">30°</span>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <span>Azimuth:</span>
-                        <span class="fw-bold">180°</span>
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <h5 class="mb-0">AC AOI</h5>
+                    <small class="text-muted">AC/AOI results</small>
+                </div>
+                <div class="row g-4">
+                   {{ ac_aoi_chart|safe }}
+                </div>
+                <!-- Parameter Details -->
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <h6>Parameter Details:</h6>
+                        <div class="table-responsive">
+                            <table class="table table-sm table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Parameter</th>
+                                        <th>Full Name</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><code>ac</code></td>
+                                        <td>Alternating Current</td>
+                                        <td>The AC power output from the photovoltaic system after inversion from DC, measured in watts (W) or kilowatts (kW). Represents the usable electricity delivered to the grid or load.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>aoi</code></td>
+                                        <td>Angle of Incidence</td>
+                                        <td>The angle between the sun's rays and the normal (perpendicular) to the surface of the photovoltaic modules, measured in degrees. Affects how much sunlight directly strikes the module surface.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>aoi_modifier</code></td>
+                                        <td>Angle of Incidence Modifier</td>
+                                        <td>A coefficient (typically between 0 and 1) that accounts for the reduction in solar irradiance capture due to the angle of incidence. Higher angles generally result in lower modifiers and reduced energy production.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
-                <div class="mb-3">
-                    <h6>Maintenance Schedule</h6>
-                    <ul class="list-unstyled">
-                        <li><i class="fas fa-check text-success me-2"></i>Monthly performance monitoring</li>
-                        <li><i class="fas fa-check text-success me-2"></i>Quarterly cleaning schedule</li>
-                        <li><i class="fas fa-check text-success me-2"></i>Annual electrical inspection</li>
-                    </ul>
+            </div>
+        </div>
+
+        <!-- IRRADIANCE -->
+        <div class="row pt-4 px-3">
+            <div class="bg-secondary rounded p-4">
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <h5 class="mb-0">IRRADIANCE</h5>
+                    <small class="text-muted">View irradiance chart</small>
+                </div>
+                <div class="row g-4">
+                   {{ total_irradiance_chart|safe }}
+                </div>
+                <!-- Parameter Details -->
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <h6>Parameter Details:</h6>
+                        <div class="table-responsive">
+                            <table class="table table-sm table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Parameter</th>
+                                        <th>Full Name</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><code>poa_global</code></td>
+                                        <td>Plane of Array Global Irradiance</td>
+                                        <td>The total solar irradiance incident on the specific plane (tilt and orientation) of the photovoltaic array, including direct, diffuse, and ground-reflected components, measured in W/m².</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>poa_direct</code></td>
+                                        <td>Plane of Array Direct Irradiance</td>
+                                        <td>The beam solar radiation coming directly from the sun's disk that strikes the photovoltaic array plane, measured in W/m². Most affected by sun position and atmospheric clarity.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>poa_diffuse</code></td>
+                                        <td>Plane of Array Diffuse Irradiance</td>
+                                        <td>The total scattered solar radiation from the sky and surroundings that strikes the photovoltaic array plane, measured in W/m². Includes both sky and ground-reflected components.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>poa_sky_diffuse</code></td>
+                                        <td>Plane of Array Sky Diffuse Irradiance</td>
+                                        <td>The solar radiation scattered by the atmosphere (air molecules, aerosols, clouds) that strikes the photovoltaic array plane, measured in W/m². Does not include ground-reflected radiation.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>poa_ground_diffuse</code></td>
+                                        <td>Plane of Array Ground Diffuse Irradiance</td>
+                                        <td>The solar radiation reflected from the ground surface and surrounding terrain that strikes the photovoltaic array plane, measured in W/m². Depends on ground albedo (reflectivity) and array height.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cell Temperature -->
+        <div class="row pt-4 px-3">
+            <div class="bg-secondary rounded p-4">
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <h5 class="mb-0">CELL TEMPERATURE</h5>
+                    <small class="text-muted">View cell temp chart</small>
+                </div>
+                <div class="row g-4">
+                   {{ cell_temp_chart|safe }}
+                </div>
+                <!-- Parameter Details -->
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <h6>Parameter Details:</h6>
+                        <div class="table-responsive">
+                            <table class="table table-sm table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Parameter</th>
+                                        <th>Full Name</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><code>temperature</code></td>
+                                        <td>Cell Temperature</td>
+                                        <td>The operating temperature of the photovoltaic cells within the solar module, measured in degrees Celsius (°C). Critical parameter as PV efficiency decreases with increasing temperature (typically -0.3% to -0.5% per °C for silicon cells).</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- WEATHER -->
+        <div class="row pt-4 px-3">
+            <div class="bg-secondary rounded p-4">
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <h5 class="mb-0">WEATHER</h5>
+                    <small class="text-muted">View weather chart</small>
+                </div>
+                <div class="row g-4">
+                   {{ weather_chart|safe }}
+                </div>
+                <!-- Parameter Details -->
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <h6>Parameter Details:</h6>
+                        <div class="table-responsive">
+                            <table class="table table-sm table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Parameter</th>
+                                        <th>Full Name</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><code>ghi</code></td>
+                                        <td>Global Horizontal Irradiance</td>
+                                        <td>The total solar radiation received on a horizontal surface, including both direct beam and diffuse sky radiation, measured in W/m². Standard reference for solar resource assessment.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>dni</code></td>
+                                        <td>Direct Normal Irradiance</td>
+                                        <td>The solar radiation coming directly from the sun's disk, measured on a surface perpendicular to the sun's rays, measured in W/m². Critical for concentrating solar systems and tracking arrays.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>dhi</code></td>
+                                        <td>Diffuse Horizontal Irradiance</td>
+                                        <td>The solar radiation scattered by the atmosphere that reaches a horizontal surface, excluding direct beam radiation, measured in W/m². Important for fixed-tilt systems on overcast days.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>temp_air</code></td>
+                                        <td>Air Temperature</td>
+                                        <td>The ambient air temperature at standard height (typically 2 meters), measured in degrees Celsius (°C). Affects PV module efficiency and system performance.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>wind_speed</code></td>
+                                        <td>Wind Speed</td>
+                                        <td>The horizontal speed of air movement at standard height (typically 10 meters), measured in meters per second (m/s). Influences convective cooling of PV modules and structural loading.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SOLAR POSITION -->
+        <div class="row pt-4 px-3">
+            <div class="bg-secondary rounded p-4">
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <h5 class="mb-0">SOLAR POSITION</h5>
+                    <small class="text-muted">View solar position chart</small>
+                </div>
+                <div class="row g-4">
+                   {{ solar_position_chart|safe }}
+                </div>
+                <!-- Parameter Details -->
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <h6>Parameter Details:</h6>
+                        <div class="table-responsive">
+                            <table class="table table-sm table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Parameter</th>
+                                        <th>Full Name</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><code>zenith</code></td>
+                                        <td>Solar Zenith Angle</td>
+                                        <td>The angle between the sun and the vertical (zenith) direction, measured in degrees. 0° = sun directly overhead, 90° = sun on horizon. Geometric calculation without atmospheric refraction.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>azimuth</code></td>
+                                        <td>Solar Azimuth Angle</td>
+                                        <td>The compass direction of the sun relative to true north, measured in degrees (0° = North, 90° = East, 180° = South, 270° = West). Used for tracking system orientation and shading analysis.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>elevation</code></td>
+                                        <td>Solar Elevation Angle</td>
+                                        <td>The angle between the sun and the horizontal plane, measured in degrees. 0° = horizon, 90° = directly overhead. Geometric calculation without atmospheric refraction.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>apparent_zenith</code></td>
+                                        <td>Apparent Solar Zenith Angle</td>
+                                        <td>The solar zenith angle corrected for atmospheric refraction, making the sun appear higher in the sky than its geometric position, measured in degrees. More accurate for actual sun position observations.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>apparent_elevation</code></td>
+                                        <td>Apparent Solar Elevation Angle</td>
+                                        <td>The solar elevation angle corrected for atmospheric refraction, measured in degrees. Accounts for the bending of light rays in the atmosphere, particularly significant near sunrise and sunset.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>equation_of_time</code></td>
+                                        <td>Equation of Time</td>
+                                        <td>The difference between apparent solar time (sundial time) and mean solar time (clock time), measured in minutes. Caused by Earth's elliptical orbit and axial tilt, varying throughout the year (±15 minutes).</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Airmass -->
+        <div class="row pt-4 px-3">
+            <div class="bg-secondary rounded p-4">
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <h5 class="mb-0">AIRMASS</h5>
+                    <small class="text-muted">Absolute and relative airmass</small>
+                </div>
+                <div class="row g-4">
+                   {{ airmass_chart|safe }}
+                </div>
+                <!-- Parameter Details -->
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <h6>Parameter Details:</h6>
+                        <div class="table-responsive">
+                            <table class="table table-sm table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Parameter</th>
+                                        <th>Full Name</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><code>relative_airmass</code></td>
+                                        <td>Relative Airmass</td>
+                                        <td>The optical path length through Earth's atmosphere relative to the path length when the sun is directly overhead (at zenith). At sea level, airmass = 1 when sun is at zenith, and increases as the sun approaches the horizon.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>absolute_airmass</code></td>
+                                        <td>Absolute Airmass</td>
+                                        <td>The actual mass of air in the optical path from the sun to the observer, typically measured in kg/m². Accounts for atmospheric pressure variations and altitude effects on solar irradiance attenuation.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- DIODE PARAMETERS -->
+        <div class="row pt-4 px-3">
+            <div class="bg-secondary rounded p-4">
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <h5 class="mb-0">DIODE PARAMETERS</h5>
+                    <small class="text-muted">View diode params chart</small>
+                </div>
+                <div class="row g-4">
+                   {{ diode_params_chart|safe }}
+                </div>
+                <!-- Parameter Details -->
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <h6>Parameter Details:</h6>
+                        <div class="table-responsive">
+                            <table class="table table-sm table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Parameter</th>
+                                        <th>Full Name</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><code>I_L</code></td>
+                                        <td>Light-Generated Current</td>
+                                        <td>The current generated by the photovoltaic effect when the solar cell is illuminated, approximately equal to the short-circuit current under standard conditions, measured in amperes (A).</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>I_o</code></td>
+                                        <td>Diode Saturation Current</td>
+                                        <td>The reverse saturation current of the p-n junction diode in the solar cell equivalent circuit, measured in amperes (A). Represents minority carrier recombination and affects the open-circuit voltage.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>R_s</code></td>
+                                        <td>Series Resistance</td>
+                                        <td>The parasitic series resistance in the solar cell, including resistance from metal contacts, busbars, and semiconductor material, measured in ohms (Ω). Lower values indicate better cell design and higher efficiency.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>R_sh</code></td>
+                                        <td>Shunt Resistance</td>
+                                        <td>The parasitic parallel (shunt) resistance in the solar cell, representing leakage paths across the p-n junction, measured in ohms (Ω). Higher values indicate better junction quality and reduced current leakage.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>nNsVth</code></td>
+                                        <td>Thermal Voltage × Ideality Factor × Cells in Series</td>
+                                        <td>The product of the diode ideality factor (n), number of cells in series (Ns), and thermal voltage (Vth = kT/q). Used in the diode equation to characterize the current-voltage relationship of the solar cell.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- System Configuration -->
+        <div class="row pt-4">
+            <div class="col-sm-12 col-xl-6">
+                <div class="bg-secondary rounded p-4">
+                    <h5 class="mb-4">System Configuration</h5>
+                    <div class="row">
+                        <div class="col-6 mb-3">
+                            <div class="border rounded p-3 text-center">
+                                <div class="text-primary fw-bold fs-5">100 kW</div>
+                                <small>System Capacity</small>
+                            </div>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <div class="border rounded p-3 text-center">
+                                <div class="text-success fw-bold fs-5">1 Array</div>
+                                <small>Number of Arrays</small>
+                            </div>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <div class="border rounded p-3 text-center">
+                                <div class="text-info fw-bold fs-5">8760 hrs</div>
+                                <small>Simulation Period</small>
+                            </div>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <div class="border rounded p-3 text-center">
+                                <div class="text-success fw-bold fs-5">Hourly</div>
+                                <small>Data Resolution</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-3 p-3 bg-dark rounded text-white">
+                        <h6 class="text-warning">Weather Data</h6>
+                        <div class="d-flex justify-content-between">
+                            <span>Data Source:</span>
+                            <span class="fw-bold">ModelChain Default</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span>Period:</span>
+                            <span class="fw-bold">1990 Annual</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-xl-6">
+                <div class="bg-secondary rounded p-4">
+                    <h5 class="mb-4">Loss Analysis</h5>
+                    <div class="border rounded p-3 mb-3">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Soiling Losses</span>
+                            <span class="fw-bold">2.1%</span>
+                        </div>
+                        <div class="progress mb-3" style="height: 8px;">
+                            <div class="progress-bar bg-warning" role="progressbar" style="width: 21%"></div>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Shading Losses</span>
+                            <span class="fw-bold">1.5%</span>
+                        </div>
+                        <div class="progress mb-3" style="height: 8px;">
+                            <div class="progress-bar bg-info" role="progressbar" style="width: 15%"></div>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Inverter Losses</span>
+                            <span class="fw-bold">3.2%</span>
+                        </div>
+                        <div class="progress mb-3" style="height: 8px;">
+                            <div class="progress-bar bg-danger" role="progressbar" style="width: 32%"></div>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between">
+                            <span>DC/AC Losses</span>
+                            <span class="fw-bold">8.0%</span>
+                        </div>
+                        <div class="progress" style="height: 8px;">
+                            <div class="progress-bar bg-primary" role="progressbar" style="width: 80%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recommendations -->
+        <div class="row pt-4 pb-4">
+            <div class="col-sm-12 col-xl-6">
+                <div class="bg-secondary rounded p-4">
+                    <h5 class="mb-4">Optimization Recommendations</h5>
+                    <div class="row">
+                        <div class="col-12 mb-3">
+                            <div class="border rounded p-3">
+                                <i class="fas fa-sliders fa-2x text-success mb-2"></i>
+                                <div class="fw-bold">Tilt Angle Optimization</div>
+                                <small>Adjust tilt to 30° for 5% gain</small>
+                            </div>
+                        </div>
+                        <div class="col-12 mb-3">
+                            <div class="border rounded p-3">
+                                <i class="fas fa-arrows-alt-h fa-2x text-warning mb-2"></i>
+                                <div class="fw-bold">Tracking System</div>
+                                <small>Single-axis tracking recommended</small>
+                            </div>
+                        </div>
+                        <div class="col-12 mb-3">
+                            <div class="border rounded p-3">
+                                <i class="fas fa-wind fa-2x text-info mb-2"></i>
+                                <div class="fw-bold">Cooling System</div>
+                                <small>Active cooling for temperature management</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-xl-6">
+                <div class="bg-secondary rounded p-4">
+                    <h5 class="mb-4">System Recommendations</h5>
+                    <div class="mb-3">
+                        <h6>Optimal Configuration</h6>
+                        <div class="d-flex justify-content-between border-bottom pb-2 mb-2">
+                            <span>Inverter Size:</span>
+                            <span class="fw-bold">110 kW</span>
+                        </div>
+                        <div class="d-flex justify-content-between border-bottom pb-2 mb-2">
+                            <span>DC/AC Ratio:</span>
+                            <span class="fw-bold">1.1</span>
+                        </div>
+                        <div class="d-flex justify-content-between border-bottom pb-2 mb-2">
+                            <span>Optimal Tilt:</span>
+                            <span class="fw-bold">30°</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span>Azimuth:</span>
+                            <span class="fw-bold">180°</span>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <h6>Maintenance Schedule</h6>
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-check text-success me-2"></i>Monthly performance monitoring</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Quarterly cleaning schedule</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Annual electrical inspection</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    </div>
+    {% endif %}
 </div>
 
 {% endblock %}

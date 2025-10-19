@@ -206,5 +206,127 @@ class DataManager:
 
         return result
 
+
+    def fetch_ac_aoi_data(self, result_id):
+        try:
+            query = queries.fetch_ac_aoi_query(result_id=result_id)
+            
+            with self.db.cursor() as cur:
+                cur.execute(query)
+                rows = cur.fetchall()
+                columns = [desc[0] for desc in cur.description]
+            
+            return pd.DataFrame(rows, columns=columns)
+
+        except Exception as e:
+            logger.error(f"No data: {e}")
+            return pd.DataFrame()
+
+    def fetch_airmass_data(self, result_id):
+        try:
+            query = queries.fetch_airmass_query(result_id=result_id)
+            
+            with self.db.cursor() as cur:
+                cur.execute(query)
+                rows = cur.fetchall()
+                columns = [desc[0] for desc in cur.description]
+            
+            return pd.DataFrame(rows, columns=columns)
+
+        except Exception as e:
+            logger.error(f"No data: {e}")
+            return pd.DataFrame()
+
+    def fetch_cell_temp_data(self, result_id):
+        try:
+            query = queries.fetch_cell_temp_query(result_id=result_id)
+            
+            with self.db.cursor() as cur:
+                cur.execute(query)
+                rows = cur.fetchall()
+                columns = [desc[0] for desc in cur.description]
+            
+            return pd.DataFrame(rows, columns=columns)
+
+        except Exception as e:
+            logger.error(f"No data: {e}")
+            return pd.DataFrame()
+
+    def fetch_dc_output_data(self, result_id):
+        try:
+            query = queries.fetch_dc_output_query(result_id=result_id)
+            
+            with self.db.cursor() as cur:
+                cur.execute(query)
+                rows = cur.fetchall()
+                columns = [desc[0] for desc in cur.description]
+            
+            return pd.DataFrame(rows, columns=columns)
+
+        except Exception as e:
+            logger.error(f"No data: {e}")
+            return pd.DataFrame()
+
+    def fetch_diode_params_data(self, result_id):
+        try:
+            query = queries.fetch_diode_params_query(result_id=result_id)
+            
+            with self.db.cursor() as cur:
+                cur.execute(query)
+                rows = cur.fetchall()
+                columns = [desc[0] for desc in cur.description]
+            
+            return pd.DataFrame(rows, columns=columns)
+
+        except Exception as e:
+            logger.error(f"No data: {e}")
+            return pd.DataFrame()
+
+    def fetch_total_irradiance_data(self, result_id):
+        try:
+            query = queries.fetch_total_irradiance_query(result_id=result_id)
+            
+            with self.db.cursor() as cur:
+                cur.execute(query)
+                rows = cur.fetchall()
+                columns = [desc[0] for desc in cur.description]
+            
+            return pd.DataFrame(rows, columns=columns)
+
+        except Exception as e:
+            logger.error(f"No data: {e}")
+            return pd.DataFrame()
+
+    def fetch_solar_position_data(self, result_id):
+        try:
+            query = queries.fetch_solar_position_query(result_id=result_id)
+            
+            with self.db.cursor() as cur:
+                cur.execute(query)
+                rows = cur.fetchall()
+                columns = [desc[0] for desc in cur.description]
+            
+            return pd.DataFrame(rows, columns=columns)
+
+        except Exception as e:
+            logger.error(f"No data: {e}")
+            return pd.DataFrame()
+
+    def fetch_weather_data(self, result_id):
+        try:
+            query = queries.fetch_weather_query(result_id=result_id)
+            
+            with self.db.cursor() as cur:
+                cur.execute(query)
+                rows = cur.fetchall()
+                columns = [desc[0] for desc in cur.description]
+            
+            return pd.DataFrame(rows, columns=columns)
+
+        except Exception as e:
+            logger.error(f"No data: {e}")
+            return pd.DataFrame()
+
+
     def close(self):
         self.db.close()

@@ -6,6 +6,7 @@ import plotly.graph_objects as go
 from plotly.offline import plot
 from typing import Dict
 import logging
+import pandas as pd
 import json
 import os
 import calendar
@@ -98,4 +99,273 @@ def scenario_efficiency_chart(scenario_data: Dict):
 
     efficiency_chart = plot(fig, output_type="div", include_plotlyjs=False)
     return efficiency_chart
+
+
+def ac_aoi_chart(ac_aoi: pd.DataFrame, param: str):
+    df = ac_aoi.copy()
+
+    # Check if the entire series is NaN
+    if df[param].isna().all():
+        fig = go.Figure()
+        fig.update_layout(
+            title=f"No data available for '{param}'",
+            xaxis_title="Time",
+            yaxis_title="Value",
+            template="plotly_dark"
+        )
+        return plot(fig, output_type="div", include_plotlyjs=False)
+
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(
+        x=df["day"],
+        y=df[param],
+        mode="lines",
+        connectgaps=True
+    ))
+
+    fig.update_layout(
+        xaxis_title="Time",
+        yaxis_title="Value",
+        template="plotly_dark",
+        title=param,
+        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
+    )
+
+    return plot(fig, output_type="div", include_plotlyjs=False)
+
+def airmass_chart(airmass: pd.DataFrame, param: str):
+    df = airmass.copy()
+    # df[param] = df[param].fillna(0)
+
+    # Check if the entire series is NaN
+    if df[param].isna().all():
+        fig = go.Figure()
+        fig.update_layout(
+            title=f"No {param} data available",
+            xaxis_title="Time",
+            yaxis_title="Value",
+            template="plotly_dark"
+        )
+        return plot(fig, output_type="div", include_plotlyjs=False)
+
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(
+        x=df["day"],
+        y=df[param],
+        mode="lines",
+        connectgaps=True
+    ))
+
+    fig.update_layout(
+        xaxis_title="Time",
+        yaxis_title="Value",
+        template="plotly_dark",
+        title=param,
+        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
+    )
+
+    return plot(fig, output_type="div", include_plotlyjs=False)
+
+
+def cell_temp_chart(cell_temp: pd.DataFrame):
+    df = cell_temp.copy()
+    # df.ffill()
+
+    # Check if the entire series is NaN
+    if df["cell_temperature"].isna().all():
+        fig = go.Figure()
+        fig.update_layout(
+            title=f"No cell temperature data available",
+            xaxis_title="Time",
+            yaxis_title="Value",
+            template="plotly_dark"
+        )
+        return plot(fig, output_type="div", include_plotlyjs=False)
+
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(
+        x=df["day"],
+        y=df["cell_temperature"],
+        mode="lines",
+        connectgaps=True
+    ))
+
+    fig.update_layout(
+        xaxis_title="Time",
+        yaxis_title="Value",
+        template="plotly_dark",
+        title="Cell Temperature",
+        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
+    )
+
+    return plot(fig, output_type="div", include_plotlyjs=False)
+
+
+def dc_output_chart(dc_output: pd.DataFrame, param: str):
+    df = dc_output.copy()
+
+    # Check if the entire series is NaN
+    if df[param].isna().all():
+        fig = go.Figure()
+        fig.update_layout(
+            title=f"No {param} data available",
+            xaxis_title="Time",
+            yaxis_title="Value",
+            template="plotly_dark"
+        )
+        return plot(fig, output_type="div", include_plotlyjs=False)
+
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(
+        x=df["day"],
+        y=df[param],
+        mode="lines",
+        connectgaps=True
+    ))
+
+    fig.update_layout(
+        xaxis_title="Time",
+        yaxis_title="Value",
+        template="plotly_dark",
+        title=param,
+        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
+    )
+
+    return plot(fig, output_type="div", include_plotlyjs=False)
+
+
+def diode_params_chart(diode_params: pd.DataFrame, param: str):
+    df = diode_params.copy()
+
+    # Check if the entire series is NaN
+    if df[param].isna().all():
+        fig = go.Figure()
+        fig.update_layout(
+            title=f"No {param} data available",
+            xaxis_title="Time",
+            yaxis_title="Value",
+            template="plotly_dark"
+        )
+        return plot(fig, output_type="div", include_plotlyjs=False)
+
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(
+        x=df["day"],
+        y=df[param],
+        mode="lines",
+        connectgaps=True
+    ))
+
+    fig.update_layout(
+        xaxis_title="Time",
+        yaxis_title="Value",
+        template="plotly_dark",
+        title=param,
+        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
+    )
+
+    return plot(fig, output_type="div", include_plotlyjs=False)
+
+
+
+def total_irradiance_chart(total_irradiance: pd.DataFrame, param: str):
+    df = total_irradiance.copy()
+
+    # Check if the entire series is NaN
+    if df[param].isna().all():
+        fig = go.Figure()
+        fig.update_layout(
+            title=f"No {param} data available",
+            xaxis_title="Time",
+            yaxis_title="Value",
+            template="plotly_dark"
+        )
+        return plot(fig, output_type="div", include_plotlyjs=False)
+
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(
+        x=df["day"],
+        y=df[param],
+        mode="lines",
+        connectgaps=True
+    ))
+
+    fig.update_layout(
+        xaxis_title="Time",
+        yaxis_title="Value",
+        template="plotly_dark",
+        title=param,
+        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
+    )
+
+    return plot(fig, output_type="div", include_plotlyjs=False)
+
+
+
+def solar_position_chart(solar_position: pd.DataFrame, param: str):
+    df = solar_position.copy()
+
+    # Check if the entire series is NaN
+    if df[param].isna().all():
+        fig = go.Figure()
+        fig.update_layout(
+            title=f"No {param} data available",
+            xaxis_title="Time",
+            yaxis_title="Value",
+            template="plotly_dark"
+        )
+        return plot(fig, output_type="div", include_plotlyjs=False)
+
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(
+        x=df["day"],
+        y=df[param],
+        mode="lines",
+        connectgaps=True
+    ))
+
+    fig.update_layout(
+        xaxis_title="Time",
+        yaxis_title="Value",
+        template="plotly_dark",
+        title=param,
+        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
+    )
+
+    return plot(fig, output_type="div", include_plotlyjs=False)
+
+
+def weather_chart(weather: pd.DataFrame, param: str):
+    df = weather.copy()
+
+    # Check if the entire series is NaN
+    if df[param].isna().all():
+        fig = go.Figure()
+        fig.update_layout(
+            title=f"No {param} data available",
+            xaxis_title="Time",
+            yaxis_title="Value",
+            template="plotly_dark"
+        )
+        return plot(fig, output_type="div", include_plotlyjs=False)
+
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(
+        x=df["day"],
+        y=df[param],
+        mode="lines",
+        connectgaps=True
+    ))
+
+    fig.update_layout(
+        xaxis_title="Time",
+        yaxis_title="Value",
+        template="plotly_dark",
+        title=param,
+        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
+    )
+
+    return plot(fig, output_type="div", include_plotlyjs=False)
+
+
 

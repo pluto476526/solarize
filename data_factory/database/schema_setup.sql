@@ -53,7 +53,12 @@ CREATE TABLE IF NOT EXISTS ac_aoi (
     PRIMARY KEY (result_id, utc_time)
 );
 
-SELECT create_hypertable('ac_aoi', 'utc_time', chunk_time_interval => interval '1 month', if_not_exists => TRUE);
+SELECT create_hypertable(
+    'ac_aoi',
+    'utc_time',
+    chunk_time_interval => interval '1 month',
+    if_not_exists => TRUE
+);
 
 -- ===============================================================
 -- 4. PVlib Airmass Table

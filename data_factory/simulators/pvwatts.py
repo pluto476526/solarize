@@ -10,14 +10,14 @@ from datetime import datetime
 from decouple import config
 
 
-from data_factory.pvwatts.scenario_modelling import ScenarioModelling
-from data_factory.pvwatts.base_forecast import FetchNRELData
-from data_factory.pvwatts.financials import FinancialMetrics
-from data_factory.pvwatts.location_scoring import LocationScorer
-from data_factory.pvwatts.seasonal_insights import SeasonalInsights
-from data_factory.pvwatts.environmental_impact import EnvironmentalImpact
-from data_factory.pvwatts.system_recommendations import SysRecommendations
-from data_factory.pvwatts.comparative_analysis import ComparativeAnalysis
+from data_factory.simulators.scenario_modelling import ScenarioModelling
+from data_factory.simulators.base_forecast import FetchNRELData
+from data_factory.simulators.financials import FinancialMetrics
+from data_factory.simulators.location_scoring import LocationScorer
+from data_factory.simulators.seasonal_insights import SeasonalInsights
+from data_factory.simulators.environmental_impact import EnvironmentalImpact
+from data_factory.simulators.system_recommendations import SysRecommendations
+from data_factory.simulators.comparative_analysis import ComparativeAnalysis
 
 import logging
 

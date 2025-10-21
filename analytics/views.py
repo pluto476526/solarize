@@ -211,7 +211,10 @@ def pvlib_report_view(request):
     analyzer = Analyzer(simulation_data)
     analysis = analyzer.calculate_score()
 
-    ac_aoi = db.fetch_ac_aoi_data(result_id=report_id)
+    ac_aoi_param = request.GET.get("ac_aoi_parameter", "ac")
+    ac_aoi_array = int(request.GET.get("array_idx", "1"))
+    ac_aoi_chart = utils.ac_aoi_chart(simulation_data['ac_aoi'], ac_aoi_array, ac_aoi_param)
+
     airmass = db.fetch_airmass_data(result_id=report_id)
     cell_temp = db.fetch_cell_temp_data(result_id=report_id)
     dc_output = db.fetch_dc_output_data(result_id=report_id)
@@ -221,7 +224,6 @@ def pvlib_report_view(request):
     weather = db.fetch_weather_data(result_id=report_id)
     db.close()
 
-    ac_aoi_chart = utils.ac_aoi_chart(ac_aoi, param="ac")
     airmass_chart = utils.airmass_chart(airmass, param="relative_airmass")
     cell_temp_chart = utils.cell_temp_chart(cell_temp)
     dc_output_chart = utils.dc_output_chart(dc_output, param="i_sc")
@@ -232,7 +234,8 @@ def pvlib_report_view(request):
 
     context = {
         "analysis": analysis,
-        "ac_aoi_chart": ac_aoi_chart,
+        "ac_aoi_cols": ["ac", "aoi", "aoi_modifier"],
+        # "ac_aoi_chart": ac_aoi_chart,
         "airmass_chart": airmass_chart,
         "cell_temp_chart": cell_temp_chart,
         "dc_output_chart": dc_output_chart,

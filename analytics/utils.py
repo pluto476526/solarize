@@ -101,8 +101,10 @@ def scenario_efficiency_chart(scenario_data: Dict):
     return efficiency_chart
 
 
-def ac_aoi_chart(ac_aoi: pd.DataFrame, param: str):
-    df = ac_aoi.copy()
+def ac_aoi_chart(ac_aoi, array, param):
+
+    df = pd.DataFrame(ac_aoi[array][param])
+    logger.debug(df.head())
 
     # Check if the entire series is NaN
     if df[param].isna().all():
@@ -115,7 +117,7 @@ def ac_aoi_chart(ac_aoi: pd.DataFrame, param: str):
 
     fig = go.Figure()
     fig.add_trace(go.Scatter(
-        x=df["day"],
+        x=df["utc_time"],
         y=df[param],
         mode="lines",
         connectgaps=True

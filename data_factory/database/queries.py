@@ -25,19 +25,6 @@ def irradiance_ohlc_query(bucket: str = "1 week"):
     """
 
 
-def fetch_ac_aoi_query(result_id: float):
-    return f"""
-    SELECT
-        date(utc_time) AS day,
-        max(ac) AS ac,
-        max(aoi) AS aoi,
-        max(aoi_modifier) AS aoi_modifier
-    FROM ac_aoi
-    WHERE result_id = {result_id}
-    GROUP BY DATE(utc_time)
-    ORDER BY day DESC;
-    """
-
 def fetch_airmass_query(result_id: float):
     return f"""
     SELECT

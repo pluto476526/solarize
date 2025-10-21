@@ -1,11 +1,13 @@
 -- data_factory/schema_setup.sql
 -- pkibuka@milky-way.space
 
--- Enable TimescaleDB extension (for time-series optimization)
+-- ===============================================================
+-- Enable TimescaleDB Extension
+-- ===============================================================
 CREATE EXTENSION IF NOT EXISTS timescaledb;
 
 -- ===============================================================
--- 1. Irradiance Data Table (hypertable)
+-- 1. Irradiance Data Table (Hypertable)
 -- ===============================================================
 CREATE TABLE IF NOT EXISTS irradiance_data (
     insert_date DATE NOT NULL,
@@ -19,7 +21,6 @@ CREATE TABLE IF NOT EXISTS irradiance_data (
     PRIMARY KEY (insert_date, parameter, lon, lat)
 );
 
--- Convert to hypertable for time-series performance
 SELECT create_hypertable(
     'irradiance_data',
     'insert_date',
@@ -35,62 +36,55 @@ CREATE TABLE IF NOT EXISTS modelchain_results (
     simulation_name TEXT,
     description TEXT,
     created_at TIMESTAMPTZ DEFAULT NOW(),
-    albedo NUMERIC,
+    albedo JSONB,
     losses NUMERIC,
-    spectral_modifier NUMERIC,
+    spectral_modifier JSONB,
     tracking JSONB
 );
 
 -- ===============================================================
--- 3. PVlib AC & AOI Table
+-- 3. Tuple-Support Time-Series Tables
+-- Each table includes `array_name` and a composite PK
 -- ===============================================================
+
+-- AC & AOI
 CREATE TABLE IF NOT EXISTS ac_aoi (
     result_id INT NOT NULL REFERENCES modelchain_results(result_id),
     utc_time TIMESTAMPTZ NOT NULL,
+    array_name TEXT,
     ac NUMERIC,
     aoi NUMERIC,
     aoi_modifier NUMERIC,
-    PRIMARY KEY (result_id, utc_time)
+    PRIMARY KEY (result_id, utc_time, array_name)
 );
+SELECT create_hypertable('ac_aoi', 'utc_time', chunk_time_interval => INTERVAL '1 month', if_not_exists => TRUE);
 
-SELECT create_hypertable(
-    'ac_aoi',
-    'utc_time',
-    chunk_time_interval => interval '1 month',
-    if_not_exists => TRUE
-);
-
--- ===============================================================
--- 4. PVlib Airmass Table
--- ===============================================================
+-- Airmass
 CREATE TABLE IF NOT EXISTS airmass (
     result_id INT NOT NULL REFERENCES modelchain_results(result_id),
     utc_time TIMESTAMPTZ NOT NULL,
+    array_name TEXT,
     airmass_relative NUMERIC,
     airmass_absolute NUMERIC,
-    PRIMARY KEY (result_id, utc_time)
+    PRIMARY KEY (result_id, utc_time, array_name)
 );
+SELECT create_hypertable('airmass', 'utc_time', chunk_time_interval => INTERVAL '1 month', if_not_exists => TRUE);
 
-SELECT create_hypertable('airmass', 'utc_time', chunk_time_interval => interval '1 month', if_not_exists => TRUE);
-
--- ===============================================================
--- 5. PVlib Cell Temparatures Table
--- ===============================================================
+-- Cell Temperature
 CREATE TABLE IF NOT EXISTS cell_temperature (
     result_id INT NOT NULL REFERENCES modelchain_results(result_id),
     utc_time TIMESTAMPTZ NOT NULL,
+    array_name TEXT,
     temperature NUMERIC,
-    PRIMARY KEY (result_id, utc_time)
+    PRIMARY KEY (result_id, utc_time, array_name)
 );
+SELECT create_hypertable('cell_temperature', 'utc_time', chunk_time_interval => INTERVAL '1 month', if_not_exists => TRUE);
 
-SELECT create_hypertable('cell_temperature', 'utc_time', chunk_time_interval => interval '1 month', if_not_exists => TRUE);
-
--- ===============================================================
--- 6. PVlib DC Output Table
--- ===============================================================
+-- DC Output
 CREATE TABLE IF NOT EXISTS dc_output (
     result_id INT NOT NULL REFERENCES modelchain_results(result_id),
     utc_time TIMESTAMPTZ NOT NULL,
+    array_name TEXT,
     i_sc NUMERIC,
     v_oc NUMERIC,
     i_mp NUMERIC,
@@ -98,82 +92,77 @@ CREATE TABLE IF NOT EXISTS dc_output (
     p_mp NUMERIC,
     i_x NUMERIC,
     i_xx NUMERIC,
-    PRIMARY KEY (result_id, utc_time)
+    PRIMARY KEY (result_id, utc_time, array_name)
 );
+SELECT create_hypertable('dc_output', 'utc_time', chunk_time_interval => INTERVAL '1 month', if_not_exists => TRUE);
 
-SELECT create_hypertable('dc_output', 'utc_time', chunk_time_interval => interval '1 month', if_not_exists => TRUE);
-
--- ===============================================================
--- 7. PVlib Diode Parameters Table
--- ===============================================================
+-- Diode Parameters
 CREATE TABLE IF NOT EXISTS diode_params (
     result_id INT NOT NULL REFERENCES modelchain_results(result_id),
     utc_time TIMESTAMPTZ NOT NULL,
+    array_name TEXT,
     I_L NUMERIC,
     I_o NUMERIC,
     R_s NUMERIC,
     R_sh NUMERIC,
     nNsVth NUMERIC,
-    PRIMARY KEY (result_id, utc_time)
+    PRIMARY KEY (result_id, utc_time, array_name)
 );
+SELECT create_hypertable('diode_params', 'utc_time', chunk_time_interval => INTERVAL '1 month', if_not_exists => TRUE);
 
-SELECT create_hypertable('diode_params', 'utc_time', chunk_time_interval => interval '1 month', if_not_exists => TRUE);
-
--- ===============================================================
--- 8. PVlib Total Irradiance Table
--- ===============================================================
+-- Total Irradiance
 CREATE TABLE IF NOT EXISTS total_irradiance (
     result_id INT NOT NULL REFERENCES modelchain_results(result_id),
     utc_time TIMESTAMPTZ NOT NULL,
+    array_name TEXT,
     poa_global NUMERIC,
     poa_direct NUMERIC,
     poa_diffuse NUMERIC,
     poa_sky_diffuse NUMERIC,
     poa_ground_diffuse NUMERIC,
-    PRIMARY KEY (result_id, utc_time)
+    PRIMARY KEY (result_id, utc_time, array_name)
 );
+SELECT create_hypertable('total_irradiance', 'utc_time', chunk_time_interval => INTERVAL '1 month', if_not_exists => TRUE);
 
-SELECT create_hypertable('total_irradiance', 'utc_time', chunk_time_interval => interval '1 month', if_not_exists => TRUE);
-
--- ===============================================================
--- 9. PVlib DC Solar Position Table
--- ===============================================================
+-- Solar Position
 CREATE TABLE IF NOT EXISTS solar_position (
     result_id INT NOT NULL REFERENCES modelchain_results(result_id),
     utc_time TIMESTAMPTZ NOT NULL,
+    array_name TEXT,
     zenith NUMERIC,
     azimuth NUMERIC,
     elevation NUMERIC,
     apparent_zenith NUMERIC,
     apparent_elevation NUMERIC,
     equation_of_time NUMERIC,
-    PRIMARY KEY (result_id, utc_time)
+    PRIMARY KEY (result_id, utc_time, array_name)
 );
+SELECT create_hypertable('solar_position', 'utc_time', chunk_time_interval => INTERVAL '1 month', if_not_exists => TRUE);
 
-SELECT create_hypertable('solar_position', 'utc_time', chunk_time_interval => interval '1 month', if_not_exists => TRUE);
-
--- ===============================================================
--- 10. PVlib Weather Data Table
--- ===============================================================
+-- Weather Data
 CREATE TABLE IF NOT EXISTS weather (
     result_id INT NOT NULL REFERENCES modelchain_results(result_id),
     utc_time TIMESTAMPTZ NOT NULL,
+    array_name TEXT,
     ghi NUMERIC,
     dni NUMERIC,
     dhi NUMERIC,
     temp_air NUMERIC,
     wind_speed NUMERIC,
-    PRIMARY KEY (result_id, utc_time)
+    PRIMARY KEY (result_id, utc_time, array_name)
 );
-
-SELECT create_hypertable('weather', 'utc_time', chunk_time_interval => interval '1 month', if_not_exists => TRUE);
+SELECT create_hypertable('weather', 'utc_time', chunk_time_interval => INTERVAL '1 month', if_not_exists => TRUE);
 
 -- ===============================================================
--- 11. Permissions
+-- 4. Permissions
 -- ===============================================================
 GRANT USAGE ON SCHEMA public TO pluto;
 GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO pluto;
 GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO pluto;
 
--- Usage:
--- psql -U pluto -d solarize -f schema_setup.sql
+
+
+
+
+
+

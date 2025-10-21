@@ -1,11 +1,14 @@
 from typing import Dict
 import pandas as pd
-
+from data_factory.pvlib import utils
 
 class Analyzer:
     def __init__(self, simulation_data: Dict):
-        self.simulation_data = simulation_data
-        self.ac_power = simulation_data['ac_aoi']['ac']  # AC power in watts
+        # self.ac_power = simulation_data['ac_aoi']['ac']  # AC power in watts
+        self.ac_power = utils.aggregate_timeseries(simulation_data['ac_aoi'], column='ac')
+        self.poa_global = utils.aggregate_timeseries(simulation_data['total_irrad'], column="poa_global")
+        self.cell_temp = utils.aggregate_timeseries(simulation_data['cell_temperature'], column="temperature")
+       
         
     def get_rating_description(self, score: float) -> str:
         if score >= 90: return "Excellent"
@@ -22,11 +25,9 @@ class Analyzer:
 
     def calculate_system_efficiency(self) -> float:
         """Calculate overall system efficiency: AC energy out / Solar energy in"""
-        # Get total solar irradiance in the plane of array (W/m²)
-        poa_global = self.simulation_data['total_irrad']['poa_global']
-        
+        # Get total solar irradiance in the plane of array (W/m²)        
         # Calculate total solar energy available (assuming 1 m² for relative efficiency)
-        total_solar_energy_wh = poa_global.sum()  # W/m² * hours = Wh/m²
+        total_solar_energy_wh = self.poa_global.sum()  # W/m² * hours = Wh/m²
         
         # Calculate total AC energy produced (Wh)
         total_ac_energy_wh = self.ac_power.sum()  # W * hours = Wh
@@ -48,22 +49,19 @@ class Analyzer:
     def calculate_performance_ratio(self) -> float:
         """Calculate performance ratio (actual output / theoretical output)"""
         # Theoretical output based on irradiance and system characteristics
-        poa_global = self.simulation_data['total_irrad']['poa_global']
-        cell_temp = self.simulation_data['cell_temperature']['temperature']
-        
         # Simple theoretical model: power ≈ irradiance * temperature_factor
         # Temperature derating: typically -0.3% to -0.5% per °C above 25°C
         temp_coeff = -0.004  # -0.4% per °C
-        temp_correction = 1 + (temp_coeff * (cell_temp - 25))
+        temp_correction = 1 + (temp_coeff * (self.cell_temp - 25))
         
         # Theoretical DC power (simplified)
-        theoretical_dc = poa_global * temp_correction
+        theoretical_dc = self.poa_global * temp_correction
         
         # Compare actual AC to theoretical DC (accounting for inverter efficiency)
         actual_ac = self.ac_power
         
         # Filter only daylight hours for meaningful comparison
-        daylight_mask = poa_global > 10  # W/m² threshold for daylight
+        daylight_mask = self.poa_global > 10  # W/m² threshold for daylight
         if daylight_mask.any():
             pr = (actual_ac[daylight_mask].sum() / theoretical_dc[daylight_mask].sum()) * 100
             return max(0, min(100, pr))  # Bound between 0-100%
@@ -99,8 +97,7 @@ class Analyzer:
 
     def calculate_utilization_factor(self) -> float:
         """Calculate what percentage of daylight hours the system produces power"""
-        poa_global = self.simulation_data['total_irrad']['poa_global']
-        daylight_hours = poa_global > 10  # W/m² threshold
+        daylight_hours = self.poa_global > 10  # W/m² threshold
         
         if daylight_hours.any():
             producing_hours = (self.ac_power > 0) & daylight_hours

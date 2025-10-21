@@ -170,7 +170,37 @@
             <div class="bg-secondary rounded p-4">
                 <div class="d-flex align-items-center justify-content-between mb-4">
                     <h5 class="mb-0">DC OUTPUT</h5>
-                    <small class="text-muted">View dc output chart</small>
+                    <a href="">View Details</a>
+                    <div class="dropdown">
+                        <a href="#" class="" type="button" id="optionsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            Options
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end p-3 bg-secondary" style="min-width: 250px;">
+                            <form id="irradianceOptions">
+                                <!-- Location Selection -->
+                                <div class="mb-3">
+                                    <label for="locationSelect" class="form-label small fw-bold text-muted">Arrays</label>
+                                    <select class="form-select form-select-sm" id="locationSelect">
+                                        <option selected>Select Array</option>
+                                        <option value="">West End</option>
+                                    </select>
+                                </div>
+                                
+                                <!-- Timeframe Selection -->
+                                <div class="mb-3">
+                                    <label for="timeframeSelect" class="form-label small fw-bold text-muted">Parameters</label>
+                                    <select class="form-select form-select-sm" id="timeframeSelect">
+                                        <option selected>Parameters</option>
+                                        <option value="1 week">1 Week</option>
+                                        <option value="1 month">1 Month</option>
+                                    </select>
+                                </div>
+                                
+                                <!-- Apply Button -->
+                                <button type="submit" class="btn btn-sm btn-primary w-100">Apply Filters</button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
                 <div class="row g-4">
                    {{ dc_output_chart|safe }}

@@ -4,21 +4,20 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.conf import settings
+from django.contrib import messages
 from data_factory.database.manager import DataManager
 from data_factory.database.connection import DatabaseConnection
 from data_factory.pvwatts.simulator import PVWattsSimulator
-from data_factory.pvlib.simulator import PvlibSimulator
+from data_factory.pvlib.fixed_mount_simulator import FixedMountSimulator
 from data_factory.pvlib.analyzer import Analyzer
 from analytics import utils
+import json
 import logging
 
 logger = logging.getLogger(__name__)
 
-
-
-
 def index_view(request):
-    locations = utils.import_locations()
+    locations = utils.load_locations()
     conn = DatabaseConnection()
     dbm = DataManager(conn)
     df = dbm.get_irradiance_ohlc_data(bucket="1 week")
@@ -124,40 +123,73 @@ def fixed_mount_system_view(request):
     db = DataManager(conn)
 
     if request.method == "POST":
-        name = request.POST.get("name")
-        lat = request.POST.get("lat")
-        lon = request.POST.get("lon")
-        alt = request.POST.get("alt")
-        tz = request.POST.get("tz")
+        arrays_file = request.FILES.get('arrays_json')
+        arrays_config = json.load(arrays_file) if arrays_file else {}
 
-        module = request.POST.get("module")
-        module_db = request.POST.get("module_db")
-        inverter = request.POST.get("inverter")
-        inverter_db = request.POST.get("inverter_db")
-        surface_azimuth = request.POST.get("azimuth")
-        surface_tilt = request.POST.get("tilt")
-        temp_model = request.POST.get("temp_model")
-        temp_model_params = request.POST.get("temp_model_params")
+        array_names = {}
 
-        # "timeframe": request.POST.get("timeframe", "hourly"),
+        for idx, arr in enumerate(arrays_config):
+            name = arr.get("name", f"Array_{idx}")
+            array_names[str(idx)] = name
 
-        simulator = PvlibSimulator(
-            name=name,
-            lat=lat,
-            lon=lon,
-            alt=alt,
-            tz=tz,
-            module=module,
-            inverter=inverter,
-            surface_tilt=surface_tilt,
-            surface_azimuth=surface_azimuth,
-            temp_model=temp_model,
-            temp_model_params=temp_model_params
+        index = len(array_names)
+        array_names[str(index)] = "MainArray"
+
+        timeframe_params = {
+            "start_date": request.POST.get("start_date"),
+            "end_date": request.POST.get("end_date"),
+            "timeframe": request.POST.get("timeframe", "hourly"),
+        }
+
+        location_params = {
+            "name": request.POST.get("name"),
+            "lat": request.POST.get("lat"),
+            "lon": request.POST.get("lon"),
+            "alt": request.POST.get("alt"),
+            "tz": request.POST.get("tz"),
+            "albedo": request.POST.get("albedo"),
+        }
+
+        system_params = {
+            "module": request.POST.get("module"),
+            "module_type": request.POST.get("module_type"),
+            "inverter": request.POST.get("inverter"),
+            "surface_azimuth": request.POST.get("azimuth"),
+            "surface_tilt": request.POST.get("tilt"),
+            "modules_per_string": request.POST.get("modules_per_string"),
+            "strings": request.POST.get("strings"),
+            "total_arrays": request.POST.get("arrays"),
+            "temp_model": request.POST.get("temp_model"),
+            "temp_model_params": request.POST.get("temp_model_params"),
+            "description": request.POST.get("description"),
+            "arrays_config": arrays_config,
+        }
+
+        losses_params = {
+            "soiling": request.POST.get("soiling"),
+            "shading": request.POST.get("shading"),
+            "snow": request.POST.get("snow"),
+            "mismatch": request.POST.get("mismatch"),
+            "wiring": request.POST.get("wiring"),
+            "connections": request.POST.get("connections"),
+            "lid": request.POST.get("lid"),
+            "nameplate": request.POST.get("nameplate"),
+            "age": request.POST.get("age"),
+            "availability": request.POST.get("availability"),
+        }
+
+        fms = FixedMountSimulator(
+            timeframe_params=timeframe_params,
+            location_params=location_params,
+            system_params=system_params,
+            losses_params=losses_params
         )
 
-        report = simulator.run_pvlib_simulation()
-        report_id = db.save_modelchain_result(report)
+        report = fms.run_simulation()
+        report_id = db.save_modelchain_result(report, array_names)
         db.close()
+
+        messages.success(request, f"Configured system with {len(arrays_config)} arrays")
         request.session["pvlib_report"] = report_id
         return redirect("pvlib_report")
 
@@ -166,17 +198,16 @@ def fixed_mount_system_view(request):
 
 
 def pvlib_report_view(request):
-    # report_id = request.session.get("pvlib_report")
+    report_id = request.session.get("pvlib_report", 1)
 
-    # if not report_id:
-    #     return redirect("pvlib_modelling")
-
-    report_id = 1
+    if not report_id:
+        return redirect("pvlib_modelling")
 
     conn = DatabaseConnection()
     db = DataManager(conn)
 
     simulation_data = db.fetch_modelchain_result(report_id)
+    logger.debug(simulation_data)
     analyzer = Analyzer(simulation_data)
     analysis = analyzer.calculate_score()
 

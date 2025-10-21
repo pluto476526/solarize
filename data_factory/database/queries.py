@@ -24,22 +24,6 @@ def irradiance_ohlc_query(bucket: str = "1 week"):
     LIMIT 160;
     """
 
-def insert_CEC_modules():
-    return f"""
-    INSERT INTO pv_modules (
-        module_name, manufacturer, technology, bifacial, 
-        stc_power_w, area_m2, v_oc, i_sc, v_mp, i_mp, 
-        efficiency_percent, temp_coeff_power, is_bipv
-    ) VALUES %s
-    ON CONFLICT (module_name) DO NOTHING;
-    """
-
-def CEC_modules_query():
-    return f"""
-    SELECT module_name
-    FROM pv_modules
-    ORDER BY module_name ASC;
-    """
 
 def fetch_ac_aoi_query(result_id: float):
     return f"""

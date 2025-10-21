@@ -286,6 +286,17 @@
             }
         });
 
+
+        function updateValue(slider) {
+            // Finds the next sibling <div> and updates its <span> with the current slider value
+            slider.nextElementSibling.querySelector('span').textContent = slider.value;
+        }
+
+        document.querySelector('#arrays_json').addEventListener('change', (e) => {
+          const fileName = e.target.files.length ? e.target.files[0].name : 'No file selected';
+          document.querySelector('#file-name').textContent = fileName;
+        });
+
     </script>
 </body>
 

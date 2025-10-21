@@ -65,136 +65,133 @@ class DataManager:
             logger.error(f"No data: {e}")
             return pd.DataFrame()
 
-
-    def save_modelchain_result(self, result, simulation_name="Trial Simulation", description="Nice Description"):
+    def save_modelchain_result(self, result, array_names, simulation_name="Trial Simulation", description="Nice Description"):
         with self.db.cursor() as cur:
-            # 1. Insert simulation metadata
+            # Insert simulation metadata
             cur.execute("""
-                INSERT INTO modelchain_results (simulation_name, description, albedo, losses, spectral_modifier, tracking)
+                INSERT INTO modelchain_results 
+                    (simulation_name, description, albedo, losses, spectral_modifier, tracking)
                 VALUES (%s, %s, %s, %s, %s, %s)
                 RETURNING result_id
             """, (
                 simulation_name,
                 description,
-                result.albedo[0] if isinstance(result.albedo, tuple) else result.albedo,
+                json.dumps(result.albedo) if isinstance(result.albedo, tuple) else result.albedo,
                 result.losses,
-                result.spectral_modifier,
+                json.dumps(result.spectral_modifier) if isinstance(result.spectral_modifier, tuple) else result.spectral_modifier,
                 None if result.tracking is None else json.dumps(result.tracking)
             ))
             result_id = cur.fetchone()[0]
 
-            # Helper to insert DataFrame/Series
+            # Helper: insert single DataFrame/Series or tuple
             def insert_timeseries(df, table_name):
-                df = df.copy()
-                df["result_id"] = int(result_id)
-                df["utc_time"] = pd.to_datetime(df.index).to_pydatetime()
+                dfs = df if isinstance(df, tuple) else (df,)
+                for idx, d in enumerate(dfs):
+                    if d is None:
+                        continue
+                    d = d.copy()
+                    d["result_id"] = int(result_id)
+                    d["utc_time"] = pd.to_datetime(d.index)
+                    d["array_name"] = array_names.get(str(idx))
 
-                # Convert entire DataFrame to native Python types
-                for col in df.columns:
-                    # Handle numeric, boolean, and object columns
-                    if pd.api.types.is_numeric_dtype(df[col]) or pd.api.types.is_bool_dtype(df[col]):
-                        df[col] = df[col].apply(lambda x: None if pd.isna(x) else x.item() if hasattr(x, "item") else x)
-                    else:
-                        df[col] = df[col].apply(lambda x: None if pd.isna(x) else x)
+                    # Convert all columns to native types
+                    for col in d.columns:
+                        if pd.api.types.is_numeric_dtype(d[col]) or pd.api.types.is_bool_dtype(d[col]):
+                            d[col] = d[col].apply(lambda x: None if pd.isna(x) else x.item() if hasattr(x, "item") else x)
+                        else:
+                            d[col] = d[col].apply(lambda x: None if pd.isna(x) else x)
 
-                cols = ["result_id", "utc_time"] + [c for c in df.columns if c not in ("result_id", "utc_time")]
-                df = df[cols]
+                    cols = ["result_id", "utc_time", "array_name"] + [c for c in d.columns if c not in ("result_id", "utc_time", "array_name")]
+                    records = [tuple(row) for row in d[cols].to_numpy()]
+                    query = f"""
+                        INSERT INTO {table_name} ({', '.join(cols)})
+                        VALUES %s
+                        ON CONFLICT (result_id, utc_time, array_name) DO NOTHING
+                    """
+                    psycopg2.extras.execute_values(cur, query, records)
 
-                # Convert DataFrame to list of tuples for execute_values
-                records = [tuple(row) for row in df.to_numpy()]
-                query = f"INSERT INTO {table_name} ({', '.join(cols)}) VALUES %s ON CONFLICT (result_id, utc_time) DO NOTHING"
-
-                psycopg2.extras.execute_values(cur, query, records)
-
-
-            # Keep track of fields already stored
-            mapped_fields = set()
-
-            # 2. Insert known Series/DataFrames
+            # Insert all known fields with array-aware handling
             if hasattr(result, "ac") and result.ac is not None:
                 insert_timeseries(result.ac.to_frame(name="ac"), "ac_aoi")
-                mapped_fields.add("ac")
 
             if hasattr(result, "aoi") and result.aoi is not None:
-                df = pd.DataFrame({
-                    "aoi": result.aoi,
-                    "aoi_modifier": getattr(result, "aoi_modifier", pd.Series([None]*len(result.aoi)))
-                }, index=result.aoi.index)
-                insert_timeseries(df, "ac_aoi")
-                mapped_fields.update(["aoi", "aoi_modifier"])
+                aoi_tuple = result.aoi if isinstance(result.aoi, tuple) else (result.aoi,)
+                mod_tuple = getattr(result, "aoi_modifier", None)
+                if not isinstance(mod_tuple, tuple):
+                    mod_tuple = (mod_tuple,) * len(aoi_tuple)
+                dfs = []
+                for aoi_data, aoi_mod in zip(aoi_tuple, mod_tuple):
+                    if aoi_mod is None:
+                        aoi_mod = pd.Series([None]*len(aoi_data), index=aoi_data.index)
+                    dfs.append(pd.DataFrame({"aoi": aoi_data, "aoi_modifier": aoi_mod}, index=aoi_data.index))
+                insert_timeseries(tuple(dfs), "ac_aoi")
 
             if hasattr(result, "airmass") and result.airmass is not None:
-                insert_timeseries(result.airmass, "airmass")
-                mapped_fields.add("airmass")
+                dfs = result.airmass if isinstance(result.airmass, tuple) else (result.airmass,)
+                insert_timeseries(dfs, "airmass")
 
             if hasattr(result, "cell_temperature") and result.cell_temperature is not None:
-                insert_timeseries(result.cell_temperature.to_frame(name="temperature"), "cell_temperature")
-                mapped_fields.add("cell_temperature")
+                dfs = tuple(ct.to_frame(name="temperature") for ct in result.cell_temperature) if isinstance(result.cell_temperature, tuple) else (result.cell_temperature.to_frame(name="temperature"),)
+                insert_timeseries(dfs, "cell_temperature")
 
             if hasattr(result, "dc") and result.dc is not None:
-                insert_timeseries(result.dc, "dc_output")
-                mapped_fields.add("dc")
+                dfs = result.dc if isinstance(result.dc, tuple) else (result.dc,)
+                insert_timeseries(dfs, "dc_output")
 
             if hasattr(result, "diode_params") and result.diode_params is not None:
-                insert_timeseries(result.diode_params, "diode_params")
-                mapped_fields.add("diode_params")
+                dfs = result.diode_params if isinstance(result.diode_params, tuple) else (result.diode_params,)
+                insert_timeseries(dfs, "diode_params")
 
             if hasattr(result, "total_irrad") and result.total_irrad is not None:
-                insert_timeseries(result.total_irrad, "total_irradiance")
-                mapped_fields.add("total_irrad")
+                dfs = result.total_irrad if isinstance(result.total_irrad, tuple) else (result.total_irrad,)
+                insert_timeseries(dfs, "total_irradiance")
 
             if hasattr(result, "solar_position") and result.solar_position is not None:
-                insert_timeseries(result.solar_position, "solar_position")
-                mapped_fields.add("solar_position")
+                dfs = result.solar_position if isinstance(result.solar_position, tuple) else (result.solar_position,)
+                insert_timeseries(dfs, "solar_position")
 
             if hasattr(result, "weather") and result.weather is not None:
-                insert_timeseries(result.weather, "weather")
-                mapped_fields.add("weather")
+                dfs = result.weather if isinstance(result.weather, tuple) else (result.weather,)
+                insert_timeseries(dfs, "weather")
 
         self.db.commit()
         return result_id
 
-
     def fetch_modelchain_result(self, result_id):
-        """
-        Fetch the full ModelChainResult from the database for a given result_id.
-
-        Returns a dictionary with all fields, Series/DataFrames, and constants
-        """
         result = {}
-
         with self.db.cursor() as cur:
-            # 1. Fetch metadata and constants
+            # Fetch metadata
             cur.execute("""
                 SELECT simulation_name, description, albedo, losses, spectral_modifier, tracking
                 FROM modelchain_results
                 WHERE result_id = %s
             """, (result_id,))
             row = cur.fetchone()
-            if row is None:
-                logger.error(f"No ModelChainResult found for result_id={result_id}")
-            
-            result["simulation_name"] = row[0]
-            result["description"] = row[1]
-            result["albedo"] = row[2]
-            result["losses"] = row[3]
-            result["spectral_modifier"] = row[4]
-            result["tracking"] = json.loads(row[5]) if row[5] else None
+            if not row:
+                return None
 
-            # Helper to fetch time-series data into DataFrame
+            result.update({
+                "simulation_name": row[0],
+                "description": row[1],
+                "albedo": row[2],
+                "losses": row[3],
+                "spectral_modifier": row[4],
+                "tracking": json.loads(row[5]) if row[5] else None
+            })
+
+            # Helper to fetch time-series and reassemble as tuple
             def fetch_timeseries(table_name):
-                sql = f"SELECT * FROM {table_name} WHERE result_id = %s ORDER BY utc_time"
                 engine = sqlalchemy.create_engine(
                     f'postgresql+psycopg2://{config("DB_USER")}:{config("DB_PASS")}@{config("DB_HOST")}:{config("DB_PORT")}/{config("DB_NAME")}'
                 )
-                df = pd.read_sql(sql, engine, params=(result_id,))
+                df = pd.read_sql(f"SELECT * FROM {table_name} WHERE result_id=%s ORDER BY utc_time, array_name", engine, params=(result_id,))
                 if df.empty:
                     return None
                 df.set_index("utc_time", inplace=True)
-                df.drop(columns="result_id", inplace=True)
-                return df
+                array_groups = [g.drop(columns=["result_id", "array_name"]) for _, g in df.groupby("array_name")]
+                return tuple(array_groups) if len(array_groups) > 1 else array_groups[0]
 
-            # 2. Fetch core time-series tables
+            # Fetch all fields
             result["ac_aoi"] = fetch_timeseries("ac_aoi")
             result["airmass"] = fetch_timeseries("airmass")
             result["cell_temperature"] = fetch_timeseries("cell_temperature")
@@ -205,6 +202,7 @@ class DataManager:
             result["weather"] = fetch_timeseries("weather")
 
         return result
+
 
 
     def fetch_ac_aoi_data(self, result_id):

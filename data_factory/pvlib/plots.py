@@ -103,7 +103,7 @@ def poa_heatmap(irradiance):
 
 
 # ================================================================
-# 🌤 2. METEOROLOGICAL CONDITIONS
+#   METEOROLOGICAL CONDITIONS
 # ================================================================
 def temp_wind_chart(weather):
     weekly_weather = weather.resample("W-MON").mean()
@@ -124,10 +124,15 @@ def temp_vs_irradiance(cell_temp, irradiance):
                       xaxis_title="Irradiance (W/m²)", yaxis_title="Temp (°C)")
     return chart(fig)
 
+def temp_derating(cell_temp, dc):
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(x=cell_temp["temperature"], y=dc["p_mp"], mode="markers", opacity=0.5))
+    fig.update_layout(title="Temperature Derating Impact", xaxis_title="Cell Temp (°C)", yaxis_title="DC Power (W)")
+    return chart(fig)
 
 
 # ================================================================
-# ⚡ 3. DC & AC ELECTRICAL PERFORMANCE
+#   DC & AC ELECTRICAL PERFORMANCE
 # ================================================================
 def dc_vs_irradiance(dc, irr):
     fig = go.Figure()
@@ -154,7 +159,6 @@ def inverter_efficiency(dc, ac):
 def power_timeseries(dc, ac):
     weekly_dc = dc.resample('W-MON').mean()
     weekly_ac = ac.resample('W-MON').mean()
-    
     fig = go.Figure()
     fig.add_trace(go.Scatter(x=weekly_dc.index, y=weekly_dc["p_mp"], name="DC Power"))
     fig.add_trace(go.Scatter(x=weekly_ac.index, y=weekly_ac["ac"], name="AC Power"))
@@ -172,136 +176,68 @@ def monthly_yield(ac):
     fig.update_layout(title="Monthly Energy Yield", xaxis_title="Month", yaxis_title="Energy (kWh)")
     return chart(fig)
 
-
-# ================================================================
-# 🌡️ 4. LOSS ANALYSIS
-# ================================================================
-def loss_waterfall():
-    stages = ["POA", "Effective", "DC", "AC"]
-    fig = go.Figure(go.Waterfall(x=stages, y=[0, -50, -30, -20]))
-    fig.update_layout(title="Loss Breakdown (Irradiance → AC)", yaxis_title="Loss (W/m²)")
-    return chart(fig)
-
-
-def effective_irradiance_hist(weather):
-    fig = go.Figure(go.Histogram(x=weather["poa_global"], nbinsx=50))
-    fig.update_layout(title="Effective Irradiance Distribution", xaxis_title="POA (W/m²)")
-    return chart(fig)
-
-
-def temp_derating(cell_temp, dc, array_names):
+def power_heatmap(ac):
+    df = ac.copy()
+    df["day"] = df.index.dayofyear
+    df["hour"] = df.index.hour
     fig = go.Figure()
-    for i, (temp_df, dc_df) in enumerate(zip(cell_temp, dc)):
-        label = array_names.get(str(i + 1), f"Array {i + 1}")
-        fig.add_trace(go.Scatter(x=temp_df["temp_cell"], y=dc_df["p_mp"], mode="markers", name=label, opacity=0.5))
-    fig.update_layout(title="Temperature Derating Impact", xaxis_title="Cell Temp (°C)", yaxis_title="DC Power (W)")
-    return chart(fig)
-
-
-# ================================================================
-# 🧭 5. COMPARATIVE / MULTI-ARRAY
-# ================================================================
-def ac_boxplot(ac_aoi, array_names):
-    fig = go.Figure()
-    for i, df in enumerate(ac_aoi):
-        label = array_names.get(str(i + 1), f"Array {i + 1}")
-        fig.add_trace(go.Box(y=df["ac"], name=label))
-    fig.update_layout(title="AC Power Comparison Across Arrays", yaxis_title="AC Power (W)")
-    return chart(fig)
-
-
-def power_heatmap(ac_aoi, array_names):
-    fig = go.Figure()
-    for i, df in enumerate(ac_aoi):
-        label = array_names.get(str(i + 1), f"Array {i + 1}")
-        data = df.copy()
-        data["day"] = data["utc_time"].dt.dayofyear
-        data["hour"] = data["utc_time"].dt.hour
-        pivot = data.pivot_table(index="day", columns="hour", values="ac")
-        fig.add_trace(go.Heatmap(z=pivot.values, x=pivot.columns, y=pivot.index, name=label, showscale=False))
+    pivot = df.pivot_table(index="day", columns="hour", values="ac")
+    fig.add_trace(go.Heatmap(z=pivot.values, x=pivot.columns, y=pivot.index, name="", colorbar=dict(title="AC")))
     fig.update_layout(title="Power Output Heatmap (Day vs Hour)", xaxis_title="Hour", yaxis_title="Day of Year")
     return chart(fig)
 
 
-def poa_vs_dc(weather, dc, array_names):
+# ================================================================
+#   ANOMALY DETECTION
+# ================================================================
+
+def peak_power_vs_irradiance(ac, irradiance):
     fig = go.Figure()
-    for i, df in enumerate(dc):
-        label = array_names.get(str(i + 1), f"Array {i + 1}")
-        fig.add_trace(go.Scatter(x=weather["poa_global"], y=df["p_mp"], mode="markers", name=label, opacity=0.5))
-    fig.update_layout(title="POA vs DC Power", xaxis_title="POA (W/m²)", yaxis_title="DC Power (W)")
+    daily_peak = ac.groupby(ac.index.date)["ac"].max()
+    mean_irr = irradiance.groupby(irradiance.index.date)["poa_global"].mean()
+    fig.add_trace(go.Scatter(x=mean_irr, y=daily_peak, mode="markers", name=""))
+    fig.update_layout(title="Daily Peak Power vs Irradiance", xaxis_title="Avg Irradiance (W/m²)", yaxis_title="Peak AC Power (W)")
     return chart(fig)
 
 
 # ================================================================
-# 🕒 6. TEMPORAL & ENERGY SUMMARY
+#   TEMPORAL & ENERGY SUMMARY
 # ================================================================
-def daily_yield(ac_aoi, array_names):
+def daily_yield(ac):
+    daily = ac.groupby(ac.index.date)["ac"].sum() / 1000
     fig = go.Figure()
-    for i, df in enumerate(ac_aoi):
-        label = array_names.get(str(i + 1), f"Array {i + 1}")
-        daily = df.groupby(df["utc_time"].dt.date)["ac"].sum() / 1000
-        fig.add_trace(go.Scatter(x=daily.index, y=daily.values, mode="lines", name=label))
+    fig.add_trace(go.Scatter(x=daily.index, y=daily.values, mode="lines", name=""))
     fig.update_layout(title="Daily Energy Yield", xaxis_title="Date", yaxis_title="Energy (kWh)")
     return chart(fig)
 
 
-def capacity_factor(ac_aoi, array_names):
+def capacity_factor(ac):
+    monthly = ac.groupby(ac.index.month)["ac"].sum() / 1000
+    cap_factor = monthly / monthly.max()
     fig = go.Figure()
-    for i, df in enumerate(ac_aoi):
-        label = array_names.get(str(i + 1), f"Array {i + 1}")
-        monthly = df.groupby(df["utc_time"].dt.month)["ac"].sum() / 1000
-        cap_factor = monthly / monthly.max()
-        fig.add_trace(go.Bar(x=cap_factor.index, y=cap_factor.values, name=label))
+    fig.add_trace(go.Bar(x=cap_factor.index, y=cap_factor.values, name=""))
     fig.update_layout(title="Monthly Capacity Factor", xaxis_title="Month", yaxis_title="Capacity Factor")
     return chart(fig)
 
 
-def cumulative_energy(ac_aoi, array_names):
+def cumulative_energy(ac):
+    cumulative = ac["ac"].cumsum() / 1000
     fig = go.Figure()
-    for i, df in enumerate(ac_aoi):
-        label = array_names.get(str(i + 1), f"Array {i + 1}")
-        df = df.sort_values("utc_time")
-        cumulative = df["ac"].cumsum() / 1000
-        fig.add_trace(go.Scatter(x=df["utc_time"], y=cumulative, mode="lines", name=label))
+    fig.add_trace(go.Scatter(x=ac.index, y=cumulative, mode="lines", name=""))
     fig.update_layout(title="Cumulative Energy (kWh)", xaxis_title="Time", yaxis_title="kWh")
     return chart(fig)
 
 
-def performance_ratio(ac_aoi, weather, array_names):
+def performance_ratio(ac, irradiance):
+    ac = ac.resample("W-MON").mean()
+    irradiance = irradiance.resample("W-MON").mean()
+    pr = ac["ac"] / irradiance["poa_global"]
     fig = go.Figure()
-    for i, df in enumerate(ac_aoi):
-        label = array_names.get(str(i + 1), f"Array {i + 1}")
-        pr = df["ac"] / weather["poa_global"]
-        fig.add_trace(go.Scatter(x=df["utc_time"], y=pr, mode="lines", name=label))
+    fig.add_trace(go.Scatter(x=ac.index, y=pr, mode="lines", name=""))
     fig.update_layout(title="Performance Ratio (PR) over Time", xaxis_title="Time", yaxis_title="PR")
     return chart(fig)
 
 
-# ================================================================
-# 🧩 7. DIAGNOSTIC & ANOMALY DETECTION
-# ================================================================
-def ac_residuals(measured, modeled):
-    residuals = measured - modeled
-    fig = go.Figure(go.Scatter(x=measured.index, y=residuals, mode="lines"))
-    fig.update_layout(title="AC Residuals (Measured - Modeled)", xaxis_title="Time", yaxis_title="Residual (W)")
-    return chart(fig)
-
-
-def temp_efficiency(temp, efficiency):
-    fig = go.Figure(go.Scatter(x=temp, y=efficiency, mode="markers", opacity=0.5))
-    fig.update_layout(title="Temperature-Corrected Efficiency", xaxis_title="Temp (°C)", yaxis_title="Efficiency")
-    return chart(fig)
-
-
-def peak_power_vs_irradiance(ac_aoi, weather, array_names):
-    fig = go.Figure()
-    for i, df in enumerate(ac_aoi):
-        label = array_names.get(str(i + 1), f"Array {i + 1}")
-        daily_peak = df.groupby(df["utc_time"].dt.date)["ac"].max()
-        mean_irr = weather.groupby(weather["utc_time"].dt.date)["poa_global"].mean()
-        fig.add_trace(go.Scatter(x=mean_irr, y=daily_peak, mode="markers", name=label))
-    fig.update_layout(title="Daily Peak Power vs Irradiance", xaxis_title="Avg Irradiance (W/m²)", yaxis_title="Peak AC Power (W)")
-    return chart(fig)
 
 
 

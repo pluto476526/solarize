@@ -199,8 +199,8 @@ def fixed_mount_system_view(request):
 
 
 def pvlib_report_view(request):
-    report_id = request.session.get("pvlib_report", 1)
-
+    # report_id = request.session.get("pvlib_report", 7)
+    report_id = 7
     if not report_id:
         return redirect("pvlib_modelling")
 
@@ -229,22 +229,18 @@ def pvlib_report_view(request):
         "poa_heatmap": plots.poa_heatmap(n_irr),
         "temp_wind": plots.temp_wind_chart(n_weather),
         "temp_vs_irr": plots.temp_vs_irradiance(n_cell_temp, n_irr),
-        # "airmass_vs_spec": airmass_vs_spectral(airmass, spectral_modifier),
         "dc_vs_irr": plots.dc_vs_irradiance(n_dc, n_irr),
         "dc_vs_ac": plots.dc_vs_ac(n_dc, n_ac),
         "inverter_eff": plots.inverter_efficiency(n_dc, n_ac),
         "power_ts": plots.power_timeseries(n_dc, n_ac),
         "monthly_yield": plots.monthly_yield(n_ac),
-        # "loss_waterfall": loss_waterfall(),
-        # "irr_hist": effective_irradiance_hist(weather),
-        # "temp_derate": temp_derating(cell_temperature, dc),
-        # "ac_box": ac_boxplot(ac_aoi),
-        # "power_heatmap": power_heatmap(ac_aoi),
-        # "poa_vs_dc": poa_vs_dc(weather, dc),
-        # "daily_yield": daily_yield(ac_aoi),
-        # "cap_factor": capacity_factor(ac_aoi),
-        # "cum_energy": cumulative_energy(ac_aoi),
-        # "pr": performance_ratio(ac_aoi, weather)
+        "temp_derate": plots.temp_derating(n_cell_temp, n_dc),
+        "power_heatmap": plots.power_heatmap(n_ac),
+        "peak_power_vs_irr": plots.peak_power_vs_irradiance(n_ac, n_irr),
+        "daily_yield": plots.daily_yield(n_ac),
+        "cap_factor": plots.capacity_factor(n_ac),
+        "cum_energy": plots.cumulative_energy(n_ac),
+        "pr": plots.performance_ratio(n_ac, n_irr)
     }
 
 

@@ -62,13 +62,13 @@ def chart(fig):
 #   SOLAR GEOMETRY & IRRADIANCE
 # ================================================================
 def solar_elevation_chart(solar):
-    fig = go.Figure(go.Scatter(x=solar["utc_time"], y=solar["elevation"], mode="lines"))
+    fig = go.Figure(go.Scatter(x=solar.index, y=solar["elevation"], mode="lines"))
     fig.update_layout(title="Solar Elevation vs Time", xaxis_title="Time", yaxis_title="Elevation (°)")
     return chart(fig)
 
 
 def sunpath_chart(solar):
-    sample = solar.groupby(solar["utc_time"].dt.date).head(100)
+    sample = solar.groupby(solar.index.date).head(100)
     fig = go.Figure(go.Scatterpolar(
         r=sample["elevation"], theta=sample["azimuth"], mode="markers", marker=dict(size=3)
     ))
@@ -76,25 +76,26 @@ def sunpath_chart(solar):
     return chart(fig)
 
 
-def poa_vs_ghi_chart(weather):
-    fig = go.Figure(go.Scatter(x=weather["poa_global"], y=weather["ghi"], mode="markers", opacity=0.5))
+def poa_vs_ghi_chart(irradiance, weather):
+    fig = go.Figure(go.Scatter(x=irradiance["poa_global"], y=weather["ghi"], mode="markers", opacity=0.5))
     fig.update_layout(title="POA vs GHI", xaxis_title="POA (W/m²)", yaxis_title="GHI (W/m²)")
     return chart(fig)
 
 
 def irradiance_breakdown_chart(weather):
+    weekly_weather = weather.resample("W-MON").mean()
     fig = go.Figure()
-    for comp in ["poa_global", "dni", "dhi"]:
-        if comp in weather.columns:
-            fig.add_trace(go.Scatter(x=weather["utc_time"], y=weather[comp], stackgroup="one", name=comp.upper()))
-    fig.update_layout(title="Irradiance Breakdown (POA / DNI / DHI)", xaxis_title="Time", yaxis_title="W/m²")
+    for comp in ["ghi", "dni", "dhi"]:
+        if comp in weekly_weather.columns:
+            fig.add_trace(go.Scatter(x=weekly_weather.index, y=weekly_weather[comp], stackgroup="one", name=comp.upper()))
+    fig.update_layout(title="Irradiance Breakdown (GHI / DNI / DHI)", xaxis_title="Time", yaxis_title="W/m²")
     return chart(fig)
 
 
-def poa_heatmap(weather):
-    df = weather.copy()
-    df["day"] = df["utc_time"].dt.dayofyear
-    df["hour"] = df["utc_time"].dt.hour
+def poa_heatmap(irradiance):
+    df = irradiance.copy()
+    df["day"] = df.index.dayofyear
+    df["hour"] = df.index.hour
     pivot = df.pivot_table(index="day", columns="hour", values="poa_global")
     fig = go.Figure(go.Heatmap(z=pivot.values, x=pivot.columns, y=pivot.index, colorbar=dict(title="W/m²")))
     fig.update_layout(title="POA Irradiance Heatmap (Day vs Hour)", xaxis_title="Hour", yaxis_title="Day of Year")
@@ -105,9 +106,10 @@ def poa_heatmap(weather):
 # 🌤 2. METEOROLOGICAL CONDITIONS
 # ================================================================
 def temp_wind_chart(weather):
+    weekly_weather = weather.resample("W-MON").mean()
     fig = go.Figure()
-    fig.add_trace(go.Scatter(x=weather["utc_time"], y=weather["temp_air"], name="Temp (°C)"))
-    fig.add_trace(go.Scatter(x=weather["utc_time"], y=weather["wind_speed"], name="Wind Speed (m/s)", yaxis="y2"))
+    fig.add_trace(go.Scatter(x=weekly_weather.index, y=weekly_weather["temp_air"], name="Temp (°C)"))
+    fig.add_trace(go.Scatter(x=weekly_weather.index, y=weekly_weather["wind_speed"], name="Wind (m/s)", yaxis="y2"))
     fig.update_layout(
         title="Temperature and Wind Speed",
         yaxis2=dict(overlaying="y", side="right", title="Wind Speed (m/s)")
@@ -115,23 +117,13 @@ def temp_wind_chart(weather):
     return chart(fig)
 
 
-def temp_vs_irradiance(cell_temp, weather, array_names):
+def temp_vs_irradiance(cell_temp, irradiance):
     fig = go.Figure()
-    for i, df in enumerate(cell_temp):
-        label = array_names.get(str(i + 1), f"Array {i + 1}")
-        fig.add_trace(go.Scatter(
-            x=weather["poa_global"], y=df["temp_cell"],
-            mode="markers", name=label, opacity=0.5
-        ))
+    fig.add_trace(go.Scatter(x=irradiance["poa_global"], y=cell_temp["temperature"], mode="markers", name="", opacity=0.5))
     fig.update_layout(title="Module Temperature vs Irradiance",
                       xaxis_title="Irradiance (W/m²)", yaxis_title="Temp (°C)")
     return chart(fig)
 
-
-def airmass_vs_spectral(airmass, spectral_modifier):
-    fig = go.Figure(go.Scatter(x=airmass["airmass_absolute"], y=spectral_modifier, mode="markers"))
-    fig.update_layout(title="Air Mass vs Spectral Modifier", xaxis_title="Air Mass", yaxis_title="Spectral Modifier")
-    return chart(fig)
 
 
 # ================================================================

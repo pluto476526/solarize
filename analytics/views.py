@@ -218,15 +218,17 @@ def pvlib_report_view(request):
     n_dc = plots.normalize_pv_tuple(simulation_data["dc"])
     n_ac = plots.normalize_pv_tuple(simulation_data["ac_aoi"])
     n_irr = plots.normalize_pv_tuple(simulation_data["irradiance"])
+    n_weather = plots.normalize_pv_tuple(simulation_data["weather"])
+    n_cell_temp = plots.normalize_pv_tuple(simulation_data["cell_temperature"])
 
     charts = {
-        # "solar": solar_elevation_chart(solar_position),
-        # "sunpath": sunpath_chart(solar_position),
-        # "poa_vs_ghi": poa_vs_ghi_chart(weather),
-        # "irr_breakdown": irradiance_breakdown_chart(weather),
-        # "poa_heatmap": poa_heatmap(weather),
-        # "temp_wind": temp_wind_chart(weather),
-        # "temp_vs_irr": temp_vs_irradiance(cell_temperature, weather),
+        "solar": plots.solar_elevation_chart(simulation_data["solar_position"]),
+        "sunpath": plots.sunpath_chart(simulation_data["solar_position"]),
+        "poa_vs_ghi": plots.poa_vs_ghi_chart(n_irr, n_weather),
+        "irr_breakdown": plots.irradiance_breakdown_chart(n_weather),
+        "poa_heatmap": plots.poa_heatmap(n_irr),
+        "temp_wind": plots.temp_wind_chart(n_weather),
+        "temp_vs_irr": plots.temp_vs_irradiance(n_cell_temp, n_irr),
         # "airmass_vs_spec": airmass_vs_spectral(airmass, spectral_modifier),
         "dc_vs_irr": plots.dc_vs_irradiance(n_dc, n_irr),
         "dc_vs_ac": plots.dc_vs_ac(n_dc, n_ac),

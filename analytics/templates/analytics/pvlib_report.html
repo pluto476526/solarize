@@ -164,9 +164,8 @@
 
 
         <div class="container-fluid px-1 pt-3">
-
             <!-- ============================
-                 ⚡ 1. ELECTRICAL PERFORMANCE
+            1. ELECTRICAL PERFORMANCE
             ============================== -->
             <div class="row g-4 pt-2">
                 <div class="col-12">
@@ -281,24 +280,83 @@
             </div>
 
             <!-- ============================
-                 🌞 1. SOLAR POSITION & GEOMETRY
+            2. SOLAR POSITION & GEOMETRY
             ============================== -->
             <div class="row g-4">
                 <div class="col-12">
                     <div class="bg-secondary rounded p-4">
-                        <h4 class="mb-3">🌞 Solar Position & Geometry</h4>
-                        <p>
-                            <a class="text-info" data-bs-toggle="collapse" href="#solarDetails" role="button" aria-expanded="false">
-                                Show Details
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h4 class="mb-0">☀️ Solar Position and Geometry</h4>
+                            <a class="btn btn-outline-warning btn-sm" data-bs-toggle="collapse" href="#solarGeometryDetails" role="button" aria-expanded="false">
+                                <i class="bi bi-chevron-down me-1"></i> Show Details
                             </a>
-                        </p>
-                        <div class="collapse" id="solarDetails">
-                            <p class="small text-muted">
-                                Displays the movement of the sun and its effect on irradiance angles.
-                                Useful for tilt/tracking and seasonal daylight analysis.
-                            </p>
                         </div>
-                        <div class="row g-4">
+                        
+                        <div class="collapse" id="solarGeometryDetails">
+                            <div class="card card-body bg-light border-0">
+                                <p class="mb-3">
+                                    This section analyzes the sun's position throughout the day and year, providing insights into solar geometry 
+                                    and its impact on system performance. Understanding solar paths helps optimize panel orientation and identify potential shading issues.
+                                </p>
+                                
+                                <div class="row g-3">
+                                    <!-- Solar Elevation Card -->
+                                    <div class="col-md-6">
+                                        <div class="card h-100 border-0 bg-warning-subtle">
+                                            <div class="card-body p-3">
+                                                <h6 class="card-title d-flex align-items-center">
+                                                    <span class="badge bg-warning text-dark me-2">1</span>
+                                                    Solar Elevation vs Time
+                                                </h6>
+                                                <p class="card-text small mb-0">
+                                                    Shows the sun's elevation angle throughout the day. Higher elevation angles indicate midday when solar intensity is strongest. 
+                                                    This helps identify peak production hours and seasonal variations in sun height.
+                                                </p>
+                                                <div class="mt-2">
+                                                    <span class="badge bg-light text-dark small">Time Series</span>
+                                                    <span class="badge bg-light text-dark small">Daily Pattern</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Sunpath Diagram Card -->
+                                    <div class="col-md-6">
+                                        <div class="card h-100 border-0 bg-warning-subtle">
+                                            <div class="card-body p-3">
+                                                <h6 class="card-title d-flex align-items-center">
+                                                    <span class="badge bg-warning text-dark me-2">2</span>
+                                                    Sunpath Diagram
+                                                </h6>
+                                                <p class="card-text small mb-0">
+                                                    Displays the sun's trajectory across the sky in a polar coordinate system. 
+                                                    The radial axis shows elevation (height above horizon), while the angular axis shows azimuth (compass direction).
+                                                    This visualization helps understand seasonal sun paths and potential shading from surrounding objects.
+                                                </p>
+                                                <div class="mt-2">
+                                                    <span class="badge bg-light text-dark small">Polar Plot</span>
+                                                    <span class="badge bg-light text-dark small">Seasonal Analysis</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Key Insights Section -->
+                                <div class="mt-4 p-3 bg-white rounded">
+                                    <h6 class="text-dark mb-2">💡 Key Insights</h6>
+                                    <ul class="small text-muted mb-0">
+                                        <li><strong>Elevation Patterns:</strong> Steeper curves indicate summer days; flatter curves indicate winter days</li>
+                                        <li><strong>Sunpath Density:</strong> Dense clusters show frequently occupied sun positions throughout the year</li>
+                                        <li><strong>Azimuth Range:</strong> Shows the east-to-west sweep of the sun across different seasons</li>
+                                        <li><strong>Peak Elevation:</strong> Highest points indicate solar noon positions for different times of year</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Charts Section -->
+                        <div class="row g-4 mt-3">
                             <div class="col-lg-6">{{ charts.solar|safe }}</div>
                             <div class="col-lg-6">{{ charts.sunpath|safe }}</div>
                         </div>
@@ -312,23 +370,120 @@
             <div class="row g-4 pt-2">
                 <div class="col-12">
                     <div class="bg-secondary rounded p-4">
-                        <h4 class="mb-3">🌤 Irradiance & Weather</h4>
-                        <p>
-                            <a class="text-info" data-bs-toggle="collapse" href="#irrDetails" role="button" aria-expanded="false">
-                                Show Details
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h4 class="mb-0">🌤 Irradiance & Weather</h4>
+                            <a class="btn btn-outline-info btn-sm" data-bs-toggle="collapse" href="#irrDetails" role="button" aria-expanded="false">
+                                <i class="bi bi-chevron-down me-1"></i> Show Details
                             </a>
-                        </p>
-                        <div class="collapse" id="irrDetails">
-                            <p class="small text-muted">
-                                Analyzes POA, GHI, and DHI irradiance behavior with temperature and wind effects.
-                                Helps correlate irradiance fluctuations with system power output.
-                            </p>
                         </div>
-                        <div class="row g-4">
+                        
+                        <div class="collapse" id="irrDetails">
+                            <div class="card card-body bg-light border-0">
+                                <p class="mb-3">
+                                    This section analyzes Plane of Array (POA), Global Horizontal Irradiance (GHI), and component irradiance behavior 
+                                    with temperature and wind effects. Helps correlate irradiance fluctuations with system power output and identify 
+                                    seasonal patterns and performance influencers.
+                                </p>
+                                
+                                <div class="row g-3">
+                                    <!-- POA vs GHI Card -->
+                                    <div class="col-md-4">
+                                        <div class="card h-100 border-0 bg-info-subtle">
+                                            <div class="card-body p-3">
+                                                <h6 class="card-title d-flex align-items-center">
+                                                    <span class="badge bg-info me-2">1</span>
+                                                    POA vs GHI
+                                                </h6>
+                                                <p class="card-text small mb-0">
+                                                    Compares Plane of Array irradiance (actual panel exposure) against Global Horizontal Irradiance 
+                                                    (horizontal surface measurement). Shows how panel tilt and orientation enhance energy capture.
+                                                </p>
+                                                <div class="mt-2">
+                                                    <span class="badge bg-light text-dark small">Scatter Plot</span>
+                                                    <span class="badge bg-light text-dark small">Tilt Efficiency</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Irradiance Breakdown Card -->
+                                    <div class="col-md-4">
+                                        <div class="card h-100 border-0 bg-info-subtle">
+                                            <div class="card-body p-3">
+                                                <h6 class="card-title d-flex align-items-center">
+                                                    <span class="badge bg-info me-2">2</span>
+                                                    Irradiance Components
+                                                </h6>
+                                                <p class="card-text small mb-0">
+                                                    Shows the breakdown of solar radiation into GHI (Global Horizontal), DNI (Direct Normal), 
+                                                    and DHI (Diffuse Horizontal) components. Reveals atmospheric conditions and cloud cover effects.
+                                                </p>
+                                                <div class="mt-2">
+                                                    <span class="badge bg-light text-dark small">Stacked Area</span>
+                                                    <span class="badge bg-light text-dark small">Weekly Average</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- POA Heatmap Card -->
+                                    <div class="col-md-4">
+                                        <div class="card h-100 border-0 bg-info-subtle">
+                                            <div class="card-body p-3">
+                                                <h6 class="card-title d-flex align-items-center">
+                                                    <span class="badge bg-info me-2">3</span>
+                                                    POA Heatmap
+                                                </h6>
+                                                <p class="card-text small mb-0">
+                                                    Visualizes irradiance patterns across hours of the day and days of the year. 
+                                                    Identifies seasonal trends, daily peak hours, and potential shading or weather patterns.
+                                                </p>
+                                                <div class="mt-2">
+                                                    <span class="badge bg-light text-dark small">Heatmap</span>
+                                                    <span class="badge bg-light text-dark small">Seasonal Analysis</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Key Metrics Section -->
+                                <div class="mt-4 p-3 bg-white rounded">
+                                    <h6 class="text-dark mb-2">📊 Key Metrics Explained</h6>
+                                    <div class="row small text-muted">
+                                        <div class="col-md-4">
+                                            <strong>POA (Plane of Array)</strong>
+                                            <p class="mb-1">Total irradiance received by panels at their specific tilt and orientation</p>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <strong>GHI (Global Horizontal)</strong>
+                                            <p class="mb-1">Total solar radiation on a horizontal surface - direct + diffuse</p>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <strong>DNI/DHI Components</strong>
+                                            <p class="mb-1">DNI: Direct beam radiation | DHI: Scattered diffuse radiation</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Interpretation Tips -->
+                                <div class="mt-3 p-3 bg-light-warning rounded border">
+                                    <h6 class="text-dark mb-2">💡 Interpretation Tips</h6>
+                                    <ul class="small text-muted mb-0">
+                                        <li><strong>POA > GHI:</strong> Indicates optimal panel tilt and orientation</li>
+                                        <li><strong>High DHI:</strong> Suggests cloudy conditions or atmospheric scattering</li>
+                                        <li><strong>Heatmap Patterns:</strong> Vertical streaks indicate consistent daily patterns; horizontal bands show seasonal variations</li>
+                                        <li><strong>Scatter Clustering:</strong> Tight clusters suggest consistent weather; scattered points indicate variable conditions</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Charts Section -->
+                        <div class="row g-4 mt-3">
                             <div class="col-lg-6">{{ charts.poa_vs_ghi|safe }}</div>
-                            <div class="col-lg-6">{{ charts.irr_breakdown|safe }}</div>
                             <div class="col-lg-6">{{ charts.poa_heatmap|safe }}</div>
-                            <div class="col-lg-6">{{ charts.irr_hist|safe }}</div>
+                            <div class="col-lg-12">{{ charts.irr_breakdown|safe }}</div>
                         </div>
                     </div>
                 </div>
@@ -340,23 +495,106 @@
             <div class="row g-4 pt-2">
                 <div class="col-12">
                     <div class="bg-secondary rounded p-4">
-                        <h4 class="mb-3">🌡️ Temperature & Environment</h4>
-                        <p>
-                            <a class="text-info" data-bs-toggle="collapse" href="#tempDetails" role="button" aria-expanded="false">
-                                Show Details
-                            </a>
-                        </p>
-                        <div class="collapse" id="tempDetails">
-                            <p class="small text-muted">
-                                Visualizes thermal effects on system behavior.
-                                Correlates module and ambient temperature with irradiance and power.
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4 class="mb-0">🌡️ Temperature & Environment</h4>
+        <a class="btn btn-outline-warning btn-sm" data-bs-toggle="collapse" href="#tempDetails" role="button" aria-expanded="false">
+            <i class="bi bi-chevron-down me-1"></i> Show Details
+        </a>
+    </div>
+    
+    <div class="collapse" id="tempDetails">
+        <div class="card card-body bg-light border-0">
+            <p class="mb-3">
+                This section visualizes thermal effects on system behavior and correlates module temperature with environmental 
+                conditions. Understanding these relationships helps optimize system performance and identify temperature-related efficiency losses.
+            </p>
+            
+            <div class="row g-3">
+                <!-- Module Temperature vs Irradiance Card -->
+                <div class="col-md-6">
+                    <div class="card h-100 border-0 bg-warning-subtle">
+                        <div class="card-body p-3">
+                            <h6 class="card-title d-flex align-items-center">
+                                <span class="badge bg-warning text-dark me-2">1</span>
+                                Module Temperature vs Irradiance
+                            </h6>
+                            <p class="card-text small mb-0">
+                                Shows how solar panel temperature increases with higher irradiance levels. 
+                                The relationship reveals thermal behavior and helps predict temperature-related efficiency losses.
                             </p>
-                        </div>
-                        <div class="row g-4">
-                            <div class="col-lg-6">{{ charts.temp_vs_irr|safe }}</div>
-                            <div class="col-lg-6">{{ charts.temp_wind|safe }}</div>
+                            <div class="mt-2">
+                                <span class="badge bg-light text-dark small">Scatter Plot</span>
+                                <span class="badge bg-light text-dark small">Thermal Response</span>
+                            </div>
                         </div>
                     </div>
+                </div>
+                
+                <!-- Temperature and Wind Speed Card -->
+                <div class="col-md-6">
+                    <div class="card h-100 border-0 bg-warning-subtle">
+                        <div class="card-body p-3">
+                            <h6 class="card-title d-flex align-items-center">
+                                <span class="badge bg-warning text-dark me-2">2</span>
+                                Ambient Temperature & Wind Speed
+                            </h6>
+                            <p class="card-text small mb-0">
+                                Displays weekly trends in air temperature and wind speed. 
+                                Wind has a cooling effect on panels, while high ambient temperatures can reduce system efficiency.
+                            </p>
+                            <div class="mt-2">
+                                <span class="badge bg-light text-dark small">Dual Axis</span>
+                                <span class="badge bg-light text-dark small">Weekly Trends</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Thermal Effects Section -->
+            <div class="mt-4 p-3 bg-white rounded">
+                <h6 class="text-dark mb-2">🔥 Thermal Effects on Performance</h6>
+                <div class="row small text-muted">
+                    <div class="col-md-6">
+                        <strong>Temperature Coefficient</strong>
+                        <p class="mb-1">Most solar panels lose ~0.3-0.5% efficiency per °C above 25°C</p>
+                    </div>
+                    <div class="col-md-6">
+                        <strong>Cooling Benefits</strong>
+                        <p class="mb-1">Wind speeds above 2-3 m/s provide significant panel cooling</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Interpretation Guide -->
+            <div class="mt-3 p-3 bg-light-warning rounded border">
+                <h6 class="text-dark mb-2">💡 Interpretation Guide</h6>
+                <ul class="small text-muted mb-0">
+                    <li><strong>Steep Temperature Rise:</strong> Indicates poor heat dissipation or high ambient temperatures</li>
+                    <li><strong>Wind Correlation:</strong> Higher wind speeds typically lower module temperatures</li>
+                    <li><strong>Seasonal Patterns:</strong> Summer shows highest temperatures but potential efficiency losses</li>
+                    <li><strong>Thermal Saturation:</strong> Temperature may plateau at very high irradiance levels</li>
+                </ul>
+            </div>
+            
+            <!-- Performance Impact -->
+            <div class="mt-3 p-3 bg-light rounded">
+                <h6 class="text-dark mb-2">📉 Performance Impact Analysis</h6>
+                <div class="small text-muted">
+                    <p class="mb-2"><strong>Optimal Conditions:</strong> Cool, sunny days with moderate wind provide peak efficiency</p>
+                    <p class="mb-2"><strong>Challenging Conditions:</strong> Hot, still days can reduce output by 10-25% despite high irradiance</p>
+                    <p class="mb-0"><strong>Mitigation:</strong> Proper racking spacing, ventilation, and site selection help manage thermal effects</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Charts Section -->
+    <div class="row g-4 mt-3">
+        <div class="col-lg-6">{{ charts.temp_vs_irr|safe }}</div>
+        <div class="col-lg-6">{{ charts.temp_wind|safe }}</div>
+    </div>
+</div>
                 </div>
             </div>
 

@@ -197,7 +197,7 @@ class DataManager:
             result["cell_temperature"] = fetch_timeseries("cell_temperature")
             result["dc"] = fetch_timeseries("dc_output")
             result["diode_params"] = fetch_timeseries("diode_params")
-            result["total_irrad"] = fetch_timeseries("total_irradiance")
+            result["irradiance"] = fetch_timeseries("total_irradiance")
             result["solar_position"] = fetch_timeseries("solar_position")
             result["weather"] = fetch_timeseries("weather")
 

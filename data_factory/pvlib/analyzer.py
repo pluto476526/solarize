@@ -4,10 +4,9 @@ from data_factory.pvlib import utils
 
 class Analyzer:
     def __init__(self, simulation_data: Dict):
-        # self.ac_power = simulation_data['ac_aoi']['ac']  # AC power in watts
-        self.ac_power = utils.aggregate_timeseries(simulation_data['ac_aoi'], column='ac')
-        self.poa_global = utils.aggregate_timeseries(simulation_data['total_irrad'], column="poa_global")
-        self.cell_temp = utils.aggregate_timeseries(simulation_data['cell_temperature'], column="temperature")
+        self.ac_power = utils.aggregate_timeseries(simulation_data["ac_aoi"], column="ac")
+        self.poa_global = utils.aggregate_timeseries(simulation_data["irradiance"], column="poa_global")
+        self.cell_temp = utils.aggregate_timeseries(simulation_data["cell_temperature"], column="temperature")
        
         
     def get_rating_description(self, score: float) -> str:
@@ -72,7 +71,7 @@ class Analyzer:
         hourly_energy_kwh = self.ac_power / 1000
         
         if hourly_energy_kwh.index.tz is None:
-            hourly_energy_kwh.index = pd.to_datetime(hourly_energy_kwh.index).tz_localize('UTC')
+            hourly_energy_kwh.index = pd.to_datetime(hourly_energy_kwh.index).tz_localize("UTC")
         
         monthly_energy = hourly_energy_kwh.groupby(hourly_energy_kwh.index.month).sum()
         

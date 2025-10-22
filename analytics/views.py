@@ -10,6 +10,7 @@ from data_factory.database.connection import DatabaseConnection
 from data_factory.pvwatts.simulator import PVWattsSimulator
 from data_factory.pvlib.fixed_mount_simulator import FixedMountSimulator
 from data_factory.pvlib.analyzer import Analyzer
+from data_factory.pvlib import plots
 from analytics import utils
 import json
 import logging
@@ -207,13 +208,57 @@ def pvlib_report_view(request):
     db = DataManager(conn)
 
     simulation_data = db.fetch_modelchain_result(report_id)
-    logger.debug(simulation_data)
     analyzer = Analyzer(simulation_data)
     analysis = analyzer.calculate_score()
 
     ac_aoi_param = request.GET.get("ac_aoi_parameter", "ac")
     ac_aoi_array = int(request.GET.get("array_idx", "1"))
-    ac_aoi_chart = utils.ac_aoi_chart(simulation_data['ac_aoi'], ac_aoi_array, ac_aoi_param)
+    ac_aoi_chart = utils.ac_aoi_chart(simulation_data["ac_aoi"], ac_aoi_array, ac_aoi_param)
+
+    n_dc = plots.normalize_pv_tuple(simulation_data["dc"])
+    n_ac = plots.normalize_pv_tuple(simulation_data["ac_aoi"])
+    n_irr = plots.normalize_pv_tuple(simulation_data["irradiance"])
+
+    charts = {
+        # "solar": solar_elevation_chart(solar_position),
+        # "sunpath": sunpath_chart(solar_position),
+        # "poa_vs_ghi": poa_vs_ghi_chart(weather),
+        # "irr_breakdown": irradiance_breakdown_chart(weather),
+        # "poa_heatmap": poa_heatmap(weather),
+        # "temp_wind": temp_wind_chart(weather),
+        # "temp_vs_irr": temp_vs_irradiance(cell_temperature, weather),
+        # "airmass_vs_spec": airmass_vs_spectral(airmass, spectral_modifier),
+        "dc_vs_irr": plots.dc_vs_irradiance(n_dc, n_irr),
+        "dc_vs_ac": plots.dc_vs_ac(n_dc, n_ac),
+        "inverter_eff": plots.inverter_efficiency(n_dc, n_ac),
+        "power_ts": plots.power_timeseries(n_dc, n_ac),
+        "monthly_yield": plots.monthly_yield(n_ac),
+        # "loss_waterfall": loss_waterfall(),
+        # "irr_hist": effective_irradiance_hist(weather),
+        # "temp_derate": temp_derating(cell_temperature, dc),
+        # "ac_box": ac_boxplot(ac_aoi),
+        # "power_heatmap": power_heatmap(ac_aoi),
+        # "poa_vs_dc": poa_vs_dc(weather, dc),
+        # "daily_yield": daily_yield(ac_aoi),
+        # "cap_factor": capacity_factor(ac_aoi),
+        # "cum_energy": cumulative_energy(ac_aoi),
+        # "pr": performance_ratio(ac_aoi, weather)
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     airmass = db.fetch_airmass_data(result_id=report_id)
     cell_temp = db.fetch_cell_temp_data(result_id=report_id)
@@ -232,8 +277,11 @@ def pvlib_report_view(request):
     solar_position_chart = utils.solar_position_chart(solar_position, param="zenith")
     weather_chart = utils.weather_chart(weather, param="ghi")
 
+
+
     context = {
         "analysis": analysis,
+        "charts": charts,
         "ac_aoi_cols": ["ac", "aoi", "aoi_modifier"],
         # "ac_aoi_chart": ac_aoi_chart,
         "airmass_chart": airmass_chart,

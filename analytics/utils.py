@@ -6,10 +6,11 @@ import plotly.graph_objects as go
 from plotly.offline import plot
 from typing import Dict
 import logging
-import pandas as pd
 import json
 import os
 import calendar
+import pandas as pd
+import numpy as np
 
 logger = logging.getLogger(__name__)
 
@@ -101,8 +102,17 @@ def scenario_efficiency_chart(scenario_data: Dict):
     return efficiency_chart
 
 
-def ac_aoi_chart(ac_aoi, array, param):
 
+
+# ========== PVlib ========== #
+
+
+
+
+
+def ac_aoi_chart(ac_aoi, array, param):
+    array = 1
+    param = "ac"
     df = pd.DataFrame(ac_aoi[array][param])
     logger.debug(df.head())
 

@@ -162,6 +162,321 @@
             </div>
         </div>
 
+
+        <div class="container-fluid px-1 pt-3">
+
+            <!-- ============================
+                 ⚡ 1. ELECTRICAL PERFORMANCE
+            ============================== -->
+            <div class="row g-4 pt-2">
+                <div class="col-12">
+                    <div class="bg-secondary rounded p-4">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h4 class="mb-0">⚡ Electrical Performance</h4>
+                            <a class="btn btn-outline-info btn-sm" data-bs-toggle="collapse" href="#elecDetails" role="button" aria-expanded="false">
+                                <i class="bi bi-chevron-down me-1"></i> Show Details
+                            </a>
+                        </div>
+                        
+                        <div class="collapse" id="elecDetails">
+                            <div class="card card-body border bg-secondary">
+                                <p class="mb-3">
+                                    This section evaluates DC/AC relationships, inverter efficiency, and clipping to highlight power conversion dynamics over time.
+                                </p>
+                                
+                                <div class="row g-3">
+                                    <!-- DC vs Irradiance Card -->
+                                    <div class="col-md-6">
+                                        <div class="card h-100 border-0 bg-dark">
+                                            <div class="card-body p-3">
+                                                <h6 class="card-title d-flex align-items-center">
+                                                    <span class="badge bg-primary me-2">1</span>
+                                                    DC vs. Irradiance
+                                                </h6>
+                                                <p class="card-text small mb-0">
+                                                    Visualizes the relationship between plane-of-array (POA) irradiance and DC power output. 
+                                                    Helps identify system efficiency, shading effects, and temperature impacts.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- DC vs AC Card -->
+                                    <div class="col-md-6">
+                                        <div class="card h-100 border-0 bg-dark">
+                                            <div class="card-body p-3">
+                                                <h6 class="card-title d-flex align-items-center">
+                                                    <span class="badge bg-primary me-2">2</span>
+                                                    DC vs. AC Power
+                                                </h6>
+                                                <p class="card-text small mb-0">
+                                                    Shows inverter conversion efficiency and clipping behavior. 
+                                                    Points deviating from the linear relationship indicate efficiency losses or clipping events.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Inverter Efficiency Card -->
+                                    <div class="col-md-6">
+                                        <div class="card h-100 border-0 bg-dark">
+                                            <div class="card-body p-3">
+                                                <h6 class="card-title d-flex align-items-center">
+                                                    <span class="badge bg-primary me-2">3</span>
+                                                    Inverter Efficiency
+                                                </h6>
+                                                <p class="card-text small mb-0">
+                                                    Displays inverter efficiency as a function of DC power input. 
+                                                    Lower efficiency typically occurs at very low or high DC power levels.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Monthly Yield Card -->
+                                    <div class="col-md-6">
+                                        <div class="card h-100 border-0 bg-dark">
+                                            <div class="card-body p-3">
+                                                <h6 class="card-title d-flex align-items-center">
+                                                    <span class="badge bg-primary me-2">4</span>
+                                                    Monthly Yield
+                                                </h6>
+                                                <p class="card-text small mb-0">
+                                                    Shows monthly energy production in kWh. 
+                                                    Helps identify seasonal variations and evaluate whether the system meets energy targets.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Weekly Average Power Card -->
+                                    <div class="col-12">
+                                        <div class="card border-0 bg-dark">
+                                            <div class="card-body p-3">
+                                                <h6 class="card-title d-flex align-items-center">
+                                                    <span class="badge bg-primary me-2">5</span>
+                                                    Weekly Average DC & AC Power
+                                                </h6>
+                                                <p class="card-text small mb-0">
+                                                    Shows weekly averaged power trends over time. 
+                                                    Comparing DC and AC traces highlights inverter behavior and seasonal performance trends.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Charts Section -->
+                        <div class="row g-4 mt-3">
+                            <div class="col-lg-6">{{ charts.dc_vs_irr|safe }}</div>
+                            <div class="col-lg-6">{{ charts.dc_vs_ac|safe }}</div>
+                            <div class="col-lg-6">{{ charts.monthly_yield|safe }}</div>
+                            <div class="col-lg-6">{{ charts.inverter_eff|safe }}</div>
+                            <div class="col-lg-12">{{ charts.power_ts|safe }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================
+                 🌞 1. SOLAR POSITION & GEOMETRY
+            ============================== -->
+            <div class="row g-4">
+                <div class="col-12">
+                    <div class="bg-secondary rounded p-4">
+                        <h4 class="mb-3">🌞 Solar Position & Geometry</h4>
+                        <p>
+                            <a class="text-info" data-bs-toggle="collapse" href="#solarDetails" role="button" aria-expanded="false">
+                                Show Details
+                            </a>
+                        </p>
+                        <div class="collapse" id="solarDetails">
+                            <p class="small text-muted">
+                                Displays the movement of the sun and its effect on irradiance angles.
+                                Useful for tilt/tracking and seasonal daylight analysis.
+                            </p>
+                        </div>
+                        <div class="row g-4">
+                            <div class="col-lg-6">{{ charts.solar|safe }}</div>
+                            <div class="col-lg-6">{{ charts.sunpath|safe }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================
+                 🌤 2. IRRADIANCE & WEATHER
+            ============================== -->
+            <div class="row g-4 pt-2">
+                <div class="col-12">
+                    <div class="bg-secondary rounded p-4">
+                        <h4 class="mb-3">🌤 Irradiance & Weather</h4>
+                        <p>
+                            <a class="text-info" data-bs-toggle="collapse" href="#irrDetails" role="button" aria-expanded="false">
+                                Show Details
+                            </a>
+                        </p>
+                        <div class="collapse" id="irrDetails">
+                            <p class="small text-muted">
+                                Analyzes POA, GHI, and DHI irradiance behavior with temperature and wind effects.
+                                Helps correlate irradiance fluctuations with system power output.
+                            </p>
+                        </div>
+                        <div class="row g-4">
+                            <div class="col-lg-6">{{ charts.poa_vs_ghi|safe }}</div>
+                            <div class="col-lg-6">{{ charts.irr_breakdown|safe }}</div>
+                            <div class="col-lg-6">{{ charts.poa_heatmap|safe }}</div>
+                            <div class="col-lg-6">{{ charts.irr_hist|safe }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================
+                 🌡️ 3. TEMPERATURE & ENVIRONMENT
+            ============================== -->
+            <div class="row g-4 pt-2">
+                <div class="col-12">
+                    <div class="bg-secondary rounded p-4">
+                        <h4 class="mb-3">🌡️ Temperature & Environment</h4>
+                        <p>
+                            <a class="text-info" data-bs-toggle="collapse" href="#tempDetails" role="button" aria-expanded="false">
+                                Show Details
+                            </a>
+                        </p>
+                        <div class="collapse" id="tempDetails">
+                            <p class="small text-muted">
+                                Visualizes thermal effects on system behavior.
+                                Correlates module and ambient temperature with irradiance and power.
+                            </p>
+                        </div>
+                        <div class="row g-4">
+                            <div class="col-lg-6">{{ charts.temp_vs_irr|safe }}</div>
+                            <div class="col-lg-6">{{ charts.temp_wind|safe }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================
+                 ☀️ 4. AIRMASS & SPECTRAL EFFECTS
+            ============================== -->
+            <div class="row g-4 pt-2">
+                <div class="col-12">
+                    <div class="bg-secondary rounded p-4">
+                        <h4 class="mb-3">☀️ Airmass & Spectral Effects</h4>
+                        <p>
+                            <a class="text-info" data-bs-toggle="collapse" href="#airmassDetails" role="button" aria-expanded="false">
+                                Show Details
+                            </a>
+                        </p>
+                        <div class="collapse" id="airmassDetails">
+                            <p class="small text-muted">
+                                Examines the relationship between optical air mass and spectral modifier,
+                                revealing atmospheric effects on irradiance quality.
+                            </p>
+                        </div>
+                        {{ charts.airmass_vs_spec|safe }}
+                    </div>
+                </div>
+            </div>
+
+            
+
+            <!-- ============================
+                 📈 6. PERFORMANCE TRENDS
+            ============================== -->
+            <div class="row g-4 pt-2">
+                <div class="col-12">
+                    <div class="bg-secondary rounded p-4">
+                        <h4 class="mb-3">📈 Performance Trends</h4>
+                        <p>
+                            <a class="text-info" data-bs-toggle="collapse" href="#trendDetails" role="button" aria-expanded="false">
+                                Show Details
+                            </a>
+                        </p>
+                        <div class="collapse" id="trendDetails">
+                            <p class="small text-muted">
+                                Time-based analysis of production trends and energy accumulation.
+                                Useful for long-term performance tracking and diagnostics.
+                            </p>
+                        </div>
+                        <div class="row g-4">
+                            <div class="col-lg-6">{{ charts.power_ts|safe }}</div>
+                            <div class="col-lg-6">{{ charts.power_heatmap|safe }}</div>
+                            <div class="col-lg-6">{{ charts.daily_yield|safe }}</div>
+                            <div class="col-lg-6">{{ charts.monthly_yield|safe }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================
+                 🧩 7. SYSTEM LOSSES & DERATING
+            ============================== -->
+            <div class="row g-4 pt-2">
+                <div class="col-12">
+                    <div class="bg-secondary rounded p-4">
+                        <h4 class="mb-3">🧩 System Losses & Derating</h4>
+                        <p>
+                            <a class="text-info" data-bs-toggle="collapse" href="#lossDetails" role="button" aria-expanded="false">
+                                Show Details
+                            </a>
+                        </p>
+                        <div class="collapse" id="lossDetails">
+                            <p class="small text-muted">
+                                Illustrates how irradiance losses propagate through conversion stages.
+                                Identifies temperature and performance-related derating effects.
+                            </p>
+                        </div>
+                        <div class="row g-4">
+                            <div class="col-lg-6">{{ charts.temp_derate|safe }}</div>
+                            <div class="col-lg-6">{{ charts.loss_waterfall|safe }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================
+                 🧭 8. PERFORMANCE DISTRIBUTION
+            ============================== -->
+            <div class="row g-4 pt-2 mb-5">
+                <div class="col-12">
+                    <div class="bg-secondary rounded p-4">
+                        <h4 class="mb-3">🧭 Performance Distribution</h4>
+                        <p>
+                            <a class="text-info" data-bs-toggle="collapse" href="#distDetails" role="button" aria-expanded="false">
+                                Show Details
+                            </a>
+                        </p>
+                        <div class="collapse" id="distDetails">
+                            <p class="small text-muted">
+                                Compares output across multiple arrays or configurations.
+                                Highlights differences in orientation, efficiency, or inverter mapping.
+                            </p>
+                        </div>
+                        <div class="row g-4">
+                            <div class="col-lg-6">{{ charts.ac_box|safe }}</div>
+                            <div class="col-lg-6">{{ charts.cap_factor|safe }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
         <!-- 1. Primary Performance Indicators
         2. Environmental & Positioning Factors
         3. Advanced Technical Parameters -->

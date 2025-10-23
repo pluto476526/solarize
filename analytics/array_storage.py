@@ -1,9 +1,10 @@
 import json
 import os
+import time
 from django.conf import settings
 
 # Base directory for all user array data
-BASE_ARRAY_DIR = os.path.join(settings.BASE_DIR, "array_data")
+BASE_ARRAY_DIR = os.path.join(settings.BASE_DIR, "config", "array_names")
 os.makedirs(BASE_ARRAY_DIR, exist_ok=True)
 
 
@@ -46,11 +47,25 @@ def list_user_files(user):
     return sorted(os.listdir(user_dir))
 
 
-def delete_array_file(user, filename):
-    """Delete a specific array file for the given user."""
-    file_path = _get_file_path(user, filename)
-    if os.path.exists(file_path):
+
+def delete_array_files(user, days=30):
+    """Delete the user's array file if it hasn't been modified for 1 month."""
+    user_dir = _get_user_dir(user)
+    if not user_dir:
+        return False
+
+    # Get current time and file access time
+    now = time.time()
+    last_modified = os.path.getatime(file_path)
+
+    # Calculate file age in seconds
+    age_days = (now - last_modified) / (60 * 60 * 24)
+
+    # Delete if older than threshold
+    if age_days > days:
         os.remove(file_path)
         return True
+
     return False
+
 

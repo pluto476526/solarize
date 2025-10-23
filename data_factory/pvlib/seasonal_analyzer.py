@@ -1,11 +1,12 @@
 import pandas as pd
 from typing import Dict, Tuple, List
 from datetime import datetime
+from data_factory.pvlib import utils
 
 class SeasonalAnalyzer:
     def __init__(self, simulation_data: Dict):
-        self.simulation_data = simulation_data
-        self.ac_power = simulation_data['ac_aoi']['ac']  # AC power in watts
+        self.poa_global = utils.aggregate_timeseries(simulation_data['irradiance'], column="poa_global")
+        self.ac_power = utils.aggregate_timeseries(simulation_data["ac_aoi"], column="ac")
         self.hourly_energy_kwh = self.ac_power / 1000
         
     def calculate_monthly_production(self) -> pd.Series:
@@ -116,7 +117,7 @@ class SeasonalAnalyzer:
     def get_monthly_efficiency(self) -> Dict:
         """Calculate monthly system efficiency"""
         monthly_efficiency = {}
-        poa_global = self.simulation_data['total_irrad']['poa_global']
+        poa_global = self.poa_global
         
         if poa_global.index.tz is None:
             poa_global.index = pd.to_datetime(poa_global.index).tz_localize('UTC')
@@ -208,9 +209,3 @@ class SeasonalAnalyzer:
             }
         }
 
-
-# Usage example:
-def analyze_seasonal_performance(simulation_data: Dict) -> Dict:
-    """Convenience function to analyze seasonal performance"""
-    analyzer = SeasonalAnalyzer(simulation_data)
-    return analyzer.generate_seasonal_report()

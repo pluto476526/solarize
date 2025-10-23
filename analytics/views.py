@@ -5,11 +5,12 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.conf import settings
 from django.contrib import messages
+from django.core.cache import cache
 from data_factory.database.manager import DataManager
 from data_factory.database.connection import DatabaseConnection
 from data_factory.pvwatts.simulator import PVWattsSimulator
 from data_factory.pvlib.fixed_mount_simulator import FixedMountSimulator
-from data_factory.pvlib.analyzer import Analyzer
+from data_factory.pvlib import general_analyzer, seasonal_analyzer, financial_analysis
 from data_factory.pvlib import plots, timeseries
 from analytics import utils, array_storage
 import json
@@ -188,31 +189,68 @@ def fixed_mount_system_view(request):
             losses_params=losses_params
         )
 
-        report = fms.run_simulation()
-        report_id = db.save_modelchain_result(report, array_names)
+        result = fms.run_simulation()
+        result_id = db.save_modelchain_result(result, array_names)
         db.close()
 
         messages.success(request, f"Configured system with {len(arrays_config)} arrays")
-        request.session["pvlib_report"] = report_id
-        return redirect("pvlib_report")
+        request.session["modelchain_result"] = result_id
+        return redirect("modelchain_result")
 
     context = {}
     return render(request, "analytics/fixed_mount_system.html", context)
 
 
-def pvlib_report_view(request):
+def modelchain_result_view(request):
     # report_id = request.session.get("pvlib_report", 7)
-    report_id = 7
-    if not report_id:
-        return redirect("pvlib_modelling")
-
-    conn = DatabaseConnection()
-    db = DataManager(conn)
-    simulation_data = db.fetch_modelchain_result(report_id)
-    db.close()
+    result_id = 10
     
-    analyzer = Analyzer(simulation_data)
-    analysis = analyzer.calculate_score()
+    if not result_id:
+        return redirect(request.META.get('HTTP_REFERER', '/'))
+
+    data_key = f"data_{request.user.id}_{result_id}"
+    charts_key = f"charts_{request.user.id}_{result_id}"
+    
+    simulation_data = cache.get(data_key, None)
+    charts = cache.get(charts_key, None)
+
+    if not simulation_data:
+        conn = DatabaseConnection()
+        db = DataManager(conn)
+        simulation_data = db.fetch_modelchain_result(result_id)
+        cache.set(data_key, simulation_data, timeout=3600)
+        db.close()
+
+    if not charts:
+        n_dc = plots.normalize_pv_tuple(simulation_data["dc"])
+        n_ac = plots.normalize_pv_tuple(simulation_data["ac_aoi"])
+        n_irr = plots.normalize_pv_tuple(simulation_data["irradiance"])
+        n_weather = plots.normalize_pv_tuple(simulation_data["weather"])
+        n_cell_temp = plots.normalize_pv_tuple(simulation_data["cell_temperature"])
+
+        charts = {
+            "solar": plots.solar_elevation_chart(simulation_data["solar_position"]),
+            "sunpath": plots.sunpath_chart(simulation_data["solar_position"]),
+            "poa_vs_ghi": plots.poa_vs_ghi_chart(n_irr, n_weather),
+            "irr_breakdown": plots.irradiance_breakdown_chart(n_weather),
+            "poa_heatmap": plots.poa_heatmap(n_irr),
+            "temp_wind": plots.temp_wind_chart(n_weather),
+            "temp_vs_irr": plots.temp_vs_irradiance(n_cell_temp, n_irr),
+            "dc_vs_irr": plots.dc_vs_irradiance(n_dc, n_irr),
+            "dc_vs_ac": plots.dc_vs_ac(n_dc, n_ac),
+            "inverter_eff": plots.inverter_efficiency(n_dc, n_ac),
+            "power_ts": plots.power_timeseries(n_dc, n_ac),
+            "monthly_yield": plots.monthly_yield(n_ac),
+            "temp_derate": plots.temp_derating(n_cell_temp, n_dc),
+            "power_heatmap": plots.power_heatmap(n_ac),
+            "peak_power_vs_irr": plots.peak_power_vs_irradiance(n_ac, n_irr),
+            "daily_yield": plots.daily_yield(n_ac),
+            "cap_factor": plots.capacity_factor(n_ac),
+            "cum_energy": plots.cumulative_energy(n_ac),
+            "pr": plots.performance_ratio(n_ac, n_irr)
+        }
+
+        cache.set(charts_key, charts, timeout=3600)
 
     ac_aoi_param = request.GET.get("ac_aoi_param", "ac")
     ac_aoi_array = int(request.GET.get("ac_aoi_array", 0))
@@ -237,38 +275,24 @@ def pvlib_report_view(request):
         "solar_position": timeseries.solar_position_chart(simulation_data["solar_position"], solar_param),
     }
 
-    n_dc = plots.normalize_pv_tuple(simulation_data["dc"])
-    n_ac = plots.normalize_pv_tuple(simulation_data["ac_aoi"])
-    n_irr = plots.normalize_pv_tuple(simulation_data["irradiance"])
-    n_weather = plots.normalize_pv_tuple(simulation_data["weather"])
-    n_cell_temp = plots.normalize_pv_tuple(simulation_data["cell_temperature"])
+    meta_data = {
+        "simulation_name": simulation_data["simulation_name"],
+        "description": simulation_data["description"],
+        "created_at": simulation_data["created_at"]
+    }
 
-    # charts = {
-    #     "solar": plots.solar_elevation_chart(simulation_data["solar_position"]),
-    #     "sunpath": plots.sunpath_chart(simulation_data["solar_position"]),
-    #     "poa_vs_ghi": plots.poa_vs_ghi_chart(n_irr, n_weather),
-    #     "irr_breakdown": plots.irradiance_breakdown_chart(n_weather),
-    #     "poa_heatmap": plots.poa_heatmap(n_irr),
-    #     "temp_wind": plots.temp_wind_chart(n_weather),
-    #     "temp_vs_irr": plots.temp_vs_irradiance(n_cell_temp, n_irr),
-    #     "dc_vs_irr": plots.dc_vs_irradiance(n_dc, n_irr),
-    #     "dc_vs_ac": plots.dc_vs_ac(n_dc, n_ac),
-    #     "inverter_eff": plots.inverter_efficiency(n_dc, n_ac),
-    #     "power_ts": plots.power_timeseries(n_dc, n_ac),
-    #     "monthly_yield": plots.monthly_yield(n_ac),
-    #     "temp_derate": plots.temp_derating(n_cell_temp, n_dc),
-    #     "power_heatmap": plots.power_heatmap(n_ac),
-    #     "peak_power_vs_irr": plots.peak_power_vs_irradiance(n_ac, n_irr),
-    #     "daily_yield": plots.daily_yield(n_ac),
-    #     "cap_factor": plots.capacity_factor(n_ac),
-    #     "cum_energy": plots.cumulative_energy(n_ac),
-    #     "pr": plots.performance_ratio(n_ac, n_irr)
-    # }
-
-    charts = {}
+    gm = general_analyzer.Analyzer(simulation_data)
+    sa = seasonal_analyzer.SeasonalAnalyzer(simulation_data)
+    fn = financial_analysis.FinancialAnalyzer(simulation_data)
+    general_metrics = gm.calculate_score()
+    seasonal_analysis = sa.generate_seasonal_report()
+    financial_metrics = fn.calculate_score()
 
     context = {
-        "analysis": analysis,
+        "meta_data": meta_data,
+        "general_metrics": general_metrics,
+        "seasonal_analysis": seasonal_analysis,
+        "financial_data": financial_metrics,
         "charts": charts,
         "timeseries": time_series,
         "ac_aoi_cols": ["ac", "aoi", "aoi_modifier"],
@@ -281,7 +305,9 @@ def pvlib_report_view(request):
         "arrays": array_storage.load_array_file(request.user, "random_simulation_arrays.json"),
     }
 
-    return render(request, "analytics/pvlib_report.html", context)
+    logger.debug(financial_metrics)
+
+    return render(request, "analytics/modelchain_result.html", context)
 
 
 def single_axis_tracking_view(request):

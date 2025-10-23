@@ -78,7 +78,7 @@ class DataManager:
                 description,
                 json.dumps(result.albedo) if isinstance(result.albedo, tuple) else result.albedo,
                 result.losses,
-                json.dumps(result.spectral_modifier) if isinstance(result.spectral_modifier, tuple) else result.spectral_modifier,
+                json.dumps(result.spectral_modifier),
                 None if result.tracking is None else json.dumps(result.tracking)
             ))
             result_id = cur.fetchone()[0]
@@ -162,7 +162,7 @@ class DataManager:
         with self.db.cursor() as cur:
             # Fetch metadata
             cur.execute("""
-                SELECT simulation_name, description, albedo, losses, spectral_modifier, tracking
+                SELECT simulation_name, description, created_at, albedo, losses, spectral_modifier, tracking
                 FROM modelchain_results
                 WHERE result_id = %s
             """, (result_id,))
@@ -173,10 +173,11 @@ class DataManager:
             result.update({
                 "simulation_name": row[0],
                 "description": row[1],
-                "albedo": row[2],
-                "losses": row[3],
-                "spectral_modifier": row[4],
-                "tracking": json.loads(row[5]) if row[5] else None
+                "created_at": row[2],
+                "albedo": row[3],
+                "losses": row[4],
+                "spectral_modifier": row[5],
+                "tracking": json.loads(row[6]) if row[6] else None
             })
 
             # Helper to fetch time-series and reassemble as tuple
@@ -220,7 +221,7 @@ class DataManager:
         except Exception as e:
             logger.error(f"No data: {e}")
             return pd.DataFrame()
-            
+
 
     def fetch_cell_temp_data(self, result_id):
         try:

@@ -9,7 +9,7 @@
     {% include 'analytics/nav.html' %}
     <!-- Navbar End -->
 
-    {% if analysis %}
+    {% if meta_data %}
     <div class="container-fluid">
         <!-- Report Header -->
         <div class="row pt-2">
@@ -17,144 +17,404 @@
                 <div class="bg-secondary rounded p-4">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
-                            <h2 class="text-warning mb-1">{{ analysis.simulation_name }}</h2>
-                            <h4 class="text-primary mb-0">Solar Site Analysis</h4>
-                            <p class="mb-0 text-muted">{{ analysis.description }}</p>
+                            <h2 class="text-warning mb-1">{{ meta_data.simulation_name }}</h2>
+                            <p class="mb-0 text-muted">{{ meta_data.description }}</p>
                         </div>
                         <div class="text-end">
-                            <span class="badge bg-success fs-6">Overall Score: 78/100</span>
-                            <p class="mb-0 text-muted mt-2">Report Date: 2024-01-15</p>
+                            <span class="badge bg-success fs-6">Performance Score: {{ general_metrics.overall_score }}/100</span>
+                            <span class="badge bg-info fs-6 ms-2">Financial Score: {{ financial_data.overall_financial_score }}/100</span>
+                            <p class="mb-0 text-muted mt-2">Report Date: {{ meta_data.created_at }}</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Key Metrics -->
+        <!-- Key Performance Metrics -->
         <div class="row pt-4">
             <div class="col-sm-6 col-xl-3">
-                <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4 h-100">
                     <i class="fas fa-bolt fa-3x text-warning"></i>
-                    <div class="ms-3">
+                    <div class="ms-3 text-end">
                         <p class="mb-2">Annual Production</p>
-                        <h6 class="mb-0">{{ analysis.production_metrics.annual_energy_kwh }} kWh</h6>
+                        <h6 class="mb-0">{{ general_metrics.production_metrics.annual_energy_kwh }} kWh</h6>
                     </div>
                 </div>
             </div>
             <div class="col-sm-6 col-xl-3">
-                <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4 h-100">
                     <i class="fas fa-solar-panel fa-3x text-info"></i>
-                    <div class="ms-3">
+                    <div class="ms-3 text-end">
                         <p class="mb-2">Capacity Factor</p>
-                        <h6 class="mb-0">{{ analysis.production_metrics.capacity_factor_percent }}%</h6>
+                        <h6 class="mb-0">{{ general_metrics.production_metrics.capacity_factor_percent }}%</h6>
                     </div>
                 </div>
             </div>
             <div class="col-sm-6 col-xl-3">
-                <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4 h-100">
                     <i class="fas fa-chart-line fa-3x text-success"></i>
-                    <div class="ms-3">
+                    <div class="ms-3 text-end">
                         <p class="mb-2">System Efficiency</p>
-                        <h6 class="mb-0">{{ analysis.production_metrics.system_efficiency_percent }}%</h6>
+                        <h6 class="mb-0">{{ general_metrics.production_metrics.system_efficiency_percent }}%</h6>
                     </div>
                 </div>
             </div>
             <div class="col-sm-6 col-xl-3">
-                <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4 h-100">
                     <i class="fas fa-sun fa-3x text-primary"></i>
-                    <div class="ms-3">
+                    <div class="ms-3 text-end">
                         <p class="mb-2">Performance Ratio</p>
-                        <h6 class="mb-0">{{ analysis.production_metrics.performance_ratio_percent }}%</h6>
+                        <h6 class="mb-0">{{ general_metrics.production_metrics.performance_ratio_percent }}%</h6>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Performance Analysis -->
+        <!-- Financial Performance Section -->
         <div class="row pt-4">
             <div class="col-sm-12 col-xl-4">
-                <div class="bg-secondary rounded p-4">
-                    <h5 class="mb-4">Performance Score</h5>
+                <div class="bg-secondary rounded p-4 h-100">
+                    <h5 class="mb-4">💵 Financial Score</h5>
                     <div class="text-center mb-4">
-                        <div class="display-4 text-primary fw-bold">{{ analysis.overall_score }}</div>
-                        <span class="badge bg-success fs-6">{{ analysis.rating }}</span>
+                        <div class="display-4 text-success fw-bold">{{ financial_data.overall_financial_score }}</div>
+                        <span class="badge bg-success fs-6">{{ financial_data.roi_rating }}</span>
                     </div>
                     <div class="mt-4">
                         <div class="d-flex justify-content-between mb-2">
-                            <span>Peak Alignment</span>
-                            <span class="fw-bold text-warning">{{ analysis.operational_metrics.peak_alignment_factor }}/100</span>
+                            <span>Payback Period</span>
+                            <span class="fw-bold text-warning">{{ financial_data.component_scores.payback_period_score }}/100</span>
                         </div>
                         <div class="progress mb-3">
-                            <div class="progress-bar bg-warning" role="progressbar" style="width: {{ analysis.operational_metrics.peak_alignment_percent }}%"></div>
+                            <div class="progress-bar bg-warning" role="progressbar" style="width: {{ financial_data.component_scores.payback_period_score }}%"></div>
                         </div>
                         
                         <div class="d-flex justify-content-between mb-2">
-                            <span>Utilization Factor</span>
-                            <span class="fw-bold text-info">{{ analysis.operational_metrics.utilization_factor }}/100</span>
+                            <span>Net Present Value</span>
+                            <span class="fw-bold text-info">{{ financial_data.component_scores.npv_score }}/100</span>
                         </div>
-                        <div class="progress">
-                            <div class="progress-bar bg-info" role="progressbar" style="width: {{ analysis.operational_metrics.utilization_factor_percent }}%"></div>
+                        <div class="progress mb-3">
+                            <div class="progress-bar bg-info" role="progressbar" style="width: {{ financial_data.component_scores.npv_score }}%"></div>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Internal Rate of Return</span>
+                            <span class="fw-bold text-success">{{ financial_data.component_scores.irr_score }}/100</span>
+                        </div>
+                        <div class="progress mb-3">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: {{ financial_data.component_scores.irr_score }}%"></div>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Levelized Cost of Energy</span>
+                            <span class="fw-bold text-primary">{{ financial_data.component_scores.lcoe_score }}/100</span>
+                        </div>
+                        <div class="progress mb-3">
+                            <div class="progress-bar bg-primary" role="progressbar" style="width: {{ financial_data.component_scores.lcoe_score }}%"></div>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="col-sm-12 col-xl-8">
-                <div class="bg-secondary rounded p-4">
-                    <h5 class="mb-4">Seasonal Performance</h5>
-                    <div class="row">
+                <div class="bg-secondary rounded p-4 h-100">
+                    <h5 class="mb-4">💰 Financial Metrics</h5>
+                    
+                    <!-- Key Financial Metrics -->
+                    <div class="row mb-4">
                         <div class="col-md-6">
-                            <div class="border rounded p-3 mb-3">
-                                <div class="d-flex justify-content-between">
-                                    <span class="fw-bold">Best Month</span>
-                                    <span class="text-success" id="best-month-name">July</span>
+                            <div class="border rounded p-3 mb-3 bg-dark">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="fw-bold">Simple Payback</span>
+                                    <span class="text-success fs-5">{{ financial_data.key_metrics.simple_payback_years }} years</span>
                                 </div>
-                                <div class="text-end" id="best-month-production">15,250 kWh</div>
+                                <div class="text-end small text-muted">Time to recoup investment</div>
                             </div>
-                            <div class="border rounded p-3">
-                                <div class="d-flex justify-content-between">
-                                    <span class="fw-bold">Peak Hourly</span>
-                                    <span class="text-warning" id="peak-hourly-production">98.7 kWh</span>
+                            <div class="border rounded p-3 bg-dark">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="fw-bold">Net Present Value</span>
+                                    <span class="text-warning fs-5">${{ financial_data.key_metrics.net_present_value }}</span>
                                 </div>
-                                <div class="text-end" id="peak-hourly-time">1990-06-15 13:00</div>
+                                <div class="text-end small text-muted">Total project value</div>
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="border rounded p-3 mb-3">
-                                <div class="d-flex justify-content-between">
-                                    <span class="fw-bold">Worst Month</span>
-                                    <span class="text-danger" id="worst-month-name">December</span>
+                            <div class="border rounded p-3 mb-3 bg-dark">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="fw-bold">Internal Rate of Return</span>
+                                    <span class="text-info fs-5">{{ financial_data.key_metrics.internal_rate_of_return_percent }}%</span>
                                 </div>
-                                <div class="text-end" id="worst-month-production">6,845 kWh</div>
+                                <div class="text-end small text-muted">Annualized return</div>
                             </div>
-                            <div class="border rounded p-3">
-                                <div class="d-flex justify-content-between">
-                                    <span class="fw-bold">Seasonal Variation</span>
-                                    <span class="text-info" id="seasonal-variation">55.1%</span>
+                            <div class="border rounded p-3 bg-dark">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="fw-bold">LCOE</span>
+                                    <span class="text-primary fs-5">${{ financial_data.key_metrics.levelized_cost_of_energy }}/kWh</span>
                                 </div>
-                                <div class="text-end" id="variation-description">Moderate Variation</div>
+                                <div class="text-end small text-muted">Cost per unit energy</div>
                             </div>
                         </div>
                     </div>
                     
-                    <!-- Additional seasonal metrics that can be shown/hidden -->
-                    <div class="row mt-4">
+                    <!-- System Cost & Savings -->
+                    <div class="row mb-4">
+                        <div class="col-md-4">
+                            <div class="border rounded p-3 text-center bg-dark">
+                                <div class="fw-bold text-warning">System Cost</div>
+                                <div class="fs-5 text-white">${{ financial_data.key_metrics.system_cost }}</div>
+                                <small class="text-muted">{{ financial_data.key_metrics.system_size_kw }} kW system</small>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="border rounded p-3 text-center bg-dark">
+                                <div class="fw-bold text-success">Annual Savings</div>
+                                <div class="fs-5 text-white">${{ financial_data.key_metrics.annual_energy_savings }}</div>
+                                <small class="text-muted">Year 1 savings</small>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="border rounded p-3 text-center bg-dark">
+                                <div class="fw-bold text-info">Annual Production</div>
+                                <div class="fs-5 text-white">{{ financial_data.key_metrics.annual_energy_production_kwh }} kWh</div>
+                                <small class="text-muted">Energy generated</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Technical Performance Section -->
+        <div class="row pt-4">
+            <div class="col-sm-12 col-xl-4">
+                <div class="bg-secondary rounded p-4 h-100">
+                    <h5 class="mb-4">⚡ Performance Score</h5>
+                    <div class="text-center mb-4">
+                        <div class="display-4 text-primary fw-bold">{{ general_metrics.overall_score }}</div>
+                        <span class="badge bg-success fs-6">{{ general_metrics.rating }}</span>
+                    </div>
+                    <div class="mt-4">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Peak Alignment</span>
+                            <span class="fw-bold text-warning">{{ general_metrics.operational_metrics.peak_alignment_percent }}/100</span>
+                        </div>
+                        <div class="progress mb-3">
+                            <div class="progress-bar bg-warning" role="progressbar" style="width: {{ general_metrics.operational_metrics.peak_alignment_percent }}%"></div>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Utilization Factor</span>
+                            <span class="fw-bold text-info">{{ general_metrics.operational_metrics.utilization_factor_percent }}/100</span>
+                        </div>
+                        <div class="progress mb-3">
+                            <div class="progress-bar bg-info" role="progressbar" style="width: {{ general_metrics.operational_metrics.utilization_factor_percent }}%"></div>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Efficiency Score</span>
+                            <span class="fw-bold text-success">{{ general_metrics.component_scores.efficiency }}/100</span>
+                        </div>
+                        <div class="progress mb-3">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: {{ general_metrics.component_scores.efficiency }}%"></div>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>System Performance</span>
+                            <span class="fw-bold text-danger">{{ general_metrics.component_scores.system_performance }}/100</span>
+                        </div>
+                        <div class="progress mb-3">
+                            <div class="progress-bar bg-danger" role="progressbar" style="width: {{ general_metrics.component_scores.system_performance }}%"></div>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Seasonal Consistency</span>
+                            <span class="fw-bold text-info">{{ general_metrics.component_scores.seasonal_consistency }}/100</span>
+                        </div>
+                        <div class="progress mb-3">
+                            <div class="progress-bar bg-info" role="progressbar" style="width: {{ general_metrics.component_scores.seasonal_consistency }}%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-xl-8">
+                <div class="bg-secondary rounded p-4 h-100">
+                    <h5 class="mb-4">📊 Seasonal Performance</h5>
+                    
+                    <!-- Key Performance Metrics -->
+                    <div class="row mb-4">
                         <div class="col-md-6">
-                            <div class="border rounded p-3 mb-3">
+                            <div class="border rounded p-3 mb-3 bg-dark">
                                 <div class="d-flex justify-content-between">
-                                    <span class="fw-bold">Annual Production</span>
-                                    <span class="text-primary" id="annual-production">142,380 kWh</span>
+                                    <span class="fw-bold">Best Month</span>
+                                    <span class="text-success" id="best-month-name">{{ seasonal_analysis.best_month.name }}</span>
                                 </div>
-                                <div class="text-end small" id="capacity-factor">Capacity Factor: 24.8%</div>
+                                <div class="text-end" id="best-month-production">{{ seasonal_analysis.best_month.production_kwh }} kWh</div>
+                            </div>
+                            <div class="border rounded p-3 bg-dark">
+                                <div class="d-flex justify-content-between">
+                                    <span class="fw-bold">Peak Hourly</span>
+                                    <span class="text-warning" id="peak-hourly-production">{{ seasonal_analysis.peak_hourly.production_kwh }} kWh</span>
+                                </div>
+                                <div class="text-end" id="peak-hourly-time">{{ seasonal_analysis.peak_hourly.timestamp }}</div>
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="border rounded p-3 mb-3">
+                            <div class="border rounded p-3 mb-3 bg-dark">
+                                <div class="d-flex justify-content-between">
+                                    <span class="fw-bold">Worst Month</span>
+                                    <span class="text-danger" id="worst-month-name">{{ seasonal_analysis.worst_month.name }}</span>
+                                </div>
+                                <div class="text-end" id="worst-month-production">{{ seasonal_analysis.worst_month.production_kwh }} kWh</div>
+                            </div>
+                            <div class="border rounded p-3 bg-dark">
+                                <div class="d-flex justify-content-between">
+                                    <span class="fw-bold">Seasonal Variation</span>
+                                    <span class="text-info" id="seasonal-variation">{{ seasonal_analysis.seasonal_variation.variation_percent }}%</span>
+                                </div>
+                                <div class="text-end" id="variation-description">{{ seasonal_analysis.seasonal_variation.description }}</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Production Summary -->
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="border rounded p-3 mb-3 bg-dark">
+                                <div class="d-flex justify-content-between">
+                                    <span class="fw-bold">Annual Production</span>
+                                    <span class="text-primary" id="annual-production">{{ seasonal_analysis.productivity_metrics.annual_production_kwh }} kWh</span>
+                                </div>
+                                <div class="text-end small text-muted" id="production-months">{{ seasonal_analysis.productivity_metrics.production_months }} productive months</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="border rounded p-3 mb-3 bg-dark">
                                 <div class="d-flex justify-content-between">
                                     <span class="fw-bold">Avg Monthly</span>
-                                    <span class="text-primary" id="avg-monthly">11,865 kWh</span>
+                                    <span class="text-primary" id="avg-monthly">{{ seasonal_analysis.productivity_metrics.average_monthly_kwh }} kWh</span>
                                 </div>
-                                <div class="text-end small" id="productive-months">12 productive months</div>
+                                <div class="text-end small text-muted" id="monthly-variation">Monthly CV: {{ seasonal_analysis.productivity_metrics.monthly_coefficient_variation }}%</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Seasonal Distribution -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <h6 class="mb-3">Seasonal Distribution</h6>
+                            <div class="row">
+                                <div class="col-md-3 col-6 mb-3">
+                                    <div class="border rounded p-3 text-center bg-dark">
+                                        <div class="fw-bold">Winter</div>
+                                        <div class="text-primary">{{ seasonal_analysis.seasonal_distribution.Winter }}%</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-6 mb-3">
+                                    <div class="border rounded p-3 text-center bg-dark">
+                                        <div class="fw-bold">Spring</div>
+                                        <div class="text-success">{{ seasonal_analysis.seasonal_distribution.Spring }}%</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-6 mb-3">
+                                    <div class="border rounded p-3 text-center bg-dark">
+                                        <div class="fw-bold">Summer</div>
+                                        <div class="text-warning">{{ seasonal_analysis.seasonal_distribution.Summer }}%</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-6 mb-3">
+                                    <div class="border rounded p-3 text-center bg-dark">
+                                        <div class="fw-bold">Fall</div>
+                                        <div class="text-info">{{ seasonal_analysis.seasonal_distribution.Fall }}%</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Performance Insights -->
+                    <div class="row">
+                        <div class="col-12">
+                            <h6 class="mb-3">Performance Insights</h6>
+                            <div class="border rounded p-3 bg-dark">
+                                <ul class="mb-0">
+                                    {% for insight in seasonal_analysis.insights %}
+                                    <li>{{ insight }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Financial Assumptions Section -->
+        <div class="row pt-4">
+            <div class="col-12">
+                <div class="bg-secondary rounded p-4">
+                    <h5 class="mb-4">📋 Financial Assumptions</h5>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <div class="border rounded p-3 bg-dark h-100">
+                                <h6 class="text-warning mb-3">Cost Structure</h6>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span class="text-muted">System Cost:</span>
+                                    <span class="fw-bold">${{ financial_data.financial_assumptions.system_cost_per_watt }}/W</span>
+                                </div>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span class="text-muted">Installation:</span>
+                                    <span class="fw-bold">${{ financial_data.financial_assumptions.installation_cost }}</span>
+                                </div>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span class="text-muted">Inverter Replacement:</span>
+                                    <span class="fw-bold">${{ financial_data.financial_assumptions.inverter_replacement_cost }}</span>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <span class="text-muted">Tax Credit:</span>
+                                    <span class="fw-bold text-success">{{ financial_data.financial_assumptions.tax_credit_rate }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="border rounded p-3 bg-dark h-100">
+                                <h6 class="text-info mb-3">Operational Parameters</h6>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span class="text-muted">Electricity Rate:</span>
+                                    <span class="fw-bold">${{ financial_data.financial_assumptions.electricity_rate }}/kWh</span>
+                                </div>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span class="text-muted">Escalation Rate:</span>
+                                    <span class="fw-bold">{{ financial_data.financial_assumptions.escalation_rate }}</span>
+                                </div>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span class="text-muted">Degradation Rate:</span>
+                                    <span class="fw-bold">{{ financial_data.financial_assumptions.degradation_rate }}</span>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <span class="text-muted">System Lifetime:</span>
+                                    <span class="fw-bold">{{ financial_data.financial_assumptions.system_lifetime_years }} years</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="border rounded p-3 bg-dark h-100">
+                                <h6 class="text-success mb-3">Financial Parameters</h6>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span class="text-muted">Discount Rate:</span>
+                                    <span class="fw-bold">{{ financial_data.financial_assumptions.discount_rate }}</span>
+                                </div>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span class="text-muted">Net Metering Value:</span>
+                                    <span class="fw-bold">${{ financial_data.financial_assumptions.net_metering_value }}/kWh</span>
+                                </div>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span class="text-muted">Annual Maintenance:</span>
+                                    <span class="fw-bold">${{ financial_data.financial_assumptions.annual_maintenance_cost }}</span>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <span class="text-muted">Insurance Cost:</span>
+                                    <span class="fw-bold">${{ financial_data.financial_assumptions.insurance_cost_per_year }}/yr</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -904,7 +1164,6 @@
                                 <div class="mb-3">
                                     <label class="form-label small fw-bold text-muted">Arrays</label>
                                     <select class="form-select form-select-sm" required name="dc_output_array">
-                                        <option selected>Select Array</option>
                                         {% for key, value in arrays.items %}
                                             <option value="{{ key }}">{{ value }}</option>
                                         {% endfor %}
@@ -915,7 +1174,6 @@
                                 <div class="mb-3">
                                     <label class="form-label small fw-bold text-muted">Parameters</label>
                                     <select class="form-select form-select-sm" required name="dc_output_param">
-                                        <option selected>Parameters</option>
                                         {% for col in dc_output_cols %}
                                             <option value="{{ col }}">{{ col }}</option>
                                         {% endfor %}
@@ -1003,7 +1261,6 @@
                                 <div class="mb-3">
                                     <label class="form-label small fw-bold text-muted">Arrays</label>
                                     <select class="form-select form-select-sm" required name="ac_aoi_array">
-                                        <option selected>Select Array</option>
                                         {% for key, value in arrays.items %}
                                             <option value="{{ key }}">{{ value }}</option>
                                         {% endfor %}
@@ -1014,7 +1271,6 @@
                                 <div class="mb-3">
                                     <label class="form-label small fw-bold text-muted">Parameters</label>
                                     <select class="form-select form-select-sm" required name="ac_aoi_param">
-                                        <option selected>Parameters</option>
                                         {% for col in ac_aoi_cols %}
                                             <option value="{{ col }}">{{ col }}</option>
                                         {% endfor %}
@@ -1082,7 +1338,6 @@
                                 <div class="mb-3">
                                     <label class="form-label small fw-bold text-muted">Arrays</label>
                                     <select class="form-select form-select-sm" required name="irradiance_array">
-                                        <option selected>Select Array</option>
                                         {% for key, value in arrays.items %}
                                             <option value="{{ key }}">{{ value }}</option>
                                         {% endfor %}
@@ -1093,7 +1348,6 @@
                                 <div class="mb-3">
                                     <label class="form-label small fw-bold text-muted">Parameters</label>
                                     <select class="form-select form-select-sm" required name="irradiance_param">
-                                        <option selected>Parameters</option>
                                         {% for col in irradiance_cols %}
                                             <option value="{{ col }}">{{ col }}</option>
                                         {% endfor %}
@@ -1171,7 +1425,6 @@
                                 <div class="mb-3">
                                     <label class="form-label small fw-bold text-muted">Arrays</label>
                                     <select class="form-select form-select-sm" required name="cell_temp_array">
-                                        <option selected>Select Array</option>
                                         {% for key, value in arrays.items %}
                                             <option value="{{ key }}">{{ value }}</option>
                                         {% endfor %}
@@ -1182,7 +1435,6 @@
                                 <div class="mb-3">
                                     <label class="form-label small fw-bold text-muted">Parameters</label>
                                     <select class="form-select form-select-sm" required name="cell_temp_param">
-                                        <option selected>Parameters</option>
                                         {% for col in cell_temp_cols %}
                                             <option value="{{ col }}">{{ col }}</option>
                                         {% endfor %}
@@ -1401,7 +1653,6 @@
                                 <div class="mb-3">
                                     <label class="form-label small fw-bold text-muted">Arrays</label>
                                     <select class="form-select form-select-sm" required name="diode_params_array">
-                                        <option selected>Select Array</option>
                                         {% for key, value in arrays.items %}
                                             <option value="{{ key }}">{{ value }}</option>
                                         {% endfor %}
@@ -1412,7 +1663,6 @@
                                 <div class="mb-3">
                                     <label class="form-label small fw-bold text-muted">Parameters</label>
                                     <select class="form-select form-select-sm" required name="diode_params_param">
-                                        <option selected>Parameters</option>
                                         {% for col in diode_params_cols %}
                                             <option value="{{ col }}">{{ col }}</option>
                                         {% endfor %}
@@ -1475,151 +1725,160 @@
             </div>
         </div>
 
-        <!-- System Configuration -->
+        <!-- Technical Details & System Information -->
         <div class="row pt-4">
-            <div class="col-sm-12 col-xl-6">
-                <div class="bg-secondary rounded p-4">
+            <div class="col-12">
+                <div class="bg-secondary rounded p-4 h-100">
                     <h5 class="mb-4">System Configuration</h5>
                     <div class="row">
                         <div class="col-6 mb-3">
-                            <div class="border rounded p-3 text-center">
+                            <div class="border rounded p-3 text-center bg-dark">
                                 <div class="text-primary fw-bold fs-5">100 kW</div>
-                                <small>System Capacity</small>
+                                <small class="text-muted">System Capacity</small>
                             </div>
                         </div>
                         <div class="col-6 mb-3">
-                            <div class="border rounded p-3 text-center">
+                            <div class="border rounded p-3 text-center bg-dark">
                                 <div class="text-success fw-bold fs-5">1 Array</div>
-                                <small>Number of Arrays</small>
+                                <small class="text-muted">Number of Arrays</small>
                             </div>
                         </div>
                         <div class="col-6 mb-3">
-                            <div class="border rounded p-3 text-center">
+                            <div class="border rounded p-3 text-center bg-dark">
                                 <div class="text-info fw-bold fs-5">8760 hrs</div>
-                                <small>Simulation Period</small>
+                                <small class="text-muted">Simulation Period</small>
                             </div>
                         </div>
                         <div class="col-6 mb-3">
-                            <div class="border rounded p-3 text-center">
+                            <div class="border rounded p-3 text-center bg-dark">
                                 <div class="text-success fw-bold fs-5">Hourly</div>
-                                <small>Data Resolution</small>
+                                <small class="text-muted">Data Resolution</small>
                             </div>
                         </div>
-                    </div>
-                    <div class="mt-3 p-3 bg-dark rounded text-white">
-                        <h6 class="text-warning">Weather Data</h6>
-                        <div class="d-flex justify-content-between">
-                            <span>Data Source:</span>
-                            <span class="fw-bold">ModelChain Default</span>
+                        <div class="col-6 mb-3">
+                            <div class="rounded p-3 bg-dark">
+                                <h6 class="text-warning mb-3">ModelChain Configuration</h6>
+                                <div class="mb-2">
+                                    <span class="text-muted">AOI Model:</span>
+                                    <span class="fw-bold text-info float-end">ASHRAE</span>
+                                </div>
+                                <div class="mb-2">
+                                    <span class="text-muted">Temperature Model:</span>
+                                    <span class="fw-bold text-info float-end">SAPM</span>
+                                </div>
+                                <div class="mb-2">
+                                    <span class="text-muted">Spectral Model:</span>
+                                    <span class="fw-bold text-info float-end">No Loss</span>
+                                </div>
+                                <div class="mb-2">
+                                    <span class="text-muted">DC Model:</span>
+                                    <span class="fw-bold text-info float-end">Single Diode</span>
+                                </div>
+                                <div class="mb-2">
+                                    <span class="text-muted">AC Model:</span>
+                                    <span class="fw-bold text-info float-end">Standard</span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="d-flex justify-content-between">
-                            <span>Period:</span>
-                            <span class="fw-bold">1990 Annual</span>
+                        <div class="col-6 mb-3">
+                            <div class="rounded p-3 bg-dark">
+                                <h6 class="text-warning mb-3">Simulation Data</h6>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span class="text-muted">Data Source:</span>
+                                    <span class="fw-bold text-info">ModelChain Default</span>
+                                </div>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span class="text-muted">Period:</span>
+                                    <span class="fw-bold text-info">1990 Annual</span>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <span class="text-muted">Location:</span>
+                                    <span class="fw-bold text-info">Default Site</span>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-sm-12 col-xl-6">
-                <div class="bg-secondary rounded p-4">
-                    <h5 class="mb-4">Loss Analysis</h5>
-                    <div class="border rounded p-3 mb-3">
-                        <div class="d-flex justify-content-between mb-2">
-                            <span>Soiling Losses</span>
-                            <span class="fw-bold">2.1%</span>
-                        </div>
-                        <div class="progress mb-3" style="height: 8px;">
-                            <div class="progress-bar bg-warning" role="progressbar" style="width: 21%"></div>
-                        </div>
-                        
-                        <div class="d-flex justify-content-between mb-2">
-                            <span>Shading Losses</span>
-                            <span class="fw-bold">1.5%</span>
-                        </div>
-                        <div class="progress mb-3" style="height: 8px;">
-                            <div class="progress-bar bg-info" role="progressbar" style="width: 15%"></div>
-                        </div>
-                        
-                        <div class="d-flex justify-content-between mb-2">
-                            <span>Inverter Losses</span>
-                            <span class="fw-bold">3.2%</span>
-                        </div>
-                        <div class="progress mb-3" style="height: 8px;">
-                            <div class="progress-bar bg-danger" role="progressbar" style="width: 32%"></div>
-                        </div>
-                        
-                        <div class="d-flex justify-content-between">
-                            <span>DC/AC Losses</span>
-                            <span class="fw-bold">8.0%</span>
-                        </div>
-                        <div class="progress" style="height: 8px;">
-                            <div class="progress-bar bg-primary" role="progressbar" style="width: 80%"></div>
-                        </div>
-                    </div>
+                    </div>        
                 </div>
             </div>
         </div>
 
-        <!-- Recommendations -->
-        <div class="row pt-4 pb-4">
-            <div class="col-sm-12 col-xl-6">
+        <!-- PVlib Information Section -->
+        <div class="row pt-4">
+            <div class="col-12">
                 <div class="bg-secondary rounded p-4">
-                    <h5 class="mb-4">Optimization Recommendations</h5>
+                    <h5 class="mb-4 text-warning">🔬 PVlib ModelChain Framework</h5>
                     <div class="row">
-                        <div class="col-12 mb-3">
-                            <div class="border rounded p-3">
-                                <i class="fas fa-sliders fa-2x text-success mb-2"></i>
-                                <div class="fw-bold">Tilt Angle Optimization</div>
-                                <small>Adjust tilt to 30° for 5% gain</small>
+                        <div class="col-md-6">
+                            <div class="card bg-dark border-0 h-100">
+                                <div class="card-body">
+                                    <h6 class="card-title text-info mb-3">What is a ModelChain?</h6>
+                                    <p class="card-text small text-muted">
+                                        A <strong>ModelChain</strong> is a comprehensive framework in pvlib that connects various 
+                                        physical models to simulate PV system performance from weather inputs to AC power output.
+                                    </p>
+                                    <div class="mt-3">
+                                        <h6 class="text-warning small">Model Flow:</h6>
+                                        <div class="d-flex align-items-center mb-2">
+                                            <span class="badge bg-primary me-2">1</span>
+                                            <span class="small text-muted">Solar Position & Irradiance</span>
+                                        </div>
+                                        <div class="d-flex align-items-center mb-2">
+                                            <span class="badge bg-success me-2">2</span>
+                                            <span class="small text-muted">DC Power (Single Diode Model)</span>
+                                        </div>
+                                        <div class="d-flex align-items-center">
+                                            <span class="badge bg-warning me-2">3</span>
+                                            <span class="small text-muted">AC Power (Inverter Model)</span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-12 mb-3">
-                            <div class="border rounded p-3">
-                                <i class="fas fa-arrows-alt-h fa-2x text-warning mb-2"></i>
-                                <div class="fw-bold">Tracking System</div>
-                                <small>Single-axis tracking recommended</small>
-                            </div>
-                        </div>
-                        <div class="col-12 mb-3">
-                            <div class="border rounded p-3">
-                                <i class="fas fa-wind fa-2x text-info mb-2"></i>
-                                <div class="fw-bold">Cooling System</div>
-                                <small>Active cooling for temperature management</small>
+                        <div class="col-md-6">
+                            <div class="card bg-dark border-0 h-100">
+                                <div class="card-body">
+                                    <h6 class="card-title text-info mb-3">Default Models Used</h6>
+                                    <ul class="list-unstyled small text-muted mb-0">
+                                        <li class="mb-2">
+                                            <strong>ASHRAE:</strong> Angle of Incidence loss model
+                                        </li>
+                                        <li class="mb-2">
+                                            <strong>SAPM:</strong> Sandia Array Performance Model for temperature
+                                        </li>
+                                        <li class="mb-2">
+                                            <strong>Single Diode:</strong> Five-parameter model for DC power
+                                        </li>
+                                        <li class="mb-2">
+                                            <strong>Standard:</strong> Inverter efficiency model
+                                        </li>
+                                        <li>
+                                            <strong>No Spectral Loss:</strong> Default spectral response
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-
-            <div class="col-sm-12 col-xl-6">
-                <div class="bg-secondary rounded p-4">
-                    <h5 class="mb-4">System Recommendations</h5>
-                    <div class="mb-3">
-                        <h6>Optimal Configuration</h6>
-                        <div class="d-flex justify-content-between border-bottom pb-2 mb-2">
-                            <span>Inverter Size:</span>
-                            <span class="fw-bold">110 kW</span>
+                    
+                    <div class="mt-4 p-3 bg-dark rounded">
+                        <h6 class="text-warning mb-3">📚 Learn More</h6>
+                        <div class="row small text-muted">
+                            <div class="col-md-4 mb-2">
+                                <i class="fas fa-book me-2 text-info"></i>
+                                <strong>pvlib Documentation:</strong>
+                                <p class="mb-0 mt-1">Complete API reference and tutorials</p>
+                            </div>
+                            <div class="col-md-4 mb-2">
+                                <i class="fas fa-calculator me-2 text-info"></i>
+                                <strong>ModelChain Class:</strong>
+                                <p class="mb-0 mt-1">Detailed model configuration options</p>
+                            </div>
+                            <div class="col-md-4 mb-2">
+                                <i class="fas fa-chart-line me-2 text-info"></i>
+                                <strong>Performance Analysis:</strong>
+                                <p class="mb-0 mt-1">Advanced simulation techniques</p>
+                            </div>
                         </div>
-                        <div class="d-flex justify-content-between border-bottom pb-2 mb-2">
-                            <span>DC/AC Ratio:</span>
-                            <span class="fw-bold">1.1</span>
-                        </div>
-                        <div class="d-flex justify-content-between border-bottom pb-2 mb-2">
-                            <span>Optimal Tilt:</span>
-                            <span class="fw-bold">30°</span>
-                        </div>
-                        <div class="d-flex justify-content-between">
-                            <span>Azimuth:</span>
-                            <span class="fw-bold">180°</span>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <h6>Maintenance Schedule</h6>
-                        <ul class="list-unstyled">
-                            <li><i class="fas fa-check text-success me-2"></i>Monthly performance monitoring</li>
-                            <li><i class="fas fa-check text-success me-2"></i>Quarterly cleaning schedule</li>
-                            <li><i class="fas fa-check text-success me-2"></i>Annual electrical inspection</li>
-                        </ul>
                     </div>
                 </div>
             </div>

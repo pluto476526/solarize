@@ -10,8 +10,8 @@ from data_factory.database.connection import DatabaseConnection
 from data_factory.pvwatts.simulator import PVWattsSimulator
 from data_factory.pvlib.fixed_mount_simulator import FixedMountSimulator
 from data_factory.pvlib.analyzer import Analyzer
-from data_factory.pvlib import plots
-from analytics import utils
+from data_factory.pvlib import plots, timeseries
+from analytics import utils, array_storage
 import json
 import logging
 
@@ -124,6 +124,7 @@ def fixed_mount_system_view(request):
     db = DataManager(conn)
 
     if request.method == "POST":
+        simulation_name = request.POST.get("simulation_name", "random_simulation")
         arrays_file = request.FILES.get('arrays_json')
         arrays_config = json.load(arrays_file) if arrays_file else {}
 
@@ -135,6 +136,7 @@ def fixed_mount_system_view(request):
 
         index = len(array_names)
         array_names[str(index)] = "MainArray"
+        array_storage.save_array_file(request.user, f"{simulation_name}_arrays.json", array_names)
 
         timeframe_params = {
             "start_date": request.POST.get("start_date"),
@@ -206,14 +208,34 @@ def pvlib_report_view(request):
 
     conn = DatabaseConnection()
     db = DataManager(conn)
-
     simulation_data = db.fetch_modelchain_result(report_id)
+    db.close()
+    
     analyzer = Analyzer(simulation_data)
     analysis = analyzer.calculate_score()
 
-    ac_aoi_param = request.GET.get("ac_aoi_parameter", "ac")
-    ac_aoi_array = int(request.GET.get("array_idx", "1"))
-    ac_aoi_chart = utils.ac_aoi_chart(simulation_data["ac_aoi"], ac_aoi_array, ac_aoi_param)
+    ac_aoi_param = request.GET.get("ac_aoi_param", "ac")
+    ac_aoi_array = int(request.GET.get("ac_aoi_array", 0))
+    cell_temp_param = request.GET.get("cell_temp_param", "temperature")
+    cell_temp_array = int(request.GET.get("cell_temp_array", 0))
+    dc_output_param = request.GET.get("dc_output_param", "i_sc")
+    dc_output_array = int(request.GET.get("dc_output_array", 0))
+    diode_params_param = request.GET.get("diode_params_param", "i_l").lower()
+    diode_params_array = int(request.GET.get("diode_params_array", 0))
+    irradiance_param = request.GET.get("irradiance_param", "poa_global")
+    irradiance_array = int(request.GET.get("irradiance_array", 0))
+    weather_param = request.GET.get("weather_param", "temp_air")
+    solar_param = request.GET.get("solar_param", "zenith")
+
+    time_series = {
+        "ac_aoi": timeseries.ac_aoi_chart(simulation_data["ac_aoi"], ac_aoi_array, ac_aoi_param),
+        "cell_temp": timeseries.cell_temp_chart(simulation_data["cell_temperature"], cell_temp_array, cell_temp_param),
+        "dc_output": timeseries.dc_output_chart(simulation_data["dc"], dc_output_array, dc_output_param),
+        "diode_params": timeseries.diode_params_chart(simulation_data["diode_params"], diode_params_array, diode_params_param),
+        "irradiance": timeseries.total_irradiance_chart(simulation_data["irradiance"], irradiance_array, irradiance_param),
+        "weather": timeseries.weather_chart(simulation_data["weather"], weather_param),
+        "solar_position": timeseries.solar_position_chart(simulation_data["solar_position"], solar_param),
+    }
 
     n_dc = plots.normalize_pv_tuple(simulation_data["dc"])
     n_ac = plots.normalize_pv_tuple(simulation_data["ac_aoi"])
@@ -221,74 +243,42 @@ def pvlib_report_view(request):
     n_weather = plots.normalize_pv_tuple(simulation_data["weather"])
     n_cell_temp = plots.normalize_pv_tuple(simulation_data["cell_temperature"])
 
-    charts = {
-        "solar": plots.solar_elevation_chart(simulation_data["solar_position"]),
-        "sunpath": plots.sunpath_chart(simulation_data["solar_position"]),
-        "poa_vs_ghi": plots.poa_vs_ghi_chart(n_irr, n_weather),
-        "irr_breakdown": plots.irradiance_breakdown_chart(n_weather),
-        "poa_heatmap": plots.poa_heatmap(n_irr),
-        "temp_wind": plots.temp_wind_chart(n_weather),
-        "temp_vs_irr": plots.temp_vs_irradiance(n_cell_temp, n_irr),
-        "dc_vs_irr": plots.dc_vs_irradiance(n_dc, n_irr),
-        "dc_vs_ac": plots.dc_vs_ac(n_dc, n_ac),
-        "inverter_eff": plots.inverter_efficiency(n_dc, n_ac),
-        "power_ts": plots.power_timeseries(n_dc, n_ac),
-        "monthly_yield": plots.monthly_yield(n_ac),
-        "temp_derate": plots.temp_derating(n_cell_temp, n_dc),
-        "power_heatmap": plots.power_heatmap(n_ac),
-        "peak_power_vs_irr": plots.peak_power_vs_irradiance(n_ac, n_irr),
-        "daily_yield": plots.daily_yield(n_ac),
-        "cap_factor": plots.capacity_factor(n_ac),
-        "cum_energy": plots.cumulative_energy(n_ac),
-        "pr": plots.performance_ratio(n_ac, n_irr)
-    }
+    # charts = {
+    #     "solar": plots.solar_elevation_chart(simulation_data["solar_position"]),
+    #     "sunpath": plots.sunpath_chart(simulation_data["solar_position"]),
+    #     "poa_vs_ghi": plots.poa_vs_ghi_chart(n_irr, n_weather),
+    #     "irr_breakdown": plots.irradiance_breakdown_chart(n_weather),
+    #     "poa_heatmap": plots.poa_heatmap(n_irr),
+    #     "temp_wind": plots.temp_wind_chart(n_weather),
+    #     "temp_vs_irr": plots.temp_vs_irradiance(n_cell_temp, n_irr),
+    #     "dc_vs_irr": plots.dc_vs_irradiance(n_dc, n_irr),
+    #     "dc_vs_ac": plots.dc_vs_ac(n_dc, n_ac),
+    #     "inverter_eff": plots.inverter_efficiency(n_dc, n_ac),
+    #     "power_ts": plots.power_timeseries(n_dc, n_ac),
+    #     "monthly_yield": plots.monthly_yield(n_ac),
+    #     "temp_derate": plots.temp_derating(n_cell_temp, n_dc),
+    #     "power_heatmap": plots.power_heatmap(n_ac),
+    #     "peak_power_vs_irr": plots.peak_power_vs_irradiance(n_ac, n_irr),
+    #     "daily_yield": plots.daily_yield(n_ac),
+    #     "cap_factor": plots.capacity_factor(n_ac),
+    #     "cum_energy": plots.cumulative_energy(n_ac),
+    #     "pr": plots.performance_ratio(n_ac, n_irr)
+    # }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    airmass = db.fetch_airmass_data(result_id=report_id)
-    cell_temp = db.fetch_cell_temp_data(result_id=report_id)
-    dc_output = db.fetch_dc_output_data(result_id=report_id)
-    diode_params = db.fetch_diode_params_data(result_id=report_id)
-    total_irradiance = db.fetch_total_irradiance_data(result_id=report_id)
-    solar_position = db.fetch_solar_position_data(result_id=report_id)
-    weather = db.fetch_weather_data(result_id=report_id)
-    db.close()
-
-    airmass_chart = utils.airmass_chart(airmass, param="relative_airmass")
-    cell_temp_chart = utils.cell_temp_chart(cell_temp)
-    dc_output_chart = utils.dc_output_chart(dc_output, param="i_sc")
-    diode_params_chart = utils.diode_params_chart(diode_params, param="i_l")
-    total_irradiance_chart = utils.total_irradiance_chart(total_irradiance, param="poa_global")
-    solar_position_chart = utils.solar_position_chart(solar_position, param="zenith")
-    weather_chart = utils.weather_chart(weather, param="ghi")
-
-
+    charts = {}
 
     context = {
         "analysis": analysis,
         "charts": charts,
+        "timeseries": time_series,
         "ac_aoi_cols": ["ac", "aoi", "aoi_modifier"],
-        # "ac_aoi_chart": ac_aoi_chart,
-        "airmass_chart": airmass_chart,
-        "cell_temp_chart": cell_temp_chart,
-        "dc_output_chart": dc_output_chart,
-        "diode_params_chart": diode_params_chart,
-        "total_irradiance_chart": total_irradiance_chart,
-        "solar_position_chart": solar_position_chart,
-        "weather_chart": weather_chart,
+        "cell_temp_cols": ["temperature"],
+        "dc_output_cols": ["i_sc", "v_oc", "i_mp", "v_mp", "p_mp", "i_x", "i_xx"],
+        "diode_params_cols": ["I_L", "I_o", "R_s", "R_sh", "nNsVth"],
+        "irradiance_cols": ["poa_global", "poa_direct", "poa_diffuse", "poa_sky_diffuse", "poa_ground_diffuse"],
+        "weather_cols": ["ghi", "dni", "dhi", "temp_air", "wind_speed"],
+        "solar_cols": ["zenith", "azimuth", "elevation", "apparent_zenith", "apparent_elevation", "equation_of_time"],
+        "arrays": array_storage.load_array_file(request.user, "random_simulation_arrays.json"),
     }
 
     return render(request, "analytics/pvlib_report.html", context)

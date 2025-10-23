@@ -283,7 +283,7 @@
             <!-- ============================
             2. SOLAR POSITION & GEOMETRY
             ============================== -->
-            <div class="row g-4">
+            <div class="row g-4 pt-2">
                 <div class="col-12">
                     <div class="bg-secondary rounded p-4">
                         <div class="d-flex justify-content-between align-items-center mb-3">
@@ -846,14 +846,44 @@
         </div>
 
 
-
-
-
-
-
-
-
-
+        <div class="row pt-5 px-2">
+            <div class="bg-secondary rounded p-4">
+                <div class="row align-items-start">
+                    <div class="col-md-12">
+                        <h4 class="mb-2">📊 Multi-Array and Parameter Timeseries</h4>
+                        <p class="mb-3">
+                            This section contains comprehensive data for all configured arrays and system parameters. 
+                            Analyze performance across different array configurations and compare various metrics.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Quick Tips Section - Now integrated -->
+                <div class="mt-4 pt-3 border-top border-light border-opacity-25">
+                    <h6 class="text-info mb-2">💡 How to Use This Section:</h6>
+                    <div class="row small">
+                        <div class="col-md-4">
+                            <div class="d-flex align-items-start mb-2">
+                                <span class="badge bg-info me-2">1</span>
+                                <span>Click the <strong>Options button</strong> to open configuration panel</span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="d-flex align-items-start mb-2">
+                                <span class="badge bg-info me-2">2</span>
+                                <span>Select specific <strong>arrays</strong> to compare performance</span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="d-flex align-items-start mb-2">
+                                <span class="badge bg-info me-2">3</span>
+                                <span>Choose <strong>parameters</strong> relevant to your analysis</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
         <!-- 1. Primary Performance Indicators
@@ -864,29 +894,31 @@
             <div class="bg-secondary rounded p-4">
                 <div class="d-flex align-items-center justify-content-between mb-4">
                     <h5 class="mb-0">DC OUTPUT</h5>
-                    <a href="">View Details</a>
                     <div class="dropdown">
                         <a href="#" class="" type="button" id="optionsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                             Options
                         </a>
                         <div class="dropdown-menu dropdown-menu-end p-3 bg-secondary" style="min-width: 250px;">
-                            <form id="irradianceOptions">
-                                <!-- Location Selection -->
+                            <form method="get">
+                                <!-- Array Selection -->
                                 <div class="mb-3">
-                                    <label for="locationSelect" class="form-label small fw-bold text-muted">Arrays</label>
-                                    <select class="form-select form-select-sm" id="locationSelect">
+                                    <label class="form-label small fw-bold text-muted">Arrays</label>
+                                    <select class="form-select form-select-sm" required name="dc_output_array">
                                         <option selected>Select Array</option>
-                                        <option value="">West End</option>
+                                        {% for key, value in arrays.items %}
+                                            <option value="{{ key }}">{{ value }}</option>
+                                        {% endfor %}
                                     </select>
                                 </div>
                                 
-                                <!-- Timeframe Selection -->
+                                <!-- Parameter Selection -->
                                 <div class="mb-3">
-                                    <label for="timeframeSelect" class="form-label small fw-bold text-muted">Parameters</label>
-                                    <select class="form-select form-select-sm" id="timeframeSelect">
+                                    <label class="form-label small fw-bold text-muted">Parameters</label>
+                                    <select class="form-select form-select-sm" required name="dc_output_param">
                                         <option selected>Parameters</option>
-                                        <option value="1 week">1 Week</option>
-                                        <option value="1 month">1 Month</option>
+                                        {% for col in dc_output_cols %}
+                                            <option value="{{ col }}">{{ col }}</option>
+                                        {% endfor %}
                                     </select>
                                 </div>
                                 
@@ -897,7 +929,7 @@
                     </div>
                 </div>
                 <div class="row g-4">
-                   {{ dc_output_chart|safe }}
+                   {{ timeseries.dc_output|safe }}
                 </div>
                 <!-- Parameter Details -->
                 <div class="row mt-4">
@@ -961,10 +993,42 @@
             <div class="bg-secondary rounded p-4">
                 <div class="d-flex align-items-center justify-content-between mb-4">
                     <h5 class="mb-0">AC AOI</h5>
-                    <small class="text-muted">AC/AOI results</small>
+                    <div class="dropdown">
+                        <a href="#" class="" type="button" id="optionsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            Options
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end p-3 bg-secondary" style="min-width: 250px;">
+                            <form method="get">
+                                <!-- Array Selection -->
+                                <div class="mb-3">
+                                    <label class="form-label small fw-bold text-muted">Arrays</label>
+                                    <select class="form-select form-select-sm" required name="ac_aoi_array">
+                                        <option selected>Select Array</option>
+                                        {% for key, value in arrays.items %}
+                                            <option value="{{ key }}">{{ value }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                
+                                <!-- Parameter Selection -->
+                                <div class="mb-3">
+                                    <label class="form-label small fw-bold text-muted">Parameters</label>
+                                    <select class="form-select form-select-sm" required name="ac_aoi_param">
+                                        <option selected>Parameters</option>
+                                        {% for col in ac_aoi_cols %}
+                                            <option value="{{ col }}">{{ col }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                
+                                <!-- Apply Button -->
+                                <button type="submit" class="btn btn-sm btn-primary w-100">Apply Filters</button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
                 <div class="row g-4">
-                   {{ ac_aoi_chart|safe }}
+                   {{ timeseries.ac_aoi|safe }}
                 </div>
                 <!-- Parameter Details -->
                 <div class="row mt-4">
@@ -1008,10 +1072,42 @@
             <div class="bg-secondary rounded p-4">
                 <div class="d-flex align-items-center justify-content-between mb-4">
                     <h5 class="mb-0">IRRADIANCE</h5>
-                    <small class="text-muted">View irradiance chart</small>
+                    <div class="dropdown">
+                        <a href="#" class="" type="button" id="optionsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            Options
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end p-3 bg-secondary" style="min-width: 250px;">
+                            <form method="get">
+                                <!-- Array Selection -->
+                                <div class="mb-3">
+                                    <label class="form-label small fw-bold text-muted">Arrays</label>
+                                    <select class="form-select form-select-sm" required name="irradiance_array">
+                                        <option selected>Select Array</option>
+                                        {% for key, value in arrays.items %}
+                                            <option value="{{ key }}">{{ value }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                
+                                <!-- Parameter Selection -->
+                                <div class="mb-3">
+                                    <label class="form-label small fw-bold text-muted">Parameters</label>
+                                    <select class="form-select form-select-sm" required name="irradiance_param">
+                                        <option selected>Parameters</option>
+                                        {% for col in irradiance_cols %}
+                                            <option value="{{ col }}">{{ col }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                
+                                <!-- Apply Button -->
+                                <button type="submit" class="btn btn-sm btn-primary w-100">Apply Filters</button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
                 <div class="row g-4">
-                   {{ total_irradiance_chart|safe }}
+                   {{ timeseries.irradiance|safe }}
                 </div>
                 <!-- Parameter Details -->
                 <div class="row mt-4">
@@ -1065,10 +1161,42 @@
             <div class="bg-secondary rounded p-4">
                 <div class="d-flex align-items-center justify-content-between mb-4">
                     <h5 class="mb-0">CELL TEMPERATURE</h5>
-                    <small class="text-muted">View cell temp chart</small>
+                    <div class="dropdown">
+                        <a href="#" class="" type="button" id="optionsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            Options
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end p-3 bg-secondary" style="min-width: 250px;">
+                            <form method="get">
+                                <!-- Array Selection -->
+                                <div class="mb-3">
+                                    <label class="form-label small fw-bold text-muted">Arrays</label>
+                                    <select class="form-select form-select-sm" required name="cell_temp_array">
+                                        <option selected>Select Array</option>
+                                        {% for key, value in arrays.items %}
+                                            <option value="{{ key }}">{{ value }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                
+                                <!-- Parameter Selection -->
+                                <div class="mb-3">
+                                    <label class="form-label small fw-bold text-muted">Parameters</label>
+                                    <select class="form-select form-select-sm" required name="cell_temp_param">
+                                        <option selected>Parameters</option>
+                                        {% for col in cell_temp_cols %}
+                                            <option value="{{ col }}">{{ col }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                
+                                <!-- Apply Button -->
+                                <button type="submit" class="btn btn-sm btn-primary w-100">Apply Filters</button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
                 <div class="row g-4">
-                   {{ cell_temp_chart|safe }}
+                   {{ timeseries.cell_temp|safe }}
                 </div>
                 <!-- Parameter Details -->
                 <div class="row mt-4">
@@ -1102,10 +1230,31 @@
             <div class="bg-secondary rounded p-4">
                 <div class="d-flex align-items-center justify-content-between mb-4">
                     <h5 class="mb-0">WEATHER</h5>
-                    <small class="text-muted">View weather chart</small>
+                    <div class="dropdown">
+                        <a href="#" class="" type="button" id="optionsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            Options
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end p-3 bg-secondary" style="min-width: 250px;">
+                            <form method="get">                                
+                                <!-- Parameter Selection -->
+                                <div class="mb-3">
+                                    <label class="form-label small fw-bold text-muted">Parameters</label>
+                                    <select class="form-select form-select-sm" required name="weather_param">
+                                        <option selected>Parameters</option>
+                                        {% for col in weather_cols %}
+                                            <option value="{{ col }}">{{ col }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                
+                                <!-- Apply Button -->
+                                <button type="submit" class="btn btn-sm btn-primary w-100">Apply Filters</button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
                 <div class="row g-4">
-                   {{ weather_chart|safe }}
+                   {{ timeseries.weather|safe }}
                 </div>
                 <!-- Parameter Details -->
                 <div class="row mt-4">
@@ -1159,10 +1308,31 @@
             <div class="bg-secondary rounded p-4">
                 <div class="d-flex align-items-center justify-content-between mb-4">
                     <h5 class="mb-0">SOLAR POSITION</h5>
-                    <small class="text-muted">View solar position chart</small>
+                    <div class="dropdown">
+                        <a href="#" class="" type="button" id="optionsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            Options
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end p-3 bg-secondary" style="min-width: 250px;">
+                            <form method="get">                                
+                                <!-- Parameter Selection -->
+                                <div class="mb-3">
+                                    <label class="form-label small fw-bold text-muted">Parameters</label>
+                                    <select class="form-select form-select-sm" required name="solar_param">
+                                        <option selected>Parameters</option>
+                                        {% for col in solar_cols %}
+                                            <option value="{{ col }}">{{ col }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                
+                                <!-- Apply Button -->
+                                <button type="submit" class="btn btn-sm btn-primary w-100">Apply Filters</button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
                 <div class="row g-4">
-                   {{ solar_position_chart|safe }}
+                   {{ timeseries.solar_position|safe }}
                 </div>
                 <!-- Parameter Details -->
                 <div class="row mt-4">
@@ -1216,57 +1386,47 @@
             </div>
         </div>
 
-        <!-- Airmass -->
-        <div class="row pt-4 px-3">
-            <div class="bg-secondary rounded p-4">
-                <div class="d-flex align-items-center justify-content-between mb-4">
-                    <h5 class="mb-0">AIRMASS</h5>
-                    <small class="text-muted">Absolute and relative airmass</small>
-                </div>
-                <div class="row g-4">
-                   {{ airmass_chart|safe }}
-                </div>
-                <!-- Parameter Details -->
-                <div class="row mt-4">
-                    <div class="col-12">
-                        <h6>Parameter Details:</h6>
-                        <div class="table-responsive">
-                            <table class="table table-sm table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>Parameter</th>
-                                        <th>Full Name</th>
-                                        <th>Description</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td><code>relative_airmass</code></td>
-                                        <td>Relative Airmass</td>
-                                        <td>The optical path length through Earth's atmosphere relative to the path length when the sun is directly overhead (at zenith). At sea level, airmass = 1 when sun is at zenith, and increases as the sun approaches the horizon.</td>
-                                    </tr>
-                                    <tr>
-                                        <td><code>absolute_airmass</code></td>
-                                        <td>Absolute Airmass</td>
-                                        <td>The actual mass of air in the optical path from the sun to the observer, typically measured in kg/m². Accounts for atmospheric pressure variations and altitude effects on solar irradiance attenuation.</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <!-- DIODE PARAMETERS -->
         <div class="row pt-4 px-3">
             <div class="bg-secondary rounded p-4">
                 <div class="d-flex align-items-center justify-content-between mb-4">
                     <h5 class="mb-0">DIODE PARAMETERS</h5>
-                    <small class="text-muted">View diode params chart</small>
+                    <div class="dropdown">
+                        <a href="#" class="" type="button" id="optionsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            Options
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end p-3 bg-secondary" style="min-width: 250px;">
+                            <form method="get">
+                                <!-- Array Selection -->
+                                <div class="mb-3">
+                                    <label class="form-label small fw-bold text-muted">Arrays</label>
+                                    <select class="form-select form-select-sm" required name="diode_params_array">
+                                        <option selected>Select Array</option>
+                                        {% for key, value in arrays.items %}
+                                            <option value="{{ key }}">{{ value }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                
+                                <!-- Parameter Selection -->
+                                <div class="mb-3">
+                                    <label class="form-label small fw-bold text-muted">Parameters</label>
+                                    <select class="form-select form-select-sm" required name="diode_params_param">
+                                        <option selected>Parameters</option>
+                                        {% for col in diode_params_cols %}
+                                            <option value="{{ col }}">{{ col }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                
+                                <!-- Apply Button -->
+                                <button type="submit" class="btn btn-sm btn-primary w-100">Apply Filters</button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
                 <div class="row g-4">
-                   {{ diode_params_chart|safe }}
+                   {{ timeseries.diode_params|safe }}
                 </div>
                 <!-- Parameter Details -->
                 <div class="row mt-4">

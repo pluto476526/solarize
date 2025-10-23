@@ -220,6 +220,7 @@ class DataManager:
         except Exception as e:
             logger.error(f"No data: {e}")
             return pd.DataFrame()
+            
 
     def fetch_cell_temp_data(self, result_id):
         try:

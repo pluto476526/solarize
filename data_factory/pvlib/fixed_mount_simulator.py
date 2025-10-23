@@ -74,9 +74,12 @@ class FixedMountSimulator:
         )
 
         # Load arrays from config file
-        array_configs = getattr(self, "arrays", [])
+        array_configs = getattr(self, "arrays", None)
 
-        # Always append the "main array" in addition
+        if not isinstance(array_configs, list):
+            array_configs = []
+
+        # Always append the "main array"
         array_configs.append({
             "name": "MainArray",
             "surface_tilt": self.surface_tilt,
@@ -85,6 +88,8 @@ class FixedMountSimulator:
             "strings": self.strings,
             "albedo": self.albedo
         })
+
+
 
         # Build PVLib Array objects
         arrays = []
@@ -137,6 +142,22 @@ class FixedMountSimulator:
         return mc.results
 
 
+
+
+
+
+
+
+
+
+# # Custom module specification
+# custom_module = {
+#     'pdc0': 400,  # DC power
+#     'v_mp': 40.5, # Voltage at max power
+#     'i_mp': 9.88, # Current at max power
+#     'v_oc': 48.5, # Open circuit voltage
+#     'i_sc': 10.45 # Short circuit current
+# }
 
 
 

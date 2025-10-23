@@ -65,7 +65,7 @@ class DataManager:
             logger.error(f"No data: {e}")
             return pd.DataFrame()
 
-    def save_modelchain_result(self, result, array_names, simulation_name="Trial Simulation", description="Nice Description"):
+    def save_modelchain_result(self, result, array_names, simulation_name="Fixed Mount Simulation", description=""):
         with self.db.cursor() as cur:
             # Insert simulation metadata
             cur.execute("""

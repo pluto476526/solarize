@@ -89,6 +89,7 @@ def pvwatts_modelling_view(request):
             location_idx += 1
         
         request.session["pvwatts_report"] = reports
+        logger.debug(reports)
         return redirect("pvwatts_report")
 
     context = {}
@@ -125,7 +126,8 @@ def fixed_mount_system_view(request):
     db = DataManager(conn)
 
     if request.method == "POST":
-        simulation_name = request.POST.get("simulation_name", "random_simulation")
+        simulation_name = request.POST.get("name")
+        description = request.POST.get("description")
         arrays_file = request.FILES.get('arrays_json')
         arrays_config = json.load(arrays_file) if arrays_file else {}
 
@@ -146,7 +148,7 @@ def fixed_mount_system_view(request):
         }
 
         location_params = {
-            "name": request.POST.get("name"),
+            "name": simulation_name,
             "lat": request.POST.get("lat"),
             "lon": request.POST.get("lon"),
             "alt": request.POST.get("alt"),
@@ -165,7 +167,6 @@ def fixed_mount_system_view(request):
             "total_arrays": request.POST.get("arrays"),
             "temp_model": request.POST.get("temp_model"),
             "temp_model_params": request.POST.get("temp_model_params"),
-            "description": request.POST.get("description"),
             "arrays_config": arrays_config,
         }
 
@@ -190,9 +191,14 @@ def fixed_mount_system_view(request):
         )
 
         result = fms.run_simulation()
-        result_id = db.save_modelchain_result(result, array_names)
-        db.close()
+        result_id = db.save_modelchain_result(
+            result=result,
+            array_names=array_names,
+            simulation_name=simulation_name,
+            description=description
+        )
 
+        db.close()
         messages.success(request, f"Configured system with {len(arrays_config)} arrays")
         request.session["modelchain_result"] = result_id
         return redirect("modelchain_result")

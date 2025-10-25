@@ -34,10 +34,11 @@ class SpecSheetSimulator:
         self.timeframe_params = timeframe_params
         
         # Mount configuration
-        self.mount_type = system_params.get("mount_type", "fixed")  # fixed, single_axis, dual_axis
-        self.mount_config = system_params.get("mount_config", {})
+        self.mount_type = "fixed"
+        self.mount_config = {}
         
         # System parameters
+        self.module_type = system_params.get("module_type") # glass_glass, glass_polymer
         self.modules_per_string = int(system_params["modules_per_string"])
         self.strings = int(system_params["strings"])
         self.arrays = system_params.get("arrays_config", [])
@@ -46,10 +47,9 @@ class SpecSheetSimulator:
         self.description = system_params["description"]
 
         # Custom component parameters
-        self.custom_module_params = system_params.get("custom_module_params")
-        self.custom_inverter_params = system_params.get("custom_inverter_params")
-        self.custom_temp_params = system_params.get("custom_temp_params")
-        self.custom_mount_params = system_params.get("custom_mount_params")
+        self.custom_module_params = system_params.get("module_params")
+        self.custom_inverter_params = system_params.get("inverter_params")
+        self.custom_temp_params = system_params.get("temp_params")
 
         # Losses parameters
         self.soiling = float(losses_params.get("soiling", 0))
@@ -85,7 +85,6 @@ class SpecSheetSimulator:
             Dict: Temperature model parameters, custom or standard.
         """
         if self.custom_temp_params:
-            logger.info(f"Using custom temperature parameters for {self.temp_model}")
             return self.custom_temp_params
         return pvlib.temperature.TEMPERATURE_MODEL_PARAMETERS[self.temp_model][self.temp_model_params]
 
@@ -171,7 +170,9 @@ class SpecSheetSimulator:
         )
 
         # Build array configurations
-        array_configs = self.arrays[:]
+        if not isinstance(self.arrays, list):
+            self.arrays = []
+
         main_array_config = {
             "name": "MainArray",
             "mount_type": self.mount_type,
@@ -183,24 +184,24 @@ class SpecSheetSimulator:
             "tracker_config": {},
             "array_losses": {"mismatch": self.mismatch, "wiring": self.wiring}
         }
-        array_configs.append(main_array_config)
+        self.arrays.append(main_array_config)
 
         # Build PVLib Array objects
         arrays = []
-        for cfg in array_configs:
-            mount = self._create_mount(cfg)
-            array_losses = cfg.get("array_losses", {"mismatch": self.mismatch, "wiring": self.wiring})
-            albedo = float(cfg.get("albedo", self.albedo))
+        for config in self.arrays:
+            mount = self._create_mount(config)
+            array_losses = config.get("array_losses", {"mismatch": self.mismatch, "wiring": self.wiring})
+            albedo = float(config.get("albedo", self.albedo))
             
             arr = pvlib.pvsystem.Array(
-                name=cfg["name"],
+                name=config["name"],
                 mount=mount,
                 albedo=albedo,
                 module_type=self.module_type,
                 module_parameters=module_params,
                 temperature_model_parameters=temp_parameters,
-                modules_per_string=int(cfg["modules_per_string"]),
-                strings=int(cfg["strings"]),
+                modules_per_string=int(config["modules_per_string"]),
+                strings=int(config["strings"]),
                 array_losses_parameters=array_losses
             )
             arrays.append(arr)

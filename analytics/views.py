@@ -241,14 +241,39 @@ def spec_sheet_modelling_view(request):
             "albedo": request.POST.get("albedo"),
         }
 
+        module_params = {
+            "pdc0": request.POST.get("pdc0"),
+            "v_mp": request.POST.get("v_mp"),
+            "i_mp": request.POST.get("i_mp"),
+            "v_oc": request.POST.get("v_oc"),
+            "i_sc": request.POST.get("i_sc"),
+        }
+
+        inverter_params = {
+            "pdc0": request.POST.get("pdc0"),
+            "pdc_max": request.POST.get("pdc_max"),
+            "vdcmax": request.POST.get("vdcmax"),
+            "idcmax": request.POST.get("idcmax"),
+        }
+
+        temp_params = {
+            "a": request.POST.get("a"),
+            "b": request.POST.get("b"),
+            "deltaT": request.POST.get("deltaT")
+        }
+
         system_params = {
+            "arrays_config": arrays_config,
+            "module_params": module_params,
+            "inverter_params": inverter_params,
+            "temp_params": temp_params,
+            "module_type": request.POST.get("module_type", "glass_glass"),
             "surface_azimuth": request.POST.get("azimuth"),
             "surface_tilt": request.POST.get("tilt"),
             "modules_per_string": request.POST.get("modules_per_string"),
             "strings": request.POST.get("strings"),
             "temp_model": request.POST.get("temp_model"),
             "temp_model_params": request.POST.get("temp_model_params"),
-            "arrays_config": arrays_config,
             "description": request.POST.get("description")
         }
 
@@ -414,13 +439,6 @@ def spectral_response_view(request):
     context = {}
     return render(request, "analytics/spectral_response.html", context)
 
-def temperature_effects_view(request):
-    context = {}
-    return render(request, "analytics/temperature_effects.html", context)
-
-def system_sizing_view(request):
-    context = {}
-    return render(request, "analytics/system_sizing.html", context)
 
 def climate_modelling_view(request):
     context = {}

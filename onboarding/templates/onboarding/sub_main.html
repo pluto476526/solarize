@@ -1,0 +1,155 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zxx">
+<head>
+	<title>Solarize - Advanced PV Modeling</title>
+	  <!-- META TAGS -->
+	  <meta charset="utf-8">
+	  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	  <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
+	  <meta name="author" content="Solarize Team">
+	  <meta name="description" content="Advanced photovoltaic system modeling and performance analysis">
+
+	  <!-- STYLES -->
+	  <link rel="stylesheet" href="{% static 'onboarding/css/bootstrap.min.css' %}">
+	  <link rel="stylesheet" href="{% static 'onboarding/css/flexslider.css' %}">
+	  <link rel="stylesheet" href="{% static 'onboarding/css/animsition.min.css' %}">
+	  <link rel="stylesheet" href="{% static 'onboarding/css/style.css' %}">
+	  <link rel="stylesheet" href="{% static 'onboarding/css/owl.carousel.css' %}">
+	  <link rel="stylesheet" href="{% static 'onboarding/css/owl.theme.css' %}">
+
+	  <!-- Fontawesome -->
+	  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+	  <link rel="stylesheet" href="https://cdn.linearicons.com/free/1.0.0/icon-font.min.css">
+
+	  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-icons/4.0.0/font/MaterialIcons-Regular.ttf" />
+
+	  <style>
+	  	.images {
+		  width: 100%;
+		  height: auto;
+		  max-height: 600px;
+		  object-fit: cover;
+		  border-radius: 10px;
+		}
+
+	  </style>
+</head>
+
+<body class="animsition" style="background-color: black;">
+	<!-- Border -->
+	<span class="frame-line top-frame visible-lg"></span>
+	<span class="frame-line right-frame visible-lg"></span>
+	<span class="frame-line bottom-frame visible-lg"></span>
+	<span class="frame-line left-frame visible-lg"></span>
+	<!-- HEADER  -->
+	<header class="main-header">
+		<div class="container-fluid">
+				<!-- box header -->
+				<div class="box-header">
+						<div class="box-logo">
+								 <span class="" style="cursor: pointer; display: flex; align-items: center; font-size: 2rem;"><i class="fa fa-sun-o text-warning"></i> &nbsp; SOLARIZE</span>
+						</div>
+						<!-- box-nav -->
+						<a class="box-primary-nav-trigger" href="#0">
+								<span class="box-menu-icon"></span>
+						</a>
+						<!-- box-primary-nav-trigger -->
+				</div>
+				<!-- end box header -->
+
+				<!-- nav -->
+				<nav>
+					<ul class="box-primary-nav">
+		                <li class="box-label">PV MODELING</li>
+
+		                <li><a href="{% url 'home' %}">Home</a> <i class="lnr lnr-home"></i></li>
+		                <li><a href="#fundamentals">PV Fundamentals</a></li>
+		                <li><a href="#components">Model Components</a></li>
+		                <li><a href="#pvlib-framework">PVlib Framework</a></li>
+		                <li><a href="#model-chain">Model Chain</a></li>
+		                <li><a href="#spec-sheets">Spec Sheet Modeling</a></li>
+		                <li><a href="#advanced-techniques">Advanced Techniques</a></li>
+		                <li><a href="#results">Results & Analytics</a></li>
+
+		                <li class="box-label">ACCOUNT</li>
+
+		                {% if request.user.is_authenticated %}
+		                <li><a href="{% url 'dash' %}">Dashboard</a></li>
+		                <li><a href="">Log out</a></li>
+		                {% else %}
+		                <li><a href="{% url 'signin' %}">Sign In</a></li>
+		                {% endif %}
+
+		                <li class="box-label">SOCIAL</li>
+
+		                <li class="box-social"><a href="#0"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+		                <li class="box-social"><a href="#0"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+		                <li class="box-social"><a href="#0"><i class="fa fa-github" aria-hidden="true"></i></a></li>
+		            </ul>
+				</nav>
+				<!-- end nav -->
+		</div>
+	</header>
+
+	{% block main %}
+	{% endblock %}
+
+	{% include 'onboarding/footer.html' %}
+
+	<!-- SCRIPTS -->
+	<script type="text/javascript" src="{% static 'onboarding/js/jquery-2.2.3.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'onboarding/js/animated-headline.js' %}"></script>
+    <script type="text/javascript" src="{% static 'onboarding/js/menu.js' %}"></script>
+    <script type="text/javascript" src="{% static 'onboarding/js/modernizr.js' %}"></script>
+    <script type="text/javascript" src="{% static 'onboarding/js/isotope.pkgd.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'onboarding/js/jquery.animsition.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'onboarding/js/init.js' %}"></script>
+    <script type="text/javascript" src="{% static 'onboarding/js/main.js' %}"></script>
+    <script type="text/javascript" src="{% static 'onboarding/js/smooth-scroll.js' %}"></script>
+    <script type="text/javascript" src="{% static 'onboarding/js/numscroller.js' %}"></script>
+    <script type="text/javascript" src="{% static 'onboarding/js/wow.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'onboarding/js/owl.carousel.min.js' %}"></script>
+
+	<script type="text/javascript">
+		$(window).load(function() {
+			new WOW().init();
+
+			// initialise flexslider
+			$('.flexslider').flexslider({
+				animation: "fade",
+				directionNav: true,
+				controlNav: false,
+				keyboardNav: true,
+				slideToStart: 0,
+				animationLoop: true,
+				pauseOnHover: false,
+				slideshowSpeed: 4000,
+			});
+
+			smoothScroll.init();
+
+			// initialize isotope
+			var $container = $('.portfolio_container');
+			$container.isotope({
+				filter: '*',
+			});
+
+			$('.portfolio_filter a').click(function(){
+				$('.portfolio_filter .active').removeClass('active');
+				$(this).addClass('active');
+
+				var selector = $(this).attr('data-filter');
+				$container.isotope({
+					filter: selector,
+					animationOptions: {
+						duration: 500,
+						animationEngine : "jquery"
+					}
+				});
+				return false;
+			});
+		});
+	</script>
+</body>
+</html>

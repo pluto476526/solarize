@@ -49,23 +49,22 @@ def list_user_files(user):
 
 
 def delete_array_files(user, days=30):
-    """Delete the user's array file if it hasn't been modified for 1 month."""
+    """Delete user's array files if they haven't been modified for 'days' days."""
     user_dir = _get_user_dir(user)
-    if not user_dir:
+    if not user_dir or not os.path.exists(user_dir):
         return False
 
-    # Get current time and file access time
-    now = time.time()
-    last_modified = os.path.getatime(file_path)
+    for filename in os.listdir(user_dir):
+        file_path = os.path.join(user_dir, filename)
 
-    # Calculate file age in seconds
-    age_days = (now - last_modified) / (60 * 60 * 24)
+        if os.path.isfile(file_path):
+            last_modified = os.path.getmtime(file_path)
+            age_days = (time.time() - last_modified) / (60 * 60 * 24)
 
-    # Delete if older than threshold
-    if age_days > days:
-        os.remove(file_path)
-        return True
+            if age_days > days:
+                os.remove(file_path)
+                return True
 
-    return False
+
 
 

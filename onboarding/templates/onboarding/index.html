@@ -1,0 +1,617 @@
+{% extends 'onboarding/main.html' %}
+{% load static %}
+
+
+  {% block main %}
+  <!-- What is PV Modeling? -->
+  <section id="what-is-pv" class="features mb-50">
+    <div class="container">
+      <div class="row center mb-50">
+        <div class="col-md-8 col-md-offset-2 col-sm-12">
+          <div class="section-title-parralax">
+            <div class="process-numbers">01</div>
+            <h2>What is PV Modeling?</h2>
+            <p>Understanding the science behind solar energy prediction and optimization.</p>
+          </div>
+        </div>
+      </div>
+      <div class="row g-4 mb-50">
+        <div class="col-lg-4 col-md-6">
+          <div class="feature-card h-100 p-4">
+            <h5 class="text-light mb-3">Photovoltaic System Simulation</h5>
+            <p>
+              PV modeling is the process of using mathematical algorithms and computational methods to predict the performance of solar photovoltaic systems. These models simulate how solar panels convert sunlight into electricity under various environmental conditions.
+            </p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="feature-card h-100 p-4">
+            <h5 class="text-light mb-3">Key Components of PV Modeling</h5>
+            <ul class="list-unstyled text-light">
+              <li class="mb-2"><i class="fa fa-check text-success me-2"></i>Solar irradiance calculations</li>
+              <li class="mb-2"><i class="fa fa-check text-success me-2"></i>Panel efficiency and temperature effects</li>
+              <li class="mb-2"><i class="fa fa-check text-success me-2"></i>System configuration and orientation</li>
+              <li class="mb-2"><i class="fa fa-check text-success me-2"></i>Environmental and seasonal factors</li>
+              <li><i class="fa fa-check text-success me-2"></i>Performance degradation over time</li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-12">
+          <div class="feature-card h-100 p-4">
+            <h5 class="text-light mb-3">Why Accurate Modeling Matters</h5>
+            <p>
+              Accurate PV modeling empowers stakeholders to optimize system design, make informed financial decisions, and set realistic energy production goals. It combines physics-based algorithms with real-world data to mirror actual system performance, factoring in location-specific weather, equipment specs, and installation details.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-5">
+        <div class="col-12 text-center">
+            <div class="bg-secondary rounded p-5">
+                <div class="d-flex justify-content-center gap-3 flex-wrap">
+                    <a href="{% url 'pv_modelling' %}" class="default-btn text-warning">
+                        Learn More <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Why Model PV Systems? -->
+  <section id="why-model" class="mb-100" style="background-color: #1a1a00;">
+    <div class="container">
+      <div class="row center mb-50">
+        <div class="col-md-8 col-md-offset-2 col-sm-12">
+          <div class="section-title-parralax">
+            <div class="process-numbers">02</div>
+            <h2>Why Model PV Systems?</h2>
+            <p>
+              Solar energy modeling allows users to assess system efficiency, estimate energy yield under varying weather and seasonal conditions, 
+              and make informed decisions regarding design, investment, and maintenance. Modeling reduces financial risk, enhances reliability, 
+              and ensures optimal system sizing and component selection by simulating real-world performance before installation.
+              Ultimately, it supports better planning, benchmarking, and long-term sustainability of solar assets.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="row g-4 mb-50">
+        <div class="col-md-4">
+          <div class="card h-100 bg-secondary border-0">
+            <div class="card-body p-4">
+              <div class="text-center mb-4">
+                <i class="fa fa-usd text-warning mb-3" style="font-size: 48px;"></i>
+                <h5 class="text-warning">Financial Planning</h5>
+              </div>
+              <p class="card-text">Accurate energy production estimates are essential for calculating return on investment, securing financing, and predicting payback periods for solar projects.</p>
+              <ul class="list-unstyled text-light small mt-3">
+                <li class="mb-2"><i class="fa fa-check-circle text-success me-2"></i> ROI calculations</li>
+                <li class="mb-2"><i class="fa fa-check-circle text-success me-2"></i> Investment risk assessment</li>
+                <li><i class="fa fa-check-circle text-success me-2"></i> Cash flow projections</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="card h-100 bg-secondary border-0">
+            <div class="card-body p-4">
+              <div class="text-center mb-4">
+                <i class="fa fa-cogs text-warning mb-3" style="font-size: 48px;"></i>
+                <h5 class="text-warning">System Optimization</h5>
+              </div>
+              <p class="card-text">Modeling helps determine the optimal system size, panel orientation, and configuration to maximize energy production for specific locations and requirements.</p>
+              <ul class="list-unstyled text-light small mt-3">
+                <li class="mb-2"><i class="fa fa-check-circle text-success me-2"></i> Tilt and azimuth optimization</li>
+                <li class="mb-2"><i class="fa fa-check-circle text-success me-2"></i> System sizing analysis</li>
+                <li><i class="fa fa-check-circle text-success me-2"></i> Shading impact assessment</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="card h-100 bg-secondary border-0">
+            <div class="card-body p-4">
+              <div class="text-center mb-4">
+                <i class="fa fa-line-chart text-warning mb-3" style="font-size: 48px;"></i>
+                <h5 class="text-warning">Performance Prediction</h5>
+              </div>
+              <p class="card-text">Reliable simulations provide expected performance over time. You can benchmark system efficiency and optimize overall solar output through data-driven evaluation and comparison.</p>
+              <ul class="list-unstyled text-light small mt-3">
+                <li class="mb-2"><i class="fa fa-check-circle text-success me-2"></i> Energy yield forecasts</li>
+                <li class="mb-2"><i class="fa fa-check-circle text-success me-2"></i> Seasonal variation analysis</li>
+                <li><i class="fa fa-check-circle text-success me-2"></i> Performance benchmarking</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-5 mb-50">
+        <div class="col-12 text-center">
+            <div class="bg-secondary rounded p-5">
+                <div class="d-flex justify-content-center gap-3 flex-wrap">
+                    <a href="{% url 'pv_modelling' %}" class="default-btn text-warning">
+                        Learn More <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How PV Modeling Works -->
+  <section id="how-modeling-works" class="features mb-50">
+    <div class="container">
+      <div class="row center mb-50">
+        <div class="col-md-8 col-md-offset-2 col-sm-12">
+          <div class="section-title-parralax">
+            <div class="process-numbers">03</div>
+            <h2>How PV Modeling Works</h2>
+            <p>The technical process behind accurate solar energy prediction.</p>
+          </div>
+        </div>
+      </div>
+      <div class="row mb-50">
+        <div class="col-md-12">
+          <div class="process-steps">
+            <div class="row">
+              <div class="col-md-4">
+                <div class="step">
+                  <div class="step-number">1</div>
+                  <h5>Data Collection</h5>
+                  <p>Gather location-specific data including solar irradiance, weather patterns, temperature, and geographic coordinates from trusted sources like NASA POWER and OpenWeather.</p>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="step">
+                  <div class="step-number">2</div>
+                  <h5>System Configuration</h5>
+                  <p>Define system parameters: panel type, inverter specifications, tilt angle, azimuth, system capacity, and loss factors based on the specific installation.</p>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="step">
+                  <div class="step-number">3</div>
+                  <h5>Mathematical Modeling</h5>
+                  <p>Apply physics-based algorithms to calculate solar position, irradiance components (GHI, DNI, DHI), and energy conversion through the PV system components.</p>
+                </div>
+              </div>
+            </div>
+            <div class="row mt-4">
+              <div class="col-md-4">
+                <div class="step">
+                  <div class="step-number">4</div>
+                  <h5>Performance Simulation</h5>
+                  <p>Run simulations using industry-standard models (PVWatts, PVlib) to predict energy output under various conditions and timeframes.</p>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="step">
+                  <div class="step-number">5</div>
+                  <h5>Result Analysis</h5>
+                  <p>Analyze output data to identify performance patterns, optimize system design, and generate comprehensive reports for stakeholders.</p>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="step">
+                  <div class="step-number">6</div>
+                  <h5>Validation & Refinement</h5>
+                  <p>Compare model predictions with actual performance data (when available) to validate accuracy and refine modeling parameters.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-5">
+        <div class="col-12 text-center">
+            <div class="bg-secondary rounded p-5">
+                <div class="d-flex justify-content-center gap-3 flex-wrap">
+                    <a href="{% url 'pv_modelling' %}" class="default-btn text-warning">
+                        Learn More <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Challenges Solved with Python -->
+  <section id="challenges-solved" class="mb-100" style="background-color: #1a1a00;">
+    <div class="container">
+      <div class="row center mb-50">
+        <div class="col-md-8 col-md-offset-2 col-sm-12">
+          <div class="section-title-parralax">
+            <div class="process-numbers">04</div>
+            <h2>Challenges Solved with Python</h2>
+            <p>How modern programming addresses complex solar modeling problems through advanced computational techniques and data science integration</p>
+          </div>
+        </div>
+      </div>
+      <div class="row mb-50">
+            <div class="col-md-6">
+                <div class="benefits_1_single mb-50" style="background-color: #2a2a00;">
+                    <h6 class="mb-30">Data Integration Complexity</h6>
+                    <p class="text-light mb-3">
+                        Python's extensive library ecosystem enables seamless integration of multiple heterogeneous data sources including NASA's POWER database, NREL's NSRDB, real-time weather APIs, and local meteorological stations into a unified modeling framework. This solves the critical challenge of fragmented solar data that traditionally required manual processing and validation across different formats, temporal resolutions, and quality standards.
+                    </p>
+                    <p class="text-light">
+                        The pandas library provides robust data manipulation capabilities for time series alignment, while specialized packages like pvlib handle the complex task of converting raw meteorological data into solar position calculations and irradiance models. This integration ensures that simulation inputs maintain temporal consistency and physical validity across the entire modeling pipeline, from raw weather data to final energy yield predictions.
+                    </p>
+                </div>
+                
+                <div class="benefits_1_single" style="background-color: #2a2a00;">
+                    <h6 class="mb-30">Computational Efficiency</h6>
+                    <p class="text-light mb-3">
+                        Python's scientific computing libraries (NumPy, SciPy, Numba) enable efficient processing of complex mathematical models and large datasets, making sophisticated solar modeling accessible without specialized hardware. The vectorized operations in NumPy allow for simultaneous calculation of solar position, irradiance components, and system performance across entire years of hourly data, reducing computation times from hours to seconds compared to traditional spreadsheet-based approaches.
+                    </p>
+                    <p class="text-light">
+                        Advanced optimization techniques and just-in-time compilation through Numba further accelerate performance-critical sections of the modeling workflow. This computational efficiency enables rapid scenario analysis, parameter sensitivity studies, and Monte Carlo simulations that would be computationally prohibitive with conventional tools, allowing engineers to explore design alternatives and optimize system configurations with unprecedented speed and depth.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="benefits_1_single mb-50" style="background-color: #2a2a00;">
+                    <h6 class="mb-30">Model Accuracy & Validation</h6>
+                    <p class="text-light mb-3">
+                        Advanced Python libraries provide robust statistical analysis and machine learning capabilities to validate models against historical performance data and continuously improve prediction accuracy. The scikit-learn and statsmodels packages enable sophisticated regression analysis, uncertainty quantification, and model calibration techniques that account for site-specific conditions and technology characteristics. This addresses the fundamental challenge of translating laboratory test conditions to real-world performance under varying environmental factors.
+                    </p>
+                    <p class="text-light">
+                        Python's visualization ecosystem (Matplotlib, Plotly, Seaborn) facilitates comprehensive model diagnostics and residual analysis, allowing engineers to identify systematic errors, validate model assumptions, and communicate results with stakeholders. The integration of machine learning algorithms enables pattern recognition in performance data, detection of underperforming systems, and development of site-specific correction factors that enhance model reliability beyond standard empirical relationships.
+                    </p>
+                </div>
+                
+                <div class="benefits_1_single" style="background-color: #2a2a00;">
+                    <h6 class="mb-30">Scalability & Automation</h6>
+                    <p class="text-light mb-3">
+                        Python enables the creation of scalable modeling systems that can process thousands of locations simultaneously, automating what would otherwise be manual, time-intensive calculations. Through multiprocessing, concurrent futures, and distributed computing frameworks like Dask, Python scripts can efficiently handle portfolio-level analysis across diverse geographic regions and technology configurations. This scalability transforms solar resource assessment from a project-specific activity to an enterprise-level capability.
+                    </p>
+                    <p class="text-light">
+                        The automation capabilities extend beyond mere computation to include automated report generation, results visualization, and quality control checks. Python scripts can generate professional-grade technical reports with dynamic content, interactive dashboards for result exploration, and automated alert systems for model anomalies or data quality issues. This end-to-end automation reduces human error, ensures consistency across analyses, and frees engineering resources for higher-value design optimization and innovation activities.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-5 mb-50">
+        <div class="col-12 text-center">
+            <div class="bg-secondary rounded p-5">
+                <div class="d-flex justify-content-center gap-3 flex-wrap">
+                    <a href="{% url 'pv_modelling' %}" class="default-btn text-warning">
+                        Learn More <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOLUTIONS PARALAX -->
+  <section id="solutions" class="services mb-50">
+    <div class="container">
+      <div class="row center">
+        <div class="col-md-8 col-md-offset-2 col-sm-12">
+          <div class="section-title-parralax">
+            <div class="process-numbers">07</div>
+            <h2>Solutions</h2>
+            <p class="module-subtitle" style="color: aliceblue;">Comprehensive solar modeling solutions for every application</p>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-6 right col-full right-0">
+          <i class="lnr lnr-home"></i>
+          <h6>Residential Modeling</h6>
+          <p>Accurate energy production estimates for home solar systems with detailed performance analysis.</p>
+        </div>
+        <div class="col-lg-6 left col-full left-0">
+          <i class="lnr lnr-apartment"></i>
+          <h6>Commercial Systems</h6>
+          <p>Comprehensive modeling for commercial solar installations with ROI analysis and system optimization.</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-6 right col-full right-0">
+          <i class="lnr lnr-sun"></i>
+          <h6>Solar Developers</h6>
+          <p>Professional-grade modeling tools for system design, performance estimates, and client proposals.</p>
+        </div>
+        <div class="col-lg-6 left col-full left-0">
+          <i class="lnr lnr-chart-bars"></i>
+          <h6>Research & Education</h6>
+          <p>Access to comprehensive solar data and advanced modeling capabilities for academic research.</p>
+        </div>
+      </div>
+      <div class="row mt-5">
+        <div class="col-12 text-center">
+            <div class="bg-secondary rounded p-5">
+                <div class="d-flex justify-content-center gap-3 flex-wrap">
+                    <a href="{% url 'solutions' %}" class="default-btn text-warning">
+                        View Solutions <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+  </section>
+
+  <!-- Advanced Analytics -->
+  <section id="advanced-analytics" class="mb-100" style="background-color: #1a1a00;">
+    <div class="container">
+        <div class="row center">
+          <div class="col-md-8 col-md-offset-2 col-sm-12">
+            <div class="section-title-parralax">
+              <div class="process-numbers">08</div>
+              <h2>Advanced Analytics</h2>
+              <p class="module-subtitle" style="color: aliceblue;">Our dashboard is powered by comprehensive data analysis</p>
+            </div>
+          </div>
+        </div>
+        <div class="row g-4">
+          <div class="col-lg-4 col-md-6">
+            <div class="card h-100 bg-secondary border-0">
+              <div class="card-body p-4">
+                <div class="text-center mb-4">
+                  <i class="fa fa-sun-o text-warning mb-3" style="font-size: 48px;"></i>
+                  <h5 class="text-warning">Solar Radiation Analysis</h5>
+                </div>
+                <p class="card-text">Detailed analysis of global horizontal irradiance (GHI), direct normal irradiance (DNI), and diffuse horizontal irradiance (DHI) with comprehensive charts and reports.</p>
+                <div class="mt-4">
+                  <h6 class="text-info mb-3">Key Metrics:</h6>
+                  <ul class="list-unstyled text-light small">
+                    <li class="mb-2"><i class="fa fa-check-circle text-success me-2"></i>Hourly radiation data</li>
+                    <li class="mb-2"><i class="fa fa-check-circle text-success me-2"></i>Seasonal variations</li>
+                    <li class="mb-2"><i class="fa fa-check-circle text-success me-2"></i>Spectral analysis</li>
+                    <li class="mb-2"><i class="fa fa-check-circle text-success me-2"></i>Performance ratios</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="card h-100 bg-secondary border-0">
+              <div class="card-body p-4">
+                <div class="text-center mb-4">
+                  <i class="fa fa-cloud text-warning mb-3" style="font-size: 48px;"></i>
+                  <h5 class="text-warning">Weather & Climate Integration</h5>
+                </div>
+                <p class="card-text">Real-time weather data and NASA climate modeling integrated with solar performance analysis for accurate system modeling under various conditions.</p>
+                <div class="mt-4">
+                  <h6 class="text-info mb-3">Data Integration:</h6>
+                  <ul class="list-unstyled text-light small">
+                    <li class="mb-2"><i class="fa fa-check-circle text-primary me-2"></i>Current weather conditions</li>
+                    <li class="mb-2"><i class="fa fa-check-circle text-warning me-2"></i>Temperature effects</li>
+                    <li class="mb-2"><i class="fa fa-check-circle text-info me-2"></i>Cloud cover impact</li>
+                    <li class="mb-2"><i class="fa fa-check-circle text-success me-2"></i>Climate trends</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-12">
+            <div class="card h-100 bg-secondary border-0">
+              <div class="card-body p-4">
+                <div class="text-center mb-4">
+                  <i class="fa fa-cogs text-warning mb-3" style="font-size: 48px;"></i>
+                  <h5 class="text-warning">System Performance Optimization</h5>
+                </div>
+                <p class="card-text">Advanced simulations to optimize PV system performance by analyzing real-time weather data, system configurations, and environmental factors.</p>
+                <div class="mt-4">
+                  <h6 class="text-info mb-3">Optimization Features:</h6>
+                  <ul class="list-unstyled text-light small">
+                    <li class="mb-2"><i class="fa fa-check-circle text-success me-2"></i>Weather-based adjustments</li>
+                    <li class="mb-2"><i class="fa fa-check-circle text-warning me-2"></i>System configuration tuning</li>
+                    <li class="mb-2"><i class="fa fa-check-circle text-primary me-2"></i>Performance forecasting</li>
+                    <li class="mb-2"><i class="fa fa-check-circle text-info me-2"></i>Efficiency validation</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-5">
+          <div class="col-12">
+            <div class="bg-dark rounded p-4">
+              <div class="row text-center">
+                <div class="col-md-3">
+                  <div class="border-end border-light">
+                    <h4 class="text-warning mb-1">PVWatts</h4>
+                    <small class="text-light">Basic Modeling</small>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="border-end border-light">
+                    <h4 class="text-warning mb-1">PVlib</h4>
+                    <small class="text-light">Advanced Modeling</small>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="border-end border-light">
+                    <h4 class="text-warning mb-1">NASA Climate</h4>
+                    <small class="text-light">Long-term Analysis</small>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <h4 class="text-warning mb-1">Real-time Data</h4>
+                  <small class="text-light">Weather & Air Quality</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dashboard Access Section -->
+        <div class="row mt-5">
+            <div class="col-12 text-center">
+                <div class="bg-secondary rounded p-5">
+                    <div class="d-flex justify-content-center gap-3 flex-wrap">
+                        {% if request.user.is_authenticated %}
+                        <a href="{% url 'dash' %}" class="default-btn text-warning">
+                            Go to Dashboard <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                        </a>
+                        {% else %}
+                        <a href="{% url 'signin' %}" class="default-btn text-warning">
+                            Access Dashboard <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section id="pricing" class="pricing mb-100">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8 col-md-offset-2 col-sm-12">
+          <div class="row center">
+            <div class="section-title-parralax">
+              <div class="process-numbers">09</div>
+              <h2>Our Prices</h2>
+              <p class="module-subtitle" style="color: aliceblue;">Simple, transparent pricing that scales with your modeling needs</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row center">
+        <div class="col-md-4 col-sm-6 col-xs-12">
+          <div class="pricing_plan">
+            <div class="plan_title"><h6>Basic</h6></div>
+            <div class="plan_price">
+              <i class="fa fa-usd" aria-hidden="true"></i>
+                <div class="numscroller" style="color: aliceblue;" data-slno='1' data-min='0' data-max='49' data-delay='20' data-increment="5">49</div>
+            </div>
+            <ul class="list">
+              <li>PVWatts Modeling</li>
+              <li>Basic Solar Reports</li>
+              <li>Email Support</li>
+              <li><strong style="color: whitesmoke;">Limited</strong> API Access</li>
+              <li><strong style="color: whitesmoke;">No</strong> Advanced Analytics</li>
+            </ul>
+            <a href="#contact" class="default-btn text-warning"> Get Started <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
+          </div>
+        </div>
+
+        <div class="col-md-4 col-sm-6 col-xs-12">
+          <div class="pricing_plan" style="background-color:rgba(243, 239, 135, 0.58);">
+            <div class="plan_title"><h6>Professional</h6></div>
+            <div class="plan_price">
+              <i class="fa fa-usd" aria-hidden="true"></i>
+                <div class="numscroller" style="color: aliceblue;" data-slno='1' data-min='0' data-max='149' data-delay='15' data-increment="5">149</div>
+            </div>
+            <ul class="list">
+              <li style="color: aliceblue;">PVWatts + PVlib Modeling</li>
+              <li style="color: aliceblue;">Advanced Analytics</li>
+              <li style="color: aliceblue;">Priority Support</li>
+              <li style="color: aliceblue;"><strong>Full</strong> API Access</li>
+              <li style="color: aliceblue;">Weather Integration</li>
+            </ul>
+            <a href="#contact" class="default-btn" style="color: aliceblue;"> Start Free Trial <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
+          </div>
+        </div>
+
+        <div class="col-md-4 col-sm-6 col-xs-12">
+          <div class="pricing_plan">
+            <div class="plan_title"><h6>Enterprise</h6></div>
+            <div class="plan_price">
+              <i class="fa fa-usd" aria-hidden="true"></i>
+                <div class="numscroller" style="color: aliceblue;" data-slno='1' data-min='0' data-max='499' data-delay='13' data-increment="5">499</div>
+            </div>
+            <ul class="list">
+              <li>All Modeling Features</li>
+              <li>NASA Climate Data</li>
+              <li>24/7 Dedicated Support</li>
+              <li><strong style="color: whitesmoke;">Full</strong> API Access</li>
+              <li><strong style="color: whitesmoke;">Advanced</strong> ML Features</li>
+            </ul>
+            <a href="#contact" class="default-btn"> Contact Sales <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section id="testimonials" class="testimonials mb-100" style="background-color: #1a1a00;">
+    <div class="container">
+      <div class="row center">
+        <div class="col-md-8 col-md-offset-2 col-sm-12">
+          <div class="section-title-parralax">
+            <div class="process-numbers">10</div>
+            <h2>Trusted by Solar Professionals</h2>
+            <p class="module-subtitle" style="color: aliceblue;">See what our customers say about Solarize modeling platform.</p>
+          </div>
+        </div>
+      </div>
+      <div class="row g-4">
+          <div class="col-md-4">
+              <div class="card h-100 bg-secondary border-0">
+                  <div class="card-body p-4">
+                      <p class="card-text">"The combination of PVWatts and PVlib modeling gives us the flexibility we need for different project types. The dashboard analytics are incredibly detailed and accurate."</p>
+                      <div class="d-flex align-items-center mt-4">
+                          <div class="flex-shrink-0">
+                              <div class="bg-warning rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                  <span class="fw-bold text-dark">AL</span>
+                              </div>
+                          </div>
+                          <div class="flex-grow-1 ms-3">
+                              <h6 class="mb-0 text-warning">Amanda Lee</h6>
+                              <small class="text-muted">Solar Designer at SunTech Solutions</small>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+          <div class="col-md-4">
+              <div class="card h-100 bg-secondary border-0">
+                  <div class="card-body p-4">
+                      <p class="card-text">"The NASA climate data integration has been game-changing for our long-term project planning. Being able to model system performance under different climate scenarios is invaluable."</p>
+                      <div class="d-flex align-items-center mt-4">
+                          <div class="flex-shrink-0">
+                              <div class="bg-warning rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                  <span class="fw-bold text-dark">MR</span>
+                              </div>
+                          </div>
+                          <div class="flex-grow-1 ms-3">
+                              <h6 class="mb-0 text-warning">Michael Rodriguez</h6>
+                              <small class="text-muted">Project Manager at Renewable Futures</small>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+          <div class="col-md-4">
+              <div class="card h-100 bg-secondary border-0">
+                  <div class="card-body p-4">
+                      <p class="card-text">"The experimental ML features have helped us refine our models significantly. The ability to correct PVWatts outputs with real weather data has improved our accuracy by 18%."</p>
+                      <div class="d-flex align-items-center mt-4">
+                          <div class="flex-shrink-0">
+                              <div class="bg-warning rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                  <span class="fw-bold text-dark">SJ</span>
+                              </div>
+                          </div>
+                          <div class="flex-grow-1 ms-3">
+                              <h6 class="mb-0 text-warning">Sarah Johnson</h6>
+                              <small class="text-muted">Research Lead at Solar Analytics Lab</small>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </div>
+  </section>
+
+  {% endblock %}

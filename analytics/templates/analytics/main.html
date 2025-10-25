@@ -90,30 +90,17 @@
                             <a href="{% url 'dual_axis_tracking' %}" class="dropdown-item">
                                 <i class="fas fa-arrows-alt me-2"></i>Dual-Axis Tracking
                             </a>
-                            <a href="{% url 'spec_sheet_modelling' %}" class="dropdown-item">
-                                <i class="fas fa-arrows-alt me-2"></i>Spec Sheet Modelling
-                            </a>
-
                             
                             <!-- Advanced Modeling -->
                             <div class="dropdown-divider"></div>
                             <h6 class="dropdown-header text-primary">Advanced Modeling</h6>
+                            <a href="{% url 'spec_sheet_modelling' %}" class="dropdown-item">
+                                <i class="fas fa-arrows-alt me-2"></i>Spec Sheet Modelling
+                            </a>
                             <a href="{% url 'bifacial_system' %}" class="dropdown-item">
                                 <i class="fas fa-layer-group me-2"></i>Bifacial Systems
                             </a>
-                            <a href="{% url 'spectral_response' %}" class="dropdown-item">
-                                <i class="fas fa-rainbow me-2"></i>Spectral Response
-                            </a>
-                            <a href="{% url 'temperature_effects' %}" class="dropdown-item">
-                                <i class="fas fa-thermometer-half me-2"></i>Temperature Effects
-                            </a>
-                            
-                            <!-- Component Analysis -->
-                            <div class="dropdown-divider"></div>
-                            <h6 class="dropdown-header text-primary">Component Analysis</h6>
-                            <a href="{% url 'system_sizing' %}" class="dropdown-item">
-                                <i class="fas fa-calculator me-2"></i>System Sizing
-                            </a>
+                         
                         </div>
                     </div>
 
@@ -130,11 +117,6 @@
                     <a href="{% url 'astronomy' %}" class="nav-item nav-link"><i class="fas fa-star me-2"></i>Solar Geometry</a>
                     <a href="{% url 'air_quality' %}" class="nav-item nav-link"><i class="fas fa-smog me-2"></i>Air Quality</a>
                     <hr class="my-1 border-secondary">
-
-                    <!-- Machine Learning -->
-                    <div class="nav-item text-uppercase text-muted small px-3 mt-3 mb-1">Experiments</div>
-                    <a href="{% url 'machine_learning_dash' %}" class="nav-item nav-link"><i class="fas fa-temperature-high me-2"></i>Machine Learning</a>
-
                 </div>
 
             </nav>
@@ -164,92 +146,8 @@
     <!-- Template Javascript -->
     <script src="{% static 'visualisation/js/main.js' %}"></script>
     <script src="{% static 'visualisation/js/autocomplete.js' %}"></script>
+    <script src="{% static 'visualisation/js/add_locations.js' %}"></script>
     <script>
-        let locationCount = 1;
-
-        // Add new location
-        document.getElementById('addLocation').addEventListener('click', function() {
-            const container = document.getElementById('locationsContainer');
-            const newIndex = locationCount;
-            
-            const locationHTML = `
-                <div class="location-group mb-4 p-3 border rounded" data-location-index="${newIndex}">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h6 class="mb-0">Location #${newIndex + 1}</h6>
-                        <button type="button" class="btn btn-sm btn-outline-danger remove-location">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
-                    
-                    <div class="row g-3">
-                        <div class="col-md-12">
-                            <label for="locationName_${newIndex}" class="form-label">Location Name</label>
-                            <input type="text" class="form-control location-name" id="locationName_${newIndex}" 
-                                   name="locations[${newIndex}][name]" placeholder="e.g., London" value="" required>
-                        </div>
-                        
-                        <div class="col-md-6">
-                            <label for="lat_${newIndex}" class="form-label">Latitude</label>
-                            <input type="number" class="form-control" id="lat_${newIndex}" 
-                                   name="locations[${newIndex}][lat]" step="any" placeholder="Enter latitude" required>
-                        </div>
-                        
-                        <div class="col-md-6">
-                            <label for="lon_${newIndex}" class="form-label">Longitude</label>
-                            <input type="number" class="form-control" id="lon_${newIndex}" 
-                                   name="locations[${newIndex}][lon]" step="any" placeholder="Enter longitude" required>
-                        </div>
-                    </div>
-                </div>
-            `;
-            
-            container.insertAdjacentHTML('beforeend', locationHTML);
-            locationCount++;
-            
-            // Enable remove buttons for all except first
-            document.querySelectorAll('.remove-location').forEach(btn => {
-                btn.disabled = false;
-            });
-        });
-
-        // Remove location
-        document.addEventListener('click', function(e) {
-            if (e.target.closest('.remove-location')) {
-                const locationGroup = e.target.closest('.location-group');
-                if (document.querySelectorAll('.location-group').length > 1) {
-                    locationGroup.remove();
-                    // Re-index remaining locations
-                    reindexLocations();
-                }
-            }
-        });
-
-        // Re-index locations after removal
-        function reindexLocations() {
-            const locations = document.querySelectorAll('.location-group');
-            locationCount = locations.length;
-            
-            locations.forEach((location, index) => {
-                location.setAttribute('data-location-index', index);
-                location.querySelector('h6').textContent = `Location #${index + 1}`;
-                
-                // Update input names and IDs
-                const inputs = location.querySelectorAll('input');
-                inputs.forEach(input => {
-                    const oldName = input.name;
-                    const newName = oldName.replace(/locations\[\d+\]/, `locations[${index}]`);
-                    input.name = newName;
-                    input.id = input.id.replace(/_(\d+)_/, `_${index}_`);
-                });
-            });
-            
-            // Disable remove button if only one location remains
-            if (locations.length === 1) {
-                document.querySelector('.remove-location').disabled = true;
-            }
-        }
-
-
         document.addEventListener('DOMContentLoaded', function() {
             // Get all progress bars
             const progressBars = document.querySelectorAll('.monthly-progress-bar');
@@ -292,10 +190,18 @@
             slider.nextElementSibling.querySelector('span').textContent = slider.value;
         }
 
-        document.querySelector('#arrays_json').addEventListener('change', (e) => {
-          const fileName = e.target.files.length ? e.target.files[0].name : 'No file selected';
-          document.querySelector('#file-name').textContent = fileName;
+        document.addEventListener('DOMContentLoaded', () => {
+            const fileInput = document.querySelector('#arrays_json');
+            const fileNameDisplay = document.querySelector('#file-name');
+
+            if (fileInput && fileNameDisplay) {
+                fileInput.addEventListener('change', (e) => {
+                    const fileName = e.target.files.length ? e.target.files[0].name : 'No file selected';
+                    fileNameDisplay.textContent = fileName;
+                });
+            }
         });
+
 
     </script>
 </body>

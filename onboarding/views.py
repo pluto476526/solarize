@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 def home_view(request):
     context = {}
-    return render(request, "onboarding/home.html", context)
+    return render(request, "onboarding/index.html", context)
 
 def profile_view(request):
     context = {}
@@ -29,9 +29,9 @@ def solutions_view(request):
     context = {}
     return render(request, "onboarding/solutions.html", context)
 
-def machine_learning_view(request):
+def pv_modelling_view(request):
     context = {}
-    return render(request, "onboarding/machine_learning.html", context)
+    return render(request, "onboarding/pv_modelling.html", context)
 
 
 def signin_view(request):

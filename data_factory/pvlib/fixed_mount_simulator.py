@@ -28,7 +28,6 @@ class FixedMountSimulator:
         self.arrays = system_params["arrays_config"]
         self.temp_model = system_params["temp_model"]
         self.temp_model_params = system_params["temp_model_params"]
-        self.description = system_params["description"]
 
         self.soiling = float(losses_params.get("soiling"))
         self.shading = float(losses_params.get("shading"))

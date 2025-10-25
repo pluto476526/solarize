@@ -241,6 +241,10 @@ section{
 	text-align: left;
 }
 
+.p-3 {
+	padding: 3rem;
+}
+
 .mt-50{
 	margin-top: 50px;
 }
@@ -2086,6 +2090,7 @@ ul.social-icons li i{
 /* ##### BENEFITS STYLES  ##### */
 
 .benefits_single{margin-bottom: 30px;}
+
 .benefits_single:nth-last-child(-n+3){margin-bottom: 30px;}
 .benefits_single > i{
 	display: inline-block;
@@ -2128,10 +2133,11 @@ ul.services-list li{
 		margin-bottom: 15px;
 		padding: 0 25px;
 		color: #777;
-		text-transform: uppercase;
 		font-size: 12px;
 		letter-spacing: 1px;
 }
+
+ul.services-list li strong{text-transform: uppercase;}
 
 
 .benefits_1_single > i:after{
@@ -2149,6 +2155,8 @@ ul.services-list li{
 .benefits_1_single{
 		width: 100%;
 		text-align: center;
+		padding: 3rem;
+		border-radius: 3rem;
 }
 
 .benefits_1_single p{
@@ -2165,7 +2173,7 @@ ul.services-list li{
 .benefits_1_single h6{
     font-size: 14px;
     font-weight: 400;
-    color: #777;
+    color: #aliceblue;
     letter-spacing: 1px;
     margin-bottom: 10px;
     text-transform: uppercase;

@@ -52,7 +52,7 @@
                                 </select>
                             </div>
                             <div class="col-12">
-                                <label class="form-label small">Location Name</label>
+                                <label class="form-label small">Location/Simulation Name</label>
                                 <input type="text" class="form-control form-control-sm" name="name" value="Nairobi">
                             </div>
                         </div>
@@ -135,18 +135,14 @@
                                 <input type="number" name="strings" class="form-control form-control-sm" value="1">
                             </div>
                             <div class="col-4">
-                              <label for="arrays_json" class="form-label small mb-1">Configure Multiple Arrays</label>
+                              <label for="arrays_json" class="form-label small mb-1">Extra Arrays</label>
                               <div class="input-group">
                                 <label class="btn btn-warning btn-sm mb-0" for="arrays_json">
-                                  <i class="fas fa-bolt me-1"></i> Upload JSON file
+                                  <i class="fas fa-bolt me-1"></i> <span id="file-name">Upload JSON file</span>
                                 </label>
                                 <input id="arrays_json" type="file" name="arrays_json" class="d-none" accept=".json">
                               </div>
-
-                              <!-- Optional: feedback area -->
-                              <small id="file-name" class="text-muted d-block mt-1"></small>
                             </div>
-
                             <div class="col-12">
                                 <label class="form-label small">System Description</label>
                                 <textarea class="form-control" placeholder="Short system description" name="description" style="height: 100px;"></textarea>

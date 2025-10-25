@@ -26,95 +26,187 @@
         <!-- Compact Form Layout -->
         <form method="post" class="row g-3">
             {% csrf_token %}
+            
             <!-- Location Parameters -->
             <div class="col-lg-4">
                 <div class="card shadow-sm h-100 bg-secondary p-3">
                     <div class="">
-                        <h6 class="mb-0 text-warning px-3"></i>Location</h6>
+                        <h6 class="mb-0 text-warning px-3">Location Parameters</h6>
                     </div>
-
                     <div class="card-body">
                         <div class="row g-2">
+                            <div class="col-12">
+                                <label class="form-label small">Location Name</label>
+                                <input type="text" class="form-control form-control-sm" name="name" value="Nairobi" required>
+                            </div>
                             <div class="col-6">
                                 <label class="form-label small">Latitude</label>
-                                <input type="number" class="form-control form-control-sm" name="lat" value="-1.286389" step="any">
+                                <input type="number" class="form-control form-control-sm" name="lat" value="-1.286389" step="any" required>
                             </div>
                             <div class="col-6">
                                 <label class="form-label small">Longitude</label>
-                                <input type="number" class="form-control form-control-sm" name="lon" value="36.817223" step="any">
+                                <input type="number" class="form-control form-control-sm" name="lon" value="36.817223" step="any" required>
                             </div>
                             <div class="col-6">
-                                <label class="form-label small">Altitude (m)</label>
-                                <input type="number" class="form-control form-control-sm" name="alt" value="0" step="any">
+                                <label class="form-label small">Altitude (meters)</label>
+                                <input type="number" class="form-control form-control-sm" name="alt" value="0" step="any" required>
                             </div>
                             <div class="col-6">
-                                <label class="form-label small">Timezone</label>
-                                <select class="form-select form-select-sm" name="tz">
-                                    <option selected value="Africa/Nairobi">Africa/Nairobi</option>
-                                    <option>UTC</option>
-                                </select>
+                                <label class="form-label small">Albedo (Surface Reflectance)</label>
+                                <input type="number" class="form-control form-control-sm" name="albedo" value="0.25" step="0.01" min="0" max="1" required>
                             </div>
                             <div class="col-12">
-                                <label class="form-label small">Location Name</label>
-                                <input type="text" class="form-control form-control-sm" name="name" value="Nairobi">
+                                <label class="form-label small">Timezone</label>
+                                <select class="form-select form-select-sm" name="tz" required>
+                                    <option value="Africa/Nairobi" selected>Africa/Nairobi</option>
+                                    <option value="UTC">UTC</option>
+                                </select>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- System Configuration -->
+           <!-- System Configuration -->
             <div class="col-lg-8">
                 <div class="card shadow-sm h-100 bg-secondary p-3">
-                    <div class="">
+                    <div>
                         <h6 class="mb-0 text-warning px-3">System Configuration</h6>
                     </div>
                     <div class="card-body p-3">
+                        <div class="row g-3">
+                            
+                            <!-- Mount & Tilt -->
+                            <div class="col-md-6">
+                                <label class="form-label small">Mount Type</label>
+                                <input type="text" class="form-control form-control-sm bg-dark" readonly value="Fixed">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small">Tilt (°)</label>
+                                <input type="number" class="form-control form-control-sm" name="tilt" value="20" required>
+                            </div>
+
+                            <!-- Strings Configuration -->
+                            <div class="col-md-6">
+                                <label class="form-label small">Modules per String</label>
+                                <input type="number" class="form-control form-control-sm" name="modules_per_string" value="10" min="1" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small">Number of Strings</label>
+                                <input type="number" class="form-control form-control-sm" name="strings" value="2" min="1" required>
+                            </div>
+                            <!-- System Description -->
+                            <div class="col-md-6">
+                                <label class="form-label small">System Description</label>
+                                <textarea class="form-control" name="description" placeholder="Short system description" style="height: 80px;"></textarea>
+                            </div>
+                            <!-- Extra Arrays / Tracking -->
+                            <div class="col-md-6">
+                                <label for="arrays_json" class="form-label small mb-1">
+                                    Extra Arrays - You can configure tracking here. <a href="">Example</a>
+                                </label>
+                                <div class="input-group">
+                                    <label class="btn btn-warning btn-sm mb-0" for="arrays_json">
+                                        <i class="fas fa-bolt me-1"></i> <span id="file-name">Upload JSON file</span>
+                                    </label>
+                                    <input id="arrays_json" type="file" name="arrays_json" class="d-none" accept=".json">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Custom Module Parameters -->
+            <div class="col-lg-4">
+                <div class="card shadow-sm h-100 bg-secondary p-3">
+                    <div class="">
+                        <h6 class="mb-0 text-warning px-3">Custom Module Parameters</h6>
+                    </div>
+                    <div class="card-body p-3">
                         <div class="row g-2">
-                            <div class="col-6">
-                                <label class="form-label small">PV Module</label>
-                                <input 
-                                    type="text" 
-                                    id="module-input" 
-                                    name="module" 
-                                    list="module-list"
-                                    autocomplete="off"
-                                    class="form-control form-control-sm"
-                                    placeholder="Type to search..."
-                                >
-                                <datalist id="module-list"></datalist>
+                            <div class="col-12">
+                                <label class="form-label small">Module Rated Power (W)</label>
+                                <input type="number" class="form-control form-control-sm" name="pdc0" value="330" step="0.1" required>
                             </div>
                             <div class="col-6">
-                                <label class="form-label small">Module Database</label>
-                                <select class="form-select form-select-sm" name="module_db">
-                                    <option value="SandiaMod">Sandia Labs Module Database</option>
-                                    <option value="CECMod" selected>CEC Module Database</option>
+                                <label class="form-label small">Voltage at Maximum Power (V)</label>
+                                <input type="number" class="form-control form-control-sm" name="v_mp" value="37.2" step="0.1" required>
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small">Current at Maximum Power (A)</label>
+                                <input type="number" class="form-control form-control-sm" name="i_mp" value="8.87" step="0.01" required>
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small">Open Circuit Voltage (V)</label>
+                                <input type="number" class="form-control form-control-sm" name="v_oc" value="46.1" step="0.1" required>
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small">Short Circuit Current (A)</label>
+                                <input type="number" class="form-control form-control-sm" name="i_sc" value="9.36" step="0.01" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Custom Inverter Parameters -->
+            <div class="col-lg-4">
+                <div class="card shadow-sm h-100 bg-secondary p-3">
+                    <div class="">
+                        <h6 class="mb-0 text-warning px-3">Custom Inverter Parameters</h6>
+                    </div>
+                    <div class="card-body p-3">
+                        <div class="row g-2">
+                            <div class="col-12">
+                                <label class="form-label small">Inverter Rated DC Power (W)</label>
+                                <input type="number" class="form-control form-control-sm" name="pdc0" value="10000" step="1" required>
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small">Maximum DC Power (W)</label>
+                                <input type="number" class="form-control form-control-sm" name="pdc_max" value="10500" step="1" required>
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small">Maximum DC Voltage (V)</label>
+                                <input type="number" class="form-control form-control-sm" name="vdcmax" value="600" step="1" required>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label small">Maximum DC Current (A)</label>
+                                <input type="number" class="form-control form-control-sm" name="idcmax" value="30" step="0.1" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Custom Temperature Parameters -->
+            <div class="col-lg-4">
+                <div class="card shadow-sm h-100 bg-secondary p-3">
+                    <div class="">
+                        <h6 class="mb-0 text-warning px-3">Custom Temperature Parameters</h6>
+                    </div>
+                    <div class="card-body p-3">
+                        <div class="row g-2">
+                            <div class="col-4">
+                                <label class="form-label small">Temperature Coefficient A</label>
+                                <input type="number" class="form-control form-control-sm" name="a" value="-3.56" step="0.01" required>
+                            </div>
+                            <div class="col-4">
+                                <label class="form-label small">Temperature Coefficient B</label>
+                                <input type="number" class="form-control form-control-sm" name="b" value="-0.075" step="0.001" required>
+                            </div>
+                            <div class="col-4">
+                                <label class="form-label small">Temperature Delta (ΔT)</label>
+                                <input type="number" class="form-control form-control-sm" name="deltaT" value="3" step="0.1" required>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label small">Temperature Model</label>
+                                <select class="form-select form-select-sm" name="temp_model" required>
+                                    <option value="sapm" selected>SAPM</option>
+                                    <option value="pvsyst">PVsyst</option>
+                                    <option value="faiman">Faiman</option>
                                 </select>
-                            </div>
-                            <div class="col-6">
-                                <label class="form-label small">Inverter</label>
-                                <input 
-                                    type="text" 
-                                    id="inverter-input" 
-                                    name="inverter" 
-                                    list="inverter-list"
-                                    autocomplete="off"
-                                    class="form-control form-control-sm"
-                                    placeholder="Type to search..."
-                                >
-                                <datalist id="inverter-list"></datalist>
-                            </div>
-                            <div class="col-6">
-                                <label class="form-label small">Inverter Database</label>
-                                <input class="form-control form-control-sm bg-secondary" value="CEC Inverter Database" disabled>
-                            </div>
-                            <div class="col-6">
-                                <label class="form-label small">Azimuth (°)</label>
-                                <input type="number" class="form-control form-control-sm" name="azimuth" value="180" min="0" max="360">
-                            </div>
-                            <div class="col-6">
-                                <label class="form-label small">Tilt Angle (°)</label>
-                                <input type="number" class="form-control form-control-sm" name="tilt" value="20" min="0" max="90">
                             </div>
                         </div>
                     </div>
@@ -122,99 +214,116 @@
             </div>
 
             <!-- Loss Parameters -->
-            <!-- <div class="col-lg-6">
-                <div class="card shadow-sm h-100 bg-secondary p-4">
+            <div class="col-lg-6">
+                <div class="card shadow-sm h-100 bg-secondary p-3">
                     <div class="">
-                        <h6 class="mb-0 text-warning px-3">Loss Parameters (%)</h6>
+                        <h6 class="mb-0 text-warning px-3">System Loss Parameters (%)</h6>
                     </div>
                     <div class="card-body p-3">
                         <div class="row g-2">
                             <div class="col-6">
-                                <label class="form-label small">Soiling</label>
-                                <input type="range" class="form-range" value="2" min="0" max="10" step="0.5">
-                                <div class="small text-center">2%</div>
+                                <label class="form-label small">Soiling Losses</label>
+                                <input type="number" class="form-control form-control-sm" name="soiling" value="2" min="0" max="100" step="0.1">
                             </div>
                             <div class="col-6">
-                                <label class="form-label small">Shading</label>
-                                <input type="range" class="form-range" value="3" min="0" max="20" step="0.5">
-                                <div class="small text-center">3%</div>
+                                <label class="form-label small">Shading Losses</label>
+                                <input type="number" class="form-control form-control-sm" name="shading" value="3" min="0" max="100" step="0.1">
                             </div>
                             <div class="col-6">
-                                <label class="form-label small">Mismatch</label>
-                                <input type="range" class="form-range" value="2" min="0" max="5" step="0.5">
-                                <div class="small text-center">2%</div>
+                                <label class="form-label small">Snow Coverage Losses</label>
+                                <input type="number" class="form-control form-control-sm" name="snow" value="0" min="0" max="100" step="0.1">
                             </div>
                             <div class="col-6">
-                                <label class="form-label small">Wiring</label>
-                                <input type="range" class="form-range" value="2" min="0" max="5" step="0.5">
-                                <div class="small text-center">2%</div>
+                                <label class="form-label small">Module Mismatch Losses</label>
+                                <input type="number" class="form-control form-control-sm" name="mismatch" value="2" min="0" max="100" step="0.1">
                             </div>
                             <div class="col-6">
-                                <label class="form-label small">Nameplate</label>
-                                <input type="range" class="form-range" value="1" min="0" max="5" step="0.5">
-                                <div class="small text-center">1%</div>
+                                <label class="form-label small">Wiring Losses</label>
+                                <input type="number" class="form-control form-control-sm" name="wiring" value="2" min="0" max="100" step="0.1">
                             </div>
                             <div class="col-6">
-                                <label class="form-label small">Age</label>
-                                <input type="range" class="form-range" value="0.5" min="0" max="10" step="0.1">
-                                <div class="small text-center">0.5%</div>
+                                <label class="form-label small">Connection Losses</label>
+                                <input type="number" class="form-control form-control-sm" name="connections" value="0.5" min="0" max="100" step="0.1">
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small">Light Induced Degradation (LID)</label>
+                                <input type="number" class="form-control form-control-sm" name="lid" value="1.5" min="0" max="100" step="0.1">
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small">Nameplate Rating Losses</label>
+                                <input type="number" class="form-control form-control-sm" name="nameplate" value="1" min="0" max="100" step="0.1">
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small">Age Related Degradation</label>
+                                <input type="number" class="form-control form-control-sm" name="age" value="0.5" min="0" max="100" step="0.1">
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small">System Availability</label>
+                                <input type="number" class="form-control form-control-sm" name="availability" value="98" min="0" max="100" step="0.1">
                             </div>
                         </div>
                     </div>
                 </div>
-            </div> -->
+            </div>
 
             <!-- Simulation Parameters -->
-            <div class="col-lg-12">
+            <div class="col-lg-6">
                 <div class="card shadow-sm h-100 bg-secondary p-3">
-                    <div class="">
+                    <div>
                         <h6 class="mb-0 text-warning px-3">Simulation Parameters</h6>
                     </div>
                     <div class="card-body p-3">
-                        <div class="row g-2">                          
+                        <div class="row g-2">
+
+                            <!-- Start & End Dates -->
                             <div class="col-6">
-                                <label class="form-label small">Start Date</label>
-                                <input type="date" class="form-control form-control-sm" value="2023-01-01">
+                                <label class="form-label small">Simulation Start Date</label>
+                                <input type="date" class="form-control form-control-sm" name="start_date" value="2023-01-01" required>
                             </div>
                             <div class="col-6">
-                                <label class="form-label small">Temperature Model</label>
-                                <select class="form-select form-select-sm" name="temp_model">
-                                    <option value="sapm" selected>SAPM</option>
-                                    <option>PVsyst</option>
-                                    <option>Faiman</option>
-                                </select>
+                                <label class="form-label small">Simulation End Date</label>
+                                <input type="date" class="form-control form-control-sm" name="end_date" value="2023-12-31" required>
                             </div>
-                            <div class="col-6">
-                                <label class="form-label small">End Date</label>
-                                <input type="date" class="form-control form-control-sm" value="2023-12-31">
-                            </div>
-                            <div class="col-6">
-                                <label class="form-label small">Temperature Model Parameters</label>
-                                <select class="form-select form-select-sm" name="temp_model_params">
-                                    <option value="open_rack_glass_glass" selected>open_rack_glass_glass</option>
-                                </select>
-                            </div>
-                            <div class="col-6">
-                                <label class="form-label small">Timeframe</label>
+
+                            <!-- Timeframe Resolution -->
+                            <div class="col-12">
+                                <label class="form-label small">Timeframe Resolution</label>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="timeframe" checked>
+                                    <input class="form-check-input" type="radio" name="timeframe" value="hourly" checked>
                                     <label class="form-check-label small">Hourly</label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="timeframe">
+                                    <input class="form-check-input" type="radio" name="timeframe" value="daily">
                                     <label class="form-check-label small">Daily</label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="timeframe">
+                                    <input class="form-check-input" type="radio" name="timeframe" value="monthly">
                                     <label class="form-check-label small">Monthly</label>
                                 </div>
-                            </div>  
+                            </div>
+
+                            <!-- Data Source Selection -->
+                            <div class="col-12">
+                                <label class="form-label small">Data Source</label>
+                                <select class="form-select form-select-sm" name="data_source" required>
+                                    <option value="pvgis">PVGIS</option>
+                                    <option value="nasa_power">NASA POWER</option>
+                                    <option value="tmy">TMY</option>
+                                    <option value="local_weather">Local Weather Station</option>
+                                </select>
+                                <small class="text-muted d-block mt-1">
+                                    Note: For TMY data, the selected timeframe is ignored.
+                                </small>
+                            </div>
+
                         </div>
+
+                        <!-- Action Buttons -->
                         <div class="row mt-3">
                             <div class="col-12">
                                 <div class="d-flex justify-content-end gap-2">
                                     <button type="button" class="btn btn-outline-primary btn-sm">
-                                        <i class="fas fa-redo me-1"></i>Reset
+                                        <i class="fas fa-redo me-1"></i>Reset Form
                                     </button>
                                     <button type="submit" class="btn btn-warning btn-sm">
                                         <i class="fas fa-bolt me-1"></i>Run Simulation
@@ -222,18 +331,20 @@
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>
+
         </form>
 
         <!-- Compact Documentation -->
         <div class="row mt-3">
             <div class="col-12">
                 <div class="card shadow-sm bg-secondary">
-                   <div class="text-center rounded p-3">
+                    <div class="text-center rounded p-3">
                         <div class="d-flex justify-content-between align-items-center">
-                            <h6 class="mb-0 text-warning px-3"><i class="fas fa-book me-1"></i>PVLib Parameters Documentation</h6>
+                            <h6 class="mb-0 text-warning px-3"><i class="fas fa-book me-1"></i>PV System Simulation Parameters Documentation</h6>
                             <button class="btn btn-sm btn-outline-light" type="button" data-bs-toggle="collapse" data-bs-target="#docsCollapse">
                                 <i class="fas fa-chevron-down"></i>
                             </button>
@@ -242,53 +353,109 @@
                     <div class="collapse show" id="docsCollapse">
                         <div class="card-body p-3">
                             <div class="row g-3">
+                                <!-- Location Parameters -->
                                 <div class="col-md-4">
                                     <h6 class="text-primary">Location Parameters</h6>
                                     <ul class="small ps-3">
-                                        <li><strong>Latitude & Longitude:</strong> Geographic coordinates in decimal degrees</li>
-                                        <li><strong>Altitude:</strong> Elevation above sea level in meters</li>
-                                        <li><strong>Timezone:</strong> Local timezone for proper time alignment</li>
+                                        <li><strong>Latitude & Longitude:</strong> Geographic coordinates in decimal degrees (-90 to 90 for latitude, -180 to 180 for longitude)</li>
+                                        <li><strong>Altitude:</strong> Elevation above sea level in meters, affects air density and temperature</li>
+                                        <li><strong>Timezone:</strong> Local timezone for proper solar position calculations and time alignment</li>
+                                        <li><strong>Albedo:</strong> Ground surface reflectance coefficient (0-1), typical values: 0.25 for vegetation, 0.1 for asphalt</li>
                                     </ul>
                                 </div>
+
+                                <!-- System Configuration -->
                                 <div class="col-md-4">
                                     <h6 class="text-primary">System Configuration</h6>
                                     <ul class="small ps-3">
-                                        <li><strong>Capacity:</strong> Total DC power rating in kW</li>
-                                        <li><strong>Azimuth:</strong> Panel direction (0°=North, 180°=South)</li>
-                                        <li><strong>Tilt:</strong> Panel inclination from horizontal</li>
-                                        <li><strong>Array Type:</strong> Mounting configuration</li>
+                                        <li><strong>Mount Type:</strong> Fixed tilt, single-axis tracking, or dual-axis tracking systems</li>
+                                        <li><strong>Module Type:</strong> Standard monocrystalline, premium high-efficiency, or thin film technologies</li>
+                                        <li><strong>Modules per String:</strong> Number of modules connected in series to reach inverter voltage requirements</li>
+                                        <li><strong>Number of Strings:</strong> Parallel strings to achieve desired system capacity</li>
+                                        <li><strong>Number of Arrays:</strong> Physical groupings of modules with similar orientation</li>
                                     </ul>
                                 </div>
+
+                                <!-- Custom Module Parameters -->
                                 <div class="col-md-4">
-                                    <h6 class="text-primary">Loss Parameters</h6>
+                                    <h6 class="text-primary">Custom Module Parameters</h6>
                                     <ul class="small ps-3">
-                                        <li><strong>Soiling:</strong> Dirt/dust on panels (2-5%)</li>
-                                        <li><strong>Shading:</strong> Shadows from nearby objects</li>
-                                        <li><strong>Mismatch:</strong> Electrical mismatch between modules</li>
-                                        <li><strong>Wiring:</strong> Resistance losses (1-3%)</li>
+                                        <li><strong>Module Rated Power:</strong> Maximum power output under standard test conditions (STC) in watts</li>
+                                        <li><strong>Voltage at Maximum Power:</strong> Operating voltage where module produces maximum power</li>
+                                        <li><strong>Current at Maximum Power:</strong> Operating current where module produces maximum power</li>
+                                        <li><strong>Open Circuit Voltage:</strong> Maximum voltage with zero current (no load condition)</li>
+                                        <li><strong>Short Circuit Current:</strong> Maximum current with zero voltage (short circuit condition)</li>
                                     </ul>
                                 </div>
+
+                                <!-- Custom Inverter Parameters -->
                                 <div class="col-md-4">
-                                    <h6 class="text-primary">Temperature</h6>
+                                    <h6 class="text-primary">Custom Inverter Parameters</h6>
                                     <ul class="small ps-3">
-                                        <li><strong>Temp Model:</strong> Algorithm for module temperature</li>
-                                        <li><strong>Wind Speed:</strong> For convective cooling calculations</li>
+                                        <li><strong>Inverter Rated DC Power:</strong> Maximum continuous DC input power in watts</li>
+                                        <li><strong>Maximum DC Power:</strong> Absolute maximum DC power the inverter can handle temporarily</li>
+                                        <li><strong>Maximum DC Voltage:</strong> Highest DC voltage the inverter can accept from the array</li>
+                                        <li><strong>Maximum DC Current:</strong> Highest DC current the inverter can process</li>
                                     </ul>
                                 </div>
+
+                                <!-- Custom Temperature Parameters -->
                                 <div class="col-md-4">
-                                    <h6 class="text-primary">Simulation</h6>
+                                    <h6 class="text-primary">Custom Temperature Parameters</h6>
                                     <ul class="small ps-3">
-                                        <li><strong>Timeframe:</strong> Resolution of results</li>
-                                        <li><strong>Weather Data:</strong> Source of meteorological data</li>
-                                        <li><strong>Albedo:</strong> Ground reflectance coefficient</li>
+                                        <li><strong>Temperature Coefficient A:</strong> First coefficient for temperature correction model</li>
+                                        <li><strong>Temperature Coefficient B:</strong> Second coefficient for temperature correction model</li>
+                                        <li><strong>Temperature Delta (ΔT):</strong> Temperature difference parameter for module heating calculations</li>
+                                        <li><strong>Temperature Model:</strong> SAPM (Sandia Array Performance Model), PVsyst, or Faiman temperature algorithms</li>
                                     </ul>
                                 </div>
+
+                                <!-- Loss Parameters -->
                                 <div class="col-md-4">
-                                    <h6 class="text-primary">Module Types</h6>
+                                    <h6 class="text-primary">System Loss Parameters</h6>
                                     <ul class="small ps-3">
-                                        <li><strong>Standard:</strong> Typical silicon (15-17% efficiency)</li>
-                                        <li><strong>Premium:</strong> High-efficiency (19-22%)</li>
-                                        <li><strong>Thin Film:</strong> Lightweight (10-13%)</li>
+                                        <li><strong>Soiling Losses:</strong> Reduction due to dirt, dust, bird droppings (typically 2-5%)</li>
+                                        <li><strong>Shading Losses:</strong> Losses from nearby objects, vegetation, or self-shading</li>
+                                        <li><strong>Snow Coverage Losses:</strong> Seasonal reduction from snow accumulation</li>
+                                        <li><strong>Module Mismatch Losses:</strong> Electrical variations between modules (typically 1-3%)</li>
+                                        <li><strong>Wiring Losses:</strong> Resistance losses in DC and AC wiring (typically 1-3%)</li>
+                                        <li><strong>Connection Losses:</strong> Losses at junctions, connectors, and terminations</li>
+                                        <li><strong>Light Induced Degradation (LID):</strong> Initial power drop in new modules</li>
+                                        <li><strong>Nameplate Rating Losses:</strong> Difference between nameplate and actual performance</li>
+                                        <li><strong>Age Related Degradation:</strong> Annual power reduction from module aging</li>
+                                        <li><strong>System Availability:</strong> Percentage of time system is operational and not down for maintenance</li>
+                                    </ul>
+                                </div>
+
+                                <!-- Simulation Parameters -->
+                                <div class="col-md-4">
+                                    <h6 class="text-primary">Simulation Parameters</h6>
+                                    <ul class="small ps-3">
+                                        <li><strong>Simulation Start/End Date:</strong> Time period for energy production analysis</li>
+                                        <li><strong>Timeframe Resolution:</strong> Hourly, daily, or monthly results aggregation</li>
+                                        <li><strong>Temperature Model:</strong> Algorithm for calculating module operating temperature</li>
+                                    </ul>
+                                </div>
+
+                                <!-- Technical Notes -->
+                                <div class="col-md-4">
+                                    <h6 class="text-primary">Technical Notes</h6>
+                                    <ul class="small ps-3">
+                                        <li><strong>Standard Test Conditions (STC):</strong> 1000 W/m², 25°C cell temperature, AM1.5 spectrum</li>
+                                        <li><strong>Mounting Types:</strong> Fixed (lowest cost), Single-Axis (15-25% gain), Dual-Axis (25-35% gain)</li>
+                                        <li><strong>Module Technologies:</strong> Standard (15-18% efficiency), Premium (19-22%), Thin Film (10-13%)</li>
+                                        <li><strong>Temperature Effects:</strong> Power decreases ~0.4-0.5% per °C above 25°C for silicon modules</li>
+                                    </ul>
+                                </div>
+
+                                <!-- Performance Expectations -->
+                                <div class="col-md-4">
+                                    <h6 class="text-primary">Performance Expectations</h6>
+                                    <ul class="small ps-3">
+                                        <li><strong>System Losses:</strong> Typical total losses range from 10-20% depending on conditions</li>
+                                        <li><strong>Capacity Factor:</strong> Ratio of actual output to theoretical maximum (15-25% typical)</li>
+                                        <li><strong>Performance Ratio:</strong> Ratio of actual to predicted output under real conditions</li>
+                                        <li><strong>Degradation Rate:</strong> Most modules degrade 0.5-1.0% per year</li>
                                     </ul>
                                 </div>
                             </div>

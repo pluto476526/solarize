@@ -9,7 +9,7 @@ from django.core.cache import cache
 from data_factory.database.manager import DataManager
 from data_factory.database.connection import DatabaseConnection
 from data_factory.pvwatts.simulator import PVWattsSimulator
-from data_factory.pvlib.fixed_mount_simulator import FixedMountSimulator
+from data_factory.pvlib import fixed_mount_simulator, specs_simulator
 from data_factory.pvlib import general_analyzer, seasonal_analyzer, financial_analysis
 from data_factory.pvlib import plots, timeseries
 from analytics import utils, array_storage
@@ -126,7 +126,7 @@ def fixed_mount_system_view(request):
     db = DataManager(conn)
 
     if request.method == "POST":
-        simulation_name = request.POST.get("name")
+        simulation_name = request.POST.get("name", "Fixed_Mount")
         description = request.POST.get("description")
         arrays_file = request.FILES.get('arrays_json')
         arrays_config = json.load(arrays_file) if arrays_file else {}
@@ -139,7 +139,7 @@ def fixed_mount_system_view(request):
 
         index = len(array_names)
         array_names[str(index)] = "MainArray"
-        array_storage.save_array_file(request.user, f"{simulation_name}_arrays.json", array_names)
+        array_storage.save_array_file(request.user, f"{simulation_name}_fms_arrays.json", array_names)
 
         timeframe_params = {
             "start_date": request.POST.get("start_date"),
@@ -164,7 +164,6 @@ def fixed_mount_system_view(request):
             "surface_tilt": request.POST.get("tilt"),
             "modules_per_string": request.POST.get("modules_per_string"),
             "strings": request.POST.get("strings"),
-            "total_arrays": request.POST.get("arrays"),
             "temp_model": request.POST.get("temp_model"),
             "temp_model_params": request.POST.get("temp_model_params"),
             "arrays_config": arrays_config,
@@ -183,7 +182,7 @@ def fixed_mount_system_view(request):
             "availability": request.POST.get("availability"),
         }
 
-        fms = FixedMountSimulator(
+        fms = fixed_mount_simulator.FixedMountSimulator(
             timeframe_params=timeframe_params,
             location_params=location_params,
             system_params=system_params,
@@ -207,9 +206,92 @@ def fixed_mount_system_view(request):
     return render(request, "analytics/fixed_mount_system.html", context)
 
 
+def spec_sheet_modelling_view(request):
+    conn = DatabaseConnection()
+    db = DataManager(conn)
+
+    if request.method == "POST":
+        simulation_name = request.POST.get("name", "Spec_Sheet")
+        description = request.POST.get("description")
+        arrays_file = request.FILES.get('arrays_json')
+        arrays_config = json.load(arrays_file) if arrays_file else {}
+
+        array_names = {}
+
+        for idx, arr in enumerate(arrays_config):
+            name = arr.get("name", f"Array_{idx}")
+            array_names[str(idx)] = name
+
+        index = len(array_names)
+        array_names[str(index)] = "MainArray"
+        array_storage.save_array_file(request.user, f"{simulation_name}_ssm_arrays.json", array_names)
+
+        timeframe_params = {
+            "start": request.POST.get("start_date"),
+            "end": request.POST.get("end_date"),
+            "timeframe": request.POST.get("timeframe", "hourly"),
+        }
+
+        location_params = {
+            "name": simulation_name,
+            "lat": request.POST.get("lat"),
+            "lon": request.POST.get("lon"),
+            "alt": request.POST.get("alt"),
+            "tz": request.POST.get("tz"),
+            "albedo": request.POST.get("albedo"),
+        }
+
+        system_params = {
+            "surface_azimuth": request.POST.get("azimuth"),
+            "surface_tilt": request.POST.get("tilt"),
+            "modules_per_string": request.POST.get("modules_per_string"),
+            "strings": request.POST.get("strings"),
+            "temp_model": request.POST.get("temp_model"),
+            "temp_model_params": request.POST.get("temp_model_params"),
+            "arrays_config": arrays_config,
+            "description": request.POST.get("description")
+        }
+
+        losses_params = {
+            "soiling": request.POST.get("soiling"),
+            "shading": request.POST.get("shading"),
+            "snow": request.POST.get("snow"),
+            "mismatch": request.POST.get("mismatch"),
+            "wiring": request.POST.get("wiring"),
+            "connections": request.POST.get("connections"),
+            "lid": request.POST.get("lid"),
+            "nameplate": request.POST.get("nameplate"),
+            "age": request.POST.get("age"),
+            "availability": request.POST.get("availability"),
+        }
+
+        sss = specs_simulator.SpecSheetSimulator(
+            timeframe_params=timeframe_params,
+            location_params=location_params,
+            system_params=system_params,
+            losses_params=losses_params
+        )
+
+        result = sss.run_simulation()
+        logger.debug(result)
+        # result_id = db.save_modelchain_result(
+        #     result=result,
+        #     array_names=array_names,
+        #     simulation_name=simulation_name,
+        #     description=description
+        # )
+
+        db.close()
+        messages.success(request, f"Configured system with {len(arrays_config)} arrays")
+        # request.session["modelchain_result"] = result_id
+        return redirect("modelchain_result")
+
+    context = {}
+    return render(request, "analytics/spec_sheet_modelling.html", context)
+
 def modelchain_result_view(request):
-    # report_id = request.session.get("pvlib_report", 7)
-    result_id = 10
+    # result_id = request.session.get("pvlib_report", 7)
+    result_id = 11
     
     if not result_id:
         return redirect(request.META.get('HTTP_REFERER', '/'))
@@ -324,10 +406,6 @@ def dual_axis_tracking_view(request):
     context = {}
     return render(request, "analytics/dual_axis_tracking.html", context)
 
-def spec_sheet_modelling_view(request):
-    context = {}
-    return render(request, "analytics/spec_sheet_modelling.html", context)
-
 def bifacial_system_view(request):
     context = {}
     return render(request, "analytics/bifacial_system.html", context)
@@ -359,11 +437,6 @@ def weather_view(request):
 def air_quality_view(request):
     context = {}
     return render(request, "analytics/air_quality.html", context)
-
-def machine_learning_view(request):
-    context = {}
-    return render(request, "analytics/machine_learning.html", context)
-
 
 def module_search(request):
     query = request.GET.get("q", "").lower()

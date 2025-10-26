@@ -242,39 +242,40 @@ def spec_sheet_modelling_view(request):
         }
 
         module_params = {
-            "pdc0": request.POST.get("pdc0"),
-            "v_mp": request.POST.get("v_mp"),
-            "i_mp": request.POST.get("i_mp"),
-            "v_oc": request.POST.get("v_oc"),
-            "i_sc": request.POST.get("i_sc"),
+            "pdc0": float(request.POST.get("pdc0")),
+            "v_mp": float(request.POST.get("v_mp")),
+            "i_mp": float(request.POST.get("i_mp")),
+            "v_oc": float(request.POST.get("v_oc")),
+            "i_sc": float(request.POST.get("i_sc")),
+        }
+
+        temp_coefficients = {
+            "alpha_sc": (float(request.POST.get("Isc")) / 100) * float(request.POST.get("i_sc")),
+            "beta_voc": (float(request.POST.get("voc")) / 100) * float(request.POST.get("v_oc")),
+            "gamma_pmp": float(request.POST.get("Pmax")),
         }
 
         inverter_params = {
-            "pdc0": request.POST.get("pdc0"),
-            "pdc_max": request.POST.get("pdc_max"),
-            "vdcmax": request.POST.get("vdcmax"),
-            "idcmax": request.POST.get("idcmax"),
+            "pdc0": float(request.POST.get("pdc")),
+            "eta_inv_nom": float(request.POST.get("eta_inv_nom")),
+            "eta_inv_ref": float(request.POST.get("eta_inv_ref")),
         }
 
-        temp_params = {
-            "a": request.POST.get("a"),
-            "b": request.POST.get("b"),
-            "deltaT": request.POST.get("deltaT")
-        }
 
         system_params = {
             "arrays_config": arrays_config,
             "module_params": module_params,
+            "temp_coefficients": temp_coefficients,
             "inverter_params": inverter_params,
-            "temp_params": temp_params,
             "module_type": request.POST.get("module_type", "glass_glass"),
+            "celltype": request.POST.get("celltype", "monoSi"),
             "surface_azimuth": request.POST.get("azimuth"),
             "surface_tilt": request.POST.get("tilt"),
             "modules_per_string": request.POST.get("modules_per_string"),
             "strings": request.POST.get("strings"),
             "temp_model": request.POST.get("temp_model"),
             "temp_model_params": request.POST.get("temp_model_params"),
-            "description": request.POST.get("description")
+            "description": request.POST.get("description"),
         }
 
         losses_params = {
@@ -299,16 +300,16 @@ def spec_sheet_modelling_view(request):
 
         result = sss.run_simulation()
         logger.debug(result)
-        # result_id = db.save_modelchain_result(
-        #     result=result,
-        #     array_names=array_names,
-        #     simulation_name=simulation_name,
-        #     description=description
-        # )
+        result_id = db.save_modelchain_result(
+            result=result,
+            array_names=array_names,
+            simulation_name=simulation_name,
+            description=description
+        )
 
         db.close()
         messages.success(request, f"Configured system with {len(arrays_config)} arrays")
-        # request.session["modelchain_result"] = result_id
+        request.session["modelchain_result"] = result_id
         return redirect("modelchain_result")
 
     context = {}
@@ -316,7 +317,7 @@ def spec_sheet_modelling_view(request):
 
 def modelchain_result_view(request):
     # result_id = request.session.get("pvlib_report", 7)
-    result_id = 11
+    result_id = 14
     
     if not result_id:
         return redirect(request.META.get('HTTP_REFERER', '/'))

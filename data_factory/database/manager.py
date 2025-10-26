@@ -111,7 +111,10 @@ class DataManager:
                     psycopg2.extras.execute_values(cur, query, records)
 
             # Insert all known fields with array-aware handling
-            if hasattr(result, "ac") and result.ac is not None:
+            if hasattr(result.ac, "ac") and result.ac is not None:
+                if isinstance(result, pd.DataFrame):
+                    insert_timeseries(result.ac, "ac_aoi")
+
                 insert_timeseries(result.ac.to_frame(name="ac"), "ac_aoi")
 
             if hasattr(result, "aoi") and result.aoi is not None:

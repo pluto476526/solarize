@@ -39,17 +39,19 @@ class SpecSheetSimulator:
         
         # System parameters
         self.module_type = system_params.get("module_type") # glass_glass, glass_polymer
+        self.celltype = system_params.get("celltype") #  monoSi, multiSi, polySi, cis, cigs, cdte, amorphous
         self.modules_per_string = int(system_params["modules_per_string"])
         self.strings = int(system_params["strings"])
         self.arrays = system_params.get("arrays_config", [])
         self.temp_model = system_params["temp_model"]
         self.temp_model_params = system_params["temp_model_params"]
         self.description = system_params["description"]
+        self.racking_model = system_params.get("racking_model", "open_rack") #open_rack, close_mount, insulated_back, freestanding, insulated
 
         # Custom component parameters
         self.custom_module_params = system_params.get("module_params")
         self.custom_inverter_params = system_params.get("inverter_params")
-        self.custom_temp_params = system_params.get("temp_params")
+        self.custom_temp_coefficients = system_params.get("temp_coefficients")
 
         # Losses parameters
         self.soiling = float(losses_params.get("soiling", 0))
@@ -78,15 +80,30 @@ class SpecSheetSimulator:
             tz=self.tz
         )
 
-    def _get_temperature_parameters(self) -> Dict:
-        """Get temperature model parameters.
+    def _get_CEC_params(self):
+        """Estimates parameters for the CEC single diode model (SDM) using the SAM SDK."""
+        I_L_ref, I_o_ref, R_s, R_sh_ref, a_ref, Adjust = pvlib.ivtools.sdm.fit_cec_sam(
+            celltype=self.celltype,
+            v_mp=self.custom_module_params.get("v_mp"),
+            i_mp=self.custom_module_params.get("i_mp"),
+            v_oc=self.custom_module_params.get("v_oc"),
+            i_sc=self.custom_module_params.get("i_sc"),
+            alpha_sc=self.custom_temp_coefficients.get("alpha_sc"),
+            beta_voc=self.custom_temp_coefficients.get("beta_voc"),
+            gamma_pmp=self.custom_temp_coefficients.get("gamma_pmp"),
+            cells_in_series=110,
+            temp_ref=25
+        )
 
-        Returns:
-            Dict: Temperature model parameters, custom or standard.
-        """
-        if self.custom_temp_params:
-            return self.custom_temp_params
-        return pvlib.temperature.TEMPERATURE_MODEL_PARAMETERS[self.temp_model][self.temp_model_params]
+        return {
+            "I_L_ref": I_L_ref,
+            "I_o_ref": I_o_ref,
+            "R_s": R_s,
+            "R_sh_ref": R_sh_ref,
+            "a_ref": a_ref,
+            "Adjust": Adjust,
+            "alpha_sc": self.custom_temp_coefficients["alpha_sc"]
+        }
 
     def _create_mount(self, array_config: Dict) -> pvlib.pvsystem.AbstractMount:
         """Create mount based on configuration.
@@ -150,10 +167,8 @@ class SpecSheetSimulator:
         Returns:
             pvlib.modelchain.ModelChain: Configured model chain for simulation.
         """
-        # Retrieve module and inverter parameters
-        module_params = self.custom_module_params
         inverter_params = self.custom_inverter_params
-        temp_parameters = self._get_temperature_parameters()
+        temp_parameters = pvlib.temperature.TEMPERATURE_MODEL_PARAMETERS[self.temp_model][self.temp_model_params]
 
         # System-wide losses
         loss_params = pvlib.pvsystem.pvwatts_losses(
@@ -182,7 +197,7 @@ class SpecSheetSimulator:
             "strings": self.strings,
             "albedo": self.albedo,
             "tracker_config": {},
-            "array_losses": {"mismatch": self.mismatch, "wiring": self.wiring}
+            "array_losses": {"mismatch": self.mismatch, "wiring": self.wiring},
         }
         self.arrays.append(main_array_config)
 
@@ -192,13 +207,13 @@ class SpecSheetSimulator:
             mount = self._create_mount(config)
             array_losses = config.get("array_losses", {"mismatch": self.mismatch, "wiring": self.wiring})
             albedo = float(config.get("albedo", self.albedo))
-            
+
             arr = pvlib.pvsystem.Array(
                 name=config["name"],
                 mount=mount,
                 albedo=albedo,
                 module_type=self.module_type,
-                module_parameters=module_params,
+                module_parameters=self._get_CEC_params(),
                 temperature_model_parameters=temp_parameters,
                 modules_per_string=int(config["modules_per_string"]),
                 strings=int(config["strings"]),
@@ -210,6 +225,7 @@ class SpecSheetSimulator:
         system = pvlib.pvsystem.PVSystem(
             arrays=arrays,
             inverter_parameters=inverter_params,
+            racking_model=self.racking_model,
             losses_parameters=loss_params
         )
 
@@ -219,6 +235,7 @@ class SpecSheetSimulator:
             system=system,
             location=self.create_location(),
             aoi_model=aoi_model,
+            dc_model="cec",
             spectral_model="no_loss",
             dc_ohmic_model="no_loss",
         )
@@ -265,36 +282,8 @@ class SpecSheetSimulator:
         
         mc = self.simulation_setup()
         mc.run_model(weather_data)
-        logger.info(f"Simulation completed successfully: {mc.results}")
-        return self.format_results(mc.results)
-
-    def get_system_summary(self) -> Dict:
-        """Get a summary of the system configuration.
-
-        Returns:
-            Dict: System configuration details.
-        """
-        summary = {
-            "system_type": "Advanced PV System",
-            "mount_type": self.mount_type,
-            "location": {
-                "name": self.name,
-                "latitude": self.lat,
-                "longitude": self.lon
-            },
-            "components": {
-                "custom_module": bool(self.custom_module_params),
-                "custom_inverter": bool(self.custom_inverter_params)
-            },
-            "configuration": {
-                "modules_per_string": self.modules_per_string,
-                "strings": self.strings,
-                "temperature_model": self.temp_model
-            }
-        }
-        if self.mount_type in ["single_axis", "dual_axis"]:
-            summary["tracker_config"] = self.mount_config
-        return summary
+        logger.info(f"Simulation completed successfully: {mc.results.ac.head()}")
+        return mc.results
 
 
 

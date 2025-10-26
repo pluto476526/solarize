@@ -126,25 +126,37 @@
                     </div>
                     <div class="card-body p-3">
                         <div class="row g-2">
-                            <div class="col-12">
+                            <div class="col-6">
                                 <label class="form-label small">Module Rated Power (W)</label>
-                                <input type="number" class="form-control form-control-sm" name="pdc0" value="330" step="0.1" required>
+                                <input type="number" class="form-control form-control-sm" name="pdc0" value="530" step="0.1" required>
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small">Cell Type</label>
+                                <select class="form-select form-select-sm" name="celltype" required>
+                                    <option value="monoSi" selected>Monocrystalline Silicon (mono-Si)</option>
+                                    <option value="multiSi">Multicrystalline Silicon (multi-Si)</option>
+                                    <option value="polySi">Polycrystalline Silicon (poly-Si)</option>
+                                    <option value="cis">Copper Indium Selenide (CIS)</option>
+                                    <option value="cigs">Copper Indium Gallium Selenide (CIGS)</option>
+                                    <option value="cdte">Cadmium Telluride (CdTe)</option>
+                                    <option value="amorphous">Amorphous Silicon (a-Si)</option>
+                                </select>
                             </div>
                             <div class="col-6">
                                 <label class="form-label small">Voltage at Maximum Power (V)</label>
-                                <input type="number" class="form-control form-control-sm" name="v_mp" value="37.2" step="0.1" required>
+                                <input type="number" class="form-control form-control-sm" name="v_mp" value="31.0" step="0.1" required>
                             </div>
                             <div class="col-6">
                                 <label class="form-label small">Current at Maximum Power (A)</label>
-                                <input type="number" class="form-control form-control-sm" name="i_mp" value="8.87" step="0.01" required>
+                                <input type="number" class="form-control form-control-sm" name="i_mp" value="17.11" step="0.01" required>
                             </div>
                             <div class="col-6">
                                 <label class="form-label small">Open Circuit Voltage (V)</label>
-                                <input type="number" class="form-control form-control-sm" name="v_oc" value="46.1" step="0.1" required>
+                                <input type="number" class="form-control form-control-sm" name="v_oc" value="37.3" step="0.1" required>
                             </div>
                             <div class="col-6">
                                 <label class="form-label small">Short Circuit Current (A)</label>
-                                <input type="number" class="form-control form-control-sm" name="i_sc" value="9.36" step="0.01" required>
+                                <input type="number" class="form-control form-control-sm" name="i_sc" value="18.19" step="0.01" required>
                             </div>
                         </div>
                     </div>
@@ -159,23 +171,24 @@
                     </div>
                     <div class="card-body p-3">
                         <div class="row g-2">
+                            <!-- pdc (numeric) – DC power. Same unit as pdc0. -->
                             <div class="col-12">
-                                <label class="form-label small">Inverter Rated DC Power (W)</label>
-                                <input type="number" class="form-control form-control-sm" name="pdc0" value="10000" step="1" required>
+                                <label class="form-label small">Max DC Input Power (pdc)</label>
+                                <input type="number" class="form-control form-control-sm" name="pdc" value="6000" step="1" required>
                             </div>
+                            <!-- Nominal inverter efficiency -->
                             <div class="col-6">
-                                <label class="form-label small">Maximum DC Power (W)</label>
-                                <input type="number" class="form-control form-control-sm" name="pdc_max" value="10500" step="1" required>
+                                <label class="form-label small">Nominal inverter efficiency</label>
+                                <input type="number" class="form-control form-control-sm" name="eta_inv_nom" value="0.96" step="0.001" required>
                             </div>
+
+                            <!-- Reference inverter efficiency -->
                             <div class="col-6">
-                                <label class="form-label small">Maximum DC Voltage (V)</label>
-                                <input type="number" class="form-control form-control-sm" name="vdcmax" value="600" step="1" required>
-                            </div>
-                            <div class="col-12">
-                                <label class="form-label small">Maximum DC Current (A)</label>
-                                <input type="number" class="form-control form-control-sm" name="idcmax" value="30" step="0.1" required>
+                                <label class="form-label small">Reference inverter efficiency</label>
+                                <input type="number" class="form-control form-control-sm" name="eta_inv_ref" value="0.9637" step="0.001" required>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -184,23 +197,23 @@
             <div class="col-lg-4">
                 <div class="card shadow-sm h-100 bg-secondary p-3">
                     <div class="">
-                        <h6 class="mb-0 text-warning px-3">Custom Temperature Parameters</h6>
+                        <h6 class="mb-0 text-warning px-3">Temperature Coefficients</h6>
                     </div>
                     <div class="card-body p-3">
                         <div class="row g-2">
                             <div class="col-4">
-                                <label class="form-label small">Temperature Coefficient A</label>
-                                <input type="number" class="form-control form-control-sm" name="a" value="-3.56" step="0.01" required>
+                                <label class="form-label small">Max Power Output (Pmax)</label>
+                                <input type="number" class="form-control form-control-sm" name="Pmax" value="-0.34" step="0.01">
                             </div>
                             <div class="col-4">
-                                <label class="form-label small">Temperature Coefficient B</label>
-                                <input type="number" class="form-control form-control-sm" name="b" value="-0.075" step="0.001" required>
+                                <label class="form-label small">Open Circuit Voltage (Voc)</label>
+                                <input type="number" class="form-control form-control-sm" name="voc" value="-0.25" step="0.01">
                             </div>
                             <div class="col-4">
-                                <label class="form-label small">Temperature Delta (ΔT)</label>
-                                <input type="number" class="form-control form-control-sm" name="deltaT" value="3" step="0.1" required>
+                                <label class="form-label small">Short circuit Current (isc)</label>
+                                <input type="number" class="form-control form-control-sm" name="Isc" value="0.04" step="0.01">
                             </div>
-                            <div class="col-12">
+                            <div class="col-6">
                                 <label class="form-label small">Temperature Model</label>
                                 <select class="form-select form-select-sm" name="temp_model" required>
                                     <option value="sapm" selected>SAPM</option>
@@ -208,6 +221,20 @@
                                     <option value="faiman">Faiman</option>
                                 </select>
                             </div>
+                            <div class="col-6">
+                                <label class="form-label small">Temperature Model Parameters</label>
+                                <select class="form-select form-select-sm" name="temp_model_params" required>
+                                    <option value="open_rack_glass_glass" selected>Open Rack - Glass/Glass</option>
+                                    <option value="open_rack_glass_polymer">Open Rack - Glass/Polymer</option>
+                                    <option value="insulated_back_glass_polymer">Insulated Back - Glass/Polymer</option>
+                                    <option value="close_mount_glass_polymer">Close Mount - Glass/Polymer</option>
+                                    <option value="roof_mount_glass_polymer">Roof Mount - Glass/Polymer</option>
+                                </select>
+
+                            </div>
+                            <small class="text-muted d-block mt-1">
+                                Note: The app ignores the custom parameters if you select a model and temperature parameters.
+                            </small>
                         </div>
                     </div>
                 </div>

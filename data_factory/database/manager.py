@@ -112,10 +112,12 @@ class DataManager:
 
             # Insert all known fields with array-aware handling
             if hasattr(result.ac, "ac") and result.ac is not None:
-                if isinstance(result, pd.DataFrame):
-                    insert_timeseries(result.ac, "ac_aoi")
+                if isinstance(result, Series):
+                    insert_timeseries(result.ac.to_frame(name="ac"), "ac_aoi")
 
-                insert_timeseries(result.ac.to_frame(name="ac"), "ac_aoi")
+            if hasattr(result.ac, "p_mp") and result.ac is not None:
+                result.ac = result.ac.rename(columns={"p_mp": "ac"})
+                insert_timeseries(result.ac, "ac_aoi")
 
             if hasattr(result, "aoi") and result.aoi is not None:
                 aoi_tuple = result.aoi if isinstance(result.aoi, tuple) else (result.aoi,)

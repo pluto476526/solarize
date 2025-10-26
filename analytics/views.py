@@ -316,8 +316,8 @@ def spec_sheet_modelling_view(request):
     return render(request, "analytics/spec_sheet_modelling.html", context)
 
 def modelchain_result_view(request):
-    # result_id = request.session.get("pvlib_report", 7)
-    result_id = 14
+    # result_id = request.session.get("pvlib_report")
+    result_id = 2
     
     if not result_id:
         return redirect(request.META.get('HTTP_REFERER', '/'))

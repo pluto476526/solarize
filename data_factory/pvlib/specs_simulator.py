@@ -168,6 +168,7 @@ class SpecSheetSimulator:
             pvlib.modelchain.ModelChain: Configured model chain for simulation.
         """
         inverter_params = self.custom_inverter_params
+        logger.debug(f"inverter_params: {inverter_params}")
         temp_parameters = pvlib.temperature.TEMPERATURE_MODEL_PARAMETERS[self.temp_model][self.temp_model_params]
 
         # System-wide losses
@@ -236,6 +237,7 @@ class SpecSheetSimulator:
             location=self.create_location(),
             aoi_model=aoi_model,
             dc_model="cec",
+            ac_model="pvwatts",
             spectral_model="no_loss",
             dc_ohmic_model="no_loss",
         )
@@ -282,7 +284,7 @@ class SpecSheetSimulator:
         
         mc = self.simulation_setup()
         mc.run_model(weather_data)
-        logger.info(f"Simulation completed successfully: {mc.results.ac.head()}")
+        logger.info(f"Simulation completed successfully, AC: {mc.results.ac.head()}")
         return mc.results
 
 

@@ -55,7 +55,8 @@ def _prepare_and_resample_data(df, param):
 
 def ac_aoi_chart(ac_aoi, array, param):
     """Plot the average daily AC power for a given array."""
-    data = ac_aoi[array]
+    array_idx = ac_aoi.columns[array] if isinstance(array, int) else array
+    data = ac_aoi[array_idx]
     daily_avg = _prepare_and_resample_data(data, param)
     title = f"{array}, Daily {param.upper()}"
     y_axis_title = f"{param.upper()} (W)"
@@ -64,7 +65,8 @@ def ac_aoi_chart(ac_aoi, array, param):
 
 def cell_temp_chart(cell_temp, array, param):
     """Plot cell temperature data."""
-    data = cell_temp[array]
+    array_idx = cell_temp.columns[array] if isinstance(array, int) else array
+    data = cell_temp[array_idx]
     daily_avg = _prepare_and_resample_data(data, param)
     title = f"{array}, Cell Temperature"
     return _plot_timeseries(daily_avg, title, "Temperature (°C)")
@@ -72,7 +74,8 @@ def cell_temp_chart(cell_temp, array, param):
 
 def dc_output_chart(dc_output, array, param):
     """Plot DC output parameters."""
-    data = dc_output[array]
+    array_idx = dc_output.columns[array] if isinstance(array, int) else array
+    data = dc_output[array_idx]
     daily_avg = _prepare_and_resample_data(data, param)
     title = f"{array}, {param.upper()}"
     return _plot_timeseries(daily_avg, title, f"{param} (W)")
@@ -80,14 +83,16 @@ def dc_output_chart(dc_output, array, param):
 
 def diode_params_chart(diode_params, array, param):
     """Plot diode parameters."""
-    data = diode_params[array]
+    array_idx = diode_params.columns[array] if isinstance(array, int) else array
+    data = diode_params[array_idx]
     daily_avg = _prepare_and_resample_data(data, param)
     return _plot_timeseries(daily_avg, f"{array}, {param.upper()}")
 
 
 def total_irradiance_chart(total_irradiance, array, param):
     """Plot total irradiance parameters."""
-    data = total_irradiance[array]
+    array_idx = total_irradiance.columns[array] if isinstance(array, int) else array
+    data = total_irradiance[array_idx]
     daily_avg = _prepare_and_resample_data(data, param)
     title = f"{array}, {param.upper()}"
     return _plot_timeseries(daily_avg, title, "Irradiance (W/m²)")

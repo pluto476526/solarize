@@ -53,6 +53,12 @@ CREATE TABLE IF NOT EXISTS ac_aoi (
     utc_time TIMESTAMPTZ NOT NULL,
     array_name TEXT,
     ac NUMERIC,
+    i_sc NUMERIC,
+    v_oc NUMERIC,
+    i_mp NUMERIC,
+    v_mp NUMERIC,
+    i_x NUMERIC,
+    i_xx NUMERIC,
     aoi NUMERIC,
     aoi_modifier NUMERIC,
     PRIMARY KEY (result_id, utc_time, array_name)

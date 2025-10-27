@@ -142,21 +142,3 @@ class FixedMountSimulator:
 
 
 
-
-
-
-
-
-
-
-# # Custom module specification
-# custom_module = {
-#     'pdc0': 400,  # DC power
-#     'v_mp': 40.5, # Voltage at max power
-#     'i_mp': 9.88, # Current at max power
-#     'v_oc': 48.5, # Open circuit voltage
-#     'i_sc': 10.45 # Short circuit current
-# }
-
-
-

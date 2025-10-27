@@ -3,6 +3,77 @@ from plotly.offline import plot
 import pandas as pd
 
 
+# def _get_array_data(df, array, param):
+#     """
+#     Get the parameter series for a given array (by name or index)
+#     from a DataFrame that may have multi-level or single-level columns.
+#     """
+#     if isinstance(df, pd.Series):
+#         return df  # already 1D data
+
+#     # Case 1: MultiIndex columns (array, param)
+#     if isinstance(df.columns, pd.MultiIndex):
+#         if isinstance(array, int):
+#             array = df.columns.levels[0][array]  # get array name by index
+#         if (array, param) in df.columns:
+#             return df[(array, param)]
+#         # fallback: try first array, given param
+#         first_array = df.columns.levels[0][0]
+#         return df.get((first_array, param), df.iloc[:, 0])
+
+#     # Case 2: Single-level columns (only parameters)
+#     if param in df.columns:
+#         return df[param]
+#     # fallback
+#     return df.iloc[:, 0]
+
+
+
+
+def _get_array_data(data, array, param=None):
+    """
+    Extracts a specific parameter column from simulation data.
+    Designed for tuples like (DataFrame,) or plain Series/DataFrame.
+
+    Parameters:
+        data: tuple | pd.DataFrame | pd.Series
+            Simulation data entry (usually (DataFrame,) as from simulation_data)
+        array: str | int
+            Ignored in this context (for compatibility with chart calls)
+        param: str
+            Column name to extract (e.g. 'ac', 'aoi', 'aoi_modifier')
+    """
+    # Unpack if tuple, e.g. (DataFrame,)
+    if isinstance(data, tuple):
+        data = data[0]
+
+    # --- Case 1: Series
+    if isinstance(data, pd.Series):
+        return data
+
+    # --- Case 2: DataFrame
+    if isinstance(data, pd.DataFrame):
+        if param in data.columns:
+            return data[param]
+
+    # --- Case 3: Anything else
+    raise TypeError(f"Unsupported data type: {type(data)}")
+
+
+def _prepare_and_resample_data(df, param):
+    """
+    Helper function to prepare data and resample to daily averages.
+    """
+    df = pd.DataFrame(df)
+    
+    # Resample to get daily averages if we have a datetime index
+    if isinstance(df.index, pd.DatetimeIndex):
+        return df[param].resample('D').mean()
+    else:
+        # Fallback if no datetime index
+        return df[param]
+
+
 def _plot_timeseries(series, title, y_axis_title=None):
     """
     Helper function to create a Plotly chart from a time series.
@@ -39,43 +110,26 @@ def _plot_timeseries(series, title, y_axis_title=None):
     return plot(fig, output_type="div", include_plotlyjs=False)
 
 
-def _prepare_and_resample_data(df, param):
-    """
-    Helper function to prepare data and resample to daily averages.
-    """
-    df = pd.DataFrame(df)
-    
-    # Resample to get daily averages if we have a datetime index
-    if isinstance(df.index, pd.DatetimeIndex):
-        return df[param].resample('D').mean()
-    else:
-        # Fallback if no datetime index
-        return df[param]
-
-
 def ac_aoi_chart(ac_aoi, array, param):
     """Plot the average daily AC power for a given array."""
-    array_idx = ac_aoi.columns[array] if isinstance(array, int) else array
-    data = ac_aoi[array_idx]
+    data = _get_array_data(ac_aoi, array, param)
     daily_avg = _prepare_and_resample_data(data, param)
     title = f"{array}, Daily {param.upper()}"
     y_axis_title = f"{param.upper()} (W)"
     return _plot_timeseries(daily_avg, title, y_axis_title)
 
 
-def cell_temp_chart(cell_temp, array, param):
+def cell_temp_chart(cell_temp, array):
     """Plot cell temperature data."""
-    array_idx = cell_temp.columns[array] if isinstance(array, int) else array
-    data = cell_temp[array_idx]
-    daily_avg = _prepare_and_resample_data(data, param)
+    data = _get_array_data(cell_temp, array, "temperature")
+    daily_avg = _prepare_and_resample_data(data, "temperature")
     title = f"{array}, Cell Temperature"
     return _plot_timeseries(daily_avg, title, "Temperature (°C)")
 
 
 def dc_output_chart(dc_output, array, param):
     """Plot DC output parameters."""
-    array_idx = dc_output.columns[array] if isinstance(array, int) else array
-    data = dc_output[array_idx]
+    data = _get_array_data(dc_output, array, param)
     daily_avg = _prepare_and_resample_data(data, param)
     title = f"{array}, {param.upper()}"
     return _plot_timeseries(daily_avg, title, f"{param} (W)")
@@ -83,16 +137,14 @@ def dc_output_chart(dc_output, array, param):
 
 def diode_params_chart(diode_params, array, param):
     """Plot diode parameters."""
-    array_idx = diode_params.columns[array] if isinstance(array, int) else array
-    data = diode_params[array_idx]
+    data = _get_array_data(diode_params, array, param)
     daily_avg = _prepare_and_resample_data(data, param)
     return _plot_timeseries(daily_avg, f"{array}, {param.upper()}")
 
 
 def total_irradiance_chart(total_irradiance, array, param):
     """Plot total irradiance parameters."""
-    array_idx = total_irradiance.columns[array] if isinstance(array, int) else array
-    data = total_irradiance[array_idx]
+    data = _get_array_data(total_irradiance, array, param)
     daily_avg = _prepare_and_resample_data(data, param)
     title = f"{array}, {param.upper()}"
     return _plot_timeseries(daily_avg, title, "Irradiance (W/m²)")

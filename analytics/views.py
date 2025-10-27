@@ -9,7 +9,7 @@ from django.core.cache import cache
 from data_factory.database.manager import DataManager
 from data_factory.database.connection import DatabaseConnection
 from data_factory.pvwatts.simulator import PVWattsSimulator
-from data_factory.pvlib import fixed_mount_simulator, specs_simulator
+from data_factory.pvlib import fixed_mount_simulator, specs_simulator, axis_tracking
 from data_factory.pvlib import general_analyzer, seasonal_analyzer, financial_analysis
 from data_factory.pvlib import plots, timeseries
 from analytics import utils, array_storage
@@ -167,6 +167,7 @@ def fixed_mount_system_view(request):
             "temp_model": request.POST.get("temp_model"),
             "temp_model_params": request.POST.get("temp_model_params"),
             "arrays_config": arrays_config,
+            "description": request.POST.get("description", "")
         }
 
         losses_params = {
@@ -299,7 +300,6 @@ def spec_sheet_modelling_view(request):
         )
 
         result = sss.run_simulation()
-        logger.debug(result)
         result_id = db.save_modelchain_result(
             result=result,
             array_names=array_names,
@@ -315,9 +315,103 @@ def spec_sheet_modelling_view(request):
     context = {}
     return render(request, "analytics/spec_sheet_modelling.html", context)
 
+
+
+def axis_tracking_view(request):
+    conn = DatabaseConnection()
+    db = DataManager(conn)
+
+    if request.method == "POST":
+        simulation_name = request.POST.get("name", "Single_Dual_Axis_Tracking")
+        description = request.POST.get("description")
+        arrays_file = request.FILES.get('arrays_json')
+        arrays_config = json.load(arrays_file) if arrays_file else {}
+
+        array_names = {}
+
+        for idx, arr in enumerate(arrays_config):
+            name = arr.get("name", f"Array_{idx}")
+            array_names[str(idx)] = name
+
+        index = len(array_names)
+        array_names[str(index)] = "MainArray"
+        array_storage.save_array_file(request.user, f"{simulation_name}_sdt_arrays.json", array_names)
+
+        timeframe_params = {
+            "start_date": request.POST.get("start_date"),
+            "end_date": request.POST.get("end_date"),
+            "timeframe": request.POST.get("timeframe", "hourly"),
+        }
+
+        location_params = {
+            "name": simulation_name,
+            "lat": request.POST.get("lat"),
+            "lon": request.POST.get("lon"),
+            "alt": request.POST.get("alt"),
+            "tz": request.POST.get("tz"),
+            "albedo": request.POST.get("albedo"),
+        }
+
+        system_params = {
+            "module": request.POST.get("module"),
+            "module_type": request.POST.get("module_type"),
+            "inverter": request.POST.get("inverter"),
+            "modules_per_string": request.POST.get("modules_per_string"),
+            "strings": request.POST.get("strings"),
+            "temp_model": request.POST.get("temp_model"),
+            "temp_model_params": request.POST.get("temp_model_params"),
+            "description": request.POST.get("description"),
+            "arrays_config": arrays_config
+        }
+
+        tracking_params = {
+            "axis_azimuth": request.POST.get("azimuth"),
+            "axis_tilt": request.POST.get("tilt"),
+            "max_angle": request.POST.get("max_angle"),
+            "backtrack": request.POST.get("backtrack"),
+            "gcr": request.POST.get("gcr")
+        }
+
+        losses_params = {
+            "soiling": request.POST.get("soiling"),
+            "shading": request.POST.get("shading"),
+            "snow": request.POST.get("snow"),
+            "mismatch": request.POST.get("mismatch"),
+            "wiring": request.POST.get("wiring"),
+            "connections": request.POST.get("connections"),
+            "lid": request.POST.get("lid"),
+            "nameplate": request.POST.get("nameplate"),
+            "age": request.POST.get("age"),
+            "availability": request.POST.get("availability"),
+        }
+
+        sdt = axis_tracking.SingleDualAxisTracker(
+            timeframe_params=timeframe_params,
+            location_params=location_params,
+            system_params=system_params,
+            tracking_params=tracking_params,
+            losses_params=losses_params
+        )
+
+        result = sdt.run_simulation()
+        result_id = db.save_modelchain_result(
+            result=result,
+            array_names=array_names,
+            simulation_name=simulation_name,
+            description=description
+        )
+
+        db.close()
+        messages.success(request, f"Configured system with {len(arrays_config)} arrays")
+        request.session["modelchain_result"] = result_id
+        return redirect("modelchain_result")
+    context = {}
+    return render(request, "analytics/axis_tracking.html", context)
+
+
 def modelchain_result_view(request):
     # result_id = request.session.get("pvlib_report")
-    result_id = 2
+    result_id = 9
     
     if not result_id:
         return redirect(request.META.get('HTTP_REFERER', '/'))
@@ -381,7 +475,7 @@ def modelchain_result_view(request):
 
     time_series = {
         "ac_aoi": timeseries.ac_aoi_chart(simulation_data["ac_aoi"], ac_aoi_array, ac_aoi_param),
-        "cell_temp": timeseries.cell_temp_chart(simulation_data["cell_temperature"], cell_temp_array, cell_temp_param),
+        "cell_temp": timeseries.cell_temp_chart(simulation_data["cell_temperature"], cell_temp_array),
         "dc_output": timeseries.dc_output_chart(simulation_data["dc"], dc_output_array, dc_output_param),
         "diode_params": timeseries.diode_params_chart(simulation_data["diode_params"], diode_params_array, diode_params_param),
         "irradiance": timeseries.total_irradiance_chart(simulation_data["irradiance"], irradiance_array, irradiance_param),
@@ -422,15 +516,6 @@ def modelchain_result_view(request):
     logger.debug(financial_metrics)
 
     return render(request, "analytics/modelchain_result.html", context)
-
-
-def single_axis_tracking_view(request):
-    context = {}
-    return render(request, "analytics/single_axis_tracking.html", context)
-
-def dual_axis_tracking_view(request):
-    context = {}
-    return render(request, "analytics/dual_axis_tracking.html", context)
 
 def bifacial_system_view(request):
     context = {}

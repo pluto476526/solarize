@@ -3,7 +3,8 @@ import pvlib
 import pandas as pd
 import logging
 
-from data_factory.pvlib import utils
+from data_factory.pvlib import utils, dual_axis_tracker_mount
+
 
 logger = logging.getLogger(__name__)
 
@@ -80,7 +81,7 @@ class SpecSheetSimulator:
             tz=self.tz
         )
 
-    def _get_CEC_params(self):
+    def _get_CEC_params(self) -> Dict:
         """Estimates parameters for the CEC single diode model (SDM) using the SAM SDK."""
         I_L_ref, I_o_ref, R_s, R_sh_ref, a_ref, Adjust = pvlib.ivtools.sdm.fit_cec_sam(
             celltype=self.celltype,
@@ -143,20 +144,8 @@ class SpecSheetSimulator:
                 gcr=gcr
             )
         
-        elif mount_type == "dual_axis":
-            axis_tilt = float(tracker_config.get("axis_tilt", 0))
-            axis_azimuth = float(tracker_config.get("axis_azimuth", 0))
-            max_rotation = float(tracker_config.get("max_rotation", 360))
-            
-            return pvlib.pvsystem.DualAxisTrackerMount(
-                axis_tilt=axis_tilt,
-                axis_azimuth=axis_azimuth,
-                max_rotation=max_rotation
-            )
-        
-        elif mount_type == "custom" and self.custom_mount_params:
-            logger.info("Using custom mount configuration")
-            return pvlib.pvsystem.FixedMount(surface_tilt=surface_tilt, surface_azimuth=surface_azimuth)
+        elif mount_type == "dual_axis":            
+            return dual_axis_tracker_mount.DualAxisTrackerMount()
         
         else:
             logger.error(f"Invalid mount type: {mount_type}")
@@ -167,8 +156,6 @@ class SpecSheetSimulator:
         Returns:
             pvlib.modelchain.ModelChain: Configured model chain for simulation.
         """
-        inverter_params = self.custom_inverter_params
-        logger.debug(f"inverter_params: {inverter_params}")
         temp_parameters = pvlib.temperature.TEMPERATURE_MODEL_PARAMETERS[self.temp_model][self.temp_model_params]
 
         # System-wide losses
@@ -225,7 +212,7 @@ class SpecSheetSimulator:
         # Combine into PVSystem
         system = pvlib.pvsystem.PVSystem(
             arrays=arrays,
-            inverter_parameters=inverter_params,
+            inverter_parameters=self.custom_inverter_params,
             racking_model=self.racking_model,
             losses_parameters=loss_params
         )
@@ -284,7 +271,6 @@ class SpecSheetSimulator:
         
         mc = self.simulation_setup()
         mc.run_model(weather_data)
-        logger.info(f"Simulation completed successfully, AC: {mc.results.ac.head()}")
         return mc.results
 
 

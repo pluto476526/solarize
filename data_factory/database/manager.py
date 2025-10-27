@@ -111,13 +111,27 @@ class DataManager:
                     psycopg2.extras.execute_values(cur, query, records)
 
             # Insert all known fields with array-aware handling
-            if hasattr(result.ac, "ac") and result.ac is not None:
-                if isinstance(result, Series):
-                    insert_timeseries(result.ac.to_frame(name="ac"), "ac_aoi")
+            # if hasattr(result.ac, "ac") and result.ac is not None:
+            #     if isinstance(result, Series):
+            #         insert_timeseries(result.ac.to_frame(name="ac"), "ac_aoi")
 
-            if hasattr(result.ac, "p_mp") and result.ac is not None:
-                result.ac = result.ac.rename(columns={"p_mp": "ac"})
-                insert_timeseries(result.ac, "ac_aoi")
+            # if hasattr(result.ac, "p_mp") and result.ac is not None:
+            #     result.ac = result.ac.rename(columns={"p_mp": "ac"})
+            #     insert_timeseries(result.ac, "ac_aoi")
+            
+            # Insert all known fields with array-aware handling
+            if result.ac is not None:
+                # Handle Series case
+                if isinstance(result.ac, pd.Series):
+                    insert_timeseries(result.ac.to_frame(name="ac"), "ac_aoi")
+                # Handle DataFrame case
+                elif isinstance(result.ac, pd.DataFrame):
+                    if "p_mp" in result.ac.columns:
+                        df = result.ac.rename(columns={"p_mp": "ac"})
+                        insert_timeseries(df, "ac_aoi")
+                    elif "ac" in result.ac.columns:
+                        insert_timeseries(result.ac, "ac_aoi")
+
 
             if hasattr(result, "aoi") and result.aoi is not None:
                 aoi_tuple = result.aoi if isinstance(result.aoi, tuple) else (result.aoi,)

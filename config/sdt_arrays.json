@@ -1,7 +1,7 @@
 [  
   {
     "name": "FixedArrayNorth",
-    "mount_type": "fixed",
+    "mount_type": "dual_axis",
     "surface_tilt": 30,
     "surface_azimuth": 180,
     "modules_per_string": 10,
@@ -41,27 +41,10 @@
     "modules_per_string": 10,
     "strings": 3,
     "albedo": 0.3,
-    "tracker_config": {
-      "axis_tilt": 0,
-      "axis_azimuth": 180,
-      "max_rotation": 270
-    },
+    "tracker_config": {},
     "array_losses": {
       "mismatch": 0.018,
       "wiring": 0.009
-    }
-  },
-  {
-    "name": "CustomFixedArray",
-    "mount_type": "fixed",
-    "surface_tilt": 25,
-    "surface_azimuth": 170,
-    "modules_per_string": 9,
-    "strings": 4,
-    "albedo": 0.29,
-    "array_losses": {
-      "mismatch": 0.017,
-      "wiring": 0.007
     }
   }
 ]

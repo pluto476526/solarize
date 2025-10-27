@@ -1,0 +1,419 @@
+{% extends 'analytics/main.html' %}
+{% load static %}
+
+{% block main %}
+
+<!-- Content Start -->
+<div class="content">
+    <!-- Navbar Start -->
+    {% include 'analytics/nav.html' %}
+    <!-- Navbar End -->
+
+
+    <div class="container-fluid px-3">
+        <!-- Header -->
+
+        <div class="row mb-3 mt-2 g-2">
+            <div class="col-12 col-lg-6">
+                <div class="card shadow-sm bg-secondary h-100 p-3">
+                    <h1 class="h3 text-primary my-3"><i class="fas fa-sync-alt me-2"></i>Single-Axis Tracking System Simulation</h1>
+                    <p class="text-muted small">Single-axis tracking systems dynamically rotate throughout the day to maintain optimal orientation toward the sun, typically following the sun's east-to-west daily path. These advanced systems represent a significant evolution beyond fixed mounting. They employ mechanical tracking mechanisms that can increase energy production by 15-25% compared to optimally tilted fixed arrays. The simulation captures the complex interplay between mechanical movement, changing sun angles, and the resulting energy harvest improvements throughout diurnal and seasonal cycles.</p>
+                    
+                    <p class="text-muted small">PVLib approaches single-axis tracking simulation through sophisticated algorithms that calculate optimal rotation angles minute-by-minute based on precise solar geometry calculations. The library implements backtracking routines that prevent inter-row shading during morning and evening hours by intentionally misaligning trackers when the sun's low angle would cause shadowing. PVLib models the complete operational sequence including stowing behavior during high wind conditions or nighttime, and restart protocols at dawn. The simulation incorporates mechanical constraints such as rotation limits, movement speed, and power consumption of tracking motors to generate realistic net energy gain calculations.</p>
+                    
+                    <p class="text-muted small">The comprehensive single-axis tracking simulation provides crucial decision-support for determining when the additional complexity and cost of tracking technology delivers sufficient economic returns. Project developers can accurately quantify the energy gain differential between fixed and tracking systems specific to their location and climate conditions.</p>
+                </div>
+            </div>
+
+            <div class="col-12 col-lg-6">
+                <div class="card shadow-sm bg-secondary h-100 p-3">
+                    <h1 class="h3 text-primary my-3"><i class="fas fa-sync me-2"></i>Dual-Axis Tracking System Simulation</h1>
+                    <p class="text-muted small">Dual-axis tracking systems are the most advanced category of solar tracking technology. The arrays maintain perfect perpendicular orientation to the sun throughout both daily and seasonal movement patterns. These sophisticated systems adjust in both azimuth (compass direction) and altitude (elevation angle) dimensions, achieving maximum possible irradiance capture under clear sky conditions. Dual-axis tracking is particularly valuable for high-concentration photovoltaic systems and applications where land constraints demand maximum energy density from limited area.</p>
+                    
+                    <p class="text-muted small">Within PVLib, dual-axis tracking simulation employs precise astronomical calculations to determine the sun's exact position in both azimuth and altitude coordinates throughout the year. The library models the continuous adjustment of panel orientation to maintain optimal alignment, calculating the incremental energy gains from perfect sun-following capability. PVLib incorporates the additional mechanical complexity through more sophisticated movement algorithms, increased energy consumption for dual-motor systems, and enhanced stowing protocols for extreme weather conditions. The simulation accounts for the unique shading patterns that emerge from constantly changing array geometry and their impact on overall system performance.</p>
+                    
+                    <p class="text-muted small">Research institutions utilize these simulations to quantify the maximum theoretical energy harvest potential for comparison against practical system configurations.</p>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- Compact Form Layout -->
+        <form method="post" class="row g-3" enctype="multipart/form-data">
+            {% csrf_token %}
+            <!-- Location Parameters -->
+            <div class="col-lg-4">
+                <div class="card shadow-sm h-100 bg-secondary p-3">
+                    <div class="">
+                        <h6 class="mb-0 text-warning px-3"></i>Location</h6>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="row g-2">
+                            <div class="col-6">
+                                <label class="form-label small">Latitude</label>
+                                <input type="number" class="form-control form-control-sm" name="lat" value="-1.286389" step="any">
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small">Longitude</label>
+                                <input type="number" class="form-control form-control-sm" name="lon" value="36.817223" step="any">
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small">Altitude (m)</label>
+                                <input type="number" class="form-control form-control-sm" name="alt" value="0" step="any">
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small">Timezone</label>
+                                <select class="form-select form-select-sm" name="tz">
+                                    <option selected value="Africa/Nairobi">Africa/Nairobi</option>
+                                    <option>UTC</option>
+                                </select>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label small">Location/Simulation Name</label>
+                                <input type="text" class="form-control form-control-sm" name="name" value="Nairobi">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- System Configuration -->
+            <div class="col-lg-4">
+                <div class="card shadow-sm h-100 bg-secondary p-3">
+                    <div class="">
+                        <h6 class="mb-0 text-warning px-3">System Configuration</h6>
+                    </div>
+                    <div class="card-body p-3">
+                        <div class="row g-2">
+                            <div class="col-12">
+                                <label class="form-label small">PV Module</label>
+                                <input 
+                                    type="text" 
+                                    id="module-input" 
+                                    name="module" 
+                                    list="module-list"
+                                    autocomplete="off"
+                                    class="form-control form-control-sm"
+                                    placeholder="Type to search..."
+                                >
+                                <datalist id="module-list"></datalist>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label small">Module Type</label>
+                                <select class="form-select form-select-sm" name="module_type">
+                                    <option value="glass_polymer" selected>Glass Polymer</option>
+                                    <option value="glass_glass">Glass Glass</option>
+                                </select>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label small">Inverter</label>
+                                <input 
+                                    type="text" 
+                                    id="inverter-input" 
+                                    name="inverter" 
+                                    list="inverter-list"
+                                    autocomplete="off"
+                                    class="form-control form-control-sm"
+                                    placeholder="Type to search..."
+                                >
+                                <datalist id="inverter-list"></datalist>
+                            </div>                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Array Configuration -->
+            <div class="col-lg-4">
+                <div class="card shadow-sm h-100 bg-secondary p-3">
+                    <div class="">
+                        <h6 class="mb-0 text-warning px-3">Array Configuration</h6>
+                    </div>
+                    <div class="card-body p-3">
+                        <div class="row g-2">
+                            <div class="col-4">
+                                <label class="form-label small">Modules per String</label>
+                                <input type="number" name="modules_per_string" class="form-control form-control-sm" value="1">
+                            </div>
+                            <div class="col-4">
+                                <label class="form-label small">Number of Strings</label>
+                                <input type="number" name="strings" class="form-control form-control-sm" value="1">
+                            </div>
+                            <div class="col-4">
+                              <label for="arrays_json" class="form-label small mb-1">Extra Arrays</label>
+                              <div class="input-group">
+                                <label class="btn btn-warning btn-sm mb-0" for="arrays_json">
+                                  <i class="fas fa-bolt me-1"></i> <span id="file-name">Upload JSON file</span>
+                                </label>
+                                <input id="arrays_json" type="file" name="arrays_json" class="d-none" accept=".json">
+                              </div>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label small">System Description</label>
+                                <textarea class="form-control" placeholder="Short system description" name="description" style="height: 100px;"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Loss Parameters -->
+            <div class="col-lg-4">
+                <div class="card shadow-sm h-100 bg-secondary p-3">
+                    <div class="">
+                        <h6 class="mb-0 text-warning px-3">System Loss Parameters (%)</h6>
+                    </div>
+                    <div class="card-body p-3">
+                        <div class="row g-2">
+                            <div class="col-6">
+                                <label class="form-label small">Soiling Losses</label>
+                                <input type="number" class="form-control form-control-sm" name="soiling" value="2" min="0" max="100" step="0.1">
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small">Shading Losses</label>
+                                <input type="number" class="form-control form-control-sm" name="shading" value="3" min="0" max="100" step="0.1">
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small">Snow Coverage Losses</label>
+                                <input type="number" class="form-control form-control-sm" name="snow" value="0" min="0" max="100" step="0.1">
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small">Module Mismatch Losses</label>
+                                <input type="number" class="form-control form-control-sm" name="mismatch" value="2" min="0" max="100" step="0.1">
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small">Wiring Losses</label>
+                                <input type="number" class="form-control form-control-sm" name="wiring" value="2" min="0" max="100" step="0.1">
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small">Connection Losses</label>
+                                <input type="number" class="form-control form-control-sm" name="connections" value="0.5" min="0" max="100" step="0.1">
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small">Light Induced Degradation (LID)</label>
+                                <input type="number" class="form-control form-control-sm" name="lid" value="1.5" min="0" max="100" step="0.1">
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small">Nameplate Rating Losses</label>
+                                <input type="number" class="form-control form-control-sm" name="nameplate" value="1" min="0" max="100" step="0.1">
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small">Age Related Degradation</label>
+                                <input type="number" class="form-control form-control-sm" name="age" value="0.5" min="0" max="100" step="0.1">
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small">System Availability</label>
+                                <input type="number" class="form-control form-control-sm" name="availability" value="98" min="0" max="100" step="0.1">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tracking Configuration -->
+            <div class="col-lg-4">
+                <div class="card shadow-sm h-100 bg-secondary p-3">
+                    <h6 class="mb-3 text-warning px-2">Single Axis Tracking Configuration</h6>
+                    <div class="card-body p-2">
+                        <div class="row g-2">
+                            <div class="col-6">
+                                <label class="form-label small">Axis Azimuth (°)</label>
+                                <input type="number" class="form-control form-control-sm" name="azimuth" value="180" min="0" max="360">
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small">Axis Tilt (°)</label>
+                                <input type="number" class="form-control form-control-sm" name="tilt" value="20" min="0" max="90">
+                            </div>
+                            <!-- Maximum Rotation Angle -->
+                            <div class="col-12">
+                                <label class="form-label small">Maximum Rotation Angle (°)</label>
+                                <input type="number" name="max_angle" class="form-control form-control-sm" value="90" step="0.1" min="0" max="180">
+                            </div>
+
+                            <!-- Backtracking Enabled -->
+                            <div class="col-12">
+                                <label class="form-label small">Backtracking</label>
+                                <select class="form-select form-select-sm" name="backtrack">
+                                    <option value="True" selected>Enabled</option>
+                                    <option value="False">Disabled</option>
+                                </select>
+                            </div>
+
+                            <!-- Ground Coverage Ratio -->
+                            <div class="col-12">
+                                <label class="form-label small">Ground Coverage Ratio (GCR)</label>
+                                <input type="number" name="gcr" class="form-control form-control-sm" value="0.4" step="0.01" min="0" max="1">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Simulation Parameters -->
+            <div class="col-lg-4">
+                <div class="card shadow-sm h-100 bg-secondary p-3">
+                    <div class="">
+                        <h6 class="mb-0 text-warning px-3">Simulation Parameters</h6>
+                    </div>
+                    <div class="card-body p-3">
+                        <div class="row g-2">                          
+                            <div class="col-6">
+                                <label class="form-label small">Start Date</label>
+                                <input type="date" class="form-control form-control-sm" name="start_date" value="2023-01-01">
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small">Temperature Model</label>
+                                <select class="form-select form-select-sm" name="temp_model">
+                                    <option value="sapm" selected>SAPM</option>
+                                    <option value="pvsyst">PVsyst</option>
+                                    <option value="faiman">Faiman</option>
+                                </select>
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small">End Date</label>
+                                <input type="date" class="form-control form-control-sm" name="end_date" value="2023-12-31">
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small">Temperature Model Parameters</label>
+                                <select class="form-select form-select-sm" name="temp_model_params">
+                                    <option value="open_rack_glass_glass" selected>Open Rack - Glass/Glass</option>
+                                    <option value="open_rack_glass_polymer">Open Rack - Glass/Polymer</option>
+                                    <option value="insulated_back_glass_polymer">Insulated Back - Glass/Polymer</option>
+                                    <option value="close_mount_glass_polymer">Close Mount - Glass/Polymer</option>
+                                    <option value="roof_mount_glass_polymer">Roof Mount - Glass/Polymer</option>
+                                </select>
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small">Timeframe</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="timeframe" value="hourly" checked>
+                                    <label class="form-check-label small">Hourly</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="timeframe" value="daily">
+                                    <label class="form-check-label small">Daily</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="timeframe" value="monthly">
+                                    <label class="form-check-label small">Monthly</label>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small">Albedo</label>
+                                <input type="number" name="albedo" class="form-control form-control-sm" value="0.25">
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <div class="d-flex justify-content-end gap-2">
+                                    <button type="button" class="btn btn-outline-primary btn-sm">
+                                        <i class="fas fa-redo me-1"></i>Reset
+                                    </button>
+                                    <button type="submit" class="btn btn-warning btn-sm">
+                                        <i class="fas fa-bolt me-1"></i>Run Simulation
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <!-- Compact Documentation -->
+        <div class="row mt-3">
+            <div class="col-12">
+                <div class="card shadow-sm bg-secondary">
+                   <div class="text-center rounded p-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h6 class="mb-0 text-warning px-3"><i class="fas fa-book me-1"></i>PVLib Parameters Documentation</h6>
+                            <button class="btn btn-sm btn-outline-light" type="button" data-bs-toggle="collapse" data-bs-target="#docsCollapse">
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="collapse show" id="docsCollapse">
+                        <div class="card-body p-3">
+                            <div class="row g-3">
+                                <div class="col-md-4">
+                                    <h6 class="text-primary">Location Parameters</h6>
+                                    <ul class="small ps-3">
+                                        <li><strong>Latitude & Longitude:</strong> Geographic coordinates in decimal degrees</li>
+                                        <li><strong>Altitude:</strong> Elevation above sea level in meters</li>
+                                        <li><strong>Timezone:</strong> Local timezone for proper time alignment</li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-4">
+                                    <h6 class="text-primary">System Configuration</h6>
+                                    <ul class="small ps-3">
+                                        <li><strong>Capacity:</strong> Total DC power rating in kW</li>
+                                        <li><strong>Azimuth:</strong> Panel direction (0°=North, 180°=South)</li>
+                                        <li><strong>Tilt:</strong> Panel inclination from horizontal</li>
+                                        <li><strong>Array Type:</strong> Mounting configuration</li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-4">
+                                    <h6 class="text-primary">Loss Parameters</h6>
+                                    <ul class="small ps-3">
+                                        <li><strong>Soiling:</strong> Dirt/dust on panels (2-5%)</li>
+                                        <li><strong>Shading:</strong> Shadows from nearby objects</li>
+                                        <li><strong>Mismatch:</strong> Electrical mismatch between modules</li>
+                                        <li><strong>Wiring:</strong> Resistance losses (1-3%)</li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-4">
+                                    <h6 class="text-primary">Temperature</h6>
+                                    <ul class="small ps-3">
+                                        <li><strong>Temp Model:</strong> Algorithm for module temperature</li>
+                                        <li><strong>Wind Speed:</strong> For convective cooling calculations</li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-4">
+                                    <h6 class="text-primary">Simulation</h6>
+                                    <ul class="small ps-3">
+                                        <li><strong>Timeframe:</strong> Resolution of results</li>
+                                        <li><strong>Weather Data:</strong> Source of meteorological data</li>
+                                        <li><strong>Albedo:</strong> Ground reflectance coefficient</li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-4">
+                                    <h6 class="text-primary">Module Types</h6>
+                                    <ul class="small ps-3">
+                                        <li><strong>Standard:</strong> Typical silicon (15-17% efficiency)</li>
+                                        <li><strong>Premium:</strong> High-efficiency (19-22%)</li>
+                                        <li><strong>Thin Film:</strong> Lightweight (10-13%)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <!-- Footer Start -->
+    <div class="container-fluid pt-4 px-4">
+        <div class="bg-secondary rounded-top p-4">
+            <div class="row">
+                <div class="col-12 col-sm-6 text-center text-sm-start">
+                    &copy; <a href="#">Solarize Solar Forecasting</a>, All Rights Reserved. 
+                </div>
+                <div class="col-12 col-sm-6 text-center text-sm-end">
+                    AI-Powered Solar Energy Predictions
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer End -->
+</div>
+<!-- Content End -->
+
+
+{% endblock %}

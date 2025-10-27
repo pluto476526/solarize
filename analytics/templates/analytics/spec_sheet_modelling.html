@@ -24,9 +24,8 @@
         </div>
 
         <!-- Compact Form Layout -->
-        <form method="post" class="row g-3">
+        <form method="post" class="row g-3" enctype="multipart/form-data">
             {% csrf_token %}
-            
             <!-- Location Parameters -->
             <div class="col-lg-4">
                 <div class="card shadow-sm h-100 bg-secondary p-3">
@@ -119,13 +118,15 @@
 
 
             <!-- Custom Module Parameters -->
-            <div class="col-lg-4">
+            <div class="col-12 col-lg-4">
                 <div class="card shadow-sm h-100 bg-secondary p-3">
-                    <div class="">
-                        <h6 class="mb-0 text-warning px-3">Custom Module Parameters</h6>
-                    </div>
-                    <div class="card-body p-3">
-                        <div class="row g-2">
+                    <!-- Header -->
+                    <h6 class="mb-3 text-warning px-2">Module Parameters</h6>
+
+                    <!-- Card Body -->
+                    <div class="card-body p-2">
+                        <!-- Electrical Parameters -->
+                        <div class="row g-2 mb-3">
                             <div class="col-6">
                                 <label class="form-label small">Module Rated Power (W)</label>
                                 <input type="number" class="form-control form-control-sm" name="pdc0" value="530" step="0.1" required>
@@ -142,6 +143,7 @@
                                     <option value="amorphous">Amorphous Silicon (a-Si)</option>
                                 </select>
                             </div>
+
                             <div class="col-6">
                                 <label class="form-label small">Voltage at Maximum Power (V)</label>
                                 <input type="number" class="form-control form-control-sm" name="v_mp" value="31.0" step="0.1" required>
@@ -150,6 +152,7 @@
                                 <label class="form-label small">Current at Maximum Power (A)</label>
                                 <input type="number" class="form-control form-control-sm" name="i_mp" value="17.11" step="0.01" required>
                             </div>
+
                             <div class="col-6">
                                 <label class="form-label small">Open Circuit Voltage (V)</label>
                                 <input type="number" class="form-control form-control-sm" name="v_oc" value="37.3" step="0.1" required>
@@ -159,15 +162,33 @@
                                 <input type="number" class="form-control form-control-sm" name="i_sc" value="18.19" step="0.01" required>
                             </div>
                         </div>
+
+                        <!-- Temperature Coefficients -->
+                        <h6 class="mb-2 text-warning">Temperature Coefficients</h6>
+                        <div class="row g-2">
+                            <div class="col-4">
+                                <label class="form-label small">Max Power Output (Pmax)</label>
+                                <input type="number" class="form-control form-control-sm" name="Pmax" value="-0.34" step="0.01">
+                            </div>
+                            <div class="col-4">
+                                <label class="form-label small">Open Circuit Voltage (Voc)</label>
+                                <input type="number" class="form-control form-control-sm" name="voc" value="-0.25" step="0.01">
+                            </div>
+                            <div class="col-4">
+                                <label class="form-label small">Short Circuit Current (Isc)</label>
+                                <input type="number" class="form-control form-control-sm" name="Isc" value="0.04" step="0.01">
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+
 
             <!-- Custom Inverter Parameters -->
             <div class="col-lg-4">
                 <div class="card shadow-sm h-100 bg-secondary p-3">
                     <div class="">
-                        <h6 class="mb-0 text-warning px-3">Custom Inverter Parameters</h6>
+                        <h6 class="mb-0 text-warning px-3">Inverter Parameters</h6>
                     </div>
                     <div class="card-body p-3">
                         <div class="row g-2">
@@ -177,14 +198,14 @@
                                 <input type="number" class="form-control form-control-sm" name="pdc" value="6000" step="1" required>
                             </div>
                             <!-- Nominal inverter efficiency -->
-                            <div class="col-6">
-                                <label class="form-label small">Nominal inverter efficiency</label>
+                            <div class="col-12">
+                                <label class="form-label small">Nominal Inverter Efficiency</label>
                                 <input type="number" class="form-control form-control-sm" name="eta_inv_nom" value="0.96" step="0.001" required>
                             </div>
 
                             <!-- Reference inverter efficiency -->
-                            <div class="col-6">
-                                <label class="form-label small">Reference inverter efficiency</label>
+                            <div class="col-12">
+                            <label class="form-label small">Reference Inverter Efficiency</label>
                                 <input type="number" class="form-control form-control-sm" name="eta_inv_ref" value="0.9637" step="0.001" required>
                             </div>
                         </div>
@@ -197,33 +218,33 @@
             <div class="col-lg-4">
                 <div class="card shadow-sm h-100 bg-secondary p-3">
                     <div class="">
-                        <h6 class="mb-0 text-warning px-3">Temperature Coefficients</h6>
+                        <h6 class="mb-0 text-warning px-3">Temperature Model Parameters</h6>
                     </div>
                     <div class="card-body p-3">
                         <div class="row g-2">
-                            <div class="col-4">
-                                <label class="form-label small">Max Power Output (Pmax)</label>
-                                <input type="number" class="form-control form-control-sm" name="Pmax" value="-0.34" step="0.01">
+                            <div class="col-md-4">
+                                <label class="form-label small">Coefficient A (Heat Transfer Coefficient)</label>
+                                <input type="number" class="form-control form-control-sm" name="temp_coeff_a" value="-0.34" step="0.01">
                             </div>
-                            <div class="col-4">
-                                <label class="form-label small">Open Circuit Voltage (Voc)</label>
-                                <input type="number" class="form-control form-control-sm" name="voc" value="-0.25" step="0.01">
+                            <div class="col-md-4">
+                                <label class="form-label small">Coefficient B (Wind Dependence Factor)</label>
+                                <input type="number" class="form-control form-control-sm" name="temp_coeff_b" value="-0.25" step="0.01">
                             </div>
-                            <div class="col-4">
-                                <label class="form-label small">Short circuit Current (isc)</label>
-                                <input type="number" class="form-control form-control-sm" name="Isc" value="0.04" step="0.01">
+                            <div class="col-md-4">
+                                <label class="form-label small">Delta T (Temperature Offset)</label>
+                                <input type="number" class="form-control form-control-sm" name="delta_t" value="0.04" step="0.01">
                             </div>
-                            <div class="col-6">
+                            <div class="col-12">
                                 <label class="form-label small">Temperature Model</label>
                                 <select class="form-select form-select-sm" name="temp_model" required>
-                                    <option value="sapm" selected>SAPM</option>
-                                    <option value="pvsyst">PVsyst</option>
-                                    <option value="faiman">Faiman</option>
+                                    <option value="sapm" selected>SAPM (Sandia Model)</option>
+                                    <option value="pvsyst">PVsyst Model</option>
+                                    <option value="faiman">Faiman Model</option>
                                 </select>
                             </div>
-                            <div class="col-6">
+                            <div class="col-12">
                                 <label class="form-label small">Temperature Model Parameters</label>
-                                <select class="form-select form-select-sm" name="temp_model_params" required>
+                                <select class="form-select form-select-sm" name="temp_model_params">
                                     <option value="open_rack_glass_glass" selected>Open Rack - Glass/Glass</option>
                                     <option value="open_rack_glass_polymer">Open Rack - Glass/Polymer</option>
                                     <option value="insulated_back_glass_polymer">Insulated Back - Glass/Polymer</option>
@@ -233,7 +254,7 @@
 
                             </div>
                             <small class="text-muted d-block mt-1">
-                                Note: The app ignores the custom parameters if you select a model and temperature parameters.
+                                Note: The app ignores the default temperature parameters selected if custom parameters are provided.
                             </small>
                         </div>
                     </div>
@@ -301,6 +322,17 @@
                     </div>
                     <div class="card-body p-3">
                         <div class="row g-2">
+                            <!-- Data Source Selection -->
+                            <div class="col-12">
+                                <label class="form-label small">Data Source</label>
+                                <select class="form-select form-select-sm" name="data_source" required>
+                                    <option value="pvgis">PVGIS</option>
+                                    <option value="nasa_power">NASA POWER</option>
+                                    <option value="tmy">TMY</option>
+                                    <option value="local_weather">Local Weather Station</option>
+                                </select>
+                                
+                            </div>
 
                             <!-- Start & End Dates -->
                             <div class="col-6">
@@ -311,6 +343,9 @@
                                 <label class="form-label small">Simulation End Date</label>
                                 <input type="date" class="form-control form-control-sm" name="end_date" value="2023-12-31" required>
                             </div>
+                            <small class="text-muted d-block mt-1">
+                                Note: For TMY data, the selected timeframe is ignored.
+                            </small>
 
                             <!-- Timeframe Resolution -->
                             <div class="col-12">
@@ -328,21 +363,6 @@
                                     <label class="form-check-label small">Monthly</label>
                                 </div>
                             </div>
-
-                            <!-- Data Source Selection -->
-                            <div class="col-12">
-                                <label class="form-label small">Data Source</label>
-                                <select class="form-select form-select-sm" name="data_source" required>
-                                    <option value="pvgis">PVGIS</option>
-                                    <option value="nasa_power">NASA POWER</option>
-                                    <option value="tmy">TMY</option>
-                                    <option value="local_weather">Local Weather Station</option>
-                                </select>
-                                <small class="text-muted d-block mt-1">
-                                    Note: For TMY data, the selected timeframe is ignored.
-                                </small>
-                            </div>
-
                         </div>
 
                         <!-- Action Buttons -->

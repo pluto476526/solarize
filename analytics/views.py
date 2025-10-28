@@ -12,6 +12,7 @@ from data_factory.pvwatts.simulator import PVWattsSimulator
 from data_factory.pvlib import fixed_mount_simulator, specs_simulator, bifacial_simulation, axis_tracking
 from data_factory.pvlib import general_analyzer, seasonal_analyzer, financial_analysis
 from data_factory.pvlib import plots, timeseries
+from data_factory import weather_analyzer, airquality_analyzer
 from analytics import utils, array_storage
 import json
 import logging
@@ -507,8 +508,6 @@ def bifacial_system_view(request):
     return render(request, "analytics/bifacial_system.html", context)
 
 
-
-
 def modelchain_result_view(request):
     # result_id = request.session.get("pvlib_report")
     result_id = 11
@@ -609,6 +608,22 @@ def modelchain_result_view(request):
     return render(request, "analytics/modelchain_result.html", context)
 
 
+def weather_view(request):
+    conn = DatabaseConnection()
+    db = DataManager(conn)
+    lat, lon = -1.2921, 36.8219
+    location_data, current_df, hourly_df, daily_df = db.fetch_openmeteo_data(lat, lon)
+    db.close()
+    wa = weather_analyzer.WeatherAnalyzer(
+        location_data=location_data,
+        current_weather=current_df,
+        hourly_weather=hourly_df,
+        daily_weather=daily_df
+    )
+    analysis = wa.analyze_weather()
+    context = {"analysis": analysis}
+    return render(request, "analytics/weather.html", context)
+
 def climate_modelling_view(request):
     context = {}
     return render(request, "analytics/climate_modelling.html", context)
@@ -617,12 +632,21 @@ def astronomy_view(request):
     context = {}
     return render(request, "analytics/astronomy.html", context)
 
-def weather_view(request):
-    context = {}
-    return render(request, "analytics/weather.html", context)
+
 
 def air_quality_view(request):
-    context = {}
+    conn = DatabaseConnection()
+    db = DataManager(conn)
+    lat, lon = -1.2921, 36.8219
+    location_data, current_df, hourly_df = db.fetch_air_quality_data(lat, lon)
+    db.close()
+    aq = airquality_analyzer.AirQualityAnalyzer(
+        location_data=location_data,
+        current_weather=current_df,
+        hourly_weather=hourly_df
+    )
+    analysis = aq.analyze_air_quality()
+    context = {"air_quality": analysis}
     return render(request, "analytics/air_quality.html", context)
 
 def module_search(request):

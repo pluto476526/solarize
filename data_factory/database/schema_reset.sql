@@ -13,5 +13,7 @@ DROP TABLE IF EXISTS weather_location CASCADE;
 DROP TABLE IF EXISTS weather_current CASCADE;
 DROP TABLE IF EXISTS weather_hourly CASCADE;
 DROP TABLE IF EXISTS weather_daily CASCADE;
+DROP TABLE IF EXISTS air_quality_current CASCADE;
+DROP TABLE IF EXISTS air_quality_hourly CASCADE;
 
 \i schema_setup.sql

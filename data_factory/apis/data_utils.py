@@ -91,3 +91,58 @@ def process_openmeteo_weather(response):
     daily_dataframe = pd.DataFrame(data=daily_data)
 
     return current_dataframe, hourly_dataframe, daily_dataframe
+
+
+
+
+def process_airquality_data(response):
+    # Process current data. The order of variables needs to be the same as requested.
+    current = response.Current()
+    current_data = {
+        "time": [pd.to_datetime(current.Time(), unit="s", utc=True)],
+        "european_aqi": [current.Variables(0).Value()],
+        "us_aqi": [current.Variables(1).Value()],
+        "pm10": [current.Variables(2).Value()],
+        "pm2_5": [current.Variables(3).Value()],
+        "carbon_monoxide": [current.Variables(4).Value()],
+        "nitrogen_dioxide": [current.Variables(5).Value()],
+        "sulphur_dioxide": [current.Variables(6).Value()],
+        "ozone": [current.Variables(7).Value()],
+        "aerosol_optical_depth": [current.Variables(8).Value()],
+        "dust": [current.Variables(9).Value()],
+        "uv_index": [current.Variables(10).Value()]
+    }
+    current_dataframe = pd.DataFrame(data=current_data)
+
+    # Process hourly data. The order of variables needs to be the same as requested.
+    hourly = response.Hourly()
+    hourly_pm2_5 = hourly.Variables(0).ValuesAsNumpy()
+    hourly_carbon_monoxide = hourly.Variables(1).ValuesAsNumpy()
+    hourly_carbon_dioxide = hourly.Variables(2).ValuesAsNumpy()
+    hourly_nitrogen_dioxide = hourly.Variables(3).ValuesAsNumpy()
+    hourly_sulphur_dioxide = hourly.Variables(4).ValuesAsNumpy()
+    hourly_ozone = hourly.Variables(5).ValuesAsNumpy()
+    hourly_dust = hourly.Variables(6).ValuesAsNumpy()
+    hourly_uv_index = hourly.Variables(7).ValuesAsNumpy()
+    hourly_pm10 = hourly.Variables(8).ValuesAsNumpy()
+
+    hourly_data = {"date": pd.date_range(
+        start = pd.to_datetime(hourly.Time(), unit = "s", utc = True),
+        end =  pd.to_datetime(hourly.TimeEnd(), unit = "s", utc = True),
+        freq = pd.Timedelta(seconds = hourly.Interval()),
+        inclusive = "left"
+    )}
+
+    hourly_data["pm2_5"] = hourly_pm2_5
+    hourly_data["carbon_monoxide"] = hourly_carbon_monoxide
+    hourly_data["carbon_dioxide"] = hourly_carbon_dioxide
+    hourly_data["nitrogen_dioxide"] = hourly_nitrogen_dioxide
+    hourly_data["sulphur_dioxide"] = hourly_sulphur_dioxide
+    hourly_data["ozone"] = hourly_ozone
+    hourly_data["dust"] = hourly_dust
+    hourly_data["uv_index"] = hourly_uv_index
+    hourly_data["pm10"] = hourly_pm10
+    hourly_dataframe = pd.DataFrame(data = hourly_data)
+
+    return current_dataframe, hourly_dataframe
+    

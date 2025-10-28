@@ -9,7 +9,10 @@
     {% include 'analytics/nav.html' %}
     <!-- Navbar End -->
 
-   <!-- Air Quality Metrics Start -->
+
+
+
+    <!-- Air Quality Metrics Start -->
     <div class="container-fluid pt-4 px-4">
         <div class="row g-4">
             <!-- PM2.5 -->
@@ -18,8 +21,8 @@
                     <i class="fas fa-wind fa-3x text-warning"></i>
                     <div class="ms-3">
                         <p class="mb-2">PM2.5</p>
-                        <h6 class="mb-0">12.3 µg/m³</h6>
-                        <small class="text-muted">Fine Particulate Matter</small>
+                        <h6 class="mb-0">{{ air_quality.current_conditions.primary_pollutants.pm2_5.value }} µg/m³</h6>
+                        <small class="text-muted">{{ air_quality.current_conditions.primary_pollutants.pm2_5.category }}</small>
                     </div>
                 </div>
             </div>
@@ -30,8 +33,8 @@
                     <i class="fas fa-cloud fa-3x text-info"></i>
                     <div class="ms-3">
                         <p class="mb-2">PM10</p>
-                        <h6 class="mb-0">23.7 µg/m³</h6>
-                        <small class="text-muted">Coarse Particulate Matter</small>
+                        <h6 class="mb-0">{{ air_quality.current_conditions.primary_pollutants.pm10.value }} µg/m³</h6>
+                        <small class="text-muted">{{ air_quality.current_conditions.primary_pollutants.pm10.category }}</small>
                     </div>
                 </div>
             </div>
@@ -42,8 +45,8 @@
                     <i class="fas fa-lungs fa-3x text-primary"></i>
                     <div class="ms-3">
                         <p class="mb-2">Air Quality Index</p>
-                        <h6 class="mb-0">45</h6>
-                        <small class="text-muted">Good</small>
+                        <h6 class="mb-0">{{ air_quality.current_conditions.aqi_indices.european_aqi.value }}</h6>
+                        <small class="text-muted">{{ air_quality.current_conditions.aqi_indices.european_aqi.category }}</small>
                     </div>
                 </div>
             </div>
@@ -54,7 +57,7 @@
                     <i class="fas fa-exclamation-triangle fa-3x text-success"></i>
                     <div class="ms-3">
                         <p class="mb-2">Dominant Pollutant</p>
-                        <h6 class="mb-0">PM2.5</h6>
+                        <h6 class="mb-0">{{ air_quality.current_conditions.dominant_pollutant }}</h6>
                         <small class="text-muted">Primary concern</small>
                     </div>
                 </div>
@@ -72,15 +75,15 @@
                     <h6 class="mb-3 text-warning">Primary Pollutants</h6>
                     <div class="d-flex justify-content-between mb-2">
                         <span>PM2.5</span>
-                        <strong>12.3 µg/m³</strong>
+                        <strong>{{ air_quality.current_conditions.primary_pollutants.pm2_5.value }} µg/m³</strong>
                     </div>
                     <div class="d-flex justify-content-between mb-2">
                         <span>PM10</span>
-                        <strong>23.7 µg/m³</strong>
+                        <strong>{{ air_quality.current_conditions.primary_pollutants.pm10.value }} µg/m³</strong>
                     </div>
                     <div class="d-flex justify-content-between">
                         <span>O₃</span>
-                        <strong>48.2 µg/m³</strong>
+                        <strong>{{ air_quality.current_conditions.gas_pollutants.ozone.value }} µg/m³</strong>
                     </div>
                 </div>
             </div>
@@ -91,15 +94,15 @@
                     <h6 class="mb-3 text-info">Gaseous Pollutants</h6>
                     <div class="d-flex justify-content-between mb-2">
                         <span>NO₂</span>
-                        <strong class="text-warning">18.5 µg/m³</strong>
+                        <strong class="text-warning">{{ air_quality.current_conditions.gas_pollutants.nitrogen_dioxide.value }} µg/m³</strong>
                     </div>
                     <div class="d-flex justify-content-between mb-2">
                         <span>SO₂</span>
-                        <strong class="text-warning">3.2 µg/m³</strong>
+                        <strong class="text-warning">{{ air_quality.current_conditions.gas_pollutants.sulphur_dioxide.value }} µg/m³</strong>
                     </div>
                     <div class="d-flex justify-content-between">
                         <span>CO</span>
-                        <strong class="text-info">0.8 mg/m³</strong>
+                        <strong class="text-info">{{ air_quality.current_conditions.gas_pollutants.carbon_monoxide.value }} µg/m³</strong>
                     </div>
                 </div>
             </div>
@@ -109,16 +112,16 @@
                 <div class="bg-secondary rounded p-4">
                     <h6 class="mb-3 text-success">Additional Parameters</h6>
                     <div class="d-flex justify-content-between mb-2">
-                        <span>NH₃</span>
-                        <span class="badge bg-success">2.1 µg/m³</span>
+                        <span>AOD</span>
+                        <span class="badge bg-success">{{ air_quality.current_conditions.other_indicators.aerosol_optical_depth }}</span>
                     </div>
                     <div class="d-flex justify-content-between mb-2">
-                        <span>NO</span>
-                        <span class="badge bg-info">5.7 µg/m³</span>
+                        <span>Dust</span>
+                        <span class="badge bg-info">{{ air_quality.current_conditions.other_indicators.dust }}</span>
                     </div>
                     <div class="d-flex justify-content-between">
-                        <span>NOₓ</span>
-                        <span class="badge bg-primary">24.2 µg/m³</span>
+                        <span>UV Index</span>
+                        <span class="badge bg-primary">{{ air_quality.current_conditions.other_indicators.uv_index }}</span>
                     </div>
                 </div>
             </div>
@@ -129,11 +132,11 @@
                     <h6 class="mb-3 text-primary">OpenMeteo Status</h6>
                     <div class="d-flex justify-content-between mb-2">
                         <span>Last Update</span>
-                        <small>Just now</small>
+                        <small>{{ air_quality.timestamps.data_freshness.current_data_age }}</small>
                     </div>
                     <div class="d-flex justify-content-between mb-2">
                         <span>Data Quality</span>
-                        <span class="badge bg-success">98.5%</span>
+                        <span class="badge bg-success">Active</span>
                     </div>
                     <div class="d-flex justify-content-between">
                         <span>Next Update</span>
@@ -153,40 +156,43 @@
                 <div class="bg-secondary text-center rounded p-4">
                     <div class="d-flex align-items-center justify-content-between mb-4">
                         <h6 class="mb-0">Pollutant Concentration Trends</h6>
-                        <a href="trends.html">View Details</a>
+                        <a href="">View Details</a>
                         <div class="dropdown">
-                        <a href="#" class="" type="button" id="pollutantOptions" data-bs-toggle="dropdown" aria-expanded="false">
-                            Options
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-end p-3 bg-secondary" style="min-width: 250px;">
-                            <form id="pollutantOptionsForm">
-                                <!-- Time Range -->
-                                <div class="mb-3">
-                                    <label for="timeRange" class="form-label small fw-bold text-muted">TIME RANGE</label>
-                                    <select class="form-select form-select-sm" id="timeRange">
-                                        <option selected>24 Hours</option>
-                                        <option value="7d">7 Days</option>
-                                        <option value="30d">30 Days</option>
-                                    </select>
-                                </div>
-                                
-                                <!-- Pollutants Selection -->
-                                <div class="mb-3">
-                                    <label for="pollutantSelect" class="form-label small fw-bold text-muted">POLLUTANTS</label>
-                                    <select class="form-select form-select-sm" id="pollutantSelect">
-                                        <option selected>All Pollutants</option>
-                                        <option value="pm">Particulate Matter</option>
-                                        <option value="gases">Gaseous Pollutants</option>
-                                    </select>
-                                </div>
-                                
-                                <!-- Apply Button -->
-                                <button type="submit" class="btn btn-sm btn-primary w-100">Update Chart</button>
-                            </form>
+                            <a href="#" class="" type="button" id="pollutantOptions" data-bs-toggle="dropdown" aria-expanded="false">
+                                Options
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end p-3 bg-secondary" style="min-width: 250px;">
+                                <form id="pollutantOptionsForm">
+                                    <!-- Time Range -->
+                                    <div class="mb-3">
+                                        <label for="timeRange" class="form-label small fw-bold text-muted">TIME RANGE</label>
+                                        <select class="form-select form-select-sm" id="timeRange">
+                                            <option selected>24 Hours</option>
+                                            <option value="7d">7 Days</option>
+                                            <option value="30d">30 Days</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <!-- Pollutants Selection -->
+                                    <div class="mb-3">
+                                        <label for="pollutantSelect" class="form-label small fw-bold text-muted">POLLUTANTS</label>
+                                        <select class="form-select form-select-sm" id="pollutantSelect">
+                                            <option selected>All Pollutants</option>
+                                            <option value="pm">Particulate Matter</option>
+                                            <option value="gases">Gaseous Pollutants</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <!-- Apply Button -->
+                                    <button type="submit" class="btn btn-sm btn-primary w-100">Update Chart</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
+                    <div id="pollutant-trend-chart">
+                        <!-- Chart will be rendered here by JavaScript -->
+                        <canvas id="trendChart" width="400" height="200"></canvas>
                     </div>
-                    <div id="pollutant-trend-chart">{{ pollutant_trend_chart|safe }}</div>
                 </div>
             </div>
             
@@ -195,9 +201,12 @@
                 <div class="bg-secondary text-center rounded p-4">
                     <div class="d-flex align-items-center justify-content-between mb-4">
                         <h6 class="mb-0">Air Quality Index Timeline</h6>
-                        <a href="aqi-timeline.html">View Details</a>
+                        <a href="">View Details</a>
                     </div>
-                    <div id="aqi-timeline-chart">{{ aqi_timeline_chart|safe }}</div>
+                    <div id="aqi-timeline-chart">
+                        <!-- Chart will be rendered here by JavaScript -->
+                        <canvas id="aqiChart" width="400" height="200"></canvas>
+                    </div>
                 </div>
             </div>
         </div>
@@ -209,7 +218,7 @@
         <div class="bg-secondary text-center rounded p-4">
             <div class="d-flex align-items-center justify-content-between mb-4">
                 <h6 class="mb-0">Hourly Air Quality Data</h6>
-                <a href="export.html">Export Data</a>
+                <a href="">Export Data</a>
             </div>
             <div class="table-responsive">
                 <table class="table text-start align-middle table-bordered table-hover mb-0">
@@ -221,81 +230,32 @@
                             <th scope="col">O₃ (µg/m³)</th>
                             <th scope="col">NO₂ (µg/m³)</th>
                             <th scope="col">SO₂ (µg/m³)</th>
-                            <th scope="col">CO (mg/m³)</th>
-                            <th scope="col">AQI</th>
+                            <th scope="col">CO (µg/m³)</th>
+                            <th scope="col">Quality</th>
                         </tr>
                     </thead>
                     <tbody>
+                        {% for hour in air_quality.hourly_analysis.hourly_breakdown|slice:":7" %}
                         <tr>
-                            <td>00:00</td>
-                            <td>15.2</td>
-                            <td>28.4</td>
-                            <td>42.1</td>
-                            <td>22.3</td>
-                            <td>4.1</td>
-                            <td>0.9</td>
-                            <td>52</td>
+                            <td>{{ hour.time }}</td>
+                            <td>{{ hour.pm2_5.value }}</td>
+                            <td>{{ hour.pm10.value }}</td>
+                            <td>{{ hour.ozone }}</td>
+                            <td>{{ hour.nitrogen_dioxide }}</td>
+                            <td>{{ hour.sulphur_dioxide }}</td>
+                            <td>{{ hour.carbon_monoxide }}</td>
+                            <td>
+                                <span class="badge 
+                                    {% if hour.overall_quality == 'GOOD' %}bg-success
+                                    {% elif hour.overall_quality == 'MODERATE' %}bg-warning
+                                    {% elif hour.overall_quality == 'UNHEALTHY_FOR_SENSITIVE_GROUPS' %}bg-orange
+                                    {% elif hour.overall_quality == 'UNHEALTHY' %}bg-danger
+                                    {% else %}bg-dark{% endif %}">
+                                    {{ hour.overall_quality }}
+                                </span>
+                            </td>
                         </tr>
-                        <tr>
-                            <td>03:00</td>
-                            <td>13.8</td>
-                            <td>25.7</td>
-                            <td>38.9</td>
-                            <td>19.6</td>
-                            <td>3.8</td>
-                            <td>0.8</td>
-                            <td>48</td>
-                        </tr>
-                        <tr>
-                            <td>06:00</td>
-                            <td>14.5</td>
-                            <td>26.9</td>
-                            <td>35.2</td>
-                            <td>25.1</td>
-                            <td>4.3</td>
-                            <td>1.1</td>
-                            <td>54</td>
-                        </tr>
-                        <tr>
-                            <td>09:00</td>
-                            <td>16.8</td>
-                            <td>31.2</td>
-                            <td>45.7</td>
-                            <td>32.8</td>
-                            <td>5.2</td>
-                            <td>1.4</td>
-                            <td>58</td>
-                        </tr>
-                        <tr>
-                            <td>12:00</td>
-                            <td>18.2</td>
-                            <td>34.1</td>
-                            <td>52.3</td>
-                            <td>28.7</td>
-                            <td>4.8</td>
-                            <td>1.2</td>
-                            <td>62</td>
-                        </tr>
-                        <tr>
-                            <td>15:00</td>
-                            <td>15.7</td>
-                            <td>29.3</td>
-                            <td>48.9</td>
-                            <td>24.2</td>
-                            <td>4.0</td>
-                            <td>1.0</td>
-                            <td>55</td>
-                        </tr>
-                        <tr>
-                            <td>18:00</td>
-                            <td>13.1</td>
-                            <td>24.5</td>
-                            <td>41.5</td>
-                            <td>20.8</td>
-                            <td>3.5</td>
-                            <td>0.8</td>
-                            <td>49</td>
-                        </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>
@@ -311,8 +271,10 @@
                 <div class="h-100 bg-secondary rounded p-4">
                     <div class="d-flex align-items-center justify-content-between mb-2">
                         <h6 class="mb-0">Health Impact Factors</h6>
-                        <a href="health-impacts.html">View All</a>
+                        <a href="">View All</a>
                     </div>
+                    
+                    <!-- Respiratory Risk -->
                     <div class="d-flex align-items-center border-bottom py-3">
                         <div class="rounded-circle bg-warning d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
                             <i class="fas fa-lungs text-dark"></i>
@@ -320,11 +282,13 @@
                         <div class="w-100 ms-3">
                             <div class="d-flex w-100 justify-content-between">
                                 <h6 class="mb-0">Respiratory Risk</h6>
-                                <small>Low</small>
+                                <small>{{ air_quality.pollutant_analysis.particulate_matter.pm2_5.health_impact|slice:":8" }}</small>
                             </div>
-                            <span>PM2.5: 12.3 µg/m³</span>
+                            <span>PM2.5: {{ air_quality.current_conditions.primary_pollutants.pm2_5.value }} µg/m³</span>
                         </div>
                     </div>
+                    
+                    <!-- Cardiovascular -->
                     <div class="d-flex align-items-center border-bottom py-3">
                         <div class="rounded-circle bg-info d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
                             <i class="fas fa-heart text-dark"></i>
@@ -332,23 +296,13 @@
                         <div class="w-100 ms-3">
                             <div class="d-flex w-100 justify-content-between">
                                 <h6 class="mb-0">Cardiovascular</h6>
-                                <small>Moderate</small>
+                                <small>{{ air_quality.pollutant_analysis.gaseous_pollutants.ozone.health_impact|slice:":8" }}</small>
                             </div>
-                            <span>Ozone levels elevated</span>
+                            <span>Ozone: {{ air_quality.current_conditions.gas_pollutants.ozone.value }} µg/m³</span>
                         </div>
                     </div>
-                    <div class="d-flex align-items-center border-bottom py-3">
-                        <div class="rounded-circle bg-success d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
-                            <i class="fas fa-brain text-dark"></i>
-                        </div>
-                        <div class="w-100 ms-3">
-                            <div class="d-flex w-100 justify-content-between">
-                                <h6 class="mb-0">Cognitive Impact</h6>
-                                <small>Minimal</small>
-                            </div>
-                            <span>Good air quality</span>
-                        </div>
-                    </div>
+                    
+                    <!-- Sensitive Groups -->
                     <div class="d-flex align-items-center pt-3">
                         <div class="rounded-circle bg-primary d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
                             <i class="fas fa-child text-dark"></i>
@@ -356,9 +310,17 @@
                         <div class="w-100 ms-3">
                             <div class="d-flex w-100 justify-content-between">
                                 <h6 class="mb-0">Sensitive Groups</h6>
-                                <small>Caution</small>
+                                <small>
+                                    {% if air_quality.current_conditions.primary_pollutants.pm2_5.value > 35.4 %}
+                                        Avoid Outdoor
+                                    {% elif air_quality.current_conditions.primary_pollutants.pm2_5.value > 12 %}
+                                        Caution
+                                    {% else %}
+                                        Safe
+                                    {% endif %}
+                                </small>
                             </div>
-                            <span>Limit prolonged exertion</span>
+                            <span>{{ air_quality.health_recommendations.sensitive_groups.0|default:"Normal activities safe" }}</span>
                         </div>
                     </div>
                 </div>
@@ -368,96 +330,100 @@
             <div class="col-sm-12 col-md-6 col-xl-4">
                 <div class="h-100 bg-secondary rounded p-4">
                     <div class="d-flex align-items-center justify-content-between mb-4">
-                        <h6 class="mb-0">Pollutant Sources & Details</h6>
-                        <a href="sources.html">Details</a>
+                        <h6 class="mb-0">Pollutant Analysis</h6>
+                        <a href="">Details</a>
                     </div>
+                    
+                    <!-- Pollutant Trends -->
                     <div class="mb-4">
                         <div class="d-flex justify-content-between mb-2">
-                            <span>Traffic Contribution</span>
-                            <span class="text-warning">45%</span>
+                            <span>PM2.5 Trend</span>
+                            <span class="text-{% if air_quality.hourly_analysis.pollutant_trends.pm2_5.trend == 'INCREASING' %}danger{% elif air_quality.hourly_analysis.pollutant_trends.pm2_5.trend == 'DECREASING' %}success{% else %}info{% endif %}">
+                                {{ air_quality.hourly_analysis.pollutant_trends.pm2_5.trend }}
+                            </span>
                         </div>
                         <div class="d-flex justify-content-between mb-2">
-                            <span>Industrial Sources</span>
-                            <span class="text-warning">25%</span>
-                        </div>
-                        <div class="d-flex justify-content-between mb-2">
-                            <span>Natural Sources</span>
-                            <span class="text-warning">15%</span>
+                            <span>PM10 Trend</span>
+                            <span class="text-{% if air_quality.hourly_analysis.pollutant_trends.pm10.trend == 'INCREASING' %}danger{% elif air_quality.hourly_analysis.pollutant_trends.pm10.trend == 'DECREASING' %}success{% else %}info{% endif %}">
+                                {{ air_quality.hourly_analysis.pollutant_trends.pm10.trend }}
+                            </span>
                         </div>
                         <div class="d-flex justify-content-between mb-3">
-                            <span>Other Sources</span>
-                            <span class="text-warning">15%</span>
+                            <span>Ozone Trend</span>
+                            <span class="text-{% if air_quality.hourly_analysis.pollutant_trends.ozone.trend == 'INCREASING' %}danger{% elif air_quality.hourly_analysis.pollutant_trends.ozone.trend == 'DECREASING' %}success{% else %}info{% endif %}">
+                                {{ air_quality.hourly_analysis.pollutant_trends.ozone.trend }}
+                            </span>
                         </div>
                         
+                        <!-- Worst Period -->
                         <div class="d-flex justify-content-between mb-2">
-                            <span>Wind Speed</span>
-                            <span class="text-info">3.2 m/s</span>
+                            <span>Worst Period</span>
+                            <span class="text-warning">{{ air_quality.hourly_analysis.peak_periods.worst_air_quality.time }}</span>
                         </div>
                         <div class="d-flex justify-content-between mb-3">
-                            <span>Dispersion</span>
-                            <span class="text-info">Good</span>
+                            <span>Best Period</span>
+                            <span class="text-success">{{ air_quality.hourly_analysis.peak_periods.best_air_quality.time }}</span>
                         </div>
                         
+                        <!-- Overall Quality Progress -->
                         <div class="progress mb-3" style="height: 20px;">
-                            <div class="progress-bar bg-success" role="progressbar" style="width: 75%;">
-                                Air Quality: Good (75%)
+                            <div class="progress-bar 
+                                {% if air_quality.summary.overall_quality == 'GOOD' %}bg-success
+                                {% elif air_quality.summary.overall_quality == 'MODERATE' %}bg-warning
+                                {% elif air_quality.summary.overall_quality == 'UNHEALTHY_FOR_SENSITIVE_GROUPS' %}bg-orange
+                                {% elif air_quality.summary.overall_quality == 'UNHEALTHY' %}bg-danger
+                                {% else %}bg-dark{% endif %}" 
+                                role="progressbar" 
+                                style="width: 
+                                    {% if air_quality.summary.overall_quality == 'GOOD' %}75%
+                                    {% elif air_quality.summary.overall_quality == 'MODERATE' %}60%
+                                    {% elif air_quality.summary.overall_quality == 'UNHEALTHY_FOR_SENSITIVE_GROUPS' %}45%
+                                    {% elif air_quality.summary.overall_quality == 'UNHEALTHY' %}30%
+                                    {% else %}15%{% endif %};">
+                                Air Quality: {{ air_quality.summary.overall_quality }}
                             </div>
-                        </div>
-                        
-                        <div class="text-center mt-3">
-                            <small class="text-muted">Last rainfall: 2 days ago</small>
                         </div>
                     </div>
                 </div>
             </div>
             
-            <!-- Quick Actions & OpenMeteo Status -->
+            <!-- Quick Actions & Alerts -->
             <div class="col-sm-12 col-md-6 col-xl-4">
                 <div class="h-100 bg-secondary rounded p-4">
                     <div class="d-flex align-items-center justify-content-between mb-4">
-                        <h6 class="mb-0">Quick Actions</h6>
-                    </div>
-                    <div class="d-grid gap-2">
-                        <a href="" class="btn btn-warning mb-2">
-                            <i class="fas fa-sync-alt me-2"></i>Refresh Data
-                        </a>
-                        <a href="forecast.html" class="btn btn-primary mb-2">
-                            <i class="fas fa-chart-line me-2"></i>Air Quality Forecast
-                        </a>
-                        <a href="" class="btn btn-info mb-2">
-                            <i class="fas fa-download me-2"></i>Export Data
-                        </a>
-                        <a href="settings.html" class="btn btn-success mb-2">
-                            <i class="fas fa-cogs me-2"></i>API Settings
-                        </a>
+                        <h6 class="mb-0">Quick Actions & Alerts</h6>
                     </div>
                     
+                    <!-- Alerts -->
+                    <div class="mb-4">
+                        <h6 class="mb-3 text-warning">Active Alerts</h6>
+                        {% for alert in air_quality.alerts %}
+                        <div class="alert alert-{% if alert.level == 'SEVERE' %}danger{% elif alert.level == 'HIGH' %}warning{% else %}info{% endif %} mb-2 py-2">
+                            <small>
+                                <strong>{{ alert.type }}</strong><br>
+                                {{ alert.message }}
+                            </small>
+                        </div>
+                        {% empty %}
+                        <div class="alert alert-info mb-2 py-2">
+                            <small>
+                                <strong>No Alerts</strong><br>
+                                Enjoy...
+                            </small>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    
+                    <!-- Health Recommendations -->
                     <div class="mt-4">
-                        <h6 class="mb-3">OpenMeteo Data Status</h6>
-                        <div class="mb-2">
-                            <small>PM2.5/PM10: <span class="text-success">Active</span></small>
-                            <div class="progress mb-1" style="height: 5px;">
-                                <div class="progress-bar bg-success" role="progressbar" style="width: 95%;"></div>
-                            </div>
-                        </div>
-                        <div class="mb-2">
-                            <small>Gaseous Pollutants: <span class="text-success">Active</span></small>
-                            <div class="progress mb-1" style="height: 5px;">
-                                <div class="progress-bar bg-success" role="progressbar" style="width: 92%;"></div>
-                            </div>
-                        </div>
-                        <div class="mb-2">
-                            <small>Data Latency: <span class="text-success">Low</span></small>
-                            <div class="progress mb-1" style="height: 5px;">
-                                <div class="progress-bar bg-success" role="progressbar" style="width: 88%;"></div>
-                            </div>
-                        </div>
-                        <div class="mb-2">
-                            <small>API Response: <span class="text-info">Fast</span></small>
-                            <div class="progress mb-1" style="height: 5px;">
-                                <div class="progress-bar bg-info" role="progressbar" style="width: 94%;"></div>
-                            </div>
-                        </div>
+                        <h6 class="mb-3">Health Recommendations</h6>
+                        <ul class="list-unstyled small">
+                            {% for recommendation in air_quality.health_recommendations.general_population|slice:":3" %}
+                            <li class="mb-1">• {{ recommendation }}</li>
+                            {% empty %}
+                            <li class="mb-1">Inhale, relax</li>
+                            {% endfor %}
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -469,61 +435,64 @@
     <div class="container-fluid pt-4 px-4">
         <div class="row g-4">
             <!-- Weekly Pollutant Trends -->
-            <div class="col-sm-12 col-xl-6">
+            <div class="col-sm-12 col-xl-4">
                 <div class="bg-secondary rounded p-4">
-                    <h6 class="mb-4 text-warning">Weekly Pollutant Trends</h6>
+                    <h6 class="mb-4 text-warning">Air Quality Summary</h6>
                     <div class="table-responsive">
                         <table class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th>Day</th>
-                                    <th>PM2.5</th>
-                                    <th>PM10</th>
-                                    <th>O₃</th>
-                                    <th>NO₂</th>
-                                    <th>AQI</th>
+                                    <th>Metric</th>
+                                    <th>Value</th>
+                                    <th>Status</th>
+                                    <th>Trend</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>Monday</td>
-                                    <td>15.2</td>
-                                    <td>28.4</td>
-                                    <td>48.2</td>
-                                    <td>22.3</td>
-                                    <td>52</td>
+                                    <td>Overall Quality</td>
+                                    <td>{{ air_quality.summary.overall_quality }}</td>
+                                    <td>
+                                        <span class="badge 
+                                            {% if air_quality.summary.overall_quality == 'GOOD' %}bg-success
+                                            {% elif air_quality.summary.overall_quality == 'MODERATE' %}bg-warning
+                                            {% else %}bg-danger{% endif %}">
+                                            {{ air_quality.summary.overall_quality }}
+                                        </span>
+                                    </td>
+                                    <td>{{ air_quality.summary.outlook }}</td>
                                 </tr>
                                 <tr>
-                                    <td>Tuesday</td>
-                                    <td>14.8</td>
-                                    <td>27.1</td>
-                                    <td>45.7</td>
-                                    <td>20.8</td>
-                                    <td>49</td>
+                                    <td>Primary Concern</td>
+                                    <td>{{ air_quality.summary.primary_concern }}</td>
+                                    <td>{{ air_quality.current_conditions.dominant_pollutant }}</td>
+                                    <td>-</td>
                                 </tr>
                                 <tr>
-                                    <td>Wednesday</td>
-                                    <td>16.3</td>
-                                    <td>30.2</td>
-                                    <td>51.3</td>
-                                    <td>25.6</td>
-                                    <td>56</td>
+                                    <td>PM2.5 Average</td>
+                                    <td>{{ air_quality.hourly_analysis.statistical_summary.pm2_5.avg }} µg/m³</td>
+                                    <td>{{ air_quality.current_conditions.primary_pollutants.pm2_5.category }}</td>
+                                    <td>{{ air_quality.hourly_analysis.pollutant_trends.pm2_5.trend }}</td>
                                 </tr>
                                 <tr>
-                                    <td>Thursday</td>
-                                    <td>18.7</td>
-                                    <td>34.8</td>
-                                    <td>54.1</td>
-                                    <td>29.3</td>
-                                    <td>63</td>
+                                    <td>PM10 Average</td>
+                                    <td>{{ air_quality.hourly_analysis.statistical_summary.pm10.avg }} µg/m³</td>
+                                    <td>{{ air_quality.current_conditions.primary_pollutants.pm10.category }}</td>
+                                    <td>{{ air_quality.hourly_analysis.pollutant_trends.pm10.trend }}</td>
                                 </tr>
                                 <tr>
-                                    <td>Today</td>
-                                    <td>12.3</td>
-                                    <td>23.7</td>
-                                    <td>48.2</td>
-                                    <td>18.5</td>
-                                    <td>45</td>
+                                    <td>Unhealthy Hours</td>
+                                    <td>{{ air_quality.hourly_analysis.statistical_summary.pm2_5.above_unhealthy_hours }}/24</td>
+                                    <td>
+                                        {% if air_quality.hourly_analysis.statistical_summary.pm2_5.above_unhealthy_hours > 12 %}
+                                        <span class="badge bg-danger">High</span>
+                                        {% elif air_quality.hourly_analysis.statistical_summary.pm2_5.above_unhealthy_hours > 6 %}
+                                        <span class="badge bg-warning">Medium</span>
+                                        {% else %}
+                                        <span class="badge bg-success">Low</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>-</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -531,72 +500,98 @@
                 </div>
             </div>
             
-            <!-- OpenMeteo API Parameters -->
-            <div class="col-sm-12 col-xl-6">
+            <!-- Location & API Info -->
+            <div class="col-sm-12 col-xl-4">
                 <div class="bg-secondary rounded p-4">
-                    <h6 class="mb-4 text-warning">OpenMeteo API Parameters</h6>
+                    <h6 class="mb-4 text-warning">Location & API Information</h6>
                     <div class="table-responsive">
                         <table class="table table-hover">
                             <thead>
                                 <tr>
                                     <th>Parameter</th>
                                     <th>Value</th>
-                                    <th>Unit</th>
                                     <th>Description</th>
-                                    <th>Source</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
+                                    <td>Location</td>
+                                    <td>{{ air_quality.location_info.location_name }}</td>
+                                    <td>Monitoring location</td>
+                                </tr>
+                                <tr>
                                     <td>Latitude</td>
-                                    <td>33.44</td>
-                                    <td>°</td>
+                                    <td>{{ air_quality.location_info.latitude }}</td>
                                     <td>Location latitude</td>
-                                    <td>GPS</td>
                                 </tr>
                                 <tr>
                                     <td>Longitude</td>
-                                    <td>-94.04</td>
-                                    <td>°</td>
+                                    <td>{{ air_quality.location_info.longitude }}</td>
                                     <td>Location longitude</td>
-                                    <td>GPS</td>
                                 </tr>
                                 <tr>
                                     <td>Elevation</td>
-                                    <td>120</td>
-                                    <td>m</td>
+                                    <td>{{ air_quality.location_info.elevation }} m</td>
                                     <td>Location elevation</td>
-                                    <td>DEM</td>
                                 </tr>
                                 <tr>
                                     <td>Timezone</td>
-                                    <td>auto</td>
-                                    <td>-</td>
-                                    <td>Automatic timezone</td>
-                                    <td>OpenMeteo</td>
-                                </tr>
-                                <tr>
-                                    <td>Models</td>
-                                    <td>CAMS</td>
-                                    <td>-</td>
-                                    <td>Air quality model</td>
-                                    <td>ECMWF</td>
-                                </tr>
-                                <tr>
-                                    <td>Update Frequency</td>
-                                    <td>Hourly</td>
-                                    <td>-</td>
-                                    <td>Data refresh rate</td>
-                                    <td>OpenMeteo</td>
+                                    <td>{{ air_quality.location_info.timezone }}</td>
+                                    <td>Location timezone</td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
+
+            <!-- Location Parameters -->
+            <div class="col-sm-12 col-xl-4">
+                <div class="card shadow-sm h-100 bg-secondary p-3">
+                    <div class="">
+                        <h6 class="mb-0 text-warning px-3"></i> Select Location</h6>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="row g-2">
+                            <div class="col-6">
+                                <label class="form-label small">Latitude</label>
+                                <input type="number" class="form-control form-control-sm" name="lat" value="-1.286389" step="any">
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small">Longitude</label>
+                                <input type="number" class="form-control form-control-sm" name="lon" value="36.817223" step="any">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label small">Location Name</label>
+                                <input type="text" class="form-control form-control-sm" name="name" value="Nairobi">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label small">Timezone</label>
+                                <select class="form-select form-select-sm" name="tz">
+                                    <option selected value="Africa/Nairobi">Africa/Nairobi</option>
+                                    <option>UTC</option>
+                                </select>
+                            </div>
+                            <div class="col-12">
+                                <div class="d-flex justify-content-end mt-4">
+                                    <button type="submit" class="btn btn-info btn-sm">
+                                        <i class="fas fa-bolt me-1"></i> Fetch Air Quality Data
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
     <!-- Historical Analysis End -->
+
+
+
+
 
     <!-- OpenMeteo Methodology Documentation -->
     <div class="container-fluid pt-4 px-4">

@@ -20,7 +20,7 @@ import openmeteo_requests
 from data_factory.database.connection import DatabaseConnection
 from data_factory.database.manager import DataManager
 from decouple import config
-from data_factory import task_utils
+from data_factory.apis import data_utils
 
 logger = logging.getLogger(__name__)
 
@@ -207,10 +207,60 @@ def fetch_openmeteo_weather(self):
         model="best_match"
     )
 
-    current_df, hourly_df, daily_df = task_utils.process_openmeteo_weather(response)
+    current_df, hourly_df, daily_df = data_utils.process_openmeteo_weather(response)
 
     db.insert_openmeteo_data(location_idx, current_df, hourly_df, daily_df)
+    db.close()
 
+
+@shared_task(bind=True)
+def fetch_openmeteo_airquality(self):
+    # Setup the Open-Meteo API client with cache and retry on error
+    cache_session = requests_cache.CachedSession('.cache', expire_after = 3600)
+    retry_session = retry(cache_session, retries = 5, backoff_factor = 0.2)
+    openmeteo = openmeteo_requests.Client(session = retry_session)
+
+    # Make sure all required weather variables are listed here
+    # The order of variables in hourly or daily is important to assign them correctly below
+    url = "https://air-quality-api.open-meteo.com/v1/air-quality"
+    lat, lon = -1.2921, 36.8219
+
+    params = {
+        "latitude": lat,
+        "longitude": lon,
+        "hourly": ["pm2_5", "carbon_monoxide", "carbon_dioxide", "nitrogen_dioxide", "sulphur_dioxide", "ozone", "dust", "uv_index", "pm10"],
+        "current": ["european_aqi", "us_aqi", "pm10", "pm2_5", "carbon_monoxide", "nitrogen_dioxide", "sulphur_dioxide", "ozone", "aerosol_optical_depth", "dust", "uv_index"],
+        "timezone": "auto"
+    }
+    responses = openmeteo.weather_api(url, params=params)
+
+    # Process first location. Add a for-loop for multiple locations or weather models
+    response = responses[0]
+
+    conn = DatabaseConnection()
+    db = DataManager(conn)
+
+    location_idx = db.get_or_create_location(
+        provider="openmeteo",
+        latitude=lat,
+        longitude=lon,
+        elevation_m=response.Elevation(),
+        timezone=response.Timezone(),
+        tz_abbreviation=response.TimezoneAbbreviation(),
+        utc_offset_secs=response.UtcOffsetSeconds(),
+        model="best_match"
+    )
+
+    current_df, hourly_df = data_utils.process_airquality_data(response)
+
+    db.insert_air_quality_data(location_idx, current_df, hourly_df)
+    db.close()
+
+    print(f"Coordinates: {response.Latitude()}°N {response.Longitude()}°E")
+    print(f"Elevation: {response.Elevation()} m asl")
+    print(f"Timezone difference to GMT+0: {response.UtcOffsetSeconds()}s")
+
+    
 
 
 

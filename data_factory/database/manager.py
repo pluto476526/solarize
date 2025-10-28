@@ -27,13 +27,8 @@ class DataManager:
             records = [
                 (
                     pd.to_datetime(row["date"]).to_pydatetime(),
-                    row["parameter"],
-                    row["value"],
-                    row["units"],
-                    row["lon"],
-                    row["lat"],
-                    row["elev"],
-                    row["source"],
+                    row["parameter"], row["value"], row["units"],
+                    row["lon"], row["lat"], row["elev"], row["source"],
                 )
                 for row in df.to_dict(orient="records")
             ]
@@ -44,7 +39,6 @@ class DataManager:
                 psycopg2.extras.execute_batch(cur, query, records, page_size=self.page_size)
             
             self.db.commit()
-            logger.info(f"Inserted {len(records)} records to DB.")
 
         except Exception as e:
             logger.error(f"Irradiance data not saved: {e}")
@@ -332,16 +326,32 @@ class DataManager:
         self.db.commit()
 
 
-
-    def get_openmeteo_data(self, location_id):
+    def fetch_openmeteo_data(self, lat: float, lon: float):
         """
-        Retrieve and reconstruct current, hourly, and daily data using SQLAlchemy.
+        Retrieve and reconstruct current, hourly, and daily weather data 
+        using SQLAlchemy and location coordinates.
         """
         engine = sqlalchemy.create_engine(
             f'postgresql+psycopg2://{config("DB_USER")}:{config("DB_PASS")}@{config("DB_HOST")}:{config("DB_PORT")}/{config("DB_NAME")}'
         )
 
         with engine.connect() as conn:
+            # Step 1: Get location_id for the given coordinates
+            location_query = sqlalchemy.sql.text("""
+                SELECT * FROM weather_location
+                WHERE ABS(latitude - :lat) < 0.0001 AND ABS(longitude - :lon) < 0.0001
+                LIMIT 1
+            """)
+            location = conn.execute(location_query, {"lat": lat, "lon": lon}).fetchone()
+            location_data = dict(location._mapping)
+
+
+            if not location:
+                raise ValueError(f"No location found for coordinates ({lat}, {lon})")
+
+            location_id = location.id
+
+            # Step 2: Retrieve weather data for that location_id
             current_df = pd.read_sql(
                 sqlalchemy.sql.text("""
                     SELECT * FROM weather_current
@@ -378,8 +388,106 @@ class DataManager:
                 conn, params={"loc": location_id}
             )
 
-        return current_df, hourly_df, daily_df
+        return location_data, current_df, hourly_df, daily_df
 
+
+    def insert_air_quality_data(self, location_id, current_data, hourly_df):
+        """
+        Insert current and hourly air quality data into PostgreSQL.
+        """
+        row = current_data.iloc[0]
+
+        # Helper to convert NaN/NaT to None
+        def safe_float(val):
+            if pd.isna(val):
+                return None
+            return float(val)
+
+        with self.db.cursor() as cur:
+            # --- Insert current snapshot ---
+            cur.execute("""
+                INSERT INTO air_quality_current (
+                    location_id, observation_time, european_aqi, us_aqi, pm10, pm2_5,
+                    carbon_monoxide, nitrogen_dioxide, sulphur_dioxide, ozone,
+                    aerosol_optical_depth, dust, uv_index
+                ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
+            """, (
+                location_id,
+                pd.to_datetime(row["time"]).to_pydatetime(),
+                safe_float(row["european_aqi"]), safe_float(row["us_aqi"]),
+                safe_float(row["pm10"]), safe_float(row["pm2_5"]),
+                safe_float(row["carbon_monoxide"]), safe_float(row["nitrogen_dioxide"]),
+                safe_float(row["sulphur_dioxide"]), safe_float(row["ozone"]),
+                safe_float(row["aerosol_optical_depth"]), safe_float(row["dust"]),
+                safe_float(row["uv_index"])
+            ))
+
+            # --- Insert hourly data ---
+            if not hourly_df.empty:
+                hourly_tuples = [
+                    (
+                        location_id,
+                        pd.to_datetime(r["date"]).to_pydatetime(),
+                        safe_float(r["pm2_5"]), safe_float(r["carbon_monoxide"]), safe_float(r["carbon_dioxide"]),
+                        safe_float(r["nitrogen_dioxide"]), safe_float(r["sulphur_dioxide"]),
+                        safe_float(r["ozone"]), safe_float(r["dust"]), safe_float(r["uv_index"]), safe_float(r["pm10"])
+                    )
+                    for _, r in hourly_df.iterrows()
+                ]
+
+                psycopg2.extras.execute_values(cur, """
+                    INSERT INTO air_quality_hourly (
+                        location_id, time, pm2_5, carbon_monoxide, carbon_dioxide,
+                        nitrogen_dioxide, sulphur_dioxide, ozone, dust, uv_index, pm10
+                    ) VALUES %s
+                """, hourly_tuples)
+
+        self.db.commit()
+
+
+
+    def fetch_air_quality_data(self, lat, lon):
+        """
+        Retrieve and reconstruct air quality data using SQLAlchemy.
+        """
+        engine = sqlalchemy.create_engine(
+            f'postgresql+psycopg2://{config("DB_USER")}:{config("DB_PASS")}@'
+            f'{config("DB_HOST")}:{config("DB_PORT")}/{config("DB_NAME")}'
+        )
+
+        with engine.connect() as conn:
+            # --- Get location ID ---
+            location_query = sqlalchemy.sql.text("""
+                SELECT * FROM weather_location
+                WHERE ABS(latitude - :lat) < 0.0001 AND ABS(longitude - :lon) < 0.0001
+                LIMIT 1
+            """)
+            location = conn.execute(location_query, {"lat": lat, "lon": lon}).fetchone()
+            location_data = dict(location._mapping)
+
+            if not location:
+                raise ValueError(f"No location found for coordinates ({lat}, {lon})")
+
+            # --- Current data ---
+            current_df = pd.read_sql(
+                sqlalchemy.sql.text("""
+                    SELECT * FROM air_quality_current
+                    WHERE location_id = :loc
+                    ORDER BY observation_time DESC
+                    LIMIT 1
+                """), conn, params={"loc": location.id}
+            )
+
+            # --- Hourly data ---
+            hourly_df = pd.read_sql(
+                sqlalchemy.sql.text("""
+                    SELECT * FROM air_quality_hourly
+                    WHERE location_id = :loc
+                    ORDER BY time ASC
+                """), conn, params={"loc": location.id}
+            )
+
+        return location_data, current_df, hourly_df
 
     def close(self):
         self.db.close()

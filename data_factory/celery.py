@@ -38,5 +38,9 @@ app.conf.beat_schedule = {
         "task": "data_factory.tasks.fetch_openmeteo_weather",
         "schedule": 30,
     },
+    "fetch-openmeteo-airquality": {
+        "task": "data_factory.tasks.fetch_openmeteo_airquality",
+        "schedule": 30,
+    },
 }
 

@@ -24,7 +24,7 @@
         </div>
 
         <!-- Compact Form Layout -->
-        <form method="post" class="row g-3">
+        <form method="post" class="row g-3" enctype="multipart/form-data">
             {% csrf_token %}
             <!-- Location Parameters -->
             <div class="col-lg-4">
@@ -55,7 +55,7 @@
                                 </select>
                             </div>
                             <div class="col-12">
-                                <label class="form-label small">Location Name</label>
+                                <label class="form-label small">Location/Simulation Name</label>
                                 <input type="text" class="form-control form-control-sm" name="name" value="Nairobi">
                             </div>
                         </div>
@@ -64,34 +64,19 @@
             </div>
 
             <!-- System Configuration -->
-            <div class="col-lg-8">
+            <div class="col-lg-4">
                 <div class="card shadow-sm h-100 bg-secondary p-3">
                     <div class="">
                         <h6 class="mb-0 text-warning px-3">System Configuration</h6>
                     </div>
                     <div class="card-body p-3">
                         <div class="row g-2">
-                            <div class="col-6">
+                            <div class="col-12">
                                 <label class="form-label small">PV Module</label>
-                                <input 
-                                    type="text" 
-                                    id="module-input" 
-                                    name="module" 
-                                    list="module-list"
-                                    autocomplete="off"
-                                    class="form-control form-control-sm"
-                                    placeholder="Type to search..."
-                                >
+                                <input type="text" id="module-input" name="module" list="module-list" autocomplete="off" class="form-control form-control-sm" placeholder="Type to search...">
                                 <datalist id="module-list"></datalist>
                             </div>
-                            <div class="col-6">
-                                <label class="form-label small">Module Database</label>
-                                <select class="form-select form-select-sm" name="module_db">
-                                    <option value="SandiaMod">Sandia Labs Module Database</option>
-                                    <option value="CECMod" selected>CEC Module Database</option>
-                                </select>
-                            </div>
-                            <div class="col-6">
+                            <div class="col-12">
                                 <label class="form-label small">Inverter</label>
                                 <input 
                                     type="text" 
@@ -104,68 +89,182 @@
                                 >
                                 <datalist id="inverter-list"></datalist>
                             </div>
-                            <div class="col-6">
-                                <label class="form-label small">Inverter Database</label>
-                                <input class="form-control form-control-sm bg-secondary" value="CEC Inverter Database" disabled>
+                            <div class="col-4">
+                                <label class="form-label small">Module Type</label>
+                                <select class="form-select form-select-sm" name="module_type">
+                                    <option value="glass_polymer" selected>Glass Polymer</option>
+                                    <option value="glass_glass">Glass Glass</option>
+                                </select>
                             </div>
-                            <div class="col-6">
-                                <label class="form-label small">Azimuth (°)</label>
-                                <input type="number" class="form-control form-control-sm" name="azimuth" value="180" min="0" max="360">
+                            <div class="col-4">
+                                <label class="form-label small">Surface Azimuth (°)</label>
+                                <input type="number" name="azimuth" class="form-control form-control-sm" value="180">
                             </div>
-                            <div class="col-6">
-                                <label class="form-label small">Tilt Angle (°)</label>
-                                <input type="number" class="form-control form-control-sm" name="tilt" value="20" min="0" max="90">
+                            <div class="col-4">
+                                <label class="form-label small">Surface Tilt (°)</label>
+                                <input type="number" name="tilt" class="form-control form-control-sm" value="20">
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Loss Parameters -->
-            <!-- <div class="col-lg-6">
-                <div class="card shadow-sm h-100 bg-secondary p-4">
+            <!-- Array Configuration -->
+            <div class="col-lg-4">
+                <div class="card shadow-sm h-100 bg-secondary p-3">
                     <div class="">
-                        <h6 class="mb-0 text-warning px-3">Loss Parameters (%)</h6>
+                        <h6 class="mb-0 text-warning px-3">Array Configuration</h6>
                     </div>
                     <div class="card-body p-3">
                         <div class="row g-2">
-                            <div class="col-6">
-                                <label class="form-label small">Soiling</label>
-                                <input type="range" class="form-range" value="2" min="0" max="10" step="0.5">
-                                <div class="small text-center">2%</div>
+                            <div class="col-4">
+                                <label class="form-label small">Modules per String</label>
+                                <input type="number" name="modules_per_string" class="form-control form-control-sm" value="1">
                             </div>
-                            <div class="col-6">
-                                <label class="form-label small">Shading</label>
-                                <input type="range" class="form-range" value="3" min="0" max="20" step="0.5">
-                                <div class="small text-center">3%</div>
+                            <div class="col-4">
+                                <label class="form-label small">Number of Strings</label>
+                                <input type="number" name="strings" class="form-control form-control-sm" value="1">
                             </div>
-                            <div class="col-6">
-                                <label class="form-label small">Mismatch</label>
-                                <input type="range" class="form-range" value="2" min="0" max="5" step="0.5">
-                                <div class="small text-center">2%</div>
+                            <div class="col-4">
+                              <label for="arrays_json" class="form-label small mb-1">Extra Arrays</label>
+                              <div class="input-group">
+                                <label class="btn btn-warning btn-sm mb-0" for="arrays_json">
+                                  <i class="fas fa-bolt me-1"></i> <span id="file-name">Upload JSON file</span>
+                                </label>
+                                <input id="arrays_json" type="file" name="arrays_json" class="d-none" accept=".json">
+                              </div>
                             </div>
-                            <div class="col-6">
-                                <label class="form-label small">Wiring</label>
-                                <input type="range" class="form-range" value="2" min="0" max="5" step="0.5">
-                                <div class="small text-center">2%</div>
-                            </div>
-                            <div class="col-6">
-                                <label class="form-label small">Nameplate</label>
-                                <input type="range" class="form-range" value="1" min="0" max="5" step="0.5">
-                                <div class="small text-center">1%</div>
-                            </div>
-                            <div class="col-6">
-                                <label class="form-label small">Age</label>
-                                <input type="range" class="form-range" value="0.5" min="0" max="10" step="0.1">
-                                <div class="small text-center">0.5%</div>
+                            <div class="col-12">
+                                <label class="form-label small">System Description</label>
+                                <textarea class="form-control" placeholder="Short system description" name="description" style="height: 100px;"></textarea>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div> -->
+            </div>
+
+            <!-- Bifacial Configuration -->
+            <div class="col-lg-4">
+                <div class="card shadow-sm h-100 bg-secondary p-3">
+                    <h6 class="mb-3 text-warning px-2">Bifacial Configuration</h6>
+
+                    <div class="card-body p-2">
+                        <div class="row g-2">
+                            <!-- Bifaciality -->
+                            <div class="col-12">
+                                <label class="form-label small">Bifaciality</label>
+                                <input type="number" class="form-control form-control-sm" name="bifaciality" value="0.75" min="0" max="1" step="0.01" required>
+                            </div>
+
+                            <!-- Ground Coverage Ratio -->
+                            <div class="col-6">
+                                <label class="form-label small">Ground Coverage Ratio (GCR)</label>
+                                <input type="number" class="form-control form-control-sm" name="gcr" value="0.4" min="0" max="1" step="0.01" required>
+                            </div>
+
+                            <!-- PV Row Height -->
+                            <div class="col-6">
+                                <label class="form-label small">PV Row Height (m)</label>
+                                <input type="number" class="form-control form-control-sm" name="pvrow_height" value="1.0" min="0" step="0.01" required>
+                            </div>
+
+                            <!-- PV Row Width -->
+                            <div class="col-6">
+                                <label class="form-label small">PV Row Width (m)</label>
+                                <input type="number" class="form-control form-control-sm" name="pvrow_width" value="2.0" min="0" step="0.01" required>
+                            </div>
+
+                            <!-- Number of PV Rows -->
+                            <div class="col-6">
+                                <label class="form-label small">Number of PV Rows</label>
+                                <input type="number" class="form-control form-control-sm" name="n_pvrows" value="3" min="1" step="1" required>
+                            </div>
+
+                            <!-- Observed PV Row Index -->
+                            <div class="col-6">
+                                <label class="form-label small">Observed PV Row Index</label>
+                                <input type="number" class="form-control form-control-sm" name="index_observed_pvrow" value="1" min="0" step="1" required>
+                            </div>
+
+                            <!-- Front Reflectivity -->
+                            <div class="col-6">
+                                <label class="form-label small">Front Surface Reflectivity (ρ<sub>front</sub>)</label>
+                                <input type="number" class="form-control form-control-sm" name="rho_front_pvrow" value="0.03" min="0" max="1" step="0.01" required>
+                            </div>
+
+                            <!-- Back Reflectivity -->
+                            <div class="col-6">
+                                <label class="form-label small">Back Surface Reflectivity (ρ<sub>back</sub>)</label>
+                                <input type="number" class="form-control form-control-sm" name="rho_back_pvrow" value="0.05" min="0" max="1" step="0.01" required>
+                            </div>
+
+                            <!-- Horizon Band Angle -->
+                            <div class="col-6">
+                                <label class="form-label small">Horizon Band Angle (°)</label>
+                                <input type="number" class="form-control form-control-sm" name="horizon_band_angle" value="15" min="0" max="90" step="0.1" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!-- Loss Parameters -->
+            <div class="col-lg-4">
+                <div class="card shadow-sm h-100 bg-secondary p-3">
+                    <div class="">
+                        <h6 class="mb-0 text-warning px-3">System Loss Parameters (%)</h6>
+                    </div>
+                    <div class="card-body p-3">
+                        <div class="row g-2">
+                            <div class="col-6">
+                                <label class="form-label small">Soiling Losses</label>
+                                <input type="number" class="form-control form-control-sm" name="soiling" value="2" min="0" max="100" step="0.1">
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small">Shading Losses</label>
+                                <input type="number" class="form-control form-control-sm" name="shading" value="3" min="0" max="100" step="0.1">
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small">Snow Coverage Losses</label>
+                                <input type="number" class="form-control form-control-sm" name="snow" value="0" min="0" max="100" step="0.1">
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small">Module Mismatch Losses</label>
+                                <input type="number" class="form-control form-control-sm" name="mismatch" value="2" min="0" max="100" step="0.1">
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small">Wiring Losses</label>
+                                <input type="number" class="form-control form-control-sm" name="wiring" value="2" min="0" max="100" step="0.1">
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small">Connection Losses</label>
+                                <input type="number" class="form-control form-control-sm" name="connections" value="0.5" min="0" max="100" step="0.1">
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small">Light Induced Degradation (LID)</label>
+                                <input type="number" class="form-control form-control-sm" name="lid" value="1.5" min="0" max="100" step="0.1">
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small">Nameplate Rating Losses</label>
+                                <input type="number" class="form-control form-control-sm" name="nameplate" value="1" min="0" max="100" step="0.1">
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small">Age Related Degradation</label>
+                                <input type="number" class="form-control form-control-sm" name="age" value="0.5" min="0" max="100" step="0.1">
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small">System Availability</label>
+                                <input type="number" class="form-control form-control-sm" name="availability" value="98" min="0" max="100" step="0.1">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <!-- Simulation Parameters -->
-            <div class="col-lg-12">
+            <div class="col-lg-4">
                 <div class="card shadow-sm h-100 bg-secondary p-3">
                     <div class="">
                         <h6 class="mb-0 text-warning px-3">Simulation Parameters</h6>
@@ -174,41 +273,49 @@
                         <div class="row g-2">                          
                             <div class="col-6">
                                 <label class="form-label small">Start Date</label>
-                                <input type="date" class="form-control form-control-sm" value="2023-01-01">
+                                <input type="date" class="form-control form-control-sm" name="start" value="2025-01-01">
                             </div>
                             <div class="col-6">
                                 <label class="form-label small">Temperature Model</label>
                                 <select class="form-select form-select-sm" name="temp_model">
                                     <option value="sapm" selected>SAPM</option>
-                                    <option>PVsyst</option>
-                                    <option>Faiman</option>
+                                    <option value="pvsyst">PVsyst</option>
+                                    <option value="faiman">Faiman</option>
                                 </select>
                             </div>
                             <div class="col-6">
                                 <label class="form-label small">End Date</label>
-                                <input type="date" class="form-control form-control-sm" value="2023-12-31">
+                                <input type="date" class="form-control form-control-sm" name="end" value="2025-01-31">
                             </div>
                             <div class="col-6">
                                 <label class="form-label small">Temperature Model Parameters</label>
                                 <select class="form-select form-select-sm" name="temp_model_params">
-                                    <option value="open_rack_glass_glass" selected>open_rack_glass_glass</option>
+                                    <option value="open_rack_glass_glass" selected>Open Rack - Glass/Glass</option>
+                                    <option value="open_rack_glass_polymer">Open Rack - Glass/Polymer</option>
+                                    <option value="insulated_back_glass_polymer">Insulated Back - Glass/Polymer</option>
+                                    <option value="close_mount_glass_polymer">Close Mount - Glass/Polymer</option>
+                                    <option value="roof_mount_glass_polymer">Roof Mount - Glass/Polymer</option>
                                 </select>
                             </div>
                             <div class="col-6">
                                 <label class="form-label small">Timeframe</label>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="timeframe" checked>
+                                    <input class="form-check-input" type="radio" name="timeframe" value="hourly" checked>
                                     <label class="form-check-label small">Hourly</label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="timeframe">
+                                    <input class="form-check-input" type="radio" name="timeframe" value="daily">
                                     <label class="form-check-label small">Daily</label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="timeframe">
+                                    <input class="form-check-input" type="radio" name="timeframe" value="monthly">
                                     <label class="form-check-label small">Monthly</label>
                                 </div>
-                            </div>  
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small">Albedo</label>
+                                <input type="number" name="albedo" class="form-control form-control-sm" value="0.25">
+                            </div>
                         </div>
                         <div class="row mt-3">
                             <div class="col-12">

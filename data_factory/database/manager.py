@@ -110,14 +110,6 @@ class DataManager:
                     """
                     psycopg2.extras.execute_values(cur, query, records)
 
-            # Insert all known fields with array-aware handling
-            # if hasattr(result.ac, "ac") and result.ac is not None:
-            #     if isinstance(result, Series):
-            #         insert_timeseries(result.ac.to_frame(name="ac"), "ac_aoi")
-
-            # if hasattr(result.ac, "p_mp") and result.ac is not None:
-            #     result.ac = result.ac.rename(columns={"p_mp": "ac"})
-            #     insert_timeseries(result.ac, "ac_aoi")
             
             # Insert all known fields with array-aware handling
             if result.ac is not None:
@@ -225,112 +217,168 @@ class DataManager:
 
 
 
+    def get_or_create_location(self, provider, latitude, longitude, elevation_m=None, timezone=None, tz_abbreviation=None, utc_offset_secs=None, model=None):
+        """
+        Insert or return existing location ID based on (provider, lat, lon).
+        """
+        with self.db.cursor() as cur:
+            cur.execute("""
+                INSERT INTO weather_location (
+                    provider, model, latitude, longitude, elevation_m,
+                    timezone, tz_abbreviation, utc_offset_secs
+                )
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+                ON CONFLICT (provider, latitude, longitude) DO UPDATE
+                    SET updated_at = now()
+                RETURNING id;
+            """, (provider, model, latitude, longitude, elevation_m,
+                  timezone, tz_abbreviation, utc_offset_secs))
+            location_id = cur.fetchone()[0]
+        self.db.commit()
+        return location_id
 
-    def fetch_airmass_data(self, result_id):
-        try:
-            query = queries.fetch_airmass_query(result_id=result_id)
-            
-            with self.db.cursor() as cur:
-                cur.execute(query)
-                rows = cur.fetchall()
-                columns = [desc[0] for desc in cur.description]
-            
-            return pd.DataFrame(rows, columns=columns)
+  
+    def insert_openmeteo_data(self, location_id, current_df, hourly_df, daily_df):
+        """
+        Insert current, hourly, and daily weather data efficiently.
+        """
+        with self.db.cursor() as cur:
+            # --- Insert current snapshot ---
+            if not current_df.empty:
+                row = current_df.iloc[0]
+                cur.execute("""
+                    INSERT INTO weather_current (
+                        location_id, observation_time, temperature_2m,
+                        relative_humidity_2m, apparent_temperature,
+                        precipitation, rain, showers, weather_code,
+                        cloud_cover, wind_speed_10m, wind_direction_10m,
+                        wind_gusts_10m
+                    )
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                """, (
+                    location_id,
+                    pd.to_datetime(row["time"]).to_pydatetime(),
+                    float(row.get("temperature_2m", 0)),
+                    float(row.get("relative_humidity_2m", 0)),
+                    float(row.get("apparent_temperature", 0)),
+                    float(row.get("precipitation", 0)),
+                    float(row.get("rain", 0)),
+                    float(row.get("showers", 0)),
+                    int(row.get("weather_code", 0)),
+                    float(row.get("cloud_cover", 0)),
+                    float(row.get("wind_speed_10m", 0)),
+                    float(row.get("wind_direction_10m", 0)),
+                    float(row.get("wind_gusts_10m", 0))
+                ))
 
-        except Exception as e:
-            logger.error(f"No data: {e}")
-            return pd.DataFrame()
+            # --- Insert hourly data ---
+            if not hourly_df.empty:
+                hourly_tuples = [
+                    (
+                        location_id,
+                        pd.to_datetime(r["date"]).to_pydatetime(),
+                        float(r.get("temperature_2m", 0)),
+                        float(r.get("precipitation_probability", 0)),
+                        float(r.get("precipitation", 0)),
+                        float(r.get("rain", 0)),
+                        float(r.get("showers", 0)),
+                        float(r.get("shortwave_radiation", 0)),
+                        float(r.get("diffuse_radiation", 0)),
+                        float(r.get("direct_normal_irradiance", 0)),
+                        float(r.get("sunshine_duration", 0))
+                    )
+                    for _, r in hourly_df.iterrows()
+                ]
+                psycopg2.extras.execute_values(cur, """
+                    INSERT INTO weather_hourly (
+                        location_id, time, temperature_2m, precipitation_probability,
+                        precipitation, rain, showers, shortwave_radiation,
+                        diffuse_radiation, direct_normal_irradiance, sunshine_duration
+                    ) VALUES %s
+                """, hourly_tuples)
+
+            # --- Insert daily data ---
+            if not daily_df.empty:
+                daily_tuples = [
+                    (
+                        location_id,
+                        pd.to_datetime(r["date"]).to_pydatetime(),
+                        int(r.get("sunrise", 0)),
+                        int(r.get("sunset", 0)),
+                        float(r.get("daylight_duration", 0)),
+                        float(r.get("sunshine_duration", 0)),
+                        float(r.get("uv_index_max", 0)),
+                        float(r.get("uv_index_clear_sky_max", 0)),
+                        float(r.get("rain_sum", 0)),
+                        float(r.get("showers_sum", 0)),
+                        float(r.get("precipitation_sum", 0)),
+                        float(r.get("precipitation_hours", 0)),
+                        float(r.get("precipitation_probability_max", 0)),
+                        float(r.get("shortwave_radiation_sum", 0)),
+                        float(r.get("wind_direction_10m_dominant", 0))
+                    )
+                    for _, r in daily_df.iterrows()
+                ]
+                psycopg2.extras.execute_values(cur, """
+                    INSERT INTO weather_daily (
+                        location_id, time, sunrise, sunset, daylight_duration,
+                        sunshine_duration, uv_index_max, uv_index_clear_sky_max,
+                        rain_sum, showers_sum, precipitation_sum, precipitation_hours,
+                        precipitation_probability_max, shortwave_radiation_sum,
+                        wind_direction_10m_dominant
+                    ) VALUES %s
+                """, daily_tuples)
+
+        self.db.commit()
 
 
-    def fetch_cell_temp_data(self, result_id):
-        try:
-            query = queries.fetch_cell_temp_query(result_id=result_id)
-            
-            with self.db.cursor() as cur:
-                cur.execute(query)
-                rows = cur.fetchall()
-                columns = [desc[0] for desc in cur.description]
-            
-            return pd.DataFrame(rows, columns=columns)
 
-        except Exception as e:
-            logger.error(f"No data: {e}")
-            return pd.DataFrame()
+    def get_openmeteo_data(self, location_id):
+        """
+        Retrieve and reconstruct current, hourly, and daily data using SQLAlchemy.
+        """
+        engine = sqlalchemy.create_engine(
+            f'postgresql+psycopg2://{config("DB_USER")}:{config("DB_PASS")}@{config("DB_HOST")}:{config("DB_PORT")}/{config("DB_NAME")}'
+        )
 
-    def fetch_dc_output_data(self, result_id):
-        try:
-            query = queries.fetch_dc_output_query(result_id=result_id)
-            
-            with self.db.cursor() as cur:
-                cur.execute(query)
-                rows = cur.fetchall()
-                columns = [desc[0] for desc in cur.description]
-            
-            return pd.DataFrame(rows, columns=columns)
+        with engine.connect() as conn:
+            current_df = pd.read_sql(
+                sqlalchemy.sql.text("""
+                    SELECT * FROM weather_current
+                    WHERE location_id = :loc
+                    ORDER BY observation_time DESC
+                    LIMIT 1
+                """),
+                conn, params={"loc": location_id}
+            )
 
-        except Exception as e:
-            logger.error(f"No data: {e}")
-            return pd.DataFrame()
+            hourly_df = pd.read_sql(
+                sqlalchemy.sql.text("""
+                    SELECT time, temperature_2m, precipitation_probability,
+                           precipitation, rain, showers, shortwave_radiation,
+                           diffuse_radiation, direct_normal_irradiance, sunshine_duration
+                    FROM weather_hourly
+                    WHERE location_id = :loc
+                    ORDER BY time ASC
+                """),
+                conn, params={"loc": location_id}
+            )
 
-    def fetch_diode_params_data(self, result_id):
-        try:
-            query = queries.fetch_diode_params_query(result_id=result_id)
-            
-            with self.db.cursor() as cur:
-                cur.execute(query)
-                rows = cur.fetchall()
-                columns = [desc[0] for desc in cur.description]
-            
-            return pd.DataFrame(rows, columns=columns)
+            daily_df = pd.read_sql(
+                sqlalchemy.sql.text("""
+                    SELECT time, sunrise, sunset, daylight_duration,
+                           sunshine_duration, uv_index_max, uv_index_clear_sky_max,
+                           rain_sum, showers_sum, precipitation_sum, precipitation_hours,
+                           precipitation_probability_max, shortwave_radiation_sum,
+                           wind_direction_10m_dominant
+                    FROM weather_daily
+                    WHERE location_id = :loc
+                    ORDER BY time ASC
+                """),
+                conn, params={"loc": location_id}
+            )
 
-        except Exception as e:
-            logger.error(f"No data: {e}")
-            return pd.DataFrame()
-
-    def fetch_total_irradiance_data(self, result_id):
-        try:
-            query = queries.fetch_total_irradiance_query(result_id=result_id)
-            
-            with self.db.cursor() as cur:
-                cur.execute(query)
-                rows = cur.fetchall()
-                columns = [desc[0] for desc in cur.description]
-            
-            return pd.DataFrame(rows, columns=columns)
-
-        except Exception as e:
-            logger.error(f"No data: {e}")
-            return pd.DataFrame()
-
-    def fetch_solar_position_data(self, result_id):
-        try:
-            query = queries.fetch_solar_position_query(result_id=result_id)
-            
-            with self.db.cursor() as cur:
-                cur.execute(query)
-                rows = cur.fetchall()
-                columns = [desc[0] for desc in cur.description]
-            
-            return pd.DataFrame(rows, columns=columns)
-
-        except Exception as e:
-            logger.error(f"No data: {e}")
-            return pd.DataFrame()
-
-    def fetch_weather_data(self, result_id):
-        try:
-            query = queries.fetch_weather_query(result_id=result_id)
-            
-            with self.db.cursor() as cur:
-                cur.execute(query)
-                rows = cur.fetchall()
-                columns = [desc[0] for desc in cur.description]
-            
-            return pd.DataFrame(rows, columns=columns)
-
-        except Exception as e:
-            logger.error(f"No data: {e}")
-            return pd.DataFrame()
+        return current_df, hourly_df, daily_df
 
 
     def close(self):

@@ -65,9 +65,6 @@ class SingleDualAxisTracker:
         mount_type = array_config.get("mount_type")
         tracker_config = array_config.get("tracker_config")
 
-        surface_tilt = float(array_config.get("surface_tilt", 30))
-        surface_azimuth = float(array_config.get("surface_azimuth", 180))
-
         if mount_type == "single_axis":
             axis_tilt = float(tracker_config.get("axis_tilt", 0))
             axis_azimuth = float(tracker_config.get("axis_azimuth", 0))

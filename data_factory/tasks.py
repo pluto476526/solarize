@@ -2,6 +2,10 @@
 ## pkibuka@miky-way.space
 
 
+
+
+import requests_cache
+from retry_requests import retry
 from django.utils.timezone import now
 from django.conf import settings
 from datetime import datetime, timedelta
@@ -15,6 +19,8 @@ import os
 import openmeteo_requests
 from data_factory.database.connection import DatabaseConnection
 from data_factory.database.manager import DataManager
+from decouple import config
+from data_factory import task_utils
 
 logger = logging.getLogger(__name__)
 
@@ -92,6 +98,7 @@ def fetch_nasa_data(self):
         
         if not df_filtered.empty:
             db.insert_irradiance_data(df_filtered)
+            db.close()
     
     except Exception as e:
         logger.error(f"Failed to save to db: {e}")
@@ -138,3 +145,76 @@ def fetch_CEC_inverters(self):
 
     except Exception as e:
         logger.error(f"Failed to write inverters JSON file: {e}")
+
+
+@shared_task(bind=True)
+def fetch_climacell_data(self):
+    lat, lon = -1.2921, 36.8219
+    params = {
+        "location": f"{lat},{lon}",
+        "apikey": config("CLIMACELL_API_KEY"),
+    }
+
+    response = requests.get(
+        "https://api.tomorrow.io/v4/weather/realtime",
+        headers={"accept": "application/json"},
+        params=params,
+    )
+    print(response.json())
+
+
+@shared_task(bind=True)
+def fetch_openmeteo_weather(self):
+
+
+    # Setup the Open-Meteo API client with cache and retry on error
+    cache_session = requests_cache.CachedSession('.cache', expire_after = 3600)
+    retry_session = retry(cache_session, retries = 5, backoff_factor = 0.2)
+    openmeteo = openmeteo_requests.Client(session = retry_session)
+
+    # Make sure all required weather variables are listed here
+    # The order of variables in hourly or daily is important to assign them correctly below
+    url = "https://api.open-meteo.com/v1/forecast"
+    lat, lon = -1.2921, 36.8219
+
+    daily_params = ["sunrise", "sunset", "daylight_duration", "sunshine_duration", "uv_index_max", "uv_index_clear_sky_max", "rain_sum", "showers_sum", "precipitation_sum", "precipitation_hours", "precipitation_probability_max", "shortwave_radiation_sum", "wind_direction_10m_dominant"]
+    hourly_params = ["temperature_2m", "precipitation_probability", "precipitation", "rain", "showers", "shortwave_radiation", "diffuse_radiation", "direct_normal_irradiance", "sunshine_duration"]
+    current_params = ["temperature_2m", "relative_humidity_2m", "apparent_temperature", "precipitation", "rain", "showers", "weather_code", "cloud_cover", "wind_speed_10m", "wind_direction_10m", "wind_gusts_10m"]
+
+    params = {
+        "latitude": lat,
+        "longitude": lon,
+        "daily": daily_params,
+        "hourly": hourly_params,
+        "models": "best_match",
+        "current": current_params,
+        "timezone": "auto",
+    }
+    responses = openmeteo.weather_api(url, params=params)
+    response = responses[0]
+
+    conn = DatabaseConnection()
+    db = DataManager(conn)
+
+    location_idx = db.get_or_create_location(
+        provider="openmeteo",
+        latitude=lat,
+        longitude=lon,
+        elevation_m=response.Elevation(),
+        timezone=response.Timezone(),
+        tz_abbreviation=response.TimezoneAbbreviation(),
+        utc_offset_secs=response.UtcOffsetSeconds(),
+        model="best_match"
+    )
+
+    current_df, hourly_df, daily_df = task_utils.process_openmeteo_weather(response)
+
+    db.insert_openmeteo_data(location_idx, current_df, hourly_df, daily_df)
+
+
+
+
+
+
+
+

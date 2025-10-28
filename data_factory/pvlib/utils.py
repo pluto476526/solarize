@@ -5,6 +5,7 @@
 import pvlib
 import pandas as pd
 
+
 def fetch_TMY_data(lat, lon):
     weather, _ = pvlib.iotools.get_pvgis_tmy(
         latitude=lat,

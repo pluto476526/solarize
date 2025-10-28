@@ -1,4 +1,5 @@
 from typing import Dict, List, Optional
+from data_factory.pvlib import utils
 import pvlib
 import pandas as pd
 import logging
@@ -28,30 +29,41 @@ class BifacialPVSimulator:
         self.tz = location_params["tz"]
         self.albedo = float(location_params["albedo"])
         
-        # Timeframe parameters
-        self.timeframe_params = timeframe_params
-        
         # System parameters
-        self.mount_type = system_params.get("mount_type", "fixed")
         self.module = system_params["module"]
         self.module_type = system_params["module_type"]
         self.inverter = system_params["inverter"]
         self.modules_per_string = int(system_params["modules_per_string"])
         self.strings = int(system_params["strings"])
-        self.bifaciality = float(system_params["bifaciality"])
-        self.gcr = float(system_params.get("gcr", 0.4))
+        self.surface_tilt = float(system_params["surface_tilt"])
+        self.surface_azimuth = float(system_params["surface_azimuth"])
+        self.bifaciality = system_params["bifaciality"]
+        self.arrays = system_params.get("arrays_config", [])
+
         self.temp_model = system_params["temp_model"]
         self.temp_model_params = system_params["temp_model_params"]
         self.description = system_params["description"]
         
         # Losses parameters
-        self.soiling = float(losses_params.get("soiling", 0))
-        self.shading = float(losses_params.get("shading", 0))
-        self.mismatch = float(losses_params.get("mismatch", 0))
-        self.wiring = float(losses_params.get("wiring", 0))
-        self.connections = float(losses_params.get("connections", 0))
+        self.soiling = float(losses_params.get("soiling"))
+        self.shading = float(losses_params.get("shading"))
+        self.snow = float(losses_params.get("snow"))
+        self.mismatch = float(losses_params.get("mismatch"))
+        self.wiring = float(losses_params.get("wiring"))
+        self.connections = float(losses_params.get("connections"))
+        self.lid = float(losses_params.get("lid"))
+        self.nameplate = float(losses_params.get("nameplate"))
+        self.age = float(losses_params.get("age"))
+        self.availability = float(losses_params.get("availability"))
+
+        self.times = pd.date_range(
+            start=timeframe_params["start"],
+            end=timeframe_params["end"], 
+            tz=location_params["tz"]
+        )
         
-        self._validate_inputs()
+        
+        # self._validate_inputs()
 
     def _validate_inputs(self) -> None:
         """Validate input parameters.
@@ -62,8 +74,8 @@ class BifacialPVSimulator:
         issues = []
         
         # Validate timeframe
-        if not isinstance(self.timeframe_params, dict) or 'start' not in self.timeframe_params or 'end' not in self.timeframe_params:
-            issues.append("timeframe_params must be a dict with 'start' and 'end' keys")
+        # if not isinstance(self.timeframe_params, dict) or 'start' not in self.timeframe_params or 'end' not in self.timeframe_params:
+        #     issues.append("timeframe_params must be a dict with 'start' and 'end' keys")
         
         # Validate location
         if not (-90 <= self.lat <= 90):
@@ -94,7 +106,7 @@ class BifacialPVSimulator:
             logger.error(f"Validation failed: {issues}")
             raise ValueError(f"Input validation failed: {issues}")
 
-    def create_location(self) -> pvlib.location.Location:
+    def _create_location(self) -> pvlib.location.Location:
         """Create a pvlib Location object.
 
         Returns:
@@ -108,24 +120,51 @@ class BifacialPVSimulator:
             tz=self.tz
         )
 
-    def _create_mount(self) -> pvlib.pvsystem.FixedMount:
-        """Create fixed mount for bifacial system.
-
-        Returns:
-            pvlib.pvsystem.FixedMount: Configured mount object.
-        """
-        surface_tilt = float(self.system_params.get("surface_tilt", 30))
-        surface_azimuth = float(self.system_params.get("surface_azimuth", 180))
-        
-        if not 0 <= surface_tilt <= 90:
-            raise ValueError(f"Surface tilt {surface_tilt} must be between 0 and 90")
-        if not 0 <= surface_azimuth <= 360:
-            raise ValueError(f"Surface azimuth {surface_azimuth} must be between 0 and 360")
-            
+    def _create_mount(self, array_config):
         return pvlib.pvsystem.FixedMount(
-            surface_tilt=surface_tilt,
-            surface_azimuth=surface_azimuth
+            surface_tilt=float(array_config["surface_tilt"]),
+            surface_azimuth=float(array_config["surface_azimuth"]),
         )
+
+    def _get_irradiance(self, weather, solar_position):
+        """
+        Get rear and front side irradiance from pvfactors transposition engine
+        Explicity simulate on pvarray with 3 rows, with sensor placed in middle row
+        Users may select different values depending on needs
+        """
+
+        irrad = pvlib.bifacial.pvfactors.pvfactors_timeseries(
+            solar_azimuth=solar_position["azimuth"],
+            solar_zenith=solar_position["apparent_zenith"],
+            surface_azimuth=self.surface_azimuth,
+            surface_tilt=self.surface_tilt,
+            axis_azimuth=self.surface_azimuth,
+            timestamps=weather.index,
+            dni=weather["dni"],
+            dhi=weather["dhi"],
+            gcr=self.bifaciality["gcr"],
+            pvrow_height=self.bifaciality["pvrow_height"],
+            pvrow_width=self.bifaciality["pvrow_width"],
+            albedo=self.albedo,
+            n_pvrows=self.bifaciality["n_pvrows"],
+            index_observed_pvrow=self.bifaciality["index_observed_pvrow"],
+            rho_front_pvrow=self.bifaciality["rho_front_pvrow"],
+            rho_back_pvrow=self.bifaciality["rho_back_pvrow"],
+            horizon_band_angle=self.bifaciality["horizon_band_angle"]
+        )
+
+        # turn into pandas DataFrame
+        irrad = pd.concat(irrad, axis=1)
+
+        # create bifacial effective irradiance using aoi-corrected timeseries values
+        irrad["effective_irradiance"] = (
+            irrad["total_abs_front"] + (irrad["total_abs_back"] * self.bifaciality["bifaciality"])
+        )
+
+        return irrad
+
+
+
 
     def simulation_setup(self) -> pvlib.modelchain.ModelChain:
         """Set up the bifacial PV system model chain.
@@ -133,45 +172,87 @@ class BifacialPVSimulator:
         Returns:
             pvlib.modelchain.ModelChain: Configured model chain for simulation.
         """
-        module_params = pvlib.pvsystem.retrieve_sam('cecmod')[self.module]
-        module_params['bifaciality'] = self.bifaciality
-        module_params['bifacial_ground_clearance'] = self.system_params.get('ground_clearance', 1.0)
-        
-        inverter_params = pvlib.pvsystem.retrieve_sam('cecinverter')[self.inverter]
-        temp_params = pvlib.temperature.TEMPERATURE_MODEL_PARAMETERS[self.temp_model][self.temp_model_params]
-        
-        array = pvlib.pvsystem.Array(
-            mount=self._create_mount(),
-            albedo=self.albedo,
-            module_type=self.module_type,
-            module_parameters=module_params,
-            temperature_model_parameters=temp_params,
-            modules_per_string=self.modules_per_string,
-            strings=self.strings
-        )
-        
-        system = pvlib.pvsystem.PVSystem(
-            arrays=[array],
-            inverter_parameters=inverter_params,
-            losses_parameters={
-                'soiling': self.soiling,
-                'shading': self.shading,
-                'mismatch': self.mismatch,
-                'wiring': self.wiring,
-                'connections': self.connections
-            }
-        )
-        
-        return pvlib.modelchain.ModelChain(
-            system=system,
-            location=self.create_location(),
-            aoi_model="physical",
-            spectral_model="no_loss",
-            dc_ohmic_model="no_loss",
-            bifacial=True
+        # Retrieve module and inverter parameters
+        module_params, inverter_params = utils.fetch_cec_params(self.module, self.inverter)
+
+        # Temperature model parameters
+        temp_parameters = pvlib.temperature.TEMPERATURE_MODEL_PARAMETERS[self.temp_model][self.temp_model_params]
+
+        # System-wide losses
+        loss_params = pvlib.pvsystem.pvwatts_losses(
+            soiling=self.soiling,
+            shading=self.shading,
+            snow=self.snow,
+            mismatch=self.mismatch,
+            wiring=self.wiring,
+            connections=self.connections,
+            lid=self.lid,
+            nameplate_rating=self.nameplate,
+            age=self.age,
+            availability=self.availability
         )
 
-    def format_results(self, results: pvlib.modelchain.ModelChainResults) -> pd.DataFrame:
+        # Load arrays from config file
+        array_configs = getattr(self, "arrays", None)
+
+        if not isinstance(array_configs, list):
+            array_configs = []
+
+        # Always append the "main array"
+        array_configs.append({
+            "name": "MainArray",
+            "mount_type": "fixed_mount",
+            "module_type": self.module_type,
+            "surface_tilt": self.surface_tilt,
+            "surface_azimuth": self.surface_azimuth,
+            "modules_per_string": self.modules_per_string,
+            "strings": self.strings,
+            "albedo": self.albedo,
+            "tracker_config": {},
+            "array_losses": {
+                "mismatch": self.mismatch,
+                "wiring": self.wiring
+            },
+        })
+
+
+
+        # Build PVLib Array objects
+        arrays = []
+        for config in array_configs:
+            arr = pvlib.pvsystem.Array(
+                name=config["name"],
+                mount=self._create_mount(config),
+                albedo=float(config["albedo"]),
+                module_type=config["module_type"],
+                module_parameters=module_params,
+                temperature_model_parameters=temp_parameters,
+                modules_per_string=int(config["modules_per_string"]),
+                strings=int(config["strings"]),
+                array_losses_parameters=config["array_losses"]
+            )
+
+            arrays.append(arr)
+            
+
+        # Combine all arrays into a PVSystem
+        system = pvlib.pvsystem.PVSystem(
+            arrays=arrays,
+            inverter_parameters=inverter_params,
+            losses_parameters=loss_params
+        )
+
+        # Initialize model chain
+        return pvlib.modelchain.ModelChain(
+            system=system,
+            location=self._create_location(),
+            aoi_model="ashrae",
+            spectral_model="no_loss",
+            dc_ohmic_model="no_loss",
+        )
+
+
+    def format_results(self, results: pvlib.modelchain.ModelChainResult):
         """Format simulation results into a DataFrame.
 
         Args:
@@ -188,7 +269,8 @@ class BifacialPVSimulator:
             'dhi': results.weather['dhi'],
             'effective_irradiance': results.effective_irradiance,
             'cell_temperature': results.cell_temperature,
-            'bifacial_gain': results.dc['p_mp'] / results.dc['p_mp'].mean() if results.dc['p_mp'].mean() > 0 else 0
+            #"bifacial_gain": df["dc_power"] - df["dc_power"].min()) / df["dc_power"].mean()
+
         })
         df['timestamp'] = df.index
         df.attrs['system_summary'] = self.get_system_summary()
@@ -207,19 +289,15 @@ class BifacialPVSimulator:
             ValueError: If weather data is invalid or empty.
         """
         logger.info(f"Starting bifacial simulation for {self.name} (lat: {self.lat}, lon: {self.lon})")
-        weather_data = weather_data or pvlib.iotools.get_pvgis_tmy(self.lat, self.lon)[0]
-        start = pd.to_datetime(self.timeframe_params.get('start'))
-        end = pd.to_datetime(self.timeframe_params.get('end'))
-        weather_data = weather_data.loc[start:end]
-        
-        if weather_data.empty:
-            logger.error("No weather data available for the specified timeframe")
-            raise ValueError("Weather data is empty for the specified timeframe")
-        
+        weather_data = weather_data or utils.fetch_TMY_data(self.lat, self.lon)
+        location = self._create_location()
+        solar_position = location.get_solarposition(weather_data.index)
+        irrad = self._get_irradiance(weather_data, solar_position)
         mc = self.simulation_setup()
-        mc.run_model(weather_data)
+        mc.run_model_from_effective_irradiance(irrad)
         logger.info("Bifacial simulation completed successfully")
-        return self.format_results(mc.results)
+        logger.debug(mc.results)
+        return mc.results
 
     def get_system_summary(self) -> Dict:
         """Get a summary of the bifacial system configuration.

@@ -9,7 +9,7 @@ from django.core.cache import cache
 from data_factory.database.manager import DataManager
 from data_factory.database.connection import DatabaseConnection
 from data_factory.pvwatts.simulator import PVWattsSimulator
-from data_factory.pvlib import fixed_mount_simulator, specs_simulator, axis_tracking
+from data_factory.pvlib import fixed_mount_simulator, specs_simulator, bifacial_simulation, axis_tracking
 from data_factory.pvlib import general_analyzer, seasonal_analyzer, financial_analysis
 from data_factory.pvlib import plots, timeseries
 from analytics import utils, array_storage
@@ -409,9 +409,109 @@ def axis_tracking_view(request):
     return render(request, "analytics/axis_tracking.html", context)
 
 
+def bifacial_system_view(request):
+    conn = DatabaseConnection()
+    db = DataManager(conn)
+
+    if request.method == "POST":
+        simulation_name = request.POST.get("name", "Bifacial_System")
+        description = request.POST.get("description")
+        arrays_file = request.FILES.get('arrays_json')
+        arrays_config = json.load(arrays_file) if arrays_file else {}
+
+        array_names = {}
+
+        for idx, arr in enumerate(arrays_config):
+            name = arr.get("name", f"Array_{idx}")
+            array_names[str(idx)] = name
+
+        index = len(array_names)
+        array_names[str(index)] = "MainArray"
+        array_storage.save_array_file(request.user, f"{simulation_name}_bfs_arrays.json", array_names)
+
+        timeframe_params = {
+            "start": request.POST.get("start"),
+            "end": request.POST.get("end"),
+            "timeframe": request.POST.get("timeframe", "hourly"),
+        }
+
+        location_params = {
+            "name": simulation_name,
+            "lat": request.POST.get("lat"),
+            "lon": request.POST.get("lon"),
+            "alt": request.POST.get("alt"),
+            "tz": request.POST.get("tz"),
+            "albedo": request.POST.get("albedo"),
+        }
+
+        bifacial_params = {
+            "bifaciality": float(request.POST.get("bifaciality")),
+            "gcr": float(request.POST.get("gcr")),
+            "pvrow_height": float(request.POST.get("pvrow_height")),
+            "pvrow_width": float(request.POST.get("pvrow_width")),
+            "n_pvrows": int(request.POST.get("n_pvrows")),
+            "index_observed_pvrow": int(request.POST.get("index_observed_pvrow")),
+            "rho_front_pvrow": float(request.POST.get("rho_front_pvrow")),
+            "rho_back_pvrow": float(request.POST.get("rho_back_pvrow")),
+            "horizon_band_angle": float(request.POST.get("horizon_band_angle"))
+        }
+
+        system_params = {
+            "surface_azimuth": request.POST.get("azimuth"),
+            "surface_tilt": request.POST.get("tilt"),
+            "module": request.POST.get("module"),
+            "module_type": request.POST.get("module_type"),
+            "inverter": request.POST.get("inverter"),
+            "modules_per_string": request.POST.get("modules_per_string"),
+            "strings": request.POST.get("strings"),
+            "temp_model": request.POST.get("temp_model"),
+            "temp_model_params": request.POST.get("temp_model_params"),
+            "description": request.POST.get("description"),
+            "arrays_config": arrays_config,
+            "bifaciality": bifacial_params
+        }
+
+        losses_params = {
+            "soiling": request.POST.get("soiling"),
+            "shading": request.POST.get("shading"),
+            "snow": request.POST.get("snow"),
+            "mismatch": request.POST.get("mismatch"),
+            "wiring": request.POST.get("wiring"),
+            "connections": request.POST.get("connections"),
+            "lid": request.POST.get("lid"),
+            "nameplate": request.POST.get("nameplate"),
+            "age": request.POST.get("age"),
+            "availability": request.POST.get("availability"),
+        }
+
+        bpv = bifacial_simulation.BifacialPVSimulator(
+            timeframe_params=timeframe_params,
+            location_params=location_params,
+            system_params=system_params,
+            losses_params=losses_params
+        )
+
+        result = bpv.run_simulation()
+        result_id = db.save_modelchain_result(
+            result=result,
+            array_names=array_names,
+            simulation_name=simulation_name,
+            description=description
+        )
+
+        db.close()
+        messages.success(request, f"Configured system with {len(arrays_config)} arrays")
+        request.session["modelchain_result"] = result_id
+        return redirect("modelchain_result")
+    context = {}
+    return render(request, "analytics/bifacial_system.html", context)
+
+
+
+
 def modelchain_result_view(request):
     # result_id = request.session.get("pvlib_report")
-    result_id = 9
+    result_id = 11
     
     if not result_id:
         return redirect(request.META.get('HTTP_REFERER', '/'))
@@ -437,25 +537,17 @@ def modelchain_result_view(request):
         n_cell_temp = plots.normalize_pv_tuple(simulation_data["cell_temperature"])
 
         charts = {
-            "solar": plots.solar_elevation_chart(simulation_data["solar_position"]),
-            "sunpath": plots.sunpath_chart(simulation_data["solar_position"]),
-            "poa_vs_ghi": plots.poa_vs_ghi_chart(n_irr, n_weather),
-            "irr_breakdown": plots.irradiance_breakdown_chart(n_weather),
-            "poa_heatmap": plots.poa_heatmap(n_irr),
             "temp_wind": plots.temp_wind_chart(n_weather),
             "temp_vs_irr": plots.temp_vs_irradiance(n_cell_temp, n_irr),
-            "dc_vs_irr": plots.dc_vs_irradiance(n_dc, n_irr),
             "dc_vs_ac": plots.dc_vs_ac(n_dc, n_ac),
             "inverter_eff": plots.inverter_efficiency(n_dc, n_ac),
             "power_ts": plots.power_timeseries(n_dc, n_ac),
             "monthly_yield": plots.monthly_yield(n_ac),
             "temp_derate": plots.temp_derating(n_cell_temp, n_dc),
             "power_heatmap": plots.power_heatmap(n_ac),
-            "peak_power_vs_irr": plots.peak_power_vs_irradiance(n_ac, n_irr),
             "daily_yield": plots.daily_yield(n_ac),
             "cap_factor": plots.capacity_factor(n_ac),
-            "cum_energy": plots.cumulative_energy(n_ac),
-            "pr": plots.performance_ratio(n_ac, n_irr)
+            "cum_energy": plots.cumulative_energy(n_ac)
         }
 
         cache.set(charts_key, charts, timeout=3600)
@@ -480,7 +572,6 @@ def modelchain_result_view(request):
         "diode_params": timeseries.diode_params_chart(simulation_data["diode_params"], diode_params_array, diode_params_param),
         "irradiance": timeseries.total_irradiance_chart(simulation_data["irradiance"], irradiance_array, irradiance_param),
         "weather": timeseries.weather_chart(simulation_data["weather"], weather_param),
-        "solar_position": timeseries.solar_position_chart(simulation_data["solar_position"], solar_param),
     }
 
     meta_data = {
@@ -516,14 +607,6 @@ def modelchain_result_view(request):
     logger.debug(financial_metrics)
 
     return render(request, "analytics/modelchain_result.html", context)
-
-def bifacial_system_view(request):
-    context = {}
-    return render(request, "analytics/bifacial_system.html", context)
-
-def spectral_response_view(request):
-    context = {}
-    return render(request, "analytics/spectral_response.html", context)
 
 
 def climate_modelling_view(request):

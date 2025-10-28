@@ -9,6 +9,9 @@ DROP TABLE IF EXISTS diode_params CASCADE;
 DROP TABLE IF EXISTS total_irradiance CASCADE;
 DROP TABLE IF EXISTS solar_position CASCADE;
 DROP TABLE IF EXISTS weather CASCADE;
-
+DROP TABLE IF EXISTS weather_location CASCADE;
+DROP TABLE IF EXISTS weather_current CASCADE;
+DROP TABLE IF EXISTS weather_hourly CASCADE;
+DROP TABLE IF EXISTS weather_daily CASCADE;
 
 \i schema_setup.sql

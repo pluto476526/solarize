@@ -16,7 +16,7 @@
         <div class="row mb-3 mt-2 g-2">
             <div class="col-12 col-lg-6">
                 <div class="card shadow-sm bg-secondary h-100 p-3">
-                    <h1 class="h3 text-primary my-3"><i class="fas fa-sync-alt me-2"></i>Single-Axis Tracking System Simulation</h1>
+                    <h1 class="h3 text-primary my-3"><i class="fas fa-sync-alt me-2"></i>Single-Axis Tracking</h1>
                     <p class="text-muted small">Single-axis tracking systems dynamically rotate throughout the day to maintain optimal orientation toward the sun, typically following the sun's east-to-west daily path. These advanced systems represent a significant evolution beyond fixed mounting. They employ mechanical tracking mechanisms that can increase energy production by 15-25% compared to optimally tilted fixed arrays. The simulation captures the complex interplay between mechanical movement, changing sun angles, and the resulting energy harvest improvements throughout diurnal and seasonal cycles.</p>
                     
                     <p class="text-muted small">PVLib approaches single-axis tracking simulation through sophisticated algorithms that calculate optimal rotation angles minute-by-minute based on precise solar geometry calculations. The library implements backtracking routines that prevent inter-row shading during morning and evening hours by intentionally misaligning trackers when the sun's low angle would cause shadowing. PVLib models the complete operational sequence including stowing behavior during high wind conditions or nighttime, and restart protocols at dawn. The simulation incorporates mechanical constraints such as rotation limits, movement speed, and power consumption of tracking motors to generate realistic net energy gain calculations.</p>
@@ -27,7 +27,7 @@
 
             <div class="col-12 col-lg-6">
                 <div class="card shadow-sm bg-secondary h-100 p-3">
-                    <h1 class="h3 text-primary my-3"><i class="fas fa-sync me-2"></i>Dual-Axis Tracking System Simulation</h1>
+                    <h1 class="h3 text-primary my-3"><i class="fas fa-sync me-2"></i>Dual-Axis Tracking</h1>
                     <p class="text-muted small">Dual-axis tracking systems are the most advanced category of solar tracking technology. The arrays maintain perfect perpendicular orientation to the sun throughout both daily and seasonal movement patterns. These sophisticated systems adjust in both azimuth (compass direction) and altitude (elevation angle) dimensions, achieving maximum possible irradiance capture under clear sky conditions. Dual-axis tracking is particularly valuable for high-concentration photovoltaic systems and applications where land constraints demand maximum energy density from limited area.</p>
                     
                     <p class="text-muted small">Within PVLib, dual-axis tracking simulation employs precise astronomical calculations to determine the sun's exact position in both azimuth and altitude coordinates throughout the year. The library models the continuous adjustment of panel orientation to maintain optimal alignment, calculating the incremental energy gains from perfect sun-following capability. PVLib incorporates the additional mechanical complexity through more sophisticated movement algorithms, increased energy consumption for dual-motor systems, and enhanced stowing protocols for extreme weather conditions. The simulation accounts for the unique shading patterns that emerge from constantly changing array geometry and their impact on overall system performance.</p>
@@ -89,15 +89,7 @@
                         <div class="row g-2">
                             <div class="col-12">
                                 <label class="form-label small">PV Module</label>
-                                <input 
-                                    type="text" 
-                                    id="module-input" 
-                                    name="module" 
-                                    list="module-list"
-                                    autocomplete="off"
-                                    class="form-control form-control-sm"
-                                    placeholder="Type to search..."
-                                >
+                                <input type="text" id="module-input" name="module" list="module-list" autocomplete="off" class="form-control form-control-sm"placeholder="Type to search...">
                                 <datalist id="module-list"></datalist>
                             </div>
                             <div class="col-12">
@@ -109,15 +101,7 @@
                             </div>
                             <div class="col-12">
                                 <label class="form-label small">Inverter</label>
-                                <input 
-                                    type="text" 
-                                    id="inverter-input" 
-                                    name="inverter" 
-                                    list="inverter-list"
-                                    autocomplete="off"
-                                    class="form-control form-control-sm"
-                                    placeholder="Type to search..."
-                                >
+                                <input type="text" id="inverter-input" name="inverter" list="inverter-list" autocomplete="off" class="form-control form-control-sm" placeholder="Type to search...">
                                 <datalist id="inverter-list"></datalist>
                             </div>                            
                         </div>

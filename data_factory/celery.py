@@ -26,8 +26,16 @@ app.conf.beat_schedule = {
     #     "task": "data_factory.tasks.fetch_CEC_modules",
     #     "schedule": 30,
     # },
-    "fetch-CEC-inverters": {
-        "task": "data_factory.tasks.fetch_CEC_inverters",
+    # "fetch-CEC-inverters": {
+    #     "task": "data_factory.tasks.fetch_CEC_inverters",
+    #     "schedule": 30,
+    # },
+    # "fetch-climacell-data": {
+    #     "task": "data_factory.tasks.fetch_climacell_data",
+    #     "schedule": 30,
+    # },
+    "fetch-openmeteo-weather": {
+        "task": "data_factory.tasks.fetch_openmeteo_weather",
         "schedule": 30,
     },
 }

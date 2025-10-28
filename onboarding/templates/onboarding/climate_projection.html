@@ -1,0 +1,916 @@
+{% extends 'onboarding/sub_main.html' %}
+{% load static %}
+
+{% block main %}
+
+<!-- HERO SECTION -->
+<div class="site-hero_2" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.9)), url({% static 'onboarding/img/machine_learning_hero.jpg' %});">
+ <div class="section-overlay"></div>
+ <div class="page-title">
+  <h2>Climate Projection & NASA POWER</h2>
+  <div class="small-title">home / climate projection / </div>
+ </div>
+</div>
+<!-- CLIMATE PROJECTION OVERVIEW -->
+<section class="about_descr mt-100">
+ <div class="container">
+  <div class="row center mb-50">
+   <div class="col-md-8 col-md-offset-2 col-sm-12">
+    <div class="section-title">
+     <h2 class="mb-50">Climate Projection for Solar & Agriculture</h2>
+     <p>Harness NASA's POWER data for accurate climate projections that empower solar energy planning and agricultural decision-making at any scale.</p>
+    </div>
+   </div>
+  </div>
+ </div>
+</section>
+<!-- NASA POWER FUNDAMENTALS SECTION -->
+<section id="fundamentals" class="mt-100 mb-100" style="background-color: #1a1a00; padding: 80px 0;">
+ <div class="container">
+  <div class="row center mb-50">
+   <div class="col-md-8 col-md-offset-2 col-sm-12">
+    <div class="section-title">
+     <h2 class="mb-50">NASA POWER: Your Climate Intelligence Source</h2>
+     <p>Understanding NASA's Prediction of Worldwide Energy Resources database and its applications for sustainable planning.</p>
+    </div>
+   </div>
+  </div> text <div class="row">
+   <div class="col-md-6 wow fadeInUp">
+    <h3 class="mb-30">What is NASA POWER?</h3>
+    <p class="mb-30">NASA's Prediction of Worldwide Energy Resources (POWER) project provides solar, meteorological, and climate data specifically tailored for renewable energy and agricultural applications worldwide.</p>
+    <div class="mb-30">
+     <h5 class="mb-3">Key Features:</h5>
+     <ul class="services-list">
+      <li>
+       <strong>Global coverage from 1984 to present</strong>
+      </li>
+      <li>
+       <strong>High-resolution solar radiation data</strong>
+      </li>
+      <li>
+       <strong>Meteorological parameters (temperature, humidity, wind)</strong>
+      </li>
+      <li>
+       <strong>Climate projection datasets</strong>
+      </li>
+      <li>
+       <strong>Specifically validated for renewable energy applications</strong>
+      </li>
+     </ul>
+    </div>
+    <div class="mt-30">
+     <h5 class="mb-3">Data Accessibility:</h5>
+     <ul class="services-list">
+      <li>
+       <strong>Free and open access</strong> to all datasets
+      </li>
+      <li>
+       <strong>User-friendly APIs</strong> for developers
+      </li>
+      <li>
+       <strong>Multiple data formats</strong> for various applications
+      </li>
+      <li>
+       <strong>Regular updates</strong> and quality validation
+      </li>
+     </ul>
+    </div>
+   </div>
+   <div class="col-md-6 wow fadeInUp">
+    <img src="{% static 'onboarding/img/machine_learning_hero.jpg' %}" alt="NASA POWER Data" class="images">
+    <div class="mt-4">
+     <h5 class="mb-3">Why NASA POWER Matters for Small-Scale Users:</h5>
+     <p>Even individual farmers and small solar installers can access the same quality climate data that large corporations use, enabling data-driven decisions without massive budgets.</p>
+     <div class="bg-dark p-4 rounded mt-4">
+      <h6 class="text-warning">Small-Scale Benefits:</h6>
+      <ul class="list-unstyled text-light small">
+       <li class="mb-2">
+        <i class="fa fa-check text-success me-2"></i>No cost barrier to access quality data
+       </li>
+       <li class="mb-2">
+        <i class="fa fa-check text-success me-2"></i>Informed crop selection and planting decisions
+       </li>
+       <li class="mb-2">
+        <i class="fa fa-check text-success me-2"></i>Accurate solar system sizing for optimal ROI
+       </li>
+       <li>
+        <i class="fa fa-check text-success me-2"></i>Climate-resilient farming practices
+       </li>
+      </ul>
+     </div>
+    </div>
+   </div>
+  </div>
+ </div>
+</section>
+<!-- CLIMATE DATA COMPONENTS SECTION -->
+<section id="components" class="mt-100 mb-100">
+ <div class="container">
+  <div class="row center mb-50">
+   <div class="col-md-8 col-md-offset-2 col-sm-12">
+    <div class="section-title">
+     <h2 class="mb-50">Essential Climate Data Components</h2>
+     <p>Critical meteorological parameters that drive informed decisions in solar energy and agriculture.</p>
+    </div>
+   </div>
+  </div> text <div class="row g-4">
+   <!-- Solar Radiation Data -->
+   <div class="col-md-4 wow fadeInUp">
+    <div class="card h-100 bg-secondary border-0">
+     <div class="card-body p-4">
+      <div class="text-center mb-4">
+       <i class="fa fa-sun-o text-warning mb-3" style="font-size: 48px;"></i>
+       <h5 class="text-warning">Solar Radiation Parameters</h5>
+      </div>
+      <p class="card-text">Comprehensive solar data including direct normal irradiance, diffuse horizontal irradiance, and global horizontal irradiance with historical trends and future projections.</p>
+      <div class="mt-4">
+       <h6 class="text-info mb-3">Key Metrics:</h6>
+       <ul class="list-unstyled text-light small">
+        <li class="mb-2">
+         <i class="fa fa-check-circle text-success me-2"></i> All-sky surface shortwave downward irradiance
+        </li>
+        <li class="mb-2">
+         <i class="fa fa-check-circle text-success me-2"></i> Clear-sky radiation estimates
+        </li>
+        <li class="mb-2">
+         <i class="fa fa-check-circle text-success me-2"></i> Solar geometry parameters
+        </li>
+        <li>
+         <i class="fa fa-check-circle text-success me-2"></i> Photovoltaic power potential
+        </li>
+       </ul>
+      </div>
+     </div>
+    </div>
+   </div>
+   <!-- Temperature Data -->
+   <div class="col-md-4 wow fadeInUp" data-wow-delay=".1s">
+    <div class="card h-100 bg-secondary border-0">
+     <div class="card-body p-4">
+      <div class="text-center mb-4">
+       <i class="fa fa-fire text-warning mb-3" style="font-size: 48px;"></i>
+       <h5 class="text-warning">Temperature & Humidity</h5>
+      </div>
+      <p class="card-text">Critical temperature data including daily maximum/minimum temperatures, dew point, and relative humidity that impact both crop growth and solar panel efficiency.</p>
+      <div class="mt-4">
+       <h6 class="text-info mb-3">Agricultural Impact:</h6>
+       <ul class="list-unstyled text-light small">
+        <li class="mb-2">
+         <i class="fa fa-check-circle text-success me-2"></i> Growing degree days calculation
+        </li>
+        <li class="mb-2">
+         <i class="fa fa-check-circle text-success me-2"></i> Frost risk assessment
+        </li>
+        <li class="mb-2">
+         <i class="fa fa-check-circle text-success me-2"></i> Crop stress monitoring
+        </li>
+        <li>
+         <i class="fa fa-check-circle text-success me-2"></i> Irrigation scheduling
+        </li>
+       </ul>
+      </div>
+     </div>
+    </div>
+   </div>
+   <!-- Precipitation Data -->
+   <div class="col-md-4 wow fadeInUp" data-wow-delay=".2s">
+    <div class="card h-100 bg-secondary border-0">
+     <div class="card-body p-4">
+      <div class="text-center mb-4">
+       <i class="fa fa-tint text-warning mb-3" style="font-size: 48px;"></i>
+       <h5 class="text-warning">Precipitation & Soil Moisture</h5>
+      </div>
+      <p class="card-text">Rainfall patterns, precipitation rates, and soil moisture data essential for water management, irrigation planning, and understanding seasonal variations.</p>
+      <div class="mt-4">
+       <h6 class="text-info mb-3">Water Management:</h6>
+       <ul class="list-unstyled text-light small">
+        <li class="mb-2">
+         <i class="fa fa-check-circle text-success me-2"></i> Rainfall pattern analysis
+        </li>
+        <li class="mb-2">
+         <i class="fa fa-check-circle text-success me-2"></i> Drought risk assessment
+        </li>
+        <li class="mb-2">
+         <i class="fa fa-check-circle text-success me-2"></i> Soil water balance modeling
+        </li>
+        <li>
+         <i class="fa fa-check-circle text-success me-2"></i> Water requirement forecasting
+        </li>
+       </ul>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div>
+  <!-- Additional Components Row -->
+  <div class="row g-4 mt-4">
+   <!-- Wind Data -->
+   <div class="col-md-4 wow fadeInUp">
+    <div class="card h-100 bg-secondary border-0">
+     <div class="card-body p-4">
+      <div class="text-center mb-4">
+       <i class="fa fa-chevron-right text-warning mb-3" style="font-size: 48px;"></i>
+       <h5 class="text-warning">Wind & Atmospheric Data</h5>
+      </div>
+      <p class="card-text">Wind speed and direction data at multiple heights, atmospheric pressure, and other meteorological parameters that influence both agricultural and energy systems.</p>
+      <div class="mt-4">
+       <h6 class="text-info mb-3">Dual Applications:</h6>
+       <ul class="list-unstyled text-light small">
+        <li class="mb-2">
+         <i class="fa fa-check-circle text-success me-2"></i> Crop pollination and pest control
+        </li>
+        <li class="mb-2">
+         <i class="fa fa-check-circle text-success me-2"></i> Solar panel cooling effects
+        </li>
+        <li class="mb-2">
+         <i class="fa fa-check-circle text-success me-2"></i> Evapotranspiration calculations
+        </li>
+        <li>
+         <i class="fa fa-check-circle text-success me-2"></i> Structural load considerations
+        </li>
+       </ul>
+      </div>
+     </div>
+    </div>
+   </div>
+   <!-- Climate Projections -->
+   <div class="col-md-4 wow fadeInUp" data-wow-delay=".1s">
+    <div class="card h-100 bg-secondary border-0">
+     <div class="card-body p-4">
+      <div class="text-center mb-4">
+       <i class="fa fa-line-chart text-warning mb-3" style="font-size: 48px;"></i>
+       <h5 class="text-warning">Climate Change Projections</h5>
+      </div>
+      <p class="card-text">Long-term climate models showing projected changes in temperature, precipitation patterns, and extreme weather events for future decades.</p>
+      <div class="mt-4">
+       <h6 class="text-info mb-3">Future Planning:</h6>
+       <ul class="list-unstyled text-light small">
+        <li class="mb-2">
+         <i class="fa fa-check-circle text-success me-2"></i> 10-30 year climate scenarios
+        </li>
+        <li class="mb-2">
+         <i class="fa fa-check-circle text-success me-2"></i> Extreme weather frequency analysis
+        </li>
+        <li class="mb-2">
+         <i class="fa fa-check-circle text-success me-2"></i> Seasonal shift predictions
+        </li>
+        <li>
+         <i class="fa fa-check-circle text-success me-2"></i> Adaptation strategy development
+        </li>
+       </ul>
+      </div>
+     </div>
+    </div>
+   </div>
+   <!-- Soil Parameters -->
+   <div class="col-md-4 wow fadeInUp" data-wow-delay=".2s">
+    <div class="card h-100 bg-secondary border-0">
+     <div class="card-body p-4">
+      <div class="text-center mb-4">
+       <i class="fa fa-leaf text-warning mb-3" style="font-size: 48px;"></i>
+       <h5 class="text-warning">Soil & Topographical Data</h5>
+      </div>
+      <p class="card-text">Soil temperature, composition data, and topographical information that complements climate data for comprehensive agricultural planning.</p>
+      <div class="mt-4">
+       <h6 class="text-info mb-3">Soil Insights:</h6>
+       <ul class="list-unstyled text-light small">
+        <li class="mb-2">
+         <i class="fa fa-check-circle text-success me-2"></i> Soil temperature at multiple depths
+        </li>
+        <li class="mb-2">
+         <i class="fa fa-check-circle text-success me-2"></i> Land surface temperature variations
+        </li>
+        <li class="mb-2">
+         <i class="fa fa-check-circle text-success me-2"></i> Topography and elevation effects
+        </li>
+        <li>
+         <i class="fa fa-check-circle text-success me-2"></i> Microclimate identification
+        </li>
+       </ul>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div>
+ </div>
+</section>
+<!-- APPLICATIONS FOR SMALL-SCALE USERS SECTION -->
+<section id="small-scale" class="mt-100 mb-100" style="background-color: #1a1a00; padding: 80px 0;">
+ <div class="container">
+  <div class="row">
+   <div class="col-md-6 wow fadeInUp">
+    <h3 class="mb-30">Practical Applications for Small-Scale Users</h3>
+    <p class="mb-20">
+     <strong>Democratizing climate intelligence for individual decision-makers</strong>
+    </p>
+    <p class="mb-30">NASA POWER data isn't just for large corporations or research institutions. Small-scale farmers, individual solar installers, and local communities can leverage this information to make better, more profitable decisions.</p> text <div class="mb-30">
+     <h5 class="mb-3">Small Farm Applications:</h5>
+     <ul class="services-list">
+      <li>
+       <strong>Crop Selection:</strong> Choose crops best suited to projected climate conditions
+      </li>
+      <li>
+       <strong>Planting Dates:</strong> Optimize planting schedules based on temperature trends
+      </li>
+      <li>
+       <strong>Irrigation Planning:</strong> Schedule water application using evapotranspiration data
+      </li>
+      <li>
+       <strong>Frost Protection:</strong> Identify frost risk periods for sensitive crops
+      </li>
+      <li>
+       <strong>Pest Management:</strong> Predict pest outbreaks using temperature and humidity data
+      </li>
+     </ul>
+    </div>
+    <div class="mt-4">
+     <h5 class="mb-3">Residential Solar Applications:</h5>
+     <ul class="services-list">
+      <li>
+       <strong>System Sizing:</strong> Accurately size residential solar systems for optimal ROI
+      </li>
+      <li>
+       <strong>Financial Planning:</strong> Calculate realistic payback periods and savings
+      </li>
+      <li>
+       <strong>Performance Prediction:</strong> Estimate monthly energy production
+      </li>
+      <li>
+       <strong>Battery Storage:</strong> Determine optimal battery capacity for energy independence
+      </li>
+     </ul>
+    </div>
+   </div>
+   <div class="col-md-6 wow fadeInUp">
+    <img src="{% static 'onboarding/img/machine_learning_hero.jpg' %}" alt="Small Scale Applications" class="images">
+    <div class="mt-4">
+     <h5 class="mb-3">Real-World Success Stories:</h5>
+     <p>Small-scale users across the globe are already benefiting from NASA POWER data to improve their operations and increase profitability.</p>
+     <div class="bg-dark p-4 rounded mt-4">
+      <h6 class="text-warning">User Examples:</h6>
+      <ul class="list-unstyled text-light small">
+       <li class="mb-2">
+        <i class="fa fa-user text-info me-2"></i>
+        <strong>Kenyan Smallholder Farmer:</strong> Increased maize yields by 23% using optimized planting dates
+       </li>
+       <li class="mb-2">
+        <i class="fa fa-user text-info me-2"></i>
+        <strong>Arizona Homeowner:</strong> Achieved 98% energy independence with perfectly sized solar system
+       </li>
+       <li class="mb-2">
+        <i class="fa fa-user text-info me-2"></i>
+        <strong>Vietnamese Rice Farmer:</strong> Reduced water usage by 35% using evapotranspiration data
+       </li>
+       <li>
+        <i class="fa fa-user text-info me-2"></i>
+        <strong>California Vineyard:</strong> Improved grape quality by managing irrigation using soil moisture data
+       </li>
+      </ul>
+     </div>
+    </div>
+   </div>
+  </div>
+ </div>
+</section>
+<!-- SOLAR ENERGY APPLICATIONS SECTION -->
+<section id="solar-applications" class="mt-100 mb-100">
+ <div class="container">
+  <div class="row center mb-50">
+   <div class="col-md-8 col-md-offset-2 col-sm-12">
+    <div class="section-title">
+     <h2 class="mb-50">Solar Energy Planning with Climate Data</h2>
+     <p>Leveraging NASA POWER data for optimal solar energy system design and performance prediction.</p>
+    </div>
+   </div>
+  </div>
+      <div class="row">
+     <div class="col-md-12">
+      <div class="process-steps">
+       <div class="row">
+        <div class="col-md-4">
+         <div class="step">
+          <div class="step-number">1</div>
+          <h5>Solar Resource Assessment</h5>
+          <p>Analyze historical solar radiation patterns, seasonal variations, and long-term trends to understand the solar potential of any location worldwide.</p>
+         </div>
+        </div>
+        <div class="col-md-4">
+         <div class="step">
+          <div class="step-number">2</div>
+          <h5>Climate Pattern Analysis</h5>
+          <p>Identify local microclimates, cloud cover patterns, and atmospheric conditions that impact solar energy generation throughout the year.</p>
+         </div>
+        </div>
+        <div class="col-md-4">
+         <div class="step">
+          <div class="step-number">3</div>
+          <h5>Temperature Impact Study</h5>
+          <p>Examine how ambient temperature variations affect solar panel efficiency and identify optimal operating conditions for different technologies.</p>
+         </div>
+        </div>
+       </div>
+       <div class="row mt-4">
+        <div class="col-md-4">
+         <div class="step">
+          <div class="step-number">4</div>
+          <h5>Seasonal Performance Trends</h5>
+          <p>Understand monthly and seasonal production variations to plan for energy storage needs and grid integration requirements.</p>
+         </div>
+        </div>
+        <div class="col-md-4">
+         <div class="step">
+          <div class="step-number">5</div>
+          <h5>Long-term Climate Projections</h5>
+          <p>Assess how changing climate patterns might affect future solar resource availability and system performance over the project lifetime.</p>
+         </div>
+        </div>
+        <div class="col-md-4">
+         <div class="step">
+          <div class="step-number">6</div>
+          <h5>Comparative Site Analysis</h5>
+          <p>Compare solar resources across multiple potential sites to identify optimal locations for solar development projects.</p>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="row mt-50">
+  <div class="col-md-12">
+    <div class="bg-secondary p-5 rounded">
+      <h4 class="text-warning mb-4 text-center">Key Solar Analysis Applications</h4>
+      <div class="row">
+        <!-- Site Selection & Feasibility -->
+        <div class="col-md-6 mb-4">
+          <h6 class="text-info mb-3">Site Selection & Feasibility:</h6>
+          <ul class="list-unstyled text-light">
+            <li class="mb-2"><i class="fa fa-check text-success me-2"></i> Regional solar resource mapping</li>
+            <li class="mb-2"><i class="fa fa-check text-success me-2"></i> Inter-annual variability assessment</li>
+            <li class="mb-2"><i class="fa fa-check text-success me-2"></i> Climate risk evaluation for project sites</li>
+            <li class="mb-2"><i class="fa fa-check text-success me-2"></i> Optimal orientation and tilt analysis</li>
+            <li><i class="fa fa-check text-success me-2"></i> Micro-climate identification for maximum yield</li>
+          </ul>
+        </div>
+
+        <!-- Investment & Planning -->
+        <div class="col-md-6 mb-4">
+          <h6 class="text-info mb-3">Investment & Planning:</h6>
+          <ul class="list-unstyled text-light">
+            <li class="mb-2"><i class="fa fa-check text-success me-2"></i> Resource reliability assessment for financing</li>
+            <li class="mb-2"><i class="fa fa-check text-success me-2"></i> Seasonal production pattern analysis</li>
+            <li class="mb-2"><i class="fa fa-check text-success me-2"></i> Climate change impact on long-term returns</li>
+            <li class="mb-2"><i class="fa fa-check text-success me-2"></i> Portfolio diversification across climate zones</li>
+            <li><i class="fa fa-check text-success me-2"></i> Risk mitigation through climate-resilient site selection</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Data and Real-World Applications -->
+<div class="row mt-5">
+  <!-- Left Column: Data-Driven Decision Making -->
+  <div class="col-md-6 wow fadeInUp">
+    <h4 class="text-warning mb-4">Data-Driven Decision Making</h4>
+    <p class="mb-4">
+      NASA POWER data provides the foundation for evidence-based solar energy planning, enabling stakeholders to make informed decisions without relying on assumptions or limited local data.
+    </p>
+
+    <div class="mb-4">
+      <h6 class="text-info">Critical Data Points for Solar Analysis:</h6>
+      <ul class="list-unstyled text-light">
+        <li class="mb-2">
+          <i class="fa fa-sun-o text-warning me-2"></i>
+          <strong>All-sky insolation:</strong> Actual solar radiation reaching the surface
+        </li>
+        <li class="mb-2">
+          <i class="fa fa-cloud text-warning me-2"></i>
+          <strong>Clear-sky insolation:</strong> Maximum potential radiation
+        </li>
+        <li class="mb-2">
+          <i class="fa fa-thermometer text-warning me-2"></i>
+          <strong>Temperature profiles:</strong> Impact on panel efficiency
+        </li>
+        <li class="mb-2">
+          <i class="fa fa-calendar text-warning me-2"></i>
+          <strong>Seasonal patterns:</strong> Monthly and daily variations
+        </li>
+        <li>
+          <i class="fa fa-line-chart text-warning me-2"></i>
+          <strong>Historical trends:</strong> Long-term climate patterns
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Right Column: Real-World Application Examples -->
+  <div class="col-md-6 wow fadeInUp">
+    <h4 class="text-warning mb-4">Real-World Application Examples</h4>
+
+    <div class="bg-dark p-4 rounded mb-4">
+      <h6 class="text-info">Commercial Developer:</h6>
+      <p class="text-light small">
+        "Using NASA POWER data, we identified a 15% higher solar resource in what was previously considered a marginal location, turning a borderline project into a highly profitable investment."
+      </p>
+    </div>
+
+    <div class="bg-dark p-4 rounded mb-4">
+      <h6 class="text-info">Agricultural Cooperative:</h6>
+      <p class="text-light small">
+        "The climate data helped us understand seasonal production patterns, allowing us to optimize our energy storage needs and reduce our grid dependency by 40% during peak irrigation months."
+      </p>
+    </div>
+
+    <div class="bg-dark p-4 rounded">
+      <h6 class="text-info">Government Planner:</h6>
+      <p class="text-light small">
+        "We used the long-term climate projections to ensure our community solar projects will remain viable for the next 25 years, despite changing weather patterns."
+      </p>
+    </div>
+  </div>
+</div>
+
+ </div>
+</section>
+<!-- AGRICULTURAL APPLICATIONS SECTION -->
+<section id="agriculture-applications" class="mt-100 mb-100" style="background-color: #1a1a00; padding: 80px 0;">
+ <div class="container">
+  <div class="row">
+   <div class="col-md-6 wow fadeInUp">
+    <h3 class="mb-30">Agricultural Decision Support</h3>
+    <p class="mb-20">
+     <strong>Transforming climate data into farming intelligence</strong>
+    </p>
+    <p class="mb-30">NASA POWER data provides farmers with the climate intelligence needed to make informed decisions that increase yields, reduce risks, and improve resource efficiency.</p> text <div class="mb-30">
+     <h5 class="mb-3">Crop Management Applications:</h5>
+     <ul class="services-list">
+      <li>
+       <strong>Growing Degree Days:</strong> Track heat accumulation for crop development stages
+      </li>
+      <li>
+       <strong>Frost Risk Assessment:</strong> Identify last spring and first fall frost dates
+      </li>
+      <li>
+       <strong>Water Management:</strong> Calculate crop water requirements using evapotranspiration
+      </li>
+      <li>
+       <strong>Pest & Disease Forecasting:</strong> Predict outbreaks using temperature and humidity patterns
+      </li>
+      <li>
+       <strong>Yield Prediction:</strong> Estimate potential yields based on seasonal climate conditions
+      </li>
+     </ul>
+    </div>
+    <div class="mt-4">
+     <h5 class="mb-3">Resource Optimization:</h5>
+     <ul class="services-list">
+      <li>
+       <strong>Irrigation Scheduling:</strong> Apply water only when crops need it
+      </li>
+      <li>
+       <strong>Fertilizer Timing:</strong> Synchronize nutrient application with crop demand
+      </li>
+      <li>
+       <strong>Labor Planning:</strong> Schedule planting and harvesting activities efficiently
+      </li>
+      <li>
+       <strong>Energy Management:</strong> Optimize pump operation and other energy uses
+      </li>
+     </ul>
+    </div>
+   </div>
+   <div class="col-md-6 wow fadeInUp">
+    <img src="{% static 'onboarding/img/machine_learning_hero.jpg' %}" alt="Agricultural Applications" class="images">
+    <div class="mt-4">
+     <h5 class="mb-3">Success Metrics in Agriculture:</h5>
+     <p>Farmers using climate data-driven decisions consistently achieve better outcomes across multiple dimensions of farm performance.</p>
+     <div class="bg-dark p-4 rounded mt-4">
+      <h6 class="text-warning">Documented Improvements:</h6>
+      <ul class="list-unstyled text-light small">
+       <li class="mb-2">
+        <i class="fa fa-arrow-up text-success me-2"></i> 15-30% increase in water use efficiency
+       </li>
+       <li class="mb-2">
+        <i class="fa fa-arrow-up text-success me-2"></i> 10-25% reduction in fertilizer costs
+       </li>
+       <li class="mb-2">
+        <i class="fa fa-arrow-up text-success me-2"></i> 20-40% decrease in crop losses from weather events
+       </li>
+       <li class="mb-2">
+        <i class="fa fa-arrow-up text-success me-2"></i> 5-15% increase in overall yields
+       </li>
+       <li>
+        <i class="fa fa-arrow-up text-success me-2"></i> 25-50% improvement in farm profitability
+       </li>
+      </ul>
+     </div>
+    </div>
+   </div>
+  </div>
+ </div>
+</section>
+<!-- INTEGRATED SOLAR-AGRICULTURE SECTION -->
+<section id="agrivoltaics" class="mt-100 mb-100">
+ <div class="container">
+  <div class="row center mb-50">
+   <div class="col-md-8 col-md-offset-2 col-sm-12">
+    <div class="section-title">
+     <h2 class="mb-50">Integrated Solutions: Agrivoltaics</h2>
+     <p>Combining solar energy production with agricultural activities for synergistic benefits.</p>
+    </div>
+   </div>
+  </div> text <div class="row g-4">
+   <!-- Dual Land Use -->
+   <div class="col-md-4 wow fadeInUp">
+    <div class="card h-100 bg-secondary border-0">
+     <div class="card-body p-4">
+      <div class="text-center mb-4">
+       <i class="fa fa-map-o text-warning mb-3" style="font-size: 48px;"></i>
+       <h5 class="text-warning">Dual Land Use Optimization</h5>
+      </div>
+      <p class="card-text">Maximize land productivity by combining solar energy generation with agricultural production, using climate data to optimize both systems simultaneously.</p>
+      <div class="mt-4">
+       <h6 class="text-info mb-3">Synergistic Benefits:</h6>
+       <ul class="list-unstyled text-light small">
+        <li class="mb-2">
+         <i class="fa fa-check-circle text-success me-2"></i> Solar panels provide shade for heat-sensitive crops
+        </li>
+        <li class="mb-2">
+         <i class="fa fa-check-circle text-success me-2"></i> Crops reduce panel operating temperatures
+        </li>
+        <li class="mb-2">
+         <i class="fa fa-check-circle text-success me-2"></i> Increased overall land productivity
+        </li>
+        <li>
+         <i class="fa fa-check-circle text-success me-2"></i> Diversified income streams
+        </li>
+       </ul>
+      </div>
+     </div>
+    </div>
+   </div>
+   <!-- Microclimate Creation -->
+   <div class="col-md-4 wow fadeInUp" data-wow-delay=".1s">
+    <div class="card h-100 bg-secondary border-0">
+     <div class="card-body p-4">
+      <div class="text-center mb-4">
+       <i class="fa fa-cloud text-warning mb-3" style="font-size: 48px;"></i>
+       <h5 class="text-warning">Microclimate Management</h5>
+      </div>
+      <p class="card-text">Solar arrays create unique microclimates that can be managed to extend growing seasons, reduce water requirements, and enable new crop opportunities.</p>
+      <div class="mt-4">
+       <h6 class="text-info mb-3">Microclimate Effects:</h6>
+       <ul class="list-unstyled text-light small">
+        <li class="mb-2">
+         <i class="fa fa-check-circle text-success me-2"></i> Reduced soil evaporation
+        </li>
+        <li class="mb-2">
+         <i class="fa fa-check-circle text-success me-2"></i> Modified temperature extremes
+        </li>
+        <li class="mb-2">
+         <i class="fa fa-check-circle text-success me-2"></i> Altered wind patterns
+        </li>
+        <li>
+         <i class="fa fa-check-circle text-success me-2"></i> Changed humidity levels
+        </li>
+       </ul>
+      </div>
+     </div>
+    </div>
+   </div>
+   <!-- Water-Energy Nexus -->
+   <div class="col-md-4 wow fadeInUp" data-wow-delay=".2s">
+    <div class="card h-100 bg-secondary border-0">
+     <div class="card-body p-4">
+      <div class="text-center mb-4">
+       <i class="fa fa-tint text-warning mb-3" style="font-size: 48px;"></i>
+       <h5 class="text-warning">Water-Energy Nexus</h5>
+      </div>
+      <p class="card-text">Solar energy can power irrigation systems, while agricultural water management can influence local humidity and temperature conditions affecting solar panel performance.</p>
+      <div class="mt-4">
+       <h6 class="text-info mb-3">Integrated Management:</h6>
+       <ul class="list-unstyled text-light small">
+        <li class="mb-2">
+         <i class="fa fa-check-circle text-success me-2"></i> Solar-powered precision irrigation
+        </li>
+        <li class="mb-2">
+         <i class="fa fa-check-circle text-success me-2"></i> Reduced pumping costs
+        </li>
+        <li class="mb-2">
+         <i class="fa fa-check-circle text-success me-2"></i> Optimized water-energy efficiency
+        </li>
+        <li>
+         <i class="fa fa-check-circle text-success me-2"></i> Climate-resilient food-energy systems
+        </li>
+       </ul>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div>
+  <!-- Success Stories Row -->
+  <div class="row g-4 mt-4">
+   <!-- Case Study 1 -->
+   <div class="col-md-4 wow fadeInUp">
+    <div class="card h-100 bg-secondary border-0">
+     <div class="card-body p-4">
+      <div class="text-center mb-4">
+       <i class="fa fa-leaf text-warning mb-3" style="font-size: 48px;"></i>
+       <h5 class="text-warning">Vegetable Production</h5>
+      </div>
+      <p class="card-text">Lettuce and leafy greens grown under solar panels showed 30% higher yields during hot summer months due to reduced heat stress and water conservation.</p>
+      <div class="mt-4">
+       <h6 class="text-info mb-3">Results:</h6>
+       <ul class="list-unstyled text-light small">
+        <li class="mb-2">
+         <i class="fa fa-check text-success me-2"></i> Extended growing season
+        </li>
+        <li class="mb-2">
+         <i class="fa fa-check text-success me-2"></i> Reduced irrigation needs
+        </li>
+        <li class="mb-2">
+         <i class="fa fa-check text-success me-2"></i> Higher quality produce
+        </li>
+        <li>
+         <i class="fa fa-check text-success me-2"></i> Additional solar income
+        </li>
+       </ul>
+      </div>
+     </div>
+    </div>
+   </div>
+   <!-- Case Study 2 -->
+   <div class="col-md-4 wow fadeInUp" data-wow-delay=".1s">
+    <div class="card h-100 bg-secondary border-0">
+     <div class="card-body p-4">
+      <div class="text-center mb-4">
+       <i class="fa fa-tree text-warning mb-3" style="font-size: 48px;"></i>
+       <h5 class="text-warning">Berry Cultivation</h5>
+      </div>
+      <p class="card-text">Raspberries and blueberries grown in agrivoltaic systems demonstrated improved fruit quality and reduced sunscald damage, commanding premium prices.</p>
+      <div class="mt-4">
+       <h6 class="text-info mb-3">Benefits:</h6>
+       <ul class="list-unstyled text-light small">
+        <li class="mb-2">
+         <i class="fa fa-check text-success me-2"></i> Reduced fruit sun damage
+        </li>
+        <li class="mb-2">
+         <i class="fa fa-check text-success me-2"></i> More consistent fruit size
+        </li>
+        <li class="mb-2">
+         <i class="fa fa-check text-success me-2"></i> Lower cooling costs for harvest
+        </li>
+        <li>
+         <i class="fa fa-check text-success me-2"></i> Dual revenue streams
+        </li>
+       </ul>
+      </div>
+     </div>
+    </div>
+   </div>
+   <!-- Case Study 3 -->
+   <div class="col-md-4 wow fadeInUp" data-wow-delay=".2s">
+    <div class="card h-100 bg-secondary border-0">
+     <div class="card-body p-4">
+      <div class="text-center mb-4">
+       <i class="fa fa-pagelines text-warning mb-3" style="font-size: 48px;"></i>
+       <h5 class="text-warning">Livestock Integration</h5>
+      </div>
+      <p class="card-text">Sheep grazing under solar arrays provided vegetation management while benefiting from shade, creating a symbiotic relationship between energy and livestock production.</p>
+      <div class="mt-4">
+       <h6 class="text-info mb-3">Advantages:</h6>
+       <ul class="list-unstyled text-light small">
+        <li class="mb-2">
+         <i class="fa fa-check text-success me-2"></i> Reduced mowing costs
+        </li>
+        <li class="mb-2">
+         <i class="fa fa-check text-success me-2"></i> Improved animal welfare
+        </li>
+        <li class="mb-2">
+         <i class="fa fa-check text-success me-2"></i> Natural fertilizer production
+        </li>
+        <li>
+         <i class="fa fa-check text-success me-2"></i> Enhanced system resilience
+        </li>
+       </ul>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div>
+ </div>
+</section>
+<!-- CLIMATE RESILIENCE SECTION -->
+<section id="climate-resilience" class="mt-100 mb-100" style="background-color: #1a1a00; padding: 80px 0;">
+ <div class="container">
+  <div class="row center mb-50">
+   <div class="col-md-8 col-md-offset-2 col-sm-12">
+    <div class="section-title">
+     <h2 class="mb-50">Building Climate Resilience</h2>
+     <p>Using climate projections to prepare for future conditions and build adaptive capacity.</p>
+    </div>
+   </div>
+  </div> text <div class="row">
+   <div class="col-md-6 wow fadeInUp">
+    <h3 class="mb-30">Future-Proofing Your Operations</h3>
+    <p class="mb-30">Climate projections from NASA POWER enable proactive adaptation to changing conditions, reducing vulnerability to climate risks and ensuring long-term sustainability.</p>
+    <div class="mb-30">
+     <h5 class="mb-3">Climate Risk Assessment:</h5>
+     <ul class="services-list">
+      <li>
+       <strong>Extreme Weather:</strong> Identify increasing risks of heatwaves, droughts, and heavy rainfall
+      </li>
+      <li>
+       <strong>Seasonal Shifts:</strong> Prepare for changing planting and harvesting windows
+      </li>
+      <li>
+       <strong>Water Availability:</strong> Plan for altered precipitation patterns and water scarcity
+      </li>
+      <li>
+       <strong>Temperature Trends:</strong> Adapt to rising average temperatures and increased heat stress
+      </li>
+      <li>
+       <strong>Pest & Disease Patterns:</strong> Anticipate changes in pest pressures and disease risks
+      </li>
+     </ul>
+    </div>
+    <div class="mb-30">
+     <h5 class="mb-3">Adaptation Strategies:</h5>
+     <ul class="services-list">
+      <li>
+       <strong>Crop Diversification:</strong> Spread risk across multiple crops with different climate tolerances
+      </li>
+      <li>
+       <strong>Water Management:</strong> Implement more efficient irrigation and water capture systems
+      </li>
+      <li>
+       <strong>Infrastructure Resilience:</strong> Strengthen systems against extreme weather events
+      </li>
+      <li>
+       <strong>Energy Security:</strong> Ensure reliable power supply through climate-resilient solar design
+      </li>
+     </ul>
+    </div>
+   </div>
+   <div class="col-md-6 wow fadeInUp">
+    <img src="{% static 'onboarding/img/machine_learning_hero.jpg' %}" alt="Climate Resilience" class="images">
+    <div class="mt-4">
+     <h5 class="mb-3">Long-Term Planning Benefits:</h5>
+     <p>Businesses and communities that incorporate climate projections into their planning demonstrate greater resilience and maintain productivity despite changing conditions.</p>
+     <div class="bg-dark p-4 rounded mt-4">
+      <h6 class="text-warning">Resilience Metrics:</h6>
+      <ul class="list-unstyled text-light small">
+       <li class="mb-2">
+        <i class="fa fa-shield text-info me-2"></i> 40-60% reduction in climate-related losses
+       </li>
+       <li class="mb-2">
+        <i class="fa fa-shield text-info me-2"></i> 25-45% improvement in resource efficiency
+       </li>
+       <li class="mb-2">
+        <i class="fa fa-shield text-info me-2"></i> 30-50% faster recovery from extreme events
+       </li>
+       <li class="mb-2">
+        <i class="fa fa-shield text-info me-2"></i> 15-35% higher asset value due to climate resilience
+       </li>
+       <li>
+        <i class="fa fa-shield text-info me-2"></i> Improved access to financing and insurance
+       </li>
+      </ul>
+     </div>
+    </div>
+   </div>
+  </div>
+ </div>
+</section>
+<!-- GETTING STARTED SECTION -->
+<section class="mt-100 mb-100">
+ <div class="container">
+  <div class="row center">
+   <div class="col-md-8 col-md-offset-2 col-sm-12">
+    <div class="section-title">
+     <h2 class="mb-50">Start Using NASA POWER Climate Data</h2>
+     <p>Access powerful climate intelligence for your solar and agricultural planning needs.</p>
+    </div>
+   </div>
+  </div>
+  <div class="row mt-5">
+   <div class="col-12 text-center">
+    <div class="bg-secondary rounded p-5">
+     <div class="d-flex justify-content-center gap-3 flex-wrap"> {% if request.user.is_authenticated %} <a href="{% url 'dash' %}" class="default-btn text-warning"> Access Climate Data <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+      </a> {% else %} <a href="{% url 'signin' %}" class="default-btn text-warning"> Start Climate Analysis <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+      </a>
+      <a href="{% url 'signup' %}" class="default-btn btn-light"> Free Trial <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+      </a> {% endif %}
+     </div>
+     <div class="mt-4 text-light">
+      <small>All NASA POWER data is freely available and accessible through our platform</small>
+     </div>
+    </div>
+   </div>
+  </div>
+ </div>
+</section>
+
+
+{% endblock %}

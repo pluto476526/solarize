@@ -33,6 +33,9 @@ def pv_modelling_view(request):
     context = {}
     return render(request, "onboarding/pv_modelling.html", context)
 
+def climate_projection_view(request):
+    context = {}
+    return render(request, "onboarding/climate_projection.html", context)
 
 def signin_view(request):
     if request.user.is_authenticated:

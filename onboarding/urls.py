@@ -12,6 +12,7 @@ urlpatterns = [
     path("accounts/log-in/", views.signin_view, name="signin"),
     path("accounts/register/", views.signup_view, name="signup"),
     path("photovoltaic-simulation/", views.pv_modelling_view, name="pv_modelling"),
+    path("climate-projection/", views.climate_projection_view, name="climate_projection"),
     path("features/", views.features_view, name="features"),
     path("data-sources/", views.data_sources_view, name="data_sources"),
     path("solutions/", views.solutions_view, name="solutions"),

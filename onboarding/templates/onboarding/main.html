@@ -33,7 +33,7 @@
   </style>
 </head>
 
-<body class="animsition" style="background: black;">
+<body class="animsition" style="background: black; padding: 15px;">
   <!-- HEADER  -->
   <header class="main-header">
     <div class="container-fluid">
@@ -55,7 +55,7 @@
 
                 <li><a href="#what-is-pv">What is PV Modeling?</a></li>
                 <li><a href="#why-model">Why Model PV Systems?</a></li>
-                <li><a href="#how-modeling-works">How Modeling Works</a></li>
+                <li><a href="#how-modeling-works">How PV Modeling Works</a></li>
                 <li><a href="#challenges-solved">Challenges Solved</a></li>
                 <li><a href="#solutions">Our Solutions</a></li>
 
@@ -75,6 +75,35 @@
                 <li class="box-social"><a href="#0"><i class="fa fa-github" aria-hidden="true"></i></a></li> -->
             </ul>
         </nav>
+
+        <!-- ==== MOBILE MENU (only visible on small screens) ==== -->
+        <div class="mobile-menu-wrapper">
+          <button class="mobile-menu-toggle" aria-label="Open menu">
+              <span></span><span></span><span></span>
+          </button>
+
+          <div class="mobile-menu">
+              <ul class="mobile-primary-nav">
+                  <li class="mobile-label">SOLARIZE</li>
+
+                  <li><a href="#what-is-pv">What is PV Modeling?</a></li>
+                  <li><a href="#why-model">Why Model PV Systems?</a></li>
+                  <li><a href="#how-modeling-works">How PV Modeling Works</a></li>
+                  <li><a href="#challenges-solved">Challenges Solved</a></li>
+                  <li><a href="#solutions">Our Solutions</a></li>
+                  <li><a href="#climate-projection">Climate Projection</li>
+
+                  <li class="mobile-label">ACCOUNT</li>
+
+                  {% if request.user.is_authenticated %}
+                  <li><a href="{% url 'dash' %}">Dashboard</a></li>
+                  <li><a href="">Log out</a></li>
+                  {% else %}
+                  <li><a href="{% url 'signin' %}">Sign In</a></li>
+                  {% endif %}
+              </ul>
+          </div>
+      </div>
         <!-- end nav -->
 
         <!-- box-intro -->
@@ -82,8 +111,8 @@
             <div class="table-cell">
                 <h3 class="box-headline letters rotate-2">
                     <span class="box-words-wrapper" style="color: aliceblue;">
-                        <b class="is-visible">PRECISE &nbsp;&amp;&nbsp; RELIABLE.</b>
-                        <b>&nbsp;ACCESSIBLE &nbsp; ADVANCED &nbsp; SOLAR &nbsp;MODELING.</b>
+                        <b class="is-visible">PRECISE &amp; RELIABLE.</b>
+                        <b>ADVANCED SOLAR Simulation.</b>
                     </span>
                 </h3>
                 <h1 style="color: aliceblue;">SOLAR ENERGY MODELING</h1>
@@ -137,8 +166,8 @@
     const cursor = document.getElementById("cursor");
 
     const text = [
-      "Accurately model and predict solar energy production across different locations and system configurations.",
-      "Leverage advanced tools like NREL PVWatts and PVlib to simulate PV system performance, analyze seasonal variations, and optimize energy output."
+      "Simulate energy production across different locations and system configurations.",
+      "Leverage advanced tools like NREL PVWatts and PVlib."
     ];
 
 
@@ -193,6 +222,17 @@
     }, 500);
 
     typeChar();
-    </script>
+
+    (function(){
+        var toggle = document.querySelector('.mobile-menu-toggle');
+        var menu = document.querySelector('.mobile-menu');
+
+        toggle.addEventListener('click', function(){
+            var expanded = toggle.getAttribute('aria-expanded') === 'true';
+            toggle.setAttribute('aria-expanded', !expanded);
+            menu.classList.toggle('open');
+        });
+    })();
+</script>
 </body>
 </html>

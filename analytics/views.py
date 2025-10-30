@@ -628,11 +628,13 @@ def climate_modelling_view(request):
     context = {}
     return render(request, "analytics/climate_modelling.html", context)
 
-def astronomy_view(request):
+def help_view(request):
     context = {}
-    return render(request, "analytics/astronomy.html", context)
+    return render(request, "analytics/help.html", context)
 
-
+def repository_view(request):
+    context = {}
+    return render(request, "analytics/repository.html", context)
 
 def air_quality_view(request):
     conn = DatabaseConnection()

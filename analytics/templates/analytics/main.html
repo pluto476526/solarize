@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Solarize - Solar Energy Modelling</title>
+    <title>Solarize - Solar Energy Solutions</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -51,17 +51,17 @@
         <!-- Sidebar Start -->
         <div class="sidebar pe-4 pb-3">
             <nav class="navbar bg-secondary navbar-dark">
-                <a href="index.html" class="navbar-brand mx-4 mb-3">
+                <a href="/" class="navbar-brand mx-4 mb-3">
                     <h3 class="text-warning"><i class="fas fa-sun me-2"></i>Solarize</h3>
                 </a>
                 <div class="d-flex align-items-center ms-4 mb-4">
                     <div class="position-relative">
-                        <img class="rounded-circle" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                        <img class="rounded-circle" src="{{ request.user.profile.avatar.url }}" alt="Avatar" style="width: 40px; height: 40px;">
                         <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
                     </div>
                     <div class="ms-3">
-                        <h6 class="mb-0">{{ request.user }}</h6>
-                        <span>Solar Analyst</span>
+                        <h6 class="mb-0">{{ request.user.username|title }}</h6>
+                        <span>{{ request.user.profile.job_title|title }}</span>
                     </div>
                 </div>
                 <div class="navbar-nav w-100">
@@ -105,10 +105,10 @@
 
                     <!-- SYSTEM -->
                     <div class="nav-item text-uppercase text-muted small px-3 mt-3 mb-1">System Tools</div>
-                    <a href="" class="nav-item nav-link">
-                        <i class="fas fa-cog me-2"></i>Settings
+                    <a href="{% url 'repo' %}" class="nav-item nav-link">
+                        <i class="fas fa-cog me-2"></i>Repository
                     </a>
-                    <a href="" class="nav-item nav-link">
+                    <a href="{% url 'help' %}" class="nav-item nav-link">
                         <i class="fas fa-info-circle me-2"></i>Help & FAQs
                     </a>
                     <hr class="my-1 border-secondary">
@@ -187,7 +187,7 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            const fileInput = document.querySelector('#arrays_json');
+            const fileInput = document.querySelector('#file-input');
             const fileNameDisplay = document.querySelector('#file-name');
 
             if (fileInput && fileNameDisplay) {

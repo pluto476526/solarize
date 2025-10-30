@@ -11,7 +11,7 @@
 
         
     <!-- Weather Metrics Start -->
-    <div class="container-fluid pt-4 px-4">
+    <div class="container-fluid pt-4 px-3">
         <div class="row g-4">
             <!-- Current Temperature -->
             <div class="col-sm-6 col-xl-3">
@@ -65,7 +65,7 @@
     <!-- Weather Metrics End -->
 
     <!-- Current Conditions Start -->
-    <div class="container-fluid pt-4 px-4">
+    <div class="container-fluid pt-4 px-3">
         <div class="row g-4">
             <!-- Current Weather Widget -->
             <div class="col-sm-12 col-md-6 col-xl-3">
@@ -150,69 +150,12 @@
     </div>
     <!-- Current Conditions End -->
 
-    <!-- Weather Charts Start -->
-    <div class="container-fluid pt-4 px-4">
-        <div class="row g-4">
-            <!-- Hourly Forecast -->
-            <div class="col-sm-12 col-xl-6">
-                <div class="bg-secondary text-center rounded p-4">
-                    <div class="d-flex align-items-center justify-content-between mb-4">
-                        <h6 class="mb-0">analysis.hourly_analysis.time_period</h6>
-                        <a href="hourly.html">View Details</a>
-                        <div class="dropdown">
-                            <a href="#" class="" type="button" id="hourlyOptions" data-bs-toggle="dropdown" aria-expanded="false">
-                                Options
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-end p-3 bg-secondary" style="min-width: 250px;">
-                                <form id="hourlyForecastOptions">
-                                    <div class="mb-3">
-                                        <label for="parameterSelect" class="form-label small fw-bold text-muted">PARAMETER</label>
-                                        <select class="form-select form-select-sm" id="parameterSelect">
-                                            <option selected>Temperature</option>
-                                            <option value="precipitation">Precipitation</option>
-                                            <option value="humidity">Humidity</option>
-                                            <option value="wind">Wind Speed</option>
-                                            <option value="pressure">Pressure</option>
-                                        </select>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="timeRange" class="form-label small fw-bold text-muted">TIME RANGE</label>
-                                        <select class="form-select form-select-sm" id="timeRange">
-                                            <option selected>24 hours</option>
-                                            <option value="48">48 hours</option>
-                                            <option value="72">72 hours</option>
-                                        </select>
-                                    </div>
-                                    <button type="submit" class="btn btn-sm btn-primary w-100">Apply Filters</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="hourly-chart">{{ hourly_chart|safe }}</div>
-                </div>
-            </div>
-            
-            <!-- Daily Forecast -->
-            <div class="col-sm-12 col-xl-6">
-                <div class="bg-secondary text-center rounded p-4">
-                    <div class="d-flex align-items-center justify-content-between mb-4">
-                        <h6 class="mb-0">{{ analysis.daily_analysis.time_period }}</h6>
-                        <a href="daily.html">View Details</a>
-                    </div>
-                    <div id="daily-forecast-chart">{{ daily_chart|safe }}</div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Weather Charts End -->
-
     <!-- Weather Alerts Overview Start -->
-    <div class="container-fluid pt-4 px-4">
+    <div class="container-fluid p-4">
         <div class="row g-4">
             <div class="col-sm-12 col-md-6 col-xl-8 bg-secondary text-center rounded p-4">
                 <div class="d-flex align-items-center justify-content-between mb-4">
-                    <h6 class="mb-0">Active Weather Alerts</h6>
-                    <a href="">View All</a>
+                    <h6 class="mb-0 text-warning">Active Weather Alerts</h6>
                 </div>
                 <div class="table-responsive">
                     <table class="table text-start align-middle table-bordered table-hover mb-0">
@@ -222,7 +165,6 @@
                                 <th scope="col">Level</th>
                                 <th scope="col">Message</th>
                                 <th scope="col">Details</th>
-                                <th scope="col">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -240,9 +182,6 @@
                                 </td>
                                 <td>{{ alert.message }}</td>
                                 <td>{{ alert.details }}</td>
-                                <td>
-                                    <a class="btn btn-sm btn-primary" href="">Map</a>
-                                </td>
                             </tr>
                             {% empty %}
                             <tr>
@@ -257,8 +196,7 @@
             <div class="col-sm-12 col-md-6 col-xl-4">
                 <div class="h-100 bg-secondary rounded p-4">
                     <div class="d-flex align-items-center justify-content-between mb-2">
-                        <h6 class="mb-0">Weather Factors</h6>
-                        <a href="details.html">View All</a>
+                        <h6 class="mb-0 text-warning">Weather Factors</h6>
                     </div>
                     <div class="d-flex align-items-center border-bottom py-3">
                         <div class="rounded-circle bg-warning d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
@@ -315,7 +253,7 @@
     <!-- Weather Alerts Overview End -->
 
     <!-- Weather Widgets Start -->
-    <div class="container-fluid pt-4 px-4">
+    <div class="container-fluid px-3">
         <div class="row g-4">            
            <!-- Weather Summary -->
             <div class="col-sm-12 col-md-6 col-xl-4">
@@ -496,7 +434,7 @@
     <!-- Weather Widgets End -->
 
     <!-- Detailed Forecast Start -->
-    <div class="container-fluid pt-4 px-4">
+    <div class="container-fluid pt-4 px-3">
         <div class="row g-4">
             <!-- Hourly Breakdown -->
             <div class="col-sm-12 col-xl-6">
@@ -598,25 +536,8 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     <!-- Data Sources & Methodology Documentation -->
-    <div class="container-fluid pt-4 px-4">
+    <div class="container-fluid pt-4 px-3">
         <div class="row g-4">
             <div class="col-12">
                 <div class="bg-secondary rounded p-4">
@@ -869,20 +790,7 @@
         </div>
     </div>
 
-    <!-- Footer Start -->
-    <div class="container-fluid pt-4 px-4">
-        <div class="bg-secondary rounded-top p-4">
-            <div class="row">
-                <div class="col-12 col-sm-6 text-center text-sm-start">
-                    &copy; <a href="#">Weather Analytics Dashboard</a>, All Rights Reserved. 
-                </div>
-                <div class="col-12 col-sm-6 text-center text-sm-end">
-                    Real-time Weather Data & Forecasts
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Footer End -->
+    {% include 'analytics/footer.html' %}
 </div>
 <!-- Content End -->
 

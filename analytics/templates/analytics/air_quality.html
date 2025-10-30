@@ -13,7 +13,7 @@
 
 
     <!-- Air Quality Metrics Start -->
-    <div class="container-fluid pt-4 px-4">
+    <div class="container-fluid pt-4 px-3">
         <div class="row g-4">
             <!-- PM2.5 -->
             <div class="col-sm-6 col-xl-3">
@@ -67,7 +67,7 @@
     <!-- Air Quality Metrics End -->
 
     <!-- Current Air Quality Conditions Start -->
-    <div class="container-fluid pt-4 px-4">
+    <div class="container-fluid pt-4 px-3">
         <div class="row g-4">
             <!-- Primary Pollutants -->
             <div class="col-sm-12 col-md-6 col-xl-3">
@@ -148,73 +148,9 @@
     </div>
     <!-- Current Air Quality Conditions End -->
 
-    <!-- Air Quality Charts Start -->
-    <div class="container-fluid pt-4 px-4">
-        <div class="row g-4">
-            <!-- Pollutant Concentration Trends -->
-            <div class="col-sm-12 col-xl-6">
-                <div class="bg-secondary text-center rounded p-4">
-                    <div class="d-flex align-items-center justify-content-between mb-4">
-                        <h6 class="mb-0">Pollutant Concentration Trends</h6>
-                        <a href="">View Details</a>
-                        <div class="dropdown">
-                            <a href="#" class="" type="button" id="pollutantOptions" data-bs-toggle="dropdown" aria-expanded="false">
-                                Options
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-end p-3 bg-secondary" style="min-width: 250px;">
-                                <form id="pollutantOptionsForm">
-                                    <!-- Time Range -->
-                                    <div class="mb-3">
-                                        <label for="timeRange" class="form-label small fw-bold text-muted">TIME RANGE</label>
-                                        <select class="form-select form-select-sm" id="timeRange">
-                                            <option selected>24 Hours</option>
-                                            <option value="7d">7 Days</option>
-                                            <option value="30d">30 Days</option>
-                                        </select>
-                                    </div>
-                                    
-                                    <!-- Pollutants Selection -->
-                                    <div class="mb-3">
-                                        <label for="pollutantSelect" class="form-label small fw-bold text-muted">POLLUTANTS</label>
-                                        <select class="form-select form-select-sm" id="pollutantSelect">
-                                            <option selected>All Pollutants</option>
-                                            <option value="pm">Particulate Matter</option>
-                                            <option value="gases">Gaseous Pollutants</option>
-                                        </select>
-                                    </div>
-                                    
-                                    <!-- Apply Button -->
-                                    <button type="submit" class="btn btn-sm btn-primary w-100">Update Chart</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="pollutant-trend-chart">
-                        <!-- Chart will be rendered here by JavaScript -->
-                        <canvas id="trendChart" width="400" height="200"></canvas>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Air Quality Index Timeline -->
-            <div class="col-sm-12 col-xl-6">
-                <div class="bg-secondary text-center rounded p-4">
-                    <div class="d-flex align-items-center justify-content-between mb-4">
-                        <h6 class="mb-0">Air Quality Index Timeline</h6>
-                        <a href="">View Details</a>
-                    </div>
-                    <div id="aqi-timeline-chart">
-                        <!-- Chart will be rendered here by JavaScript -->
-                        <canvas id="aqiChart" width="400" height="200"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Air Quality Charts End -->
 
     <!-- Detailed Air Quality Data Start -->
-    <div class="container-fluid pt-4 px-4">
+    <div class="container-fluid pt-4 px-3">
         <div class="bg-secondary text-center rounded p-4">
             <div class="d-flex align-items-center justify-content-between mb-4">
                 <h6 class="mb-0">Hourly Air Quality Data</h6>
@@ -264,7 +200,7 @@
     <!-- Detailed Air Quality Data End -->
 
     <!-- Air Quality Widgets Start -->
-    <div class="container-fluid pt-4 px-4">
+    <div class="container-fluid pt-4 px-3">
         <div class="row g-4">
             <!-- Health Impact Factors -->
             <div class="col-sm-12 col-md-6 col-xl-4">
@@ -432,7 +368,7 @@
     <!-- Air Quality Widgets End -->
 
     <!-- Historical Analysis Start -->
-    <div class="container-fluid pt-4 px-4">
+    <div class="container-fluid pt-4 px-3">
         <div class="row g-4">
             <!-- Weekly Pollutant Trends -->
             <div class="col-sm-12 col-xl-4">
@@ -594,7 +530,7 @@
 
 
     <!-- OpenMeteo Methodology Documentation -->
-    <div class="container-fluid pt-4 px-4">
+    <div class="container-fluid pt-4 px-3">
         <div class="row g-4">
             <div class="col-12">
                 <div class="bg-secondary rounded p-4">
@@ -954,20 +890,7 @@ sulphur_dioxide,carbon_monoxide<br><br>
         </div>
     </div>
 
-    <!-- Footer Start -->
-    <div class="container-fluid pt-4 px-4">
-        <div class="bg-secondary rounded-top p-4">
-            <div class="row">
-                <div class="col-12 col-sm-6 text-center text-sm-start">
-                    &copy; <a href="#">Air Quality Data Dashboard</a>, All Rights Reserved. 
-                </div>
-                <div class="col-12 col-sm-6 text-center text-sm-end">
-                    Powered by OpenMeteo Air Quality API
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Footer End -->
+    {% include 'analytics/footer.html' %}
 </div>
 <!-- Content End -->
 

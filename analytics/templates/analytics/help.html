@@ -1,0 +1,437 @@
+{% extends 'analytics/main.html' %}
+{% load static %}
+
+{% block main %}
+
+
+<!-- Content Start -->
+<div class="content">
+    <!-- Navbar Start -->
+    {% include 'analytics/nav.html' %}
+    <!-- Navbar End -->
+
+
+
+    <div class="container-fluid mb-3 mt-3 px-3">
+        <div class="p-4 card shadow-sm bg-secondary">
+            <h1 class="h3 text-primary my-3">
+                <i class="fas fa-book-open me-2"></i>Quick Guide
+            </h1>
+            <p class="text-muted small">
+                <strong>Solarize</strong> is a professional-grade, open-source photovoltaic system modeling platform powered by <code>pvlib Python</code> and validated industry datasets. The platform is designed for enthusiasts, engineers, researchers, developers, and solar professionals. It delivers high-fidelity energy yield simulations for fixed, single-axis, dual-axis, and bifacial solar systems using component performance data and high-resolution climate records.
+            </p>
+            
+            <p class="text-muted small">
+                Unlike simplified tools, Solarize implements the full <code>pvlib.ModelChain</code> pipeline. This includes temperature modeling (NOCT/SAPM), incidence angle effects (IAM), spectral mismatch, soiling losses, inverter efficiency curves, and bifacial rear-side gain via the <code>pvfactors</code> view-factor model. All simulations are fully reproducible, auditable, and run entirely in your browser.
+            </p>
+        </div>
+    </div>
+
+    <!-- Quick Links -->
+    <div class="container-fluid pt-4 px-3">
+        <div class="bg-secondary rounded p-4">
+            <h5 class="text-info mb-3">Links</h5>
+            <div class="row g-3">
+                <div class="col-6 col-md-4 col-lg-3">
+                    <a href="#getting-started" class="text-decoration-none">
+                        <div class="bg-dark bg-opacity-50 rounded p-3 text-center h-100 border border-primary border-opacity-25">
+                            <i class="fas fa-rocket fa-2x text-primary mb-2"></i>
+                            <p class="small mb-0 text-light">Getting Started</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-6 col-md-4 col-lg-3">
+                    <a href="#data-sources" class="text-decoration-none">
+                        <div class="bg-dark bg-opacity-50 rounded p-3 text-center h-100 border border-info border-opacity-25">
+                            <i class="fas fa-database fa-2x text-info mb-2"></i>
+                            <p class="small mb-0 text-light">Data Sources</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-6 col-md-4 col-lg-3">
+                    <a href="#modeling" class="text-decoration-none">
+                        <div class="bg-dark bg-opacity-50 rounded p-3 text-center h-100 border border-success border-opacity-25">
+                            <i class="fas fa-cogs fa-2x text-success mb-2"></i>
+                            <p class="small mb-0 text-light">Modeling</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-6 col-md-4 col-lg-3">
+                    <a href="#troubleshooting" class="text-decoration-none">
+                        <div class="bg-dark bg-opacity-50 rounded p-3 text-center h-100 border border-danger border-opacity-25">
+                            <i class="fas fa-bug fa-2x text-danger mb-2"></i>
+                            <p class="small mb-0 text-light">Troubleshooting</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-6 col-md-4 col-lg-3">
+                    <a href="#best-practices" class="text-decoration-none">
+                        <div class="bg-dark bg-opacity-50 rounded p-3 text-center h-100 border border-warning border-opacity-25">
+                            <i class="fas fa-star fa-2x text-warning mb-2"></i>
+                            <p class="small mb-0 text-light">Best Practices</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-6 col-md-4 col-lg-3">
+                    <a href="#contact" class="text-decoration-none">
+                        <div class="bg-dark bg-opacity-50 rounded p-3 text-center h-100 border border-light border-opacity-25">
+                            <i class="fas fa-envelope fa-2x text-light mb-2"></i>
+                            <p class="small mb-0 text-light">Contact Support</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Quick Links -->
+
+    <!-- Getting Started -->
+    <div id="getting-started" class="container-fluid pt-4 px-3">
+        <div class="bg-secondary rounded p-4">
+            <h5 class="text-warning mb-4">
+                <i class="fas fa-rocket me-2"></i>Getting Started
+            </h5>
+            <div class="accordion" id="gettingStartedAccordion">
+                <div class="accordion-item bg-dark">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed text-light" type="button" data-bs-toggle="collapse" data-bs-target="#gs1">
+                            How do I begin a new simulation?
+                        </button>
+                    </h2>
+                    <div id="gs1" class="accordion-collapse collapse" data-bs-parent="#gettingStartedAccordion">
+                        <div class="accordion-body small">
+                            <ol>
+                                <li>Select the type of simulation you want to run from the navigation.</li>
+                                <li>Enter <strong>latitude and longitude</strong>.</li>
+                                <li>Configure your system and run the simulation.</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item bg-dark bg-opacity-50">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed text-light" type="button" data-bs-toggle="collapse" data-bs-target="#gs2">
+                            What are the minimum required inputs?
+                        </button>
+                    </h2>
+                    <div id="gs2" class="accordion-collapse collapse" data-bs-parent="#gettingStartedAccordion">
+                        <div class="accordion-body small">
+                            <ul class="list-unstyled">
+                                <li><i class="fas fa-check text-success me-2"></i><strong>Location</strong>: Lat/Long (auto-fetched TMY data)</li>
+                                <li><i class="fas fa-check text-success me-2"></i><strong>DC Capacity</strong>: System size in kWp (PVWatts)</li>
+                                <li><i class="fas fa-check text-success me-2"></i><strong>Module & Inverter</strong>: From CEC libraries or custom (pvlib)</li>
+                                <li><i class="fas fa-check text-success me-2"></i><strong>Tilt & Azimuth</strong>: Auto-defaults available</li>
+                            </ul>
+                            <p class="mt-2 mb-0">
+                                All other parameters use <strong>smart defaults</strong> based on industry standards.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item bg-dark bg-opacity-50">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed text-light" type="button" data-bs-toggle="collapse" data-bs-target="#gs3">
+                            Can I save simulations?
+                        </button>
+                    </h2>
+                    <div id="gs3" class="accordion-collapse collapse" data-bs-parent="#gettingStartedAccordion">
+                        <div class="accordion-body small">
+                            <p>Yes! After running a simulation:</p>
+                            <ol>
+                                <li>Click <strong>"Save Project"</strong> → enter a name.</li>
+                                <li>Access later via <strong>"Repository"</strong> in the sidebar.</li>
+                                <li>Export as <code>.json</code> for backup or sharing.</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Getting Started -->
+
+    <!-- Data Sources -->
+    <div id="data-sources" class="container-fluid pt-4 px-3">
+        <div class="bg-secondary rounded p-4">
+            <h5 class="text-warning mb-4">
+                <i class="fas fa-globe-europe me-2"></i>Data Sources & Weather
+            </h5>
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="bg-dark bg-opacity-50 rounded p-3 h-100">
+                        <h6 class="text-info"><i class="fas fa-cloud-sun me-2"></i>Why TMY and not real-time?</h6>
+                        <p class="small mb-0">
+                            TMY (Typical Meteorological Year) represents <strong>average historical conditions</strong> over 15+ years.
+                            Real-time data is too variable for financial planning. TMY gives <strong>bankable estimates</strong>.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="bg-dark bg-opacity-50 rounded p-3 h-100">
+                        <h6 class="text-success"><i class="fas fa-map-marked-alt me-2"></i>Which data source is used?</h6>
+                        <p class="small mb-0">
+                            <strong>Europe & Africa:</strong> PVGIS (0.25° grid)<br>
+                            <strong>Rest of World:</strong> NASA POWER (0.5° × 0.625°)
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="bg-dark bg-opacity-50 rounded p-3 h-100">
+                        <h6 class="text-warning"><i class="fas fa-exclamation-circle me-2"></i>PVGIS data unavailable for my location</h6>
+                        <p class="small mb-0">
+                            PVGIS only covers <strong>Europe, Africa, and parts of Asia</strong>. Outside this region,
+                            we automatically fall back to <strong>NASA POWER</strong> global dataset.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="bg-dark bg-opacity-50 rounded p-3 h-100">
+                        <h6 class="text-primary"><i class="fas fa-upload me-2"></i>Can I upload my own weather file?</h6>
+                        <p class="small mb-0">
+                            Yes! Use <strong>EPW, TMY3, or CSV</strong> format (8760 rows). Go to:
+                            <code>Advanced → Custom Weather File</code>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Data Sources -->
+
+    <!-- Modeling Deep Dive -->
+    <div id="modeling" class="container-fluid pt-4 px-3">
+        <div class="bg-secondary rounded p-4">
+            <h5 class="text-warning mb-4">
+                <i class="fas fa-cogs me-2"></i>Modeling & Losses
+            </h5>
+
+            <div class="accordion" id="modelingAccordion">
+                <div class="accordion-item bg-dark">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed text-light" type="button" data-bs-toggle="collapse" data-bs-target="#model1">
+                            What losses are included in the simulation?
+                        </button>
+                    </h2>
+                    <div id="model1" class="accordion-collapse collapse" data-bs-parent="#modelingAccordion">
+                        <div class="accordion-body small">
+                            <ul class="list-unstyled">
+                                <li><i class="fas fa-snowflake text-info me-2"></i><strong>Temperature</strong>: Full PV cell temp model (NOCT or SAPM)</li>
+                                <li><i class="fas fa-tint text-muted me-2"></i><strong>Soiling</strong>: User-defined monthly profile (default 2%)</li>
+                                <li><i class="fas fa-sun text-warning me-2"></i><strong>IAM</strong>: ASHRAE or physical model</li>
+                                <li><i class="fas fa-spectrum text-primary me-2"></i><strong>Spectral</strong>: First Solar model (optional)</li>
+                                <li><i class="fas fa-wind me-2"></i><strong>Shading</strong>: Horizon or simple linear</li>
+                                <li><i class="fas fa-plug text-success me-2"></i><strong>Inverter</strong>: Efficiency curve, clipping, MPPT range</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item bg-dark bg-opacity-50">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed text-light" type="button" data-bs-toggle="collapse" data-bs-target="#model2">
+                            How accurate is bifacial modeling?
+                        </button>
+                    </h2>
+                    <div id="model2" class="accordion-collapse collapse" data-bs-parent="#modelingAccordion">
+                        <div class="accordion-body small">
+                            <p>
+                                Uses <code>solfactors</code> to estimate bifacial system gains with an accuracy of around <strong>±5%</strong> compared to measured data.
+                            </p>
+
+                            <ul class="small">
+                                <li>Accounts for: row spacing, height, tilt, albedo, diffuse fraction</li>
+                                <li>Assumes infinite rows (no edge effects)</li>
+                                <li>Best with <strong>GCR &lt; 0.5</strong> and <strong>albedo &gt; 0.3</strong></li>
+                            </ul>
+                            <div class="alert alert-success mt-3 small">
+                                <i class="fas fa-check"></i>
+                                Real-world gain: <strong>5–15%</strong> over monofacial on grass/concrete.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item bg-dark bg-opacity-50">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed text-light" type="button" data-bs-toggle="collapse" data-bs-target="#model3">
+                            Why is the pvlib yield lower than PVWatts?
+                        </button>
+                    </h2>
+                    <div id="model3" class="accordion-collapse collapse" data-bs-parent="#modelingAccordion">
+                        <div class="accordion-body small">
+                            <p>Solarize is <strong>more conservative and detailed</strong>:</p>
+                            <table class="table table-sm table-dark">
+                                <table class="table table-sm table-bordered bg-secondary text-light">
+                                    <thead class="text-center">
+                                        <tr>
+                                            <th>Factor</th>
+                                            <th>pvlib</th>
+                                            <th>PVWatts</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Temperature Model</td>
+                                            <td>SAPM / Faiman detailed model</td>
+                                            <td>Simplified linear adjustment</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Incident Angle Loss (IAM)</td>
+                                            <td>Physical-based calculation</td>
+                                            <td>Fixed ~3%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Inverter Efficiency</td>
+                                            <td>CEC efficiency curve</td>
+                                            <td>Flat 96% assumption</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Soiling & Shading</td>
+                                            <td>User-defined, time-varying</td>
+                                            <td>Fixed estimate (~2–5%)</td>
+                                        </tr>
+                                        <tr>
+                                            <td>System Availability</td>
+                                            <td>Modeled dynamically</td>
+                                            <td>Assumed always operational</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Bifacial Gain</td>
+                                            <td>Calculated using view factors / physical models</td>
+                                            <td>Not included</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Tracking</td>
+                                            <td>1-axis / 2-axis physical modeling</td>
+                                            <td>1-axis simplified adjustment only</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Performance Ratio</td>
+                                            <td>Calculated from detailed losses</td>
+                                            <td>Assumed fixed (≈0.77–0.80)</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Temperature Coefficient</td>
+                                            <td>Module-specific curves</td>
+                                            <td>Average value applied</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </table>
+                            <p class="mt-2 text-muted small">
+                                <strong>Expected Difference:</strong> <code>pvlib</code> typically predicts 
+                                <strong>3–8% lower energy yield</strong> than <code>PVWatts</code> for identical system inputs, 
+                                due to more detailed loss modeling.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Modeling -->
+
+
+
+
+    <!-- Best Practices & Support Combined -->
+    <div class="container-fluid pt-4 px-3 pb-5">
+        <div class="row g-4">
+
+            <!-- Best Practices -->
+            <div class="col-lg-6">
+                <div class="bg-secondary rounded p-4 h-100">
+                    <h5 class="text-warning mb-4">
+                        <i class="fas fa-star me-2"></i>Best Practices for Reliable Results
+                    </h5>
+                    <div class="row g-3">
+                        <div class="col-6">
+                            <div class="bg-dark bg-opacity-50 rounded p-3 text-center">
+                                <i class="fas fa-ruler-combined fa-2x text-success mb-2"></i>
+                                <strong>Measure Tilt & Azimuth</strong>
+                                <p class="small mt-2 mb-0">Use Google Earth or an inclinometer. ±5° error ≈ ±2% yield.</p>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="bg-dark bg-opacity-50 rounded p-3 text-center">
+                                <i class="fas fa-snowflake fa-2x text-info mb-2"></i>
+                                <strong>Adjust Albedo</strong>
+                                <p class="small mt-2 mb-0">Snow = 0.7, grass = 0.2. Use monthly averages.</p>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="bg-dark bg-opacity-50 rounded p-3 text-center">
+                                <i class="fas fa-file-export fa-2x text-warning mb-2"></i>
+                                <strong>Export 8760 Data</strong>
+                                <p class="small mt-2 mb-0">Review hourly AC output for performance validation.</p>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="bg-dark bg-opacity-50 rounded p-3 text-center">
+                                <i class="fas fa-cloud-rain fa-2x text-muted mb-2"></i>
+                                <strong>Apply Realistic Soiling</strong>
+                                <p class="small mt-2 mb-0">Desert: 5–10%, coastal: 1–3%. Adjust by site.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact & Support -->
+            <div class="col-lg-6">
+                <div class="bg-secondary rounded p-4 h-100 text-center">
+                    <h5 class="text-warning mb-4">
+                        <i class="fas fa-life-ring me-2"></i>Need More Help?
+                    </h5>
+                    <div class="row g-3 justify-content-center">
+                        <div class="col-md-4">
+                            <div class="bg-dark rounded p-3 h-100">
+                                <i class="fas fa-envelope fa-2x text-primary mb-2"></i>
+                                <h6>Email Support</h6>
+                                <p class="small mb-2">Response within 24 hours</p>
+                                <a href="mailto:support@solarize.app" class="btn btn-sm btn-outline-primary w-100">Email Us</a>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="bg-dark rounded p-3 h-100">
+                                <i class="fas fa-book fa-2x text-info mb-2"></i>
+                                <h6>Documentation</h6>
+                                <p class="small mb-2">Full pvlib reference</p>
+                                <a href="https://pvlib-python.readthedocs.io" target="_blank" class="btn btn-sm btn-outline-info w-100">View Docs</a>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="bg-dark rounded p-3 h-100">
+                                <i class="fab fa-github fa-2x text-light mb-2"></i>
+                                <h6>Report Issue</h6>
+                                <p class="small mb-2">Open source on GitHub</p>
+                                <a href="https://github.com/solarize-app/solarize" target="_blank" class="btn btn-sm btn-outline-light w-100">GitHub</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 p-3 bg-dark bg-opacity-50 rounded small">
+                        <p class="mb-0">
+                            <i class="fas fa-heart text-danger me-1"></i>
+                            Solarize is <strong>open source</strong> on GitHub. 
+                            Contribute, suggest, or report bugs to make it better!
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- End Combined Section -->
+
+
+
+
+    {% include 'analytics/footer.html' %}
+
+</div>
+
+{% endblock %}

@@ -10,303 +10,178 @@
     <!-- Navbar End -->
 
 
-    <!-- PVWatts Simulation Form -->
-    <div class="container-fluid pt-4 px-4">
+    <div class="container-fluid pt-2 px-3">
+        <div class="row mb-3 mt-3 px-3">
+            <div class="col-12 card shadow-sm bg-secondary p-4">
+                <h1 class="h3 text-warning my-3"><i class="fas fa-bolt me-2"></i>PVWatts Energy Simulation</h1>
+
+                <p class="text-muted small">
+                    PVWatts, developed by NREL (National Renewable Energy Laboratory), is a widely used online simulation platform 
+                    for estimating energy production of photovoltaic systems. It calculates solar energy generation by combining historical
+                    weather data, solar irradiance measurements, and detailed system parameters to provide accurate and
+                    actionable insights for residential, commercial, and utility-scale solar projects.
+                </p>
+
+                <p class="text-muted small">
+                    The simulation accounts for geographic location, solar panel orientation (azimuth and tilt), system capacity,
+                    module type, array configuration, and potential system losses such as shading, soiling, and inverter inefficiencies.
+                    By analyzing these factors, PVWatts provides realistic predictions of expected energy output, monthly and
+                    yearly production, and performance ratios under varying environmental conditions.
+                </p>
+
+                <p class="text-muted small">
+                    PVWatts also incorporates temperature-dependent efficiency changes, irradiance variability, and local climate
+                    patterns to generate precise energy forecasts. It allows users to explore different system configurations,
+                    compare energy production across multiple locations, and assess the impact of upgrades or design adjustments.
+                </p>
+
+                <p class="text-muted small">
+                    By leveraging PVWatts, you can make informed decisions regarding
+                    system sizing, financial modeling, and long-term energy planning. The tool ensures that solar investments
+                    are optimized for both performance and cost-efficiency, supporting sustainable and reliable energy solutions.
+                </p>
+            </div>
+        </div>
+
         <div class="row g-4">
+            <!-- Header -->
+            <div class="col-12">
+                
+            </div>
+
+            <!-- Locations Section -->
             <div class="col-12">
                 <div class="bg-secondary rounded p-4">
-                    <div class="d-flex align-items-center justify-content-between mb-4">
-                        <h5 class="mb-0 text-warning"><i class="fas fa-bolt me-2"></i>PVWatts Energy Forecast</h5>
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <h6 class="mb-0 text-warning"></i>Locations</h6>
                         <button type="button" class="btn btn-sm btn-outline-light" id="addLocation">
                             <i class="fas fa-plus me-1"></i>Add Location
                         </button>
                     </div>
-                    
-                    <form method="post" class="row g-3">
-                        {% csrf_token %}
-                        
-                        <!-- Locations Container -->
-                        <div id="locationsContainer">
-                            <!-- Default Location -->
-                            <div class="location-group mb-4 p-3 border rounded" data-location-index="0">
-                                <div class="d-flex justify-content-between align-items-center mb-3">
-                                    <h6 class="mb-0">Location #1</h6>
-                                    <button type="button" class="btn btn-sm btn-outline-danger remove-location" disabled>
-                                        <i class="fas fa-times"></i>
-                                    </button>
+                    <div id="locationsContainer">
+                        <!-- Default Location -->
+                        <div class="location-group mb-4 p-3 border rounded" data-location-index="0">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h6 class="mb-0 text-light">Location #1</h6>
+                                <button type="button" class="btn btn-sm btn-outline-danger remove-location" disabled>
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                            <div class="row g-2">
+                                <div class="col-md-4">
+                                    <label class="form-label small text-light">Location Name</label>
+                                    <input type="text" class="form-control form-control-sm location-name" 
+                                           name="locations[0][name]" placeholder="e.g., Nairobi" value="Nairobi" required>
                                 </div>
-                                
-                                <div class="row g-2">
-                                    <div class="col-md-4">
-                                        <label class="form-label small">Location Name</label>
-                                        <input type="text" class="form-control form-control-sm location-name" 
-                                               name="locations[0][name]" placeholder="e.g., Nairobi" value="Nairobi" required>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label class="form-label small">Latitude</label>
-                                        <input type="number" class="form-control form-control-sm" 
-                                               name="locations[0][lat]" step="any" value="-1.286389" required>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label class="form-label small">Longitude</label>
-                                        <input type="number" class="form-control form-control-sm" 
-                                               name="locations[0][lon]" step="any" value="36.817223" required>
-                                    </div>
+                                <div class="col-md-4">
+                                    <label class="form-label small text-light">Latitude</label>
+                                    <input type="number" class="form-control form-control-sm" 
+                                           name="locations[0][lat]" step="any" value="-1.286389" required>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label small text-light">Longitude</label>
+                                    <input type="number" class="form-control form-control-sm" 
+                                           name="locations[0][lon]" step="any" value="36.817223" required>
                                 </div>
                             </div>
                         </div>
-
-                       <!-- Configuration -->
-                        <div class="row g-3">
-                            <!-- System Configuration Card -->
-                            <div class="col-md-4">
-                                <div class="h-100 border rounded">
-                                    <div class="card-header">
-                                        <h6 class="mb-0">System Configuration</h6>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="mb-3">
-                                            <label class="form-label small">System Capacity (kW)</label>
-                                            <input type="number" class="form-control form-control-sm" name="system_capacity" 
-                                                   step="0.1" value="5" min="0">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label small">Azimuth (°)</label>
-                                            <input type="number" class="form-control form-control-sm" name="azimuth" 
-                                                   value="180" min="0" max="360">
-                                            <small class="text-muted">0°=North, 180°=South</small>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label small">Tilt Angle (°)</label>
-                                            <input type="number" class="form-control form-control-sm" name="tilt" 
-                                                   value="20" min="0" max="90">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label small">System Losses</label>
-                                            <input type="range" class="form-range" name="losses" 
-                                                   min="0" max="100" value="14" step="1" oninput="updateLossValue(this)">
-                                            <div class="d-flex justify-content-between small text-muted">
-                                                <span>0%</span>
-                                                <span id="lossesValue">14%</span>
-                                                <span>100%</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Array & Module Configuration Card -->
-                            <div class="col-md-4">
-                                <div class="border rounded h-100">
-                                    <div class="card-header">
-                                        <h6 class="mb-0">Array & Module</h6>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="mb-3">
-                                            <label class="form-label small">Array Type</label>
-                                            <select class="form-select form-select-sm" name="array_type">
-                                                <option value="0">Fixed - Open Rack</option>
-                                                <option value="1">Fixed - Roof Mount</option>
-                                                <option value="2">1-Axis Tracking</option>
-                                                <option value="3">1-Axis Backtracking</option>
-                                                <option value="4">2-Axis Tracking</option>
-                                            </select>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label small">Module Type</label>
-                                            <select class="form-select form-select-sm" name="module_type">
-                                                <option value="0">Standard</option>
-                                                <option value="1">Premium</option>
-                                                <option value="2">Thin Film</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Simulation Parameters Card -->
-                            <div class="col-md-4">
-                                <div class="border rounded h-100">
-                                    <div class="card-header">
-                                        <h6 class="mb-0">Simulation Parameters</h6>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="mb-3">
-                                            <label class="form-label small">Timeframe</label>
-                                            <div class="d-flex flex-column gap-2">
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="timeframe" 
-                                                           id="hourly" value="hourly" checked>
-                                                    <label class="form-check-label small" for="hourly">Hourly</label>
-                                                </div>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="timeframe" 
-                                                           id="monthly" value="monthly">
-                                                    <label class="form-check-label small" for="monthly">Monthly</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label small">Dataset</label>
-                                            <select class="form-select form-select-sm" name="dataset">
-                                                <option value="nsrdb" selected>NSRDB (National Solar Radiation Database)</option>
-                                                <option value="tmy">TMY (Typical Meteorological Year)</option>
-                                                <option value="intl">International Data</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Submit Button -->
-                        <div class="row mt-4">
-                            <div class="col-12">
-                                <div class="d-flex justify-content-end gap-2">
-                                    <button type="button" class="btn btn-outline-light btn-sm">
-                                        <i class="fas fa-redo me-1"></i>Reset
-                                    </button>
-                                    <button type="submit" class="btn btn-warning btn-sm">
-                                        <i class="fas fa-bolt me-1"></i>Generate Forecast
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <!-- PVWatts Documentation -->
-    <div class="container-fluid pt-4 px-4">
-        <div class="row g-4">
+            <!-- System Configuration Section -->
+            <div class="col-12 col-md-4">
+                <div class="bg-secondary rounded h-100 p-3">
+                    <h6 class="text-warning mb-3">System Configuration</h6>
+                    <div class="row g-3">
+                        <!-- Pair 1: System Capacity & Azimuth -->
+                        <div class="col-md-6">
+                            <label class="form-label small text-light">System Capacity (kW)</label>
+                            <input type="number" class="form-control form-control-sm" name="system_capacity" 
+                                   step="0.1" value="5" min="0">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small text-light">Azimuth (°) <small class="text-muted">0°=North, 180°=South</small></label>
+                            <input type="number" class="form-control form-control-sm" name="azimuth" 
+                                   value="180" min="0" max="360">
+                            
+                        </div>
+
+                        <!-- Pair 2: Tilt Angle & System Losses -->
+                        <div class="col-md-6">
+                            <label class="form-label small text-light">Tilt Angle (°)</label>
+                            <input type="number" class="form-control form-control-sm" name="tilt" 
+                                   value="20" min="0" max="90">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small text-light">System Losses (%)</label>
+                            <input type="number" class="form-control form-control-sm" name="losses" 
+                                   min="0" max="100" value="14" step="1">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Array & Module Section -->
+            <div class="col-12 col-md-4">
+                <div class="bg-secondary rounded h-100 p-3">
+                    <h6 class="text-warning mb-3">Array & Module</h6>
+                    <div class="mb-3">
+                        <label class="form-label small text-light">Array Type</label>
+                        <select class="form-select form-select-sm" name="array_type">
+                            <option value="0">Fixed - Open Rack</option>
+                            <option value="1">Fixed - Roof Mount</option>
+                            <option value="2">1-Axis Tracking</option>
+                            <option value="3">1-Axis Backtracking</option>
+                            <option value="4">2-Axis Tracking</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small text-light">Module Type</label>
+                        <select class="form-select form-select-sm" name="module_type">
+                            <option value="0">Standard</option>
+                            <option value="1">Premium</option>
+                            <option value="2">Thin Film</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Simulation Parameters Section -->
+            <div class="col-12 col-md-4">
+                <div class="bg-secondary rounded h-100 p-3">
+                    <h6 class="text-warning mb-3">TMY Data Year</h6>
+                    <div class="row g-3 align-items-end">
+                        <!-- Timeframe Selection -->
+                        <div class="col-md-6">
+                            <label class="form-label small text-light">Year</label>
+                            <input type="number" class="form-control form-control-sm" name="year" value="2025" step="1">
+                        </div>
+
+                        <!-- Buttons -->
+                        <div class="col-md-6 d-flex justify-content-md-end gap-2">
+                            <button type="reset" class="btn btn-outline-light btn-sm">
+                                <i class="fas fa-redo me-1"></i>Reset
+                            </button>
+                            <button type="submit" class="btn btn-warning btn-sm">
+                                <i class="fas fa-bolt me-1"></i>Simulate
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Submit Buttons -->
             <div class="col-12">
-                <div class="bg-secondary rounded p-4">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h5 class="mb-0 text-warning"><i class="fas fa-book me-2"></i>PVWatts Parameters Guide</h5>
-                        <button class="btn btn-sm btn-outline-light" type="button" data-bs-toggle="collapse" data-bs-target="#docsCollapse">
-                            <i class="fas fa-chevron-down"></i>
-                        </button>
-                    </div>
-
-                    <div class="collapse show" id="docsCollapse">
-                        <div class="card-body p-0">
-                            <div class="row g-4">
-                                
-                                <!-- Location Parameters -->
-                                <div class="col-md-6">
-                                    <h6 class="text-primary mb-2">📍 Location Parameters</h6>
-                                    <ul class="small ps-3 mb-0 text-light">
-                                        <li><strong>Location Name:</strong> Descriptive identifier for your site</li>
-                                        <li><strong>Latitude:</strong> Geographic coordinate (-90° to 90°) - determines solar path</li>
-                                        <li><strong>Longitude:</strong> Geographic coordinate (-180° to 180°) - determines timezone effects</li>
-                                        <li><strong>Multiple Locations:</strong> Compare energy production across different sites</li>
-                                    </ul>
-                                </div>
-
-                                <!-- System Configuration -->
-                                <div class="col-md-6">
-                                    <h6 class="text-primary mb-2">⚙️ System Configuration</h6>
-                                    <ul class="small ps-3 mb-0 text-light">
-                                        <li><strong>System Capacity:</strong> Total DC power rating in kilowatts (kW)</li>
-                                        <li><strong>Azimuth:</strong> Panel orientation (0°=North, 90°=East, 180°=South, 270°=West)</li>
-                                        <li><strong>Tilt Angle:</strong> Panel inclination from horizontal (0°=flat, 90°=vertical)</li>
-                                        <li><strong>System Losses:</strong> Combined efficiency losses (typical: 10-20%)</li>
-                                    </ul>
-                                </div>
-
-                                <!-- Array & Module Types -->
-                                <div class="col-md-6">
-                                    <h6 class="text-primary mb-2">🔧 Array & Module Types</h6>
-                                    <ul class="small ps-3 mb-0 text-light">
-                                        <li><strong>Fixed - Open Rack:</strong> Ground mount with air circulation</li>
-                                        <li><strong>Fixed - Roof Mount:</strong> Direct rooftop installation</li>
-                                        <li><strong>1-Axis Tracking:</strong> Single-axis sun following</li>
-                                        <li><strong>1-Axis Backtracking:</strong> Tracking with shading avoidance</li>
-                                        <li><strong>2-Axis Tracking:</strong> Dual-axis optimal positioning</li>
-                                        <li><strong>Standard/Premium/Thin Film:</strong> Module efficiency categories</li>
-                                    </ul>
-                                </div>
-
-                                <!-- Simulation Parameters -->
-                                <div class="col-md-6">
-                                    <h6 class="text-primary mb-2">📊 Simulation Parameters</h6>
-                                    <ul class="small ps-3 mb-0 text-light">
-                                        <li><strong>Timeframe:</strong> Hourly (detailed) or Monthly (aggregated) data</li>
-                                        <li><strong>Dataset:</strong> NSRDB (US), TMY (typical year), or International data</li>
-                                        <li><strong>Loss Components:</strong> Inverter, wiring, soiling, shading, degradation</li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <!-- Additional Information -->
-                            <div class="mt-4 p-3 bg-dark rounded">
-                                <h6 class="text-warning mb-2">💡 About PVWatts</h6>
-                                <p class="small text-light mb-2">
-                                    PVWatts® Calculator is a web application developed by the National Renewable Energy Laboratory (NREL) 
-                                    that estimates the electricity production of grid-connected photovoltaic systems based on a few simple inputs.
-                                </p>
-                                <div class="row small text-muted">
-                                    <div class="col-md-6">
-                                        <strong>Key Features:</strong>
-                                        <ul class="mb-0 mt-1">
-                                            <li>Fast performance estimates</li>
-                                            <li>Global coverage</li>
-                                            <li>Multiple mounting options</li>
-                                            <li>Loss parameter customization</li>
-                                        </ul>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <strong>Data Sources:</strong>
-                                        <ul class="mb-0 mt-1">
-                                            <li>NSRDB (National Solar Radiation Database)</li>
-                                            <li>TMY (Typical Meteorological Year)</li>
-                                            <li>International weather data</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Quick Tips -->
-                            <div class="mt-3 p-3 bg-dark rounded border border-warning">
-                                <h6 class="text-warning mb-2">🚀 Quick Tips</h6>
-                                <div class="row small text-light">
-                                    <div class="col-md-4 mb-2">
-                                        <i class="fas fa-compass me-2 text-info"></i>
-                                        <strong>Optimal Azimuth:</strong> 180° (South) in Northern Hemisphere
-                                    </div>
-                                    <div class="col-md-4 mb-2">
-                                        <i class="fas fa-chart-line me-2 text-info"></i>
-                                        <strong>Typical Losses:</strong> 14-16% for well-maintained systems
-                                    </div>
-                                    <div class="col-md-4 mb-2">
-                                        <i class="fas fa-sun me-2 text-info"></i>
-                                        <strong>Tilt Angle:</strong> Equal to latitude for annual optimization
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                
             </div>
+
         </div>
     </div>
 
-
-    <!-- Footer Start -->
-    <div class="container-fluid pt-4 px-4">
-        <div class="bg-secondary rounded-top p-4">
-            <div class="row">
-                <div class="col-12 col-sm-6 text-center text-sm-start">
-                    &copy; <a href="#">Solarize Solar Forecasting</a>, All Rights Reserved. 
-                </div>
-                <div class="col-12 col-sm-6 text-center text-sm-end">
-                    AI-Powered Solar Energy Predictions
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Footer End -->
+    {% include 'analytics/footer.html' %}
 </div>
 <!-- Content End -->
 

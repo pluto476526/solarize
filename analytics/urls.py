@@ -17,8 +17,9 @@ urlpatterns = [
     path("modelchain-result/", views.modelchain_result_view, name="modelchain_result"),
     path("NASA-climate-modelling/", views.climate_modelling_view, name="climate_modelling"),
     path("weather/", views.weather_view, name="weather"),
-    path("astronomy/", views.astronomy_view, name="astronomy"),
     path("air-quality/", views.air_quality_view, name="air_quality"),
+    path("help&FAQs/", views.help_view, name="help"),
+    path("repository/", views.repository_view, name="repo"),
     path("module_search/", views.module_search, name="module_search"),
     path("inverter_search/", views.inverter_search, name="inverter_search"),
 ]

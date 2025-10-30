@@ -4,6 +4,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import models, authenticate, login, logout
 from django.contrib import messages
+from onboarding.models import Profile
 import logging
 
 logger = logging.getLogger(__name__)
@@ -13,8 +14,25 @@ def home_view(request):
     return render(request, "onboarding/index.html", context)
 
 def profile_view(request):
-    context = {}
-    return render(request, "visualisation/profile.html", context)
+    profile = Profile.objects.get(user=request.user)
+
+    if request.method == "POST":
+        source = request.POST.get("source")
+
+        if source == "update_profile_form":
+            profile.full_name = request.POST.get("full_name")
+            profile.bio = request.POST.get("bio")
+            profile.phone = request.POST.get("phone")
+            profile.job_title = request.POST.get("job_title")
+            profile.department = request.POST.get("department")
+            profile.avatar = request.FILES.get("avatar")
+            profile.save()
+            messages.success(request, "Profile details updated.")
+            return redirect("profile")
+
+    context = {"profile": profile}
+    return render(request, "analytics/profile.html", context)
+
 
 
 def features_view(request):

@@ -10,13 +10,14 @@ from data_factory.pvlib import utils, dual_axis_tracker_mount
 logger = logging.getLogger(__name__)
 
 class SingleDualAxisTracker:
-    def __init__(self, timeframe_params, location_params, system_params, tracking_params, losses_params):
+    def __init__(self, location_params, system_params, tracking_params, losses_params):
         self.name = location_params["name"]
         self.lat = float(location_params["lat"])
         self.lon = float(location_params["lon"])
         self.alt = float(location_params["alt"])
         self.tz = location_params["tz"]
         self.albedo = float(location_params["albedo"])
+        self.year = int(system_params["year"])
         
         # Single-axis tracker specific parameters
         self.axis_tilt = float(tracking_params.get("axis_tilt", 0))
@@ -159,45 +160,11 @@ class SingleDualAxisTracker:
         return mc
 
     def run_simulation(self):
-        weather_data = utils.fetch_TMY_data(self.lat, self.lon)
+        weather_data = utils.fetch_TMY_data(self.lat, self.lon, self.year)
         mc = self.simulation_setup()
         mc.run_model(weather_data)
         logger.debug(mc.results)
         
         return mc.results
 
-
-    def _analyze_tracker_performance(self, results):
-        """Analyze tracker-specific performance metrics"""
-        if hasattr(results, 'tracker_theta'):
-            # Calculate tracking efficiency metrics
-            tracking_angles = results.tracker_theta
-            logger.info(
-                f"Tracker angle statistics: min={tracking_angles.min():.1f}°, "
-                f"max={tracking_angles.max():.1f}°, mean={tracking_angles.mean():.1f}°"
-        )
-        
-        # Log backtracking information if applicable
-        if self.backtrack:
-            logger.info("Backtracking enabled with GCR: {self.gcr}")
-
-    def get_tracking_geometry(self, times):
-        """Get the tracker geometry for specific times"""
-        location = self.create_location()
-        solar_position = location.get_solarposition(times)
-        
-        mount = pvlib.pvsystem.SingleAxisTrackerMount(
-            axis_tilt=self.axis_tilt,
-            axis_azimuth=self.axis_azimuth,
-            max_angle=self.max_angle,
-            backtrack=self.backtrack,
-            gcr=self.gcr
-        )
-        
-        tracking_data = mount.get_orientation(
-            solar_position['apparent_zenith'], 
-            solar_position['azimuth']
-        )
-
-        return tracking_data
 

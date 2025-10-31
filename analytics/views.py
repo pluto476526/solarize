@@ -6,6 +6,7 @@ from django.http import JsonResponse
 from django.conf import settings
 from django.contrib import messages
 from django.core.cache import cache
+from django.core.signing import Signer
 from data_factory.database.manager import DataManager
 from data_factory.database.connection import DatabaseConnection
 from data_factory.pvwatts.simulator import PVWattsSimulator
@@ -142,12 +143,6 @@ def fixed_mount_system_view(request):
         array_names[str(index)] = "MainArray"
         array_storage.save_array_file(request.user, f"{simulation_name}_fms_arrays.json", array_names)
 
-        timeframe_params = {
-            "start_date": request.POST.get("start_date"),
-            "end_date": request.POST.get("end_date"),
-            "timeframe": request.POST.get("timeframe", "hourly"),
-        }
-
         location_params = {
             "name": simulation_name,
             "lat": request.POST.get("lat"),
@@ -168,7 +163,8 @@ def fixed_mount_system_view(request):
             "temp_model": request.POST.get("temp_model"),
             "temp_model_params": request.POST.get("temp_model_params"),
             "arrays_config": arrays_config,
-            "description": request.POST.get("description", "")
+            "description": request.POST.get("description", ""),
+            "year": request.POST.get("year")
         }
 
         losses_params = {
@@ -185,7 +181,6 @@ def fixed_mount_system_view(request):
         }
 
         fms = fixed_mount_simulator.FixedMountSimulator(
-            timeframe_params=timeframe_params,
             location_params=location_params,
             system_params=system_params,
             losses_params=losses_params
@@ -201,8 +196,9 @@ def fixed_mount_system_view(request):
 
         db.close()
         messages.success(request, f"Configured system with {len(arrays_config)} arrays")
-        request.session["modelchain_result"] = result_id
-        return redirect("modelchain_result")
+        signer = Signer()
+        token = signer.sign(result_id)
+        return redirect("modelchain_result", token=token)        
 
     context = {}
     return render(request, "analytics/fixed_mount_system.html", context)
@@ -227,12 +223,6 @@ def spec_sheet_modelling_view(request):
         index = len(array_names)
         array_names[str(index)] = "MainArray"
         array_storage.save_array_file(request.user, f"{simulation_name}_ssm_arrays.json", array_names)
-
-        timeframe_params = {
-            "start": request.POST.get("start_date"),
-            "end": request.POST.get("end_date"),
-            "timeframe": request.POST.get("timeframe", "hourly"),
-        }
 
         location_params = {
             "name": simulation_name,
@@ -278,6 +268,7 @@ def spec_sheet_modelling_view(request):
             "temp_model": request.POST.get("temp_model"),
             "temp_model_params": request.POST.get("temp_model_params"),
             "description": request.POST.get("description"),
+            "year": request.POST.get("year")
         }
 
         losses_params = {
@@ -294,7 +285,6 @@ def spec_sheet_modelling_view(request):
         }
 
         sss = specs_simulator.SpecSheetSimulator(
-            timeframe_params=timeframe_params,
             location_params=location_params,
             system_params=system_params,
             losses_params=losses_params
@@ -310,13 +300,12 @@ def spec_sheet_modelling_view(request):
 
         db.close()
         messages.success(request, f"Configured system with {len(arrays_config)} arrays")
-        request.session["modelchain_result"] = result_id
-        return redirect("modelchain_result")
+        signer = Signer()
+        token = signer.sign(result_id)
+        return redirect("modelchain_result", token=token)
 
     context = {}
     return render(request, "analytics/spec_sheet_modelling.html", context)
-
-
 
 def axis_tracking_view(request):
     conn = DatabaseConnection()
@@ -354,6 +343,7 @@ def axis_tracking_view(request):
         }
 
         system_params = {
+            "arrays_config": arrays_config,
             "module": request.POST.get("module"),
             "module_type": request.POST.get("module_type"),
             "inverter": request.POST.get("inverter"),
@@ -362,7 +352,7 @@ def axis_tracking_view(request):
             "temp_model": request.POST.get("temp_model"),
             "temp_model_params": request.POST.get("temp_model_params"),
             "description": request.POST.get("description"),
-            "arrays_config": arrays_config
+            "year": request.POST.get("year")
         }
 
         tracking_params = {
@@ -387,7 +377,6 @@ def axis_tracking_view(request):
         }
 
         sdt = axis_tracking.SingleDualAxisTracker(
-            timeframe_params=timeframe_params,
             location_params=location_params,
             system_params=system_params,
             tracking_params=tracking_params,
@@ -404,11 +393,12 @@ def axis_tracking_view(request):
 
         db.close()
         messages.success(request, f"Configured system with {len(arrays_config)} arrays")
-        request.session["modelchain_result"] = result_id
-        return redirect("modelchain_result")
+        signer = Signer()
+        token = signer.sign(result_id)
+        return redirect("modelchain_result", token=token)
+
     context = {}
     return render(request, "analytics/axis_tracking.html", context)
-
 
 def bifacial_system_view(request):
     conn = DatabaseConnection()
@@ -429,12 +419,6 @@ def bifacial_system_view(request):
         index = len(array_names)
         array_names[str(index)] = "MainArray"
         array_storage.save_array_file(request.user, f"{simulation_name}_bfs_arrays.json", array_names)
-
-        timeframe_params = {
-            "start": request.POST.get("start"),
-            "end": request.POST.get("end"),
-            "timeframe": request.POST.get("timeframe", "hourly"),
-        }
 
         location_params = {
             "name": simulation_name,
@@ -458,6 +442,8 @@ def bifacial_system_view(request):
         }
 
         system_params = {
+            "arrays_config": arrays_config,
+            "bifaciality": bifacial_params,
             "surface_azimuth": request.POST.get("azimuth"),
             "surface_tilt": request.POST.get("tilt"),
             "module": request.POST.get("module"),
@@ -468,8 +454,7 @@ def bifacial_system_view(request):
             "temp_model": request.POST.get("temp_model"),
             "temp_model_params": request.POST.get("temp_model_params"),
             "description": request.POST.get("description"),
-            "arrays_config": arrays_config,
-            "bifaciality": bifacial_params
+            "year": request.POST.get("year")
         }
 
         losses_params = {
@@ -486,7 +471,6 @@ def bifacial_system_view(request):
         }
 
         bpv = bifacial_simulation.BifacialPVSimulator(
-            timeframe_params=timeframe_params,
             location_params=location_params,
             system_params=system_params,
             losses_params=losses_params
@@ -502,58 +486,82 @@ def bifacial_system_view(request):
 
         db.close()
         messages.success(request, f"Configured system with {len(arrays_config)} arrays")
-        request.session["modelchain_result"] = result_id
-        return redirect("modelchain_result")
+        signer = Signer()
+        token = signer.sign(result_id)
+        return redirect("modelchain_result", token=token)
+
     context = {}
     return render(request, "analytics/bifacial_system.html", context)
 
 
-def modelchain_result_view(request):
-    # result_id = request.session.get("pvlib_report")
-    result_id = 11
-    
-    if not result_id:
+def modelchain_result_view(request, token):
+    signer = Signer()
+
+    try:
+        result_id = signer.unsign(token)
+    except Exception:
         return redirect(request.META.get('HTTP_REFERER', '/'))
 
-    data_key = f"data_{request.user.id}_{result_id}"
-    charts_key = f"charts_{request.user.id}_{result_id}"
-    
-    simulation_data = cache.get(data_key, None)
-    charts = cache.get(charts_key, None)
+    user_id = request.user.id
+    cache_version_key = f"mc_result_version_{user_id}_{result_id}"
+    version = cache.get(cache_version_key, 1)  # used for invalidation control
 
+    # Primary cache keys
+    data_key = f"mc_data_{user_id}_{result_id}_v{version}"
+    norm_key = f"mc_norm_{user_id}_{result_id}_v{version}"
+    charts_key = f"mc_charts_{user_id}_{result_id}_v{version}"
+
+    # Fetch or compute simulation data
+    simulation_data = cache.get(data_key)
     if not simulation_data:
         conn = DatabaseConnection()
         db = DataManager(conn)
         simulation_data = db.fetch_modelchain_result(result_id)
-        cache.set(data_key, simulation_data, timeout=3600)
         db.close()
+        cache.set(data_key, simulation_data, timeout=86400)  # cache for 24h
 
-    if not charts:
-        n_dc = plots.normalize_pv_tuple(simulation_data["dc"])
-        n_ac = plots.normalize_pv_tuple(simulation_data["ac_aoi"])
-        n_irr = plots.normalize_pv_tuple(simulation_data["irradiance"])
-        n_weather = plots.normalize_pv_tuple(simulation_data["weather"])
-        n_cell_temp = plots.normalize_pv_tuple(simulation_data["cell_temperature"])
-
-        charts = {
-            "temp_wind": plots.temp_wind_chart(n_weather),
-            "temp_vs_irr": plots.temp_vs_irradiance(n_cell_temp, n_irr),
-            "dc_vs_ac": plots.dc_vs_ac(n_dc, n_ac),
-            "inverter_eff": plots.inverter_efficiency(n_dc, n_ac),
-            "power_ts": plots.power_timeseries(n_dc, n_ac),
-            "monthly_yield": plots.monthly_yield(n_ac),
-            "temp_derate": plots.temp_derating(n_cell_temp, n_dc),
-            "power_heatmap": plots.power_heatmap(n_ac),
-            "daily_yield": plots.daily_yield(n_ac),
-            "cap_factor": plots.capacity_factor(n_ac),
-            "cum_energy": plots.cumulative_energy(n_ac)
+    # Pre-normalize data for chart generation
+    normalized_data = cache.get(norm_key)
+    if not normalized_data:
+        normalized_data = {
+            "dc": plots.normalize_pv_tuple(simulation_data["dc"]),
+            "ac": plots.normalize_pv_tuple(simulation_data["ac_aoi"]),
+            "irr": plots.normalize_pv_tuple(simulation_data["irradiance"]),
+            "weather": plots.normalize_pv_tuple(simulation_data["weather"]),
+            "cell_temp": plots.normalize_pv_tuple(simulation_data["cell_temperature"]),
         }
+        cache.set(norm_key, normalized_data, timeout=86400)
 
-        cache.set(charts_key, charts, timeout=3600)
+    # Cache heavy chart objects separately for modular control
+    charts = cache.get(charts_key)
+    if not charts:
+        nd = normalized_data
+        charts = {
+            "temp_wind": plots.temp_wind_chart(nd["weather"]),
+            "temp_vs_irr": plots.temp_vs_irradiance(nd["cell_temp"], nd["irr"]),
+            "dc_vs_ac": plots.dc_vs_ac(nd["dc"], nd["ac"]),
+            "dc_vs_irr": plots.dc_vs_irradiance(nd["dc"], nd["irr"]),
+            "inverter_eff": plots.inverter_efficiency(nd["dc"], nd["ac"]),
+            "power_ts": plots.power_timeseries(nd["dc"], nd["ac"]),
+            "monthly_yield": plots.monthly_yield(nd["ac"]),
+            "temp_derate": plots.temp_derating(nd["cell_temp"], nd["dc"]),
+            "power_heatmap": plots.power_heatmap(nd["ac"]),
+            "daily_yield": plots.daily_yield(nd["ac"]),
+            "cap_factor": plots.capacity_factor(nd["ac"]),
+            "cum_energy": plots.cumulative_energy(nd["ac"]),
+            "solar_elevation": plots.solar_elevation_chart(simulation_data["solar_position"]),
+            "sunpath": plots.sunpath_chart(simulation_data["solar_position"]),
+            "poa_vs_ghi": plots.poa_vs_ghi_chart(nd["irr"], nd["weather"]),
+            "poa_heatmap": plots.poa_heatmap(nd["irr"]),
+            "irr_breakdown": plots.irradiance_breakdown_chart(nd["weather"]),
+            "peak_power_vs_irr": plots.peak_power_vs_irradiance(nd["ac"], nd["irr"]),
+            "performance_ratio": plots.performance_ratio(nd["ac"], nd["irr"]),
+        }
+        cache.set(charts_key, charts, timeout=86400)
 
+    # User-specific visualization parameters
     ac_aoi_param = request.GET.get("ac_aoi_param", "ac")
     ac_aoi_array = int(request.GET.get("ac_aoi_array", 0))
-    cell_temp_param = request.GET.get("cell_temp_param", "temperature")
     cell_temp_array = int(request.GET.get("cell_temp_array", 0))
     dc_output_param = request.GET.get("dc_output_param", "i_sc")
     dc_output_array = int(request.GET.get("dc_output_array", 0))
@@ -562,8 +570,8 @@ def modelchain_result_view(request):
     irradiance_param = request.GET.get("irradiance_param", "poa_global")
     irradiance_array = int(request.GET.get("irradiance_array", 0))
     weather_param = request.GET.get("weather_param", "temp_air")
-    solar_param = request.GET.get("solar_param", "zenith")
 
+    # Build time-series charts (not cached — lightweight & parameterized)
     time_series = {
         "ac_aoi": timeseries.ac_aoi_chart(simulation_data["ac_aoi"], ac_aoi_array, ac_aoi_param),
         "cell_temp": timeseries.cell_temp_chart(simulation_data["cell_temperature"], cell_temp_array),
@@ -576,9 +584,10 @@ def modelchain_result_view(request):
     meta_data = {
         "simulation_name": simulation_data["simulation_name"],
         "description": simulation_data["description"],
-        "created_at": simulation_data["created_at"]
+        "created_at": simulation_data["created_at"],
     }
 
+    # Analysis modules (can also be cached individually if expensive)
     gm = general_analyzer.Analyzer(simulation_data)
     sa = seasonal_analyzer.SeasonalAnalyzer(simulation_data)
     fn = financial_analysis.FinancialAnalyzer(simulation_data)
@@ -603,9 +612,8 @@ def modelchain_result_view(request):
         "arrays": array_storage.load_array_file(request.user, "random_simulation_arrays.json"),
     }
 
-    logger.debug(financial_metrics)
-
     return render(request, "analytics/modelchain_result.html", context)
+
 
 
 def weather_view(request):

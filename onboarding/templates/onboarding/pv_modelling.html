@@ -4,7 +4,7 @@
 {% block main %}
 
 <!-- HERO SECTION  -->
-<div class="site-hero_2" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.9)), url({% static 'onboarding/img/machine_learning_hero.jpg' %});">
+<div class="site-hero_2" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.9)), url({% static 'onboarding/img/pvmodelling_hero.jpg' %});">
 	<div class="section-overlay"></div>
 	<div class="page-title">
 		<h2>Advanced PV Modeling</h2>
@@ -44,7 +44,7 @@
 				<p class="mb-30">Photovoltaic modeling is the process of using mathematical algorithms and computational methods to predict the performance of solar photovoltaic systems under various environmental conditions and system configurations.</p>
 				
 				<div class="mb-30">
-					<h5 class="mb-3">Key Objectives:</h5>
+					<h3 class="mb-3">Key Objectives:</h3>
 					<ul class="services-list">
 						<li><strong>Predict energy production under specific conditions</strong></li>
 						<li><strong>Optimize system design and configuration</strong></li>
@@ -55,7 +55,7 @@
 				</div>
 
 				<div class="mt-30">
-					<h5 class="mb-3">Modeling Approaches:</h5>
+					<h3 class="mb-3">Modeling Approaches:</h3>
 					<ul class="services-list">
 						<li><strong>Empirical Models:</strong> Based on statistical analysis of historical data</li>
 						<li><strong>Physical Models:</strong> Based on semiconductor physics and system thermodynamics</li>
@@ -64,21 +64,11 @@
 				</div>
 			</div>
 			<div class="col-md-6 wow fadeInUp">
-				<img src="{% static 'onboarding/img/machine_learning_hero.jpg' %}" alt="PV Modeling Fundamentals" class="images">
+				<img src="{% static 'onboarding/img/what_is_pvmodelling.jpg' %}" alt="PV Modeling Fundamentals" class="images">
 				
 				<div class="mt-4">
-					<h5 class="mb-3">Why Accurate Modeling Matters:</h5>
+					<h3 class="mb-3">Why Accurate Modeling Matters:</h3>
 					<p>Precise PV modeling enables stakeholders to make informed decisions about system design, financial investments, and energy production expectations. Without accurate models, solar projects risk underperformance and financial losses.</p>
-					
-					<div class="bg-dark p-4 rounded mt-4">
-						<h6 class="text-warning">Industry Impact:</h6>
-						<ul class="list-unstyled text-light small">
-							<li class="mb-2"><i class="fa fa-check text-success me-2"></i>Reduced financial risk for investors</li>
-							<li class="mb-2"><i class="fa fa-check text-success me-2"></i>Optimized system sizing and configuration</li>
-							<li class="mb-2"><i class="fa fa-check text-success me-2"></i>Improved grid integration planning</li>
-							<li><i class="fa fa-check text-success me-2"></i>Enhanced project bankability</li>
-						</ul>
-					</div>
 				</div>
 			</div>
 		</div>
@@ -243,7 +233,7 @@
 				<p class="mb-30">PVlib Python is a comprehensive library for simulating the performance of photovoltaic energy systems. It provides a set of functions and classes for modeling the performance of photovoltaic systems across various technologies and configurations.</p>
 				
 				<div class="mb-30">
-					<h5 class="mb-3">Core PVlib Capabilities:</h5>
+					<h3 class="mb-3">Core PVlib Capabilities:</h3>
 					<ul class="services-list">
 						<li><strong>Solar Position Calculations:</strong> Precise sun position algorithms for any location and time</li>
 						<li><strong>Irradiance Modeling:</strong> Transform GHI to POA irradiance using various models</li>
@@ -254,22 +244,12 @@
 					</ul>
 				</div>
 
-				<div class="mt-4">
-					<h5 class="mb-3">Supported Technologies:</h5>
-					<ul class="services-list">
-						<li><strong>Monocrystalline and polycrystalline silicon</strong></li>
-						<li><strong>Thin-film technologies</strong> (CdTe, CIGS, a-Si)</li>
-						<li><strong>Bifacial modules and tracking systems</strong></li>
-						<li><strong>Concentrated photovoltaic (CPV) systems</strong></li>
-						<li><strong>Building-integrated photovoltaics (BIPV)</strong></li>
-					</ul>
-				</div>
 			</div>
 			<div class="col-md-6 wow fadeInUp">
-				<img src="{% static 'onboarding/img/machine_learning_hero.jpg' %}" alt="PVlib Framework" class="images">
+				<img src="https://opengraph.githubassets.com/27d3bed7a217759c3b54469ffe94cc6509c14eaab34ca1d769c5cca004e295ce/pvlib/pvlib-python" alt="PVlib Framework" class="images">
 				
 				<div class="mt-4">
-					<h5 class="mb-3">PVlib Architecture:</h5>
+					<h3 class="mb-3">PVlib Architecture:</h3>
 					<p>PVlib follows a modular architecture that allows users to mix and match different modeling approaches and customize the modeling chain to specific requirements.</p>
 					
 					<div class="bg-dark p-4 rounded mt-4">
@@ -352,36 +332,6 @@
 				</div>
 			</div>
 		</div>
-
-		<div class="row mt-5">
-			<div class="col-md-12">
-				<div class="bg-secondary p-5 rounded">
-					<h4 class="text-warning mb-4">Model Chain Customization</h4>
-					<div class="row">
-						<div class="col-md-6">
-							<h6 class="text-info">Configurable Components:</h6>
-							<ul class="list-unstyled text-light">
-								<li class="mb-2"><i class="fa fa-check text-success me-2"></i> Irradiance transposition models</li>
-								<li class="mb-2"><i class="fa fa-check text-success me-2"></i> Cell temperature models</li>
-								<li class="mb-2"><i class="fa fa-check text-success me-2"></i> DC power models (single diode, etc.)</li>
-								<li class="mb-2"><i class="fa fa-check text-success me-2"></i> Inverter efficiency models</li>
-								<li><i class="fa fa-check text-success me-2"></i> Loss factor implementations</li>
-							</ul>
-						</div>
-						<div class="col-md-6">
-							<h6 class="text-info">Advanced Features:</h6>
-							<ul class="list-unstyled text-light">
-								<li class="mb-2"><i class="fa fa-check text-success me-2"></i> Bifacial gain calculations</li>
-								<li class="mb-2"><i class="fa fa-check text-success me-2"></i> Spectral response modeling</li>
-								<li class="mb-2"><i class="fa fa-check text-success me-2"></i> Snow cover modeling</li>
-								<li class="mb-2"><i class="fa fa-check text-success me-2"></i> Degradation over time</li>
-								<li><i class="fa fa-check text-success me-2"></i> Performance validation</li>
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
 	</div>
 </section>
 
@@ -395,7 +345,7 @@
 				<p class="mb-30">PVlib enables detailed component modeling using manufacturer specification sheets, allowing for precise performance predictions based on actual equipment characteristics and electrical parameters.</p>
 				
 				<div class="mb-30">
-					<h5 class="mb-3">Module Parameter Extraction:</h5>
+					<h3 class="mb-3">Module Parameter Extraction:</h3>
 					<ul class="services-list">
 						<li><strong>STC Parameters:</strong> Pmax, Voc, Isc, Vmp, Imp at Standard Test Conditions</li>
 						<li><strong>Temperature Coefficients:</strong> Voltage, current, and power temperature dependencies</li>
@@ -406,33 +356,25 @@
 				</div>
 
 				<div class="mt-4">
-					<h5 class="mb-3">Inverter Modeling:</h5>
+					<h3 class="mb-3">Inverter Modeling:</h3>
 					<ul class="services-list">
 						<li><strong>Efficiency curves across operating range</strong></li>
 						<li><strong>Power and voltage operating windows</strong></li>
 						<li><strong>Maximum power point tracking (MPPT) characteristics</strong></li>
-						<li><strong>Night-time consumption and standby losses</strong></li>
 					</ul>
 				</div>
 			</div>
 			<div class="col-md-6 wow fadeInUp">
-				<img src="{% static 'onboarding/img/machine_learning_hero.jpg' %}" alt="Spec Sheet Modeling" class="images">
+				<img src="https://www.vstarcam.com/wp-content/uploads/2021/11/%E5%A4%AA%E9%98%B3%E8%83%BD%E6%9D%BF8040_03-1.jpg" alt="Spec Sheet Modeling" class="images">
 				
-				<div class="mt-4">
-					<h5 class="mb-3">Database Integration:</h5>
-					<p>Solarize integrates with comprehensive component databases containing thousands of modules and inverters from major manufacturers worldwide.</p>
-					
-					<div class="bg-dark p-4 rounded mt-4">
-						<h6 class="text-warning">Database Features:</h6>
-						<ul class="list-unstyled text-light small">
-							<li class="mb-2"><i class="fa fa-database text-info me-2"></i> 20,000+ module models</li>
-							<li class="mb-2"><i class="fa fa-database text-info me-2"></i> 5,000+ inverter models</li>
-							<li class="mb-2"><i class="fa fa-database text-info me-2"></i> Regular manufacturer updates</li>
-							<li class="mb-2"><i class="fa fa-database text-info me-2"></i> Third-party testing data</li>
-							<li><i class="fa fa-database text-info me-2"></i> Historical performance data</li>
-						</ul>
-					</div>
+				<div class="mt-50">
+					<p>
+						The system applies <strong>PVlib’s parameter fitting algorithms</strong> to transform raw datasheet inputs into calibrated photovoltaic models. 
+						Using numerical optimization, it estimates the module’s electrical constants and reproduces its current–voltage behavior with high precision. 
+						This approach bridges manufacturer specifications and real operating conditions, ensuring that simulated performance accurately mirrors physical device characteristics across temperature and irradiance variations.
+					</p>
 				</div>
+
 			</div>
 		</div>
 	</div>
@@ -599,7 +541,7 @@
 			<div class="col-md-8 col-md-offset-2 col-sm-12">
 				<div class="section-title">
 					<h2 class="mb-50">Results & Analytics</h2>
-					<p>Comprehensive performance metrics and analysis tools for detailed system evaluation.</p>
+					<p>Accurate performance evaluation through advanced analytical models and detailed reporting tools designed for technical and financial assessment.</p>
 				</div>
 			</div>
 		</div>
@@ -607,36 +549,26 @@
 		<div class="row">
 			<div class="col-md-6 wow fadeInUp">
 				<h3 class="mb-30">Performance Metrics & Reporting</h3>
-				<p class="mb-30">Detailed analysis of system performance through comprehensive metrics and reporting tools that provide insights into system operation and efficiency.</p>
+				<p class="mb-30">Solarize delivers complete post-simulation analytics that quantify system efficiency, reliability, and financial returns. Reports are automatically generated for every modeling run to ensure consistent and traceable performance evaluation.</p>
 
 				<div class="mb-30">
-					<h5 class="mb-3">Report Components:</h5>
+					<h3 class="mb-3">Report Components:</h3>
 					<ul class="services-list">
-						<li><strong>Full system performance report</strong></li>
-						<li><strong>General analysis/metrics</strong></li>
-						<li><strong>Seasonal analysis</strong></li>
-						<li><strong>Financial analysis</strong></li>
-						<li><strong>Weather analysis</strong></li>
-					</ul>
-				</div>
-				
-				<div class="mb-30">
-					<h5 class="mb-3">Key Performance Indicators:</h5>
-					<ul class="services-list">
-						<li><strong>Energy Yield:</strong> Daily, monthly, and annual energy production</li>
-						<li><strong>Performance Ratio (PR):</strong> Ratio of actual to theoretical output</li>
-						<li><strong>Capacity Factor:</strong> Actual output vs. maximum possible output</li>
-						<li><strong>Availability Factor:</strong> System operational time percentage</li>
-						<li><strong>Timeseries:</strong> AC, DC, cell temperature, diode parameters etc</li>
+						<li><strong>Comprehensive System Reports:</strong> Detailed breakdown of model outputs and performance statistics</li>
+						<li><strong>Analytical Summaries:</strong> Key technical and operational metrics for quick insight</li>
+						<li><strong>Seasonal Performance:</strong> Monthly and seasonal yield variations based on irradiance profiles</li>
+						<li><strong>Economic Assessment:</strong> Revenue estimation, payback period, and ROI analysis</li>
+						<li><strong>Environmental Correlation:</strong> Comparison of performance with temperature, irradiance, and weather conditions</li>
 					</ul>
 				</div>
 			</div>
 			<div class="col-md-6 wow fadeInUp">
-				<img src="{% static 'onboarding/img/machine_learning_hero.jpg' %}" alt="Results & Analytics" class="images">
+				<img src="{% static 'onboarding/img/results_and_analytics.jpg' %}" alt="Results & Analytics" class="images">
 			</div>
 		</div>
 	</div>
 </section>
+
 
 <!-- DASHBOARD ACCESS SECTION -->
 <section class="mt-100 mb-100">

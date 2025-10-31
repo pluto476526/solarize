@@ -135,7 +135,14 @@
                                 <input type="number" name="strings" class="form-control form-control-sm" value="1">
                             </div>
                             <div class="col-4">
-                              <label for="file-input" class="form-label small mb-1">Extra Arrays</label>
+                              <label for="file-input" class="form-label small mb-1">Configure Extra Arrays <a href="{% static 'onboarding/examples/fms.json' %}">Example</a></label>
+                              <label for="file-input" class="form-label small mb-1 d-block">
+                                Configure Extra Arrays
+                                <a href="{% static 'onboarding/examples/fms.json' %}" download
+                                   class="btn btn-sm btn-outline-primary ms-2" aria-label="Download example JSON">
+                                  Download example
+                                </a>
+                              </label>
                               <div class="input-group">
                                 <label class="btn btn-warning btn-sm mb-0" for="file-input">
                                   <i class="fas fa-bolt me-1"></i> <span id="file-name">Upload JSON file</span>
@@ -243,20 +250,12 @@
                     <div class="card-body p-3">
                         <div class="row g-2">                          
                             <div class="col-6">
-                                <label class="form-label small">Start Date</label>
-                                <input type="date" class="form-control form-control-sm" name="start_date" value="2023-01-01">
-                            </div>
-                            <div class="col-6">
                                 <label class="form-label small">Temperature Model</label>
                                 <select class="form-select form-select-sm" name="temp_model">
                                     <option value="sapm" selected>SAPM</option>
                                     <option value="pvsyst">PVsyst</option>
                                     <option value="faiman">Faiman</option>
                                 </select>
-                            </div>
-                            <div class="col-6">
-                                <label class="form-label small">End Date</label>
-                                <input type="date" class="form-control form-control-sm" name="end_date" value="2023-12-31">
                             </div>
                             <div class="col-6">
                                 <label class="form-label small">Temperature Model Parameters</label>
@@ -268,21 +267,20 @@
                                     <option value="roof_mount_glass_polymer">Roof Mount - Glass/Polymer</option>
                                 </select>
                             </div>
-                            <div class="col-6">
-                                <label class="form-label small">Timeframe</label>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="timeframe" value="hourly" checked>
-                                    <label class="form-check-label small">Hourly</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="timeframe" value="daily">
-                                    <label class="form-check-label small">Daily</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="timeframe" value="monthly">
-                                    <label class="form-check-label small">Monthly</label>
-                                </div>
-                            </div>  
+                            <div class="col-12">
+                                <label class="form-label small">Weather Data</label>
+                                <select class="form-select form-select-sm" name="data_source">
+                                    <option value="pvgis" selected>PVGIS – European & African TMY</option>
+                                    <option value="nasa">NASA POWER – Global Prediction</option>
+                                </select>
+                            </div>
+
+                            <div class="col-12">
+                                <label class="form-label small">Simulation Output Year</label>
+                                <input type="number" class="form-control form-control-sm" name="year" value="2025" step="1">
+                                <small class="text-muted d-block mt-1">This date determines the year for your simulation results, not the data source period.</small>
+                            </div>
+
                         </div>
                         <div class="row mt-3">
                             <div class="col-12">

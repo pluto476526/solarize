@@ -9,11 +9,10 @@ logger = logging.getLogger(__name__)
 class BifacialPVSimulator:
     """Simple simulator for bifacial PV systems."""
     
-    def __init__(self, timeframe_params: Dict, location_params: Dict, system_params: Dict, losses_params: Dict):
+    def __init__(self, location_params: Dict, system_params: Dict, losses_params: Dict):
         """Initialize bifacial PV simulator.
 
         Args:
-            timeframe_params: Dict with 'start' and 'end' for simulation period (e.g., {'start': '2025-01-01', 'end': '2025-12-31'}).
             location_params: Dict with location details (name, lat, lon, alt, tz, albedo).
             system_params: Dict with system config (module, inverter, mount_type, bifaciality, etc.).
             losses_params: Dict with loss parameters (soiling, mismatch, etc.).
@@ -43,6 +42,7 @@ class BifacialPVSimulator:
         self.temp_model = system_params["temp_model"]
         self.temp_model_params = system_params["temp_model_params"]
         self.description = system_params["description"]
+        self.year = int(system_params["year"])
         
         # Losses parameters
         self.soiling = float(losses_params.get("soiling"))
@@ -54,14 +54,7 @@ class BifacialPVSimulator:
         self.lid = float(losses_params.get("lid"))
         self.nameplate = float(losses_params.get("nameplate"))
         self.age = float(losses_params.get("age"))
-        self.availability = float(losses_params.get("availability"))
-
-        self.times = pd.date_range(
-            start=timeframe_params["start"],
-            end=timeframe_params["end"], 
-            tz=location_params["tz"]
-        )
-        
+        self.availability = float(losses_params.get("availability"))        
         
         # self._validate_inputs()
 
@@ -288,15 +281,12 @@ class BifacialPVSimulator:
         Raises:
             ValueError: If weather data is invalid or empty.
         """
-        logger.info(f"Starting bifacial simulation for {self.name} (lat: {self.lat}, lon: {self.lon})")
-        weather_data = weather_data or utils.fetch_TMY_data(self.lat, self.lon)
+        weather_data = weather_data or utils.fetch_TMY_data(self.lat, self.lon, self.year)
         location = self._create_location()
         solar_position = location.get_solarposition(weather_data.index)
         irrad = self._get_irradiance(weather_data, solar_position)
         mc = self.simulation_setup()
         mc.run_model_from_effective_irradiance(irrad)
-        logger.info("Bifacial simulation completed successfully")
-        logger.debug(mc.results)
         return mc.results
 
     def get_system_summary(self) -> Dict:

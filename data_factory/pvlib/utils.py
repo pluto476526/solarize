@@ -4,17 +4,36 @@
 
 import pvlib
 import pandas as pd
+from django.core.cache import cache
 
 
-def fetch_TMY_data(lat, lon):
-    weather, _ = pvlib.iotools.get_pvgis_tmy(
-        latitude=lat,
-        longitude=lon,
-        url="https://re.jrc.ec.europa.eu/api/v5_2/",
-        coerce_year=2025
-    )
+def fetch_TMY_data(lat, lon, year):
+    """
+    Fetches PVGIS TMY data for the specified coordinates and year.
+    Results are cached for performance.
+    """
+    lat_rounded = round(lat, 3)
+    lon_rounded = round(lon, 3)
+    cache_key = f"tmy_{lat_rounded}_{lon_rounded}_{year}"
 
-    weather.index.name = "utc_time"
+    weather = cache.get(cache_key)
+    if weather is not None:
+        return weather
+
+    try:
+        weather, _ = pvlib.iotools.get_pvgis_tmy(
+            latitude=lat,
+            longitude=lon,
+            url="https://re.jrc.ec.europa.eu/api/v5_2/",
+            coerce_year=year
+        )
+        
+        weather.index.name = "utc_time"
+        cache.set(cache_key, weather, timeout=604800)
+
+    except Exception as e:
+        raise RuntimeError(f"Failed to fetch TMY data: {e}")
+
     return weather
 
 

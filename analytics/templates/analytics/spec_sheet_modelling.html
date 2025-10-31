@@ -262,50 +262,50 @@
             </div>
 
             <!-- Loss Parameters -->
-            <div class="col-lg-6">
+            <div class="col-lg-8">
                 <div class="card shadow-sm h-100 bg-secondary p-3">
                     <div class="">
                         <h6 class="mb-0 text-warning px-3">System Loss Parameters (%)</h6>
                     </div>
                     <div class="card-body p-3">
                         <div class="row g-2">
-                            <div class="col-6">
+                            <div class="col-4">
                                 <label class="form-label small">Soiling Losses</label>
                                 <input type="number" class="form-control form-control-sm" name="soiling" value="2" min="0" max="100" step="0.1">
                             </div>
-                            <div class="col-6">
+                            <div class="col-4">
                                 <label class="form-label small">Shading Losses</label>
                                 <input type="number" class="form-control form-control-sm" name="shading" value="3" min="0" max="100" step="0.1">
                             </div>
-                            <div class="col-6">
+                            <div class="col-4">
                                 <label class="form-label small">Snow Coverage Losses</label>
                                 <input type="number" class="form-control form-control-sm" name="snow" value="0" min="0" max="100" step="0.1">
                             </div>
-                            <div class="col-6">
+                            <div class="col-4">
                                 <label class="form-label small">Module Mismatch Losses</label>
                                 <input type="number" class="form-control form-control-sm" name="mismatch" value="2" min="0" max="100" step="0.1">
                             </div>
-                            <div class="col-6">
+                            <div class="col-4">
                                 <label class="form-label small">Wiring Losses</label>
                                 <input type="number" class="form-control form-control-sm" name="wiring" value="2" min="0" max="100" step="0.1">
                             </div>
-                            <div class="col-6">
+                            <div class="col-4">
                                 <label class="form-label small">Connection Losses</label>
                                 <input type="number" class="form-control form-control-sm" name="connections" value="0.5" min="0" max="100" step="0.1">
                             </div>
-                            <div class="col-6">
+                            <div class="col-4">
                                 <label class="form-label small">Light Induced Degradation (LID)</label>
                                 <input type="number" class="form-control form-control-sm" name="lid" value="1.5" min="0" max="100" step="0.1">
                             </div>
-                            <div class="col-6">
+                            <div class="col-4">
                                 <label class="form-label small">Nameplate Rating Losses</label>
                                 <input type="number" class="form-control form-control-sm" name="nameplate" value="1" min="0" max="100" step="0.1">
                             </div>
-                            <div class="col-6">
+                            <div class="col-4">
                                 <label class="form-label small">Age Related Degradation</label>
                                 <input type="number" class="form-control form-control-sm" name="age" value="0.5" min="0" max="100" step="0.1">
                             </div>
-                            <div class="col-6">
+                            <div class="col-4">
                                 <label class="form-label small">System Availability</label>
                                 <input type="number" class="form-control form-control-sm" name="availability" value="98" min="0" max="100" step="0.1">
                             </div>
@@ -315,7 +315,7 @@
             </div>
 
             <!-- Simulation Parameters -->
-            <div class="col-lg-6">
+            <div class="col-lg-4">
                 <div class="card shadow-sm h-100 bg-secondary p-3">
                     <div>
                         <h6 class="mb-0 text-warning px-3">Simulation Parameters</h6>
@@ -324,44 +324,17 @@
                         <div class="row g-2">
                             <!-- Data Source Selection -->
                             <div class="col-12">
-                                <label class="form-label small">Data Source</label>
-                                <select class="form-select form-select-sm" name="data_source" required>
-                                    <option value="pvgis">PVGIS</option>
-                                    <option value="nasa_power">NASA POWER</option>
-                                    <option value="tmy">TMY</option>
-                                    <option value="local_weather">Local Weather Station</option>
+                                <label class="form-label small">Weather Data</label>
+                                <select class="form-select form-select-sm" name="data_source">
+                                    <option value="pvgis" selected>PVGIS – European & African TMY</option>
+                                    <option value="nasa">NASA POWER – Global Prediction</option>
                                 </select>
-                                
                             </div>
 
-                            <!-- Start & End Dates -->
-                            <div class="col-6">
-                                <label class="form-label small">Simulation Start Date</label>
-                                <input type="date" class="form-control form-control-sm" name="start_date" value="2023-01-01" required>
-                            </div>
-                            <div class="col-6">
-                                <label class="form-label small">Simulation End Date</label>
-                                <input type="date" class="form-control form-control-sm" name="end_date" value="2023-12-31" required>
-                            </div>
-                            <small class="text-muted d-block mt-1">
-                                Note: For TMY data, the selected timeframe is ignored.
-                            </small>
-
-                            <!-- Timeframe Resolution -->
                             <div class="col-12">
-                                <label class="form-label small">Timeframe Resolution</label>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="timeframe" value="hourly" checked>
-                                    <label class="form-check-label small">Hourly</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="timeframe" value="daily">
-                                    <label class="form-check-label small">Daily</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="timeframe" value="monthly">
-                                    <label class="form-check-label small">Monthly</label>
-                                </div>
+                                <label class="form-label small">Simulation Output Year</label>
+                                <input type="number" class="form-control form-control-sm" name="year" value="2025" step="1">
+                                <small class="text-muted d-block mt-1">This date determines the year for your simulation results, not the data source period.</small>
                             </div>
                         </div>
 

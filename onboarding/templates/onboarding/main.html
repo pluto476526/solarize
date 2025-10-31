@@ -43,7 +43,7 @@
             </div>
   
             <!-- box-nav -->
-            <a class="box-primary-nav-trigger" href="#0">
+            <a class="box-primary-nav-trigger d-none d-lg-block" href="#0">
                 <span class="box-menu-icon"></span>
             </a>
             <!-- box-primary-nav-trigger -->
@@ -87,9 +87,6 @@
                   <li><a href="#python">Python and Data Analysis</a></li>
                   <li><a href="#solutions">Our Solutions</a></li>
                   <li><a href="#climate-projection">Climate Projection</li>
-
-                  <li class="mobile-label">ACCOUNT</li>
-
                   {% if request.user.is_authenticated %}
                   <li><a href="{% url 'dash' %}">Dashboard</a></li>
                   <li><a href="">Log out</a></li>

@@ -89,6 +89,33 @@
 		            </ul>
 				</nav>
 				<!-- end nav -->
+
+				<!-- ==== MOBILE MENU (only visible on small screens) ==== -->
+		        <div class="mobile-menu-wrapper">
+		          <button class="mobile-menu-toggle" aria-label="Open menu">
+		              <span></span><span></span><span></span>
+		          </button>
+
+		          <div class="mobile-menu">
+		              <ul class="mobile-primary-nav">
+		                  <li class="mobile-label">SOLARIZE</li>
+
+		                  <li><a href="#what-is-pv">What is PV Modeling</a></li>
+		                  <li><a href="#why-model">Why Model PV Systems</a></li>
+		                  <li><a href="#how-modeling-works">How PV Modeling Works</a></li>
+		                  <li><a href="#python">Python and Data Analysis</a></li>
+		                  <li><a href="#solutions">Our Solutions</a></li>
+		                  <li><a href="#climate-projection">Climate Projection</li>
+		                  {% if request.user.is_authenticated %}
+		                  <li><a href="{% url 'dash' %}">Dashboard</a></li>
+		                  <li><a href="">Log out</a></li>
+		                  {% else %}
+		                  <li><a href="{% url 'signin' %}">Sign In</a></li>
+		                  {% endif %}
+		              </ul>
+		          </div>
+		      </div>
+		        <!-- end nav -->
 		</div>
 	</header>
 
@@ -112,44 +139,16 @@
     <script type="text/javascript" src="{% static 'onboarding/js/owl.carousel.min.js' %}"></script>
 
 	<script type="text/javascript">
-		$(window).load(function() {
-			new WOW().init();
+		(function(){
+	        var toggle = document.querySelector('.mobile-menu-toggle');
+	        var menu = document.querySelector('.mobile-menu');
 
-			// initialise flexslider
-			$('.flexslider').flexslider({
-				animation: "fade",
-				directionNav: true,
-				controlNav: false,
-				keyboardNav: true,
-				slideToStart: 0,
-				animationLoop: true,
-				pauseOnHover: false,
-				slideshowSpeed: 4000,
-			});
-
-			smoothScroll.init();
-
-			// initialize isotope
-			var $container = $('.portfolio_container');
-			$container.isotope({
-				filter: '*',
-			});
-
-			$('.portfolio_filter a').click(function(){
-				$('.portfolio_filter .active').removeClass('active');
-				$(this).addClass('active');
-
-				var selector = $(this).attr('data-filter');
-				$container.isotope({
-					filter: selector,
-					animationOptions: {
-						duration: 500,
-						animationEngine : "jquery"
-					}
-				});
-				return false;
-			});
-		});
+	        toggle.addEventListener('click', function(){
+	            var expanded = toggle.getAttribute('aria-expanded') === 'true';
+	            toggle.setAttribute('aria-expanded', !expanded);
+	            menu.classList.toggle('open');
+	        });
+	    })();
 	</script>
 </body>
 </html>

@@ -139,7 +139,7 @@ class DataManager:
                 dfs = tuple(ct.to_frame(name="temperature") for ct in result.cell_temperature) if isinstance(result.cell_temperature, tuple) else (result.cell_temperature.to_frame(name="temperature"),)
                 insert_timeseries(dfs, "cell_temperature")
 
-            if hasattr(result, "dc") and result.dc is not None:
+            if hasattrtr(result, "dc") and result.dc is not None:
                 dfs = result.dc if isinstance(result.dc, tuple) else (result.dc,)
                 insert_timeseries(dfs, "dc_output")
 

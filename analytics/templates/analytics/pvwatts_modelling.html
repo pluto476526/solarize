@@ -153,22 +153,24 @@
                 <div class="bg-secondary rounded h-100 p-3">
                     <h6 class="text-warning mb-3">TMY Data Year</h6>
                     <div class="row g-3 align-items-end">
-                        <!-- Timeframe Selection -->
-                        <div class="col-md-6">
-                            <label class="form-label small text-light">Year</label>
-                            <input type="number" class="form-control form-control-sm" name="year" value="2025" step="1">
-                        </div>
-
-                        <!-- Buttons -->
-                        <div class="col-md-6 d-flex justify-content-md-end gap-2">
-                            <button type="reset" class="btn btn-outline-light btn-sm">
-                                <i class="fas fa-redo me-1"></i>Reset
-                            </button>
-                            <button type="submit" class="btn btn-warning btn-sm">
-                                <i class="fas fa-bolt me-1"></i>Simulate
-                            </button>
-                        </div>
+                    <!-- Timeframe Selection -->
+                    <div class="col-md-12">
+                        <label class="form-label small text-light">Output Year</label>
+                        <input type="number" class="form-control form-control-sm" name="year" value="2025" step="1">
+                        <small class="text-muted d-block mt-1">Defines the year used in the simulated output, not the data source period.</small>
                     </div>
+
+                    <!-- Buttons -->
+                    <div class="col-md-12 d-flex justify-content-md-end gap-2">
+                        <button type="reset" class="btn btn-outline-light btn-sm">
+                            <i class="fas fa-redo me-1"></i>Reset
+                        </button>
+                        <button type="submit" class="btn btn-warning btn-sm">
+                            <i class="fas fa-bolt me-1"></i>Simulate
+                        </button>
+                    </div>
+                </div>
+
                 </div>
 
             </div>

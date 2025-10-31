@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 class SpecSheetSimulator:
     """Advanced PV system simulator for fixed and tracking systems."""
     
-    def __init__(self, timeframe_params, location_params, system_params, losses_params):
+    def __init__(self, location_params, system_params, losses_params):
         """Initialize the PV simulator with system, location, and loss parameters.
 
         Args:
@@ -32,7 +32,7 @@ class SpecSheetSimulator:
         self.albedo = float(location_params["albedo"])
         
         # Timeframe parameters
-        self.timeframe_params = timeframe_params
+        self.year = int(system_params["year"])
         
         # Mount configuration
         self.mount_type = "fixed"
@@ -264,11 +264,7 @@ class SpecSheetSimulator:
         Raises:
             ValueError: If weather data is empty or invalid.
         """
-        weather_data = weather_data or utils.fetch_TMY_data(self.lat, self.lon)
-        start = pd.to_datetime(self.timeframe_params.get('start'))
-        end = pd.to_datetime(self.timeframe_params.get('end'))
-        # weather_data = weather_data.loc[start:end]
-        
+        weather_data = weather_data or utils.fetch_TMY_data(self.lat, self.lon, self.year)
         mc = self.simulation_setup()
         mc.run_model(weather_data)
         return mc.results

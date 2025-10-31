@@ -11,7 +11,7 @@ from data_factory.pvlib import utils
 logger = logging.getLogger(__name__)
 
 class FixedMountSimulator:
-    def __init__(self, timeframe_params, location_params, system_params, losses_params):
+    def __init__(self, location_params, system_params, losses_params):
         self.name = location_params["name"]
         self.lat = float(location_params["lat"])
         self.lon = float(location_params["lon"])
@@ -28,6 +28,7 @@ class FixedMountSimulator:
         self.arrays = system_params["arrays_config"]
         self.temp_model = system_params["temp_model"]
         self.temp_model_params = system_params["temp_model_params"]
+        self.year = int(system_params["year"])
 
         self.soiling = float(losses_params.get("soiling"))
         self.shading = float(losses_params.get("shading"))
@@ -127,7 +128,6 @@ class FixedMountSimulator:
             system=system,
             location=self.create_location(),
             aoi_model="ashrae",
-            spectral_model="no_loss",
             dc_ohmic_model="no_loss",
         )
 
@@ -135,9 +135,10 @@ class FixedMountSimulator:
 
 
     def run_simulation(self):
-        weather_data = utils.fetch_TMY_data(self.lat, self.lon)
+        weather_data = utils.fetch_TMY_data(self.lat, self.lon, self.year)
         mc = self.simulation_setup()
         mc.run_model(weather_data)
+        logger.debug(mc.results)
         return mc.results
 
 

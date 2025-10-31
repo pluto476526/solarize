@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS modelchain_results (
 );
 
 -- ===============================================================
--- 3. Tuple-Support Time-Series Tables
+-- 3. PVlib Time-Series Tables
 -- Each table includes `array_name` and a composite PK
 -- ===============================================================
 
@@ -221,58 +221,58 @@ CREATE TABLE weather_daily (
     id BIGSERIAL NOT NULL,
     location_id BIGINT NOT NULL REFERENCES weather_location(id) ON DELETE CASCADE,
     time TIMESTAMPTZ NOT NULL,
-    sunrise                             BIGINT,
-    sunset                              BIGINT,
-    daylight_duration                   DOUBLE PRECISION,
-    sunshine_duration                   DOUBLE PRECISION,
-    uv_index_max                        DOUBLE PRECISION,
-    uv_index_clear_sky_max              DOUBLE PRECISION,
-    rain_sum                            DOUBLE PRECISION,
-    showers_sum                         DOUBLE PRECISION,
-    precipitation_sum                   DOUBLE PRECISION,
-    precipitation_hours                 DOUBLE PRECISION,
-    precipitation_probability_max       DOUBLE PRECISION,
-    shortwave_radiation_sum             DOUBLE PRECISION,
-    wind_direction_10m_dominant         DOUBLE PRECISION,
-    created_at                          TIMESTAMPTZ DEFAULT now(),
+    sunrise BIGINT,
+    sunset BIGINT,
+    daylight_duration DOUBLE PRECISION,
+    sunshine_duration DOUBLE PRECISION,
+    uv_index_max DOUBLE PRECISION,
+    uv_index_clear_sky_max DOUBLE PRECISION,
+    rain_sum DOUBLE PRECISION,
+    showers_sum DOUBLE PRECISION,
+    precipitation_sum DOUBLE PRECISION,
+    precipitation_hours DOUBLE PRECISION,
+    precipitation_probability_max DOUBLE PRECISION,
+    shortwave_radiation_sum DOUBLE PRECISION,
+    wind_direction_10m_dominant DOUBLE PRECISION,
+    created_at TIMESTAMPTZ DEFAULT now(),
     PRIMARY KEY (id)
 );
 
 
 
 CREATE TABLE IF NOT EXISTS air_quality_current (
-    id                        BIGSERIAL PRIMARY KEY,
-    location_id               BIGINT NOT NULL REFERENCES weather_location(id) ON DELETE CASCADE,
-    observation_time          TIMESTAMPTZ NOT NULL,
-    european_aqi              DOUBLE PRECISION,
-    us_aqi                    DOUBLE PRECISION,
-    pm10                      DOUBLE PRECISION,
-    pm2_5                     DOUBLE PRECISION,
-    carbon_monoxide           DOUBLE PRECISION,
-    nitrogen_dioxide          DOUBLE PRECISION,
-    sulphur_dioxide           DOUBLE PRECISION,
-    ozone                     DOUBLE PRECISION,
-    aerosol_optical_depth     DOUBLE PRECISION,
-    dust                      DOUBLE PRECISION,
-    uv_index                  DOUBLE PRECISION,
-    fetched_at                TIMESTAMPTZ DEFAULT now()
+    id BIGSERIAL PRIMARY KEY,
+    location_id BIGINT NOT NULL REFERENCES weather_location(id) ON DELETE CASCADE,
+    observation_time TIMESTAMPTZ NOT NULL,
+    european_aqi DOUBLE PRECISION,
+    us_aqi DOUBLE PRECISION,
+    pm10 DOUBLE PRECISION,
+    pm2_5 DOUBLE PRECISION,
+    carbon_monoxide DOUBLE PRECISION,
+    nitrogen_dioxide DOUBLE PRECISION,
+    sulphur_dioxide DOUBLE PRECISION,
+    ozone DOUBLE PRECISION,
+    aerosol_optical_depth DOUBLE PRECISION,
+    dust DOUBLE PRECISION,
+    uv_index DOUBLE PRECISION,
+    fetched_at TIMESTAMPTZ DEFAULT now()
 );
 
 
 CREATE TABLE IF NOT EXISTS air_quality_hourly (
-    id                      BIGSERIAL PRIMARY KEY,
-    location_id             BIGINT NOT NULL REFERENCES weather_location(id) ON DELETE CASCADE,
-    time                    TIMESTAMPTZ NOT NULL,
-    pm2_5                   DOUBLE PRECISION,
-    carbon_monoxide         DOUBLE PRECISION,
-    carbon_dioxide          DOUBLE PRECISION,
-    nitrogen_dioxide        DOUBLE PRECISION,
-    sulphur_dioxide         DOUBLE PRECISION,
-    ozone                   DOUBLE PRECISION,
-    dust                    DOUBLE PRECISION,
-    uv_index                DOUBLE PRECISION,
-    pm10                    DOUBLE PRECISION,
-    created_at              TIMESTAMPTZ DEFAULT now()
+    id BIGSERIAL PRIMARY KEY,
+    location_id BIGINT NOT NULL REFERENCES weather_location(id) ON DELETE CASCADE,
+    time TIMESTAMPTZ NOT NULL,
+    pm2_5 DOUBLE PRECISION,
+    carbon_monoxide DOUBLE PRECISION,
+    carbon_dioxide DOUBLE PRECISION,
+    nitrogen_dioxide DOUBLE PRECISION,
+    sulphur_dioxide DOUBLE PRECISION,
+    ozone DOUBLE PRECISION,
+    dust DOUBLE PRECISION,
+    uv_index DOUBLE PRECISION,
+    pm10 DOUBLE PRECISION,
+    created_at TIMESTAMPTZ DEFAULT now()
 );
 
 

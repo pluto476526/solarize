@@ -618,7 +618,7 @@
                         
                         <!-- Charts Section -->
                         <div class="row g-4 mt-3">
-                            <div class="col-lg-6">{{ charts.solar|safe }}</div>
+                            <div class="col-lg-6">{{ charts.solar_elevation|safe }}</div>
                             <div class="col-lg-6">{{ charts.sunpath|safe }}</div>
                         </div>
                     </div>
@@ -1099,7 +1099,7 @@
                             <div class="col-lg-8">{{ charts.daily_yield|safe }}</div>
                             <div class="col-lg-4">{{ charts.cum_energy|safe }}</div>
                             <div class="col-lg-6">{{ charts.cap_factor|safe }}</div>
-                            <div class="col-lg-6">{{ charts.pr|safe }}</div>
+                            <div class="col-lg-6">{{ charts.performance_ratio|safe }}</div>
                         </div>
                     </div>
             </div>
@@ -1885,6 +1885,8 @@
         </div>
     </div>
     {% endif %}
+
+    {% include 'analytics/footer.html' %}
 </div>
 
 {% endblock %}

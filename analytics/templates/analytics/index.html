@@ -20,7 +20,7 @@
                     <i class="fas fa-code fa-3x text-warning"></i>
                     <div class="ms-3">
                         <p class="mb-2">pvlib Version</p>
-                        <h6 class="mb-0">v0.10.4</h6>
+                        <h6 class="mb-0">v0.13.1</h6>
                         <small class="text-muted">Advanced Solar Modeling</small>
                     </div>
                 </div>
@@ -44,7 +44,7 @@
                     <i class="fas fa-globe-europe fa-3x text-primary"></i>
                     <div class="ms-3">
                         <p class="mb-2">TMY Data Source</p>
-                        <h6 class="mb-0">PVGIS v5</h6>
+                        <h6 class="mb-0">PVGIS v5.2</h6>
                         <small class="text-muted">EU Joint Research Centre</small>
                     </div>
                 </div>
@@ -166,7 +166,7 @@
                     <thead class="table-dark">
                         <tr>
                             <th scope="col" class="text-center">Feature</th>
-                            <th scope="col" class="text-center">pvlib (This App)</th>
+                            <th scope="col" class="text-center">pvlib</th>
                             <th scope="col" class="text-center">PVWatts (NREL)</th>
                             <th scope="col" class="text-center">PVSyst</th>
                             <th scope="col" class="text-center">SAM (NREL)</th>
@@ -235,8 +235,8 @@
             <div class="mt-3 text-center">
                 <small class="text-muted">
                     <i class="fas fa-info-circle"></i> 
-                    This app uses <code>pvlib.ModelChain</code> with full loss modeling — 
-                    <strong>more accurate than PVWatts</strong>, <strong>more flexible than PVSyst</strong>, and <strong>fully open</strong>.
+                    Solarize uses <code>pvlib.ModelChain</code> with full loss modeling.
+                    <strong>More accurate than PVWatts</strong>, <strong>more flexible than PVSyst</strong>, and <strong>fully open</strong>.
                 </small>
             </div>
         </div>
@@ -279,10 +279,11 @@
                             <span class="badge bg-success text-xs">Q CELLS</span>
                             <span class="badge bg-success text-xs">REC</span>
                         </div>
-                        <a href="https://raw.githubusercontent.com/NREL/SAM/develop/deploy/libraries/CEC%20Modules.csv" target="_blank" 
+                        <a href="https://solarequipment.energy.ca.gov/Home/PVModuleList" target="_blank" 
                            class="btn btn-sm btn-outline-success mt-auto">
-                            <i class="fab fa-github me-1"></i> View on GitHub
+                            <i class="fa fa-list me-2"></i> View CEC PV Modules
                         </a>
+
                     </div>
                 </div>
 
@@ -313,9 +314,9 @@
                             <span class="badge bg-info text-dark text-xs">Fronius</span>
                             <span class="badge bg-info text-dark text-xs">Huawei</span>
                         </div>
-                        <a href="https://github.com/NREL/SAM/blob/develop/deploy/libraries/CEC%20Inverters.csv" target="_blank" 
+                        <a href="https://solarequipment.energy.ca.gov/Home/InverterSolarList" target="_blank" 
                            class="btn btn-sm btn-outline-info mt-auto">
-                            <i class="fab fa-github me-1"></i> View on GitHub
+                            <i class="fa fa-list me-2"></i> View CEC Inverters List
                         </a>
                     </div>
                 </div>
@@ -597,39 +598,40 @@
                 <div class="bg-secondary rounded p-4 h-100 d-flex flex-column">
                     <h5 class="text-warning mb-4">
                         <i class="fas fa-sync-alt me-2"></i>What’s New in Solarize
-                        <span class="badge bg-warning ms-2">v0.10.4</span>
+                        <span class="badge bg-warning ms-2 text-dark">v0.0.2</span>
                     </h5>
 
-                    <div class="row g-3 flex-grow-1">
+                     <div class="row g-3 flex-grow-1">
                         <div class="col-md-6">
                             <div class="p-3 bg-dark bg-opacity-50 rounded h-100 d-flex flex-column">
-                                <h6 class="text-success"><i class="fas fa-star me-2"></i>Bifacial Modeling Upgraded</h6>
-                                <p class="small text-light mb-0 mt-auto">Now uses <code>pvfactors</code> v1.5.1 with improved view-factor accuracy for ground reflection.</p>
+                                <h6 class="text-success"><i class="fas fa-paint-brush me-2"></i>Refreshed UI</h6>
+                                <p class="small text-light mb-0 mt-auto">Redesigned dashboard with cleaner layouts, charts, and better spacing.</p>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="p-3 bg-dark bg-opacity-50 rounded h-100 d-flex flex-column">
-                                <h6 class="text-info"><i class="fas fa-tachometer-alt me-2"></i>Performance Boost</h6>
-                                <p class="small text-light mb-0 mt-auto">Vectorized <code>ModelChain</code> runs 40% faster on large datasets.</p>
+                                <h6 class="text-info"><i class="fas fa-bolt me-2"></i>Faster Loading</h6>
+                                <p class="small text-light mb-0 mt-auto">Optimized SQL queries, caching, and asset delivery.</p>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="p-3 bg-dark bg-opacity-50 rounded h-100 d-flex flex-column">
-                                <h6 class="text-warning"><i class="fas fa-sun me-2"></i>Spectral Modeling</h6>
-                                <p class="small text-light mb-0 mt-auto">New <code>first_solar_spectral_loss</code> for CdTe and high-efficiency panels.</p>
+                                <h6 class="text-warning"><i class="fas fa-chart-line me-2"></i>Analytics Dashboard</h6>
+                                <p class="small text-light mb-0 mt-auto">Enhanced performance metrics and system insights under active development.</p>
                             </div>
+
                         </div>
                         <div class="col-md-6">
                             <div class="p-3 bg-dark bg-opacity-50 rounded h-100 d-flex flex-column">
-                                <h6 class="text-success"><i class="fas fa-shield-alt me-2"></i>Security & Stability</h6>
-                                <p class="small text-light mb-0 mt-auto">Fixed edge-case in IAM calculation; improved input validation.</p>
+                                <h6 class="text-success"><i class="fas fa-solar-panel me-2"></i>Enhanced System Modeling</h6>
+                                <p class="small text-light mb-0 mt-auto">Refined PV system simulation logic to add detailed loss factors.</p>
                             </div>
                         </div>
                     </div>
 
                     <div class="mt-4 text-center">
                         <small class="text-muted d-block mt-2">
-                            <i class="fas fa-sync me-1"></i> This app updates pvlib <strong>monthly</strong>
+                            <i class="fas fa-sync me-1"></i> We are continually updating and improving Solarize to deliver the most accurate system modeling experience.
                         </small>
                     </div>
                 </div>
@@ -917,8 +919,8 @@
     <!-- End: Glossary -->
 
     <!-- Trusted By -->
-    <div class="container-fluid pt-4 px-3 pb-5">
-        <div class="text-center">
+    <div class="container-fluid pt-2">
+        <div class="text-center px-4 pb-5 pt-4 bg-secondary">
             <p class="text-muted small mb-3">Powered by Industry-Standard Open Tools</p>
             <div class="d-flex justify-content-center align-items-center flex-wrap gap-4">
                 <img src="https://www.python.org/static/community_logos/python-logo-master-v3-TM.png" alt="python" height="32">

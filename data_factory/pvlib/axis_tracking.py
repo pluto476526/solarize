@@ -9,6 +9,7 @@ from data_factory.pvlib import utils, dual_axis_tracker_mount
 
 logger = logging.getLogger(__name__)
 
+
 class SingleDualAxisTracker:
     def __init__(self, location_params, system_params, tracking_params, losses_params):
         self.name = location_params["name"]
@@ -18,7 +19,7 @@ class SingleDualAxisTracker:
         self.tz = location_params["tz"]
         self.albedo = float(location_params["albedo"])
         self.year = int(system_params["year"])
-        
+
         # Single-axis tracker specific parameters
         self.axis_tilt = float(tracking_params.get("axis_tilt", 0))
         self.axis_azimuth = float(tracking_params.get("axis_azimuth", 0))
@@ -27,7 +28,7 @@ class SingleDualAxisTracker:
         self.gcr = float(tracking_params.get("gcr", 0.4))  # ground coverage ratio
 
         self.mount_type = "single_axis"
-        
+
         # System parameters
         self.module = system_params["module"]
         self.module_type = system_params["module_type"]
@@ -38,7 +39,9 @@ class SingleDualAxisTracker:
         self.temp_model_params = system_params["temp_model_params"]
         self.description = system_params["description"]
         self.arrays = system_params.get("arrays_config", [])
-        self.racking_model = system_params.get("racking_model", "open_rack") #open_rack, close_mount, insulated_back, freestanding, insulated
+        self.racking_model = system_params.get(
+            "racking_model", "open_rack"
+        )  # open_rack, close_mount, insulated_back, freestanding, insulated
         self.system_arrays = []
 
         # Losses parameters
@@ -59,7 +62,7 @@ class SingleDualAxisTracker:
             latitude=self.lat,
             longitude=self.lon,
             altitude=self.alt,
-            tz=self.tz
+            tz=self.tz,
         )
 
     def create_mount(self, array_config) -> pvlib.pvsystem.AbstractMount:
@@ -72,24 +75,28 @@ class SingleDualAxisTracker:
             max_angle = float(tracker_config.get("max_angle", 90))
             gcr = float(tracker_config.get("gcr", 0.4))
             backtrack = bool(tracker_config.get("backtrack", True))
-            
+
             return pvlib.pvsystem.SingleAxisTrackerMount(
                 axis_tilt=axis_tilt,
                 axis_azimuth=axis_azimuth,
                 max_angle=max_angle,
                 backtrack=backtrack,
-                gcr=gcr
+                gcr=gcr,
             )
-        
-        elif mount_type == "dual_axis":            
+
+        elif mount_type == "dual_axis":
             return dual_axis_tracker_mount.DualAxisTrackerMount()
-        
+
         else:
             logger.error(f"Invalid mount type: {mount_type}")
 
     def simulation_setup(self):
-        module_params, inverter_params = utils.fetch_cec_params(self.module, self.inverter)
-        temp_parameters = pvlib.temperature.TEMPERATURE_MODEL_PARAMETERS[self.temp_model][self.temp_model_params]
+        module_params, inverter_params = utils.fetch_cec_params(
+            self.module, self.inverter
+        )
+        temp_parameters = pvlib.temperature.TEMPERATURE_MODEL_PARAMETERS[
+            self.temp_model
+        ][self.temp_model_params]
 
         # System-wide losses
         loss_params = pvlib.pvsystem.pvwatts_losses(
@@ -102,7 +109,7 @@ class SingleDualAxisTracker:
             lid=self.lid,
             nameplate_rating=self.nameplate,
             age=self.age,
-            availability=self.availability
+            availability=self.availability,
         )
 
         # Build array configurations
@@ -120,12 +127,9 @@ class SingleDualAxisTracker:
                 "axis_azimuth": self.axis_azimuth,
                 "max_angle": self.max_angle,
                 "backtrack": self.backtrack,
-                "gcr": self.gcr
+                "gcr": self.gcr,
             },
-            "array_losses": {
-                "mismatch": self.mismatch,
-                "wiring": self.wiring
-            },
+            "array_losses": {"mismatch": self.mismatch, "wiring": self.wiring},
         }
         self.arrays.append(main_array_config)
 
@@ -140,7 +144,7 @@ class SingleDualAxisTracker:
                 temperature_model_parameters=temp_parameters,
                 modules_per_string=config.get("modules_per_string"),
                 strings=config.get("strings"),
-                array_losses_parameters=config.get("array_losses")
+                array_losses_parameters=config.get("array_losses"),
             )
             self.system_arrays.append(arr)
 
@@ -148,7 +152,7 @@ class SingleDualAxisTracker:
             arrays=self.system_arrays,
             inverter_parameters=inverter_params,
             racking_model=self.racking_model,
-            losses_parameters=loss_params
+            losses_parameters=loss_params,
         )
 
         mc = pvlib.modelchain.ModelChain(
@@ -164,7 +168,5 @@ class SingleDualAxisTracker:
         mc = self.simulation_setup()
         mc.run_model(weather_data)
         logger.debug(mc.results)
-        
+
         return mc.results
-
-

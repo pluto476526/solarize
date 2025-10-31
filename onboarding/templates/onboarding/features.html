@@ -1,296 +1,317 @@
 {% extends 'onboarding/sub_main.html' %}
 {% load static %}
-
 {% block main %}
-<!-- HERO SECTION  -->
-<div class="site-hero_2" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url({% static 'onboarding/img/integrated_tech_hero.jpg' %});">
-	<div class="section-overlay"></div>
-	<div class="page-title">
-		<h2>Integrated Tech</h2>
-		<div class="small-title">home / integrated-tech / </div>
-	</div>
-</div>
-
-<!-- FEATURES OVERVIEW -->
-<section class="about_descr mt-100">
-	<div class="container">
-		<div class="row center">
-			<div class="col-md-8 col-md-offset-2 col-sm-12">
-				<div class="section-title">
-					<h2 class="mb-50">Built on proven data and technology.</h2>
-					<p>Precise Modeling Powered by Multiple Data Sources and Systematic Analysis. Each feature is designed to work together, providing a complete picture of your solar potential through irradiance analysis, system modeling, and environmental data integration.</p>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
-
-<!-- ASTRONOMICAL DATA SECTION -->
-<section id="astronomical" class="mt-100 mb-100">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-6 wow fadeInUp">
-				<h3 class="mb-30">Astronomical Calculations</h3>
-				<p>Precise calculations of sun position, sunrise/sunset times, solar geometry, and daylight duration for accurate solar modeling.</p>
-				<div class="row mt-30">
-					<div class="col-md-6">
-						<ul class="services-list">
-							<li>Sun path tracking</li>
-							<li>Seasonal variations</li>
-							<li>Azimuth & elevation angles</li>
-						</ul>
-					</div>
-					<div class="col-md-6">
-						<ul class="services-list">
-							<li>Sunrise/sunset times</li>
-							<li>Solar position algorithms</li>
-							<li>Daylight duration analysis</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-6 wow fadeInUp" data-wow-delay=".1s">
-				<img src="{% static 'onboarding/img/astronomy.jpg' %}" class="images" alt="Astronomical Data">
-			</div>
-		</div>
-	</div>
-</section>
-
-<!-- WEATHER DATA SECTION -->
-<section id="weather" class="mt-100 mb-100" style="background-color: #1a1a00; padding: 80px 0;">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-6 wow fadeInUp">
-				<img src="{% static 'onboarding/img/tech_weather.jpg' %}" alt="Weather Data" class="images">
-			</div>
-			<div class="col-md-6 wow fadeInUp" data-wow-delay=".1s">
-				<h3 class="mb-30">Weather Data Integration</h3>
-				<p>Real-time weather conditions, temperature, and atmospheric data integrated with solar modeling for accurate system performance analysis.</p>
-				<div class="row mt-30">
-					<div class="col-md-6">
-						<ul class="services-list">
-							<li>Cloud cover analysis</li>
-							<li>Temperature effects</li>
-							<li>Current conditions</li>
-						</ul>
-					</div>
-					<div class="col-md-6">
-						<ul class="services-list">
-							<li>Atmospheric pressure</li>
-							<li>Humidity factors</li>
-							<li>Wind conditions</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
-
-<!-- IRRADIANCE ANALYSIS SECTION -->
-<section id="irradiance" class="mt-100 mb-100">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-6 wow fadeInUp">
-				<h3 class="mb-30">Irradiance Analysis</h3>
-				<p>Comprehensive measurements of Global Horizontal Irradiance (GHI), Direct Normal Irradiance (DNI), and Diffuse Horizontal Irradiance (DHI) for precise solar energy assessment.</p>
-				<div class="row mt-30">
-					<div class="col-md-6">
-						<ul class="services-list">
-							<li>Real-time irradiance data</li>
-							<li>Historical patterns</li>
-							<li>Radiation charts</li>
-						</ul>
-					</div>
-					<div class="col-md-6">
-						<ul class="services-list">
-							<li>GHI, DNI & DHI measurements</li>
-							<li>Site-specific analysis</li>
-							<li>Performance metrics</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-6 wow fadeInUp" data-wow-delay=".1s">
-				<img src="{% static 'onboarding/img/irradiance.jpg' %}" alt="Irradiance Analysis" class="images">
-			</div>
-		</div>
-	</div>
-</section>
-
-<!-- PVWATTS MODELING SECTION -->
-<section id="pvwatts" class="mt-100 mb-100" style="background-color: #1a1a00; padding: 80px 0;">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-6 wow fadeInUp">
-				<img src="{% static 'onboarding/img/pvwatts.jpg' %}" alt="PVWatts Modeling" class="images">
-			</div>
-			<div class="col-md-6 wow fadeInUp" data-wow-delay=".1s">
-				<h3 class="mb-30">PVWatts Modeling</h3>
-				<p>Integration with NREL's PVWatts API for reliable energy production modeling based on system parameters and location data.</p>
-				<div class="row mt-30">
-					<div class="col-md-6">
-						<ul class="services-list">
-							<li>System capacity modeling</li>
-							<li>Tilt & azimuth optimization</li>
-							<li>Loss factor calculations</li>
-						</ul>
-					</div>
-					<div class="col-md-6">
-						<ul class="services-list">
-							<li>Array type configuration</li>
-							<li>System sizing</li>
-							<li>Performance estimates</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
-
-<!-- PVLIB MODELING SECTION -->
-<section id="pvlib" class="mt-100 mb-100">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-6 wow fadeInUp">
-				<h3 class="mb-30">PVlib Advanced Modeling</h3>
-				<p>Detailed photovoltaic system modeling with module specifications, inverter characteristics, and advanced performance analysis.</p>
-				<div class="row mt-30">
-					<div class="col-md-6">
-						<ul class="services-list">
-							<li>Module specifications</li>
-							<li>Inverter characteristics</li>
-							<li>Detailed system modeling</li>
-						</ul>
-					</div>
-					<div class="col-md-6">
-						<ul class="services-list">
-							<li>Advanced performance metrics</li>
-							<li>System component analysis</li>
-							<li>Technical specifications</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-6 wow fadeInUp" data-wow-delay=".1s">
-				<img src="{% static 'onboarding/img/data_analysis.jpg' %}" alt="PVlib Modeling" class="images">
-			</div>
-		</div>
-	</div>
-</section>
-
-<!-- NASA CLIMATE DATA SECTION -->
-<section id="nasa-climate" class="mt-100 mb-100" style="background-color: #1a1a00; padding: 80px 0;">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-6 wow fadeInUp">
-				<img src="{% static 'onboarding/img/features_nasa.jpg' %}" alt="NASA Climate Data" class="images">
-			</div>
-			<div class="col-md-6 wow fadeInUp" data-wow-delay=".1s">
-				<h3 class="mb-30">NASA Climate Data</h3>
-				<p>Long-term climate modeling and analysis using NASA's POWER database for strategic solar planning and system design.</p>
-				<div class="row mt-30">
-					<div class="col-md-6">
-						<ul class="services-list">
-							<li>Climate trend analysis</li>
-							<li>Seasonal variations</li>
-							<li>Historical data</li>
-						</ul>
-					</div>
-					<div class="col-md-6">
-						<ul class="services-list">
-							<li>Long-term projections</li>
-							<li>Regional climate patterns</li>
-							<li>Environmental factors</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
-
-<!-- AIR QUALITY ANALYSIS SECTION -->
-<section id="air-quality" class="mt-100 mb-100">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-6 wow fadeInUp">
-				<h3 class="mb-30">Air Quality Analysis</h3>
-				<p>Comprehensive air quality data and atmospheric measurements to assess environmental impacts on solar system performance.</p>
-				<div class="row mt-30">
-					<div class="col-md-6">
-						<ul class="services-list">
-							<li>Pollution impact analysis</li>
-							<li>Aerosol optical depth</li>
-							<li>Atmospheric clarity</li>
-						</ul>
-					</div>
-					<div class="col-md-6">
-						<ul class="services-list">
-							<li>Air quality indices</li>
-							<li>Particulate matter data</li>
-							<li>Environmental reports</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-6 wow fadeInUp" data-wow-delay=".1s">
-				<img src="{% static 'onboarding/img/air_quality.jpg' %}" alt="Air Quality Analysis" class="images">
-			</div>
-		</div>
-	</div>
-</section>
-
-<!-- DATA INTEGRATION FEATURES -->
-<section class="mb-100" style="background-color: #1a1a00; padding: 80px 0;">
-	<div class="container">
-		<div class="row center">
-			<div class="col-md-8 col-md-offset-2 col-sm-12">
-				<div class="section-title">
-					<h2 class="mb-50">Key Data Integration Features</h2>
-				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-3 col-sm-6 col-xs-12 wow fadeInUp">
-				<div class="mb-50">
-					<i class="lnr lnr-sun center"></i>
-					<h4>Solar Geometry</h4>
-					<p>
-						Precise sun positioning and astronomical calculations for accurate modeling.
-					</p>
-				</div>
-			</div>
-			<div class="col-md-3 col-sm-6 col-xs-12 wow fadeInUp" data-wow-delay=".1s">
-				<div class="mb-50">
-					<i class="lnr lnr-chart-bars"></i>
-					<h4>System Modeling</h4>
-					<p>
-						Comprehensive PV system analysis with detailed performance metrics.
-					</p>
-				</div>
-			</div>
-			<div class="col-md-3 col-sm-6 col-xs-12 wow fadeInUp" data-wow-delay=".2s">
-				<div class="mb-50">
-					<i class="lnr lnr-cloud"></i>
-					<h4>Environmental Data</h4>
-					<p>
-						Integration of weather and climate data for realistic modeling.
-					</p>
-				</div>
-			</div>
-			<div class="col-md-3 col-sm-6 col-xs-12 wow fadeInUp" data-wow-delay=".3s">
-				<div class="mb-50">
-					<i class="lnr lnr-database"></i>
-					<h4>Multiple Data Sources</h4>
-					<p>
-						Reliable modeling powered by NREL, NASA, and weather APIs.
-					</p>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
-
+    <!-- HERO SECTION  -->
+    <div class="site-hero_2"
+         style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url({% static 'onboarding/img/integrated_tech_hero.jpg' %})">
+        <div class="section-overlay"></div>
+        <div class="page-title">
+            <h2>Integrated Tech</h2>
+            <div class="small-title">home / integrated-tech /</div>
+        </div>
+    </div>
+    <!-- FEATURES OVERVIEW -->
+    <section class="about_descr mt-100">
+        <div class="container">
+            <div class="row center">
+                <div class="col-md-8 col-md-offset-2 col-sm-12">
+                    <div class="section-title">
+                        <h2 class="mb-50">Built on proven data and technology.</h2>
+                        <p>
+                            Precise Modeling Powered by Multiple Data Sources and Systematic Analysis. Each feature is designed to work together, providing a complete picture of your solar potential through irradiance analysis, system modeling, and environmental data integration.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ASTRONOMICAL DATA SECTION -->
+    <section id="astronomical" class="mt-100 mb-100">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 wow fadeInUp">
+                    <h3 class="mb-30">Astronomical Calculations</h3>
+                    <p>
+                        Precise calculations of sun position, sunrise/sunset times, solar geometry, and daylight duration for accurate solar modeling.
+                    </p>
+                    <div class="row mt-30">
+                        <div class="col-md-6">
+                            <ul class="services-list">
+                                <li>Sun path tracking</li>
+                                <li>Seasonal variations</li>
+                                <li>Azimuth & elevation angles</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="services-list">
+                                <li>Sunrise/sunset times</li>
+                                <li>Solar position algorithms</li>
+                                <li>Daylight duration analysis</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 wow fadeInUp" data-wow-delay=".1s">
+                    <img src="{% static 'onboarding/img/astronomy.jpg' %}"
+                         class="images"
+                         alt="Astronomical Data">
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- WEATHER DATA SECTION -->
+    <section id="weather"
+             class="mt-100 mb-100"
+             style="background-color: #1a1a00;
+                    padding: 80px 0">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 wow fadeInUp">
+                    <img src="{% static 'onboarding/img/tech_weather.jpg' %}"
+                         alt="Weather Data"
+                         class="images">
+                </div>
+                <div class="col-md-6 wow fadeInUp" data-wow-delay=".1s">
+                    <h3 class="mb-30">Weather Data Integration</h3>
+                    <p>
+                        Real-time weather conditions, temperature, and atmospheric data integrated with solar modeling for accurate system performance analysis.
+                    </p>
+                    <div class="row mt-30">
+                        <div class="col-md-6">
+                            <ul class="services-list">
+                                <li>Cloud cover analysis</li>
+                                <li>Temperature effects</li>
+                                <li>Current conditions</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="services-list">
+                                <li>Atmospheric pressure</li>
+                                <li>Humidity factors</li>
+                                <li>Wind conditions</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- IRRADIANCE ANALYSIS SECTION -->
+    <section id="irradiance" class="mt-100 mb-100">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 wow fadeInUp">
+                    <h3 class="mb-30">Irradiance Analysis</h3>
+                    <p>
+                        Comprehensive measurements of Global Horizontal Irradiance (GHI), Direct Normal Irradiance (DNI), and Diffuse Horizontal Irradiance (DHI) for precise solar energy assessment.
+                    </p>
+                    <div class="row mt-30">
+                        <div class="col-md-6">
+                            <ul class="services-list">
+                                <li>Real-time irradiance data</li>
+                                <li>Historical patterns</li>
+                                <li>Radiation charts</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="services-list">
+                                <li>GHI, DNI & DHI measurements</li>
+                                <li>Site-specific analysis</li>
+                                <li>Performance metrics</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 wow fadeInUp" data-wow-delay=".1s">
+                    <img src="{% static 'onboarding/img/irradiance.jpg' %}"
+                         alt="Irradiance Analysis"
+                         class="images">
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- PVWATTS MODELING SECTION -->
+    <section id="pvwatts"
+             class="mt-100 mb-100"
+             style="background-color: #1a1a00;
+                    padding: 80px 0">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 wow fadeInUp">
+                    <img src="{% static 'onboarding/img/pvwatts.jpg' %}"
+                         alt="PVWatts Modeling"
+                         class="images">
+                </div>
+                <div class="col-md-6 wow fadeInUp" data-wow-delay=".1s">
+                    <h3 class="mb-30">PVWatts Modeling</h3>
+                    <p>
+                        Integration with NREL's PVWatts API for reliable energy production modeling based on system parameters and location data.
+                    </p>
+                    <div class="row mt-30">
+                        <div class="col-md-6">
+                            <ul class="services-list">
+                                <li>System capacity modeling</li>
+                                <li>Tilt & azimuth optimization</li>
+                                <li>Loss factor calculations</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="services-list">
+                                <li>Array type configuration</li>
+                                <li>System sizing</li>
+                                <li>Performance estimates</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- PVLIB MODELING SECTION -->
+    <section id="pvlib" class="mt-100 mb-100">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 wow fadeInUp">
+                    <h3 class="mb-30">PVlib Advanced Modeling</h3>
+                    <p>
+                        Detailed photovoltaic system modeling with module specifications, inverter characteristics, and advanced performance analysis.
+                    </p>
+                    <div class="row mt-30">
+                        <div class="col-md-6">
+                            <ul class="services-list">
+                                <li>Module specifications</li>
+                                <li>Inverter characteristics</li>
+                                <li>Detailed system modeling</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="services-list">
+                                <li>Advanced performance metrics</li>
+                                <li>System component analysis</li>
+                                <li>Technical specifications</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 wow fadeInUp" data-wow-delay=".1s">
+                    <img src="{% static 'onboarding/img/data_analysis.jpg' %}"
+                         alt="PVlib Modeling"
+                         class="images">
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- NASA CLIMATE DATA SECTION -->
+    <section id="nasa-climate"
+             class="mt-100 mb-100"
+             style="background-color: #1a1a00;
+                    padding: 80px 0">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 wow fadeInUp">
+                    <img src="{% static 'onboarding/img/features_nasa.jpg' %}"
+                         alt="NASA Climate Data"
+                         class="images">
+                </div>
+                <div class="col-md-6 wow fadeInUp" data-wow-delay=".1s">
+                    <h3 class="mb-30">NASA Climate Data</h3>
+                    <p>
+                        Long-term climate modeling and analysis using NASA's POWER database for strategic solar planning and system design.
+                    </p>
+                    <div class="row mt-30">
+                        <div class="col-md-6">
+                            <ul class="services-list">
+                                <li>Climate trend analysis</li>
+                                <li>Seasonal variations</li>
+                                <li>Historical data</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="services-list">
+                                <li>Long-term projections</li>
+                                <li>Regional climate patterns</li>
+                                <li>Environmental factors</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- AIR QUALITY ANALYSIS SECTION -->
+    <section id="air-quality" class="mt-100 mb-100">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 wow fadeInUp">
+                    <h3 class="mb-30">Air Quality Analysis</h3>
+                    <p>
+                        Comprehensive air quality data and atmospheric measurements to assess environmental impacts on solar system performance.
+                    </p>
+                    <div class="row mt-30">
+                        <div class="col-md-6">
+                            <ul class="services-list">
+                                <li>Pollution impact analysis</li>
+                                <li>Aerosol optical depth</li>
+                                <li>Atmospheric clarity</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="services-list">
+                                <li>Air quality indices</li>
+                                <li>Particulate matter data</li>
+                                <li>Environmental reports</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 wow fadeInUp" data-wow-delay=".1s">
+                    <img src="{% static 'onboarding/img/air_quality.jpg' %}"
+                         alt="Air Quality Analysis"
+                         class="images">
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- DATA INTEGRATION FEATURES -->
+    <section class="mb-100" style="background-color: #1a1a00; padding: 80px 0;">
+        <div class="container">
+            <div class="row center">
+                <div class="col-md-8 col-md-offset-2 col-sm-12">
+                    <div class="section-title">
+                        <h2 class="mb-50">Key Data Integration Features</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 col-sm-6 col-xs-12 wow fadeInUp">
+                    <div class="mb-50">
+                        <i class="lnr lnr-sun center"></i>
+                        <h4>Solar Geometry</h4>
+                        <p>Precise sun positioning and astronomical calculations for accurate modeling.</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-xs-12 wow fadeInUp" data-wow-delay=".1s">
+                    <div class="mb-50">
+                        <i class="lnr lnr-chart-bars"></i>
+                        <h4>System Modeling</h4>
+                        <p>Comprehensive PV system analysis with detailed performance metrics.</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-xs-12 wow fadeInUp" data-wow-delay=".2s">
+                    <div class="mb-50">
+                        <i class="lnr lnr-cloud"></i>
+                        <h4>Environmental Data</h4>
+                        <p>Integration of weather and climate data for realistic modeling.</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-xs-12 wow fadeInUp" data-wow-delay=".3s">
+                    <div class="mb-50">
+                        <i class="lnr lnr-database"></i>
+                        <h4>Multiple Data Sources</h4>
+                        <p>Reliable modeling powered by NREL, NASA, and weather APIs.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 {% endblock %}

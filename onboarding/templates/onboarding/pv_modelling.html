@@ -1,607 +1,790 @@
 {% extends 'onboarding/sub_main.html' %}
 {% load static %}
-
 {% block main %}
-
-<!-- HERO SECTION  -->
-<div class="site-hero_2" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.9)), url({% static 'onboarding/img/pvmodelling_hero.jpg' %});">
-	<div class="section-overlay"></div>
-	<div class="page-title">
-		<h2>Advanced PV Modeling</h2>
-		<div class="small-title">home / pv modeling / </div>
-	</div>
-</div>
-
-<!-- PV MODELING OVERVIEW -->
-<section class="about_descr mt-100">
-	<div class="container">
-		<div class="row center mb-50">
-			<div class="col-md-8 col-md-offset-2 col-sm-12">
-				<div class="section-title">
-					<h2 class="mb-50">Photovoltaic System Modeling</h2>
-					<p>Comprehensive guide to advanced photovoltaic system performance modeling using industry-standard methodologies and the PVlib Python framework for accurate energy production predictions.</p>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
-
-<!-- PV FUNDAMENTALS SECTION -->
-<section id="fundamentals" class="mt-100 mb-100" style="background-color: #1a1a00; padding: 80px 0;">
-	<div class="container">
-		<div class="row center mb-50">
-			<div class="col-md-8 col-md-offset-2 col-sm-12">
-				<div class="section-title">
-					<h2 class="mb-50">PV Modeling Fundamentals</h2>
-					<p>Understanding the core principles behind photovoltaic energy conversion and system performance prediction.</p>
-				</div>
-			</div>
-		</div>
-		
-		<div class="row">
-			<div class="col-md-6 wow fadeInUp">
-				<h3 class="mb-30">What is PV Modeling?</h3>
-				<p class="mb-30">Photovoltaic modeling is the process of using mathematical algorithms and computational methods to predict the performance of solar photovoltaic systems under various environmental conditions and system configurations.</p>
-				
-				<div class="mb-30">
-					<h3 class="mb-3">Key Objectives:</h3>
-					<ul class="services-list">
-						<li><strong>Predict energy production under specific conditions</strong></li>
-						<li><strong>Optimize system design and configuration</strong></li>
-						<li><strong>Calculate financial returns and payback periods</strong></li>
-						<li><strong>Assess system performance over lifetime</strong></li>
-						<li><strong>Validate actual system performance against predictions</strong></li>
-					</ul>
-				</div>
-
-				<div class="mt-30">
-					<h3 class="mb-3">Modeling Approaches:</h3>
-					<ul class="services-list">
-						<li><strong>Empirical Models:</strong> Based on statistical analysis of historical data</li>
-						<li><strong>Physical Models:</strong> Based on semiconductor physics and system thermodynamics</li>
-						<li><strong>Hybrid Models:</strong> Combining physical principles with empirical corrections</li>
-					</ul>
-				</div>
-			</div>
-			<div class="col-md-6 wow fadeInUp">
-				<img src="{% static 'onboarding/img/what_is_pvmodelling.jpg' %}" alt="PV Modeling Fundamentals" class="images">
-				
-				<div class="mt-4">
-					<h3 class="mb-3">Why Accurate Modeling Matters:</h3>
-					<p>Precise PV modeling enables stakeholders to make informed decisions about system design, financial investments, and energy production expectations. Without accurate models, solar projects risk underperformance and financial losses.</p>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
-
-<!-- MODEL COMPONENTS SECTION -->
-<section id="components" class="mt-100 mb-100">
-	<div class="container">
-		<div class="row center mb-50">
-			<div class="col-md-8 col-md-offset-2 col-sm-12">
-				<div class="section-title">
-					<h2 class="mb-50">Core PV Modeling Components</h2>
-					<p>Fundamental physical components and calculations that form the basis of accurate photovoltaic system modeling.</p>
-				</div>
-			</div>
-		</div>
-
-		<div class="row g-4">
-			<!-- GHI Component -->
-			<div class="col-md-4 wow fadeInUp">
-				<div class="card h-100 bg-secondary border-0">
-					<div class="card-body p-4">
-						<div class="text-center mb-4">
-							<i class="fa fa-sun-o text-warning mb-3" style="font-size: 48px;"></i>
-							<h5 class="text-warning">Global Horizontal Irradiance (GHI)</h5>
-						</div>
-						<p class="card-text">The total solar radiation received on a horizontal surface, comprising both direct and diffuse sunlight. This forms the baseline for all solar energy calculations.</p>
-						<div class="mt-4">
-							<h6 class="text-info mb-3">Calculation:</h6>
-							<p class="small text-light">GHI = DNI × cos(θ) + DHI</p>
-							<ul class="list-unstyled text-light small mt-3">
-								<li class="mb-2"><i class="fa fa-check-circle text-success me-2"></i> Measured in W/m²</li>
-								<li class="mb-2"><i class="fa fa-check-circle text-success me-2"></i> Foundation for energy potential</li>
-								<li><i class="fa fa-check-circle text-success me-2"></i> Varies by location and time</li>
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<!-- POA Global Component -->
-			<div class="col-md-4 wow fadeInUp" data-wow-delay=".1s">
-				<div class="card h-100 bg-secondary border-0">
-					<div class="card-body p-4">
-						<div class="text-center mb-4">
-							<i class="fa fa-bullseye text-warning mb-3" style="font-size: 48px;"></i>
-							<h5 class="text-warning">Plane of Array (POA) Global</h5>
-						</div>
-						<p class="card-text">The total irradiance incident on the actual plane of the solar array, accounting for tilt, orientation, and various reflection components.</p>
-						<div class="mt-4">
-							<h6 class="text-info mb-3">Components:</h6>
-							<ul class="list-unstyled text-light small">
-								<li class="mb-2"><i class="fa fa-check-circle text-success me-2"></i> Direct beam component</li>
-								<li class="mb-2"><i class="fa fa-check-circle text-success me-2"></i> Diffuse sky component</li>
-								<li class="mb-2"><i class="fa fa-check-circle text-success me-2"></i> Ground-reflected radiation</li>
-								<li><i class="fa fa-check-circle text-success me-2"></i> Angle of incidence losses</li>
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<!-- Cell Temperature Component -->
-			<div class="col-md-4 wow fadeInUp" data-wow-delay=".2s">
-				<div class="card h-100 bg-secondary border-0">
-					<div class="card-body p-4">
-						<div class="text-center mb-4">
-							<i class="fa fa-fire text-warning mb-3" style="font-size: 48px;"></i>
-							<h5 class="text-warning">Cell Temperature Modeling</h5>
-						</div>
-						<p class="card-text">Photovoltaic cell temperature significantly impacts efficiency and power output. We model temperature effects using advanced thermal models.</p>
-						<div class="mt-4">
-							<h6 class="text-info mb-3">Key Factors:</h6>
-							<ul class="list-unstyled text-light small">
-								<li class="mb-2"><i class="fa fa-check-circle text-success me-2"></i> Ambient temperature</li>
-								<li class="mb-2"><i class="fa fa-check-circle text-success me-2"></i> Wind speed and cooling</li>
-								<li class="mb-2"><i class="fa fa-check-circle text-success me-2"></i> Irradiance levels</li>
-								<li><i class="fa fa-check-circle text-success me-2"></i> Mounting configuration</li>
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<!-- Additional Components Row -->
-		<div class="row g-4 mt-4">
-			<!-- DNI Component -->
-			<div class="col-md-4 wow fadeInUp">
-				<div class="card h-100 bg-secondary border-0">
-					<div class="card-body p-4">
-						<div class="text-center mb-4">
-							<i class="fa fa-arrow-up text-warning mb-3" style="font-size: 48px;"></i>
-							<h5 class="text-warning">Direct Normal Irradiance (DNI)</h5>
-						</div>
-						<p class="card-text">Solar radiation coming directly from the sun's disk, measured on a surface perpendicular to the sun's rays. Critical for concentrating solar systems.</p>
-						<div class="mt-4">
-							<h6 class="text-info mb-3">Characteristics:</h6>
-							<ul class="list-unstyled text-light small">
-								<li class="mb-2"><i class="fa fa-check-circle text-success me-2"></i> Highest energy concentration</li>
-								<li class="mb-2"><i class="fa fa-check-circle text-success me-2"></i> Sensitive to atmospheric conditions</li>
-								<li><i class="fa fa-check-circle text-success me-2"></i> Key for tracking systems</li>
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<!-- DHI Component -->
-			<div class="col-md-4 wow fadeInUp" data-wow-delay=".1s">
-				<div class="card h-100 bg-secondary border-0">
-					<div class="card-body p-4">
-						<div class="text-center mb-4">
-							<i class="fa fa-cloud text-warning mb-3" style="font-size: 48px;"></i>
-							<h5 class="text-warning">Diffuse Horizontal Irradiance (DHI)</h5>
-						</div>
-						<p class="card-text">Solar radiation scattered by atmospheric constituents such as clouds, dust, and molecules. Measured on a horizontal surface.</p>
-						<div class="mt-4">
-							<h6 class="text-info mb-3">Sources:</h6>
-							<ul class="list-unstyled text-light small">
-								<li class="mb-2"><i class="fa fa-check-circle text-success me-2"></i> Atmospheric scattering</li>
-								<li class="mb-2"><i class="fa fa-check-circle text-success me-2"></i> Cloud cover diffusion</li>
-								<li><i class="fa fa-check-circle text-success me-2"></i> Aerosol interactions</li>
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<!-- Spectral Effects -->
-			<div class="col-md-4 wow fadeInUp" data-wow-delay=".2s">
-				<div class="card h-100 bg-secondary border-0">
-					<div class="card-body p-4">
-						<div class="text-center mb-4">
-							<i class="fa fa-area-chart text-warning mb-3" style="font-size: 48px;"></i>
-							<h5 class="text-warning">Spectral & Angle of Incidence Effects</h5>
-						</div>
-						<p class="card-text">Advanced modeling accounts for how solar spectrum changes and incident angles affect panel performance beyond simple irradiance values.</p>
-						<div class="mt-4">
-							<h6 class="text-info mb-3">Considerations:</h6>
-							<ul class="list-unstyled text-light small">
-								<li class="mb-2"><i class="fa fa-check-circle text-success me-2"></i> Spectral response of cells</li>
-								<li class="mb-2"><i class="fa fa-check-circle text-success me-2"></i> Incidence angle modifiers</li>
-								<li><i class="fa fa-check-circle text-success me-2"></i> Atmospheric absorption bands</li>
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
-
-<!-- PVLIB FRAMEWORK SECTION -->
-<section id="pvlib-framework" class="mt-100 mb-100" style="background-color: #1a1a00; padding: 80px 0;">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-6 wow fadeInUp">
-				<h3 class="mb-30">PVlib Python Modeling Framework</h3>
-				<p class="mb-20"><strong>Open-source photovoltaic system modeling</strong></p>
-				<p class="mb-30">PVlib Python is a comprehensive library for simulating the performance of photovoltaic energy systems. It provides a set of functions and classes for modeling the performance of photovoltaic systems across various technologies and configurations.</p>
-				
-				<div class="mb-30">
-					<h3 class="mb-3">Core PVlib Capabilities:</h3>
-					<ul class="services-list">
-						<li><strong>Solar Position Calculations:</strong> Precise sun position algorithms for any location and time</li>
-						<li><strong>Irradiance Modeling:</strong> Transform GHI to POA irradiance using various models</li>
-						<li><strong>Temperature Modeling:</strong> Cell temperature predictions under operating conditions</li>
-						<li><strong>DC Power Modeling:</strong> Single diode model and other electrical representations</li>
-						<li><strong>AC Power Modeling:</strong> Inverter performance and system losses</li>
-						<li><strong>Spectral Effects:</strong> Advanced spectral response modeling</li>
-					</ul>
-				</div>
-
-			</div>
-			<div class="col-md-6 wow fadeInUp">
-				<img src="https://opengraph.githubassets.com/27d3bed7a217759c3b54469ffe94cc6509c14eaab34ca1d769c5cca004e295ce/pvlib/pvlib-python" alt="PVlib Framework" class="images">
-				
-				<div class="mt-4">
-					<h3 class="mb-3">PVlib Architecture:</h3>
-					<p>PVlib follows a modular architecture that allows users to mix and match different modeling approaches and customize the modeling chain to specific requirements.</p>
-					
-					<div class="bg-dark p-4 rounded mt-4">
-						<h6 class="text-warning">Key Modules:</h6>
-						<ul class="list-unstyled text-light small">
-							<li class="mb-2"><i class="fa fa-cube text-info me-2"></i><strong>pvlib.pvsystem:</strong> System component modeling</li>
-							<li class="mb-2"><i class="fa fa-cube text-info me-2"></i><strong>pvlib.modelchain:</strong> High-level modeling workflow</li>
-							<li class="mb-2"><i class="fa fa-cube text-info me-2"></i><strong>pvlib.irradiance:</strong> Solar radiation calculations</li>
-							<li class="mb-2"><i class="fa fa-cube text-info me-2"></i><strong>pvlib.temperature:</strong> Thermal modeling</li>
-							<li><i class="fa fa-cube text-info me-2"></i><strong>pvlib.bifacial:</strong> Bifacial system modeling</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
-
-<!-- MODEL CHAIN SECTION -->
-<section id="model-chain" class="mt-100 mb-100">
-	<div class="container">
-		<div class="row center mb-50">
-			<div class="col-md-8 col-md-offset-2 col-sm-12">
-				<div class="section-title">
-					<h2 class="mb-50">Model Chain Implementation</h2>
-					<p>Step-by-step workflow for comprehensive photovoltaic system performance modeling.</p>
-				</div>
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="col-md-12">
-				<div class="process-steps">
-					<div class="row">
-						<div class="col-md-4">
-							<div class="step">
-								<div class="step-number">1</div>
-								<h5>Location & Weather Data</h5>
-								<p>Input geographic coordinates, altitude, and weather data including GHI, DNI, DHI, temperature, and wind speed from reliable sources.</p>
-							</div>
-						</div>
-						<div class="col-md-4">
-							<div class="step">
-								<div class="step-number">2</div>
-								<h5>Solar Position Calculation</h5>
-								<p>Calculate solar position (azimuth, elevation) using precise astronomical algorithms for the specified location and time period.</p>
-							</div>
-						</div>
-						<div class="col-md-4">
-							<div class="step">
-								<div class="step-number">3</div>
-								<h5>POA Irradiance Modeling</h5>
-								<p>Transform horizontal irradiance components to plane-of-array irradiance accounting for tilt, orientation, and reflection models.</p>
-							</div>
-						</div>
-					</div>
-					<div class="row mt-4">
-						<div class="col-md-4">
-							<div class="step">
-								<div class="step-number">4</div>
-								<h5>Cell Temperature Modeling</h5>
-								<p>Calculate operating cell temperature using thermal models that consider irradiance, ambient temperature, and wind effects.</p>
-							</div>
-						</div>
-						<div class="col-md-4">
-							<div class="step">
-								<div class="step-number">5</div>
-								<h5>DC Power Calculation</h5>
-								<p>Model DC power output using single diode model or other electrical models with temperature-corrected parameters.</p>
-							</div>
-						</div>
-						<div class="col-md-4">
-							<div class="step">
-								<div class="step-number">6</div>
-								<h5>AC Power & Losses</h5>
-								<p>Convert DC to AC power using inverter models and apply system losses (soiling, shading, mismatch, wiring, etc.).</p>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
-
-<!-- SPEC SHEET MODELING SECTION -->
-<section id="spec-sheets" class="mt-100 mb-100" style="background-color: #1a1a00; padding: 80px 0;">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-6 wow fadeInUp">
-				<h3 class="mb-30">Spec Sheet Modeling</h3>
-				<p class="mb-20"><strong>Manufacturer specification-based modeling</strong></p>
-				<p class="mb-30">PVlib enables detailed component modeling using manufacturer specification sheets, allowing for precise performance predictions based on actual equipment characteristics and electrical parameters.</p>
-				
-				<div class="mb-30">
-					<h3 class="mb-3">Module Parameter Extraction:</h3>
-					<ul class="services-list">
-						<li><strong>STC Parameters:</strong> Pmax, Voc, Isc, Vmp, Imp at Standard Test Conditions</li>
-						<li><strong>Temperature Coefficients:</strong> Voltage, current, and power temperature dependencies</li>
-						<li><strong>Electrical Characteristics:</strong> Diode ideality factor, series and shunt resistance</li>
-						<li><strong>NOCT Values:</strong> Nominal Operating Cell Temperature specifications</li>
-						<li><strong>Spectral Response:</strong> Wavelength-dependent efficiency characteristics</li>
-					</ul>
-				</div>
-
-				<div class="mt-4">
-					<h3 class="mb-3">Inverter Modeling:</h3>
-					<ul class="services-list">
-						<li><strong>Efficiency curves across operating range</strong></li>
-						<li><strong>Power and voltage operating windows</strong></li>
-						<li><strong>Maximum power point tracking (MPPT) characteristics</strong></li>
-					</ul>
-				</div>
-			</div>
-			<div class="col-md-6 wow fadeInUp">
-				<img src="https://www.vstarcam.com/wp-content/uploads/2021/11/%E5%A4%AA%E9%98%B3%E8%83%BD%E6%9D%BF8040_03-1.jpg" alt="Spec Sheet Modeling" class="images">
-				
-				<div class="mt-50">
-					<p>
-						The system applies <strong>PVlib’s parameter fitting algorithms</strong> to transform raw datasheet inputs into calibrated photovoltaic models. 
-						Using numerical optimization, it estimates the module’s electrical constants and reproduces its current–voltage behavior with high precision. 
-						This approach bridges manufacturer specifications and real operating conditions, ensuring that simulated performance accurately mirrors physical device characteristics across temperature and irradiance variations.
-					</p>
-				</div>
-
-			</div>
-		</div>
-	</div>
-</section>
-
-<!-- ADVANCED TECHNIQUES SECTION -->
-<section id="advanced-techniques" class="mt-100 mb-100">
-	<div class="container">
-		<div class="row center mb-50">
-			<div class="col-md-8 col-md-offset-2 col-sm-12">
-				<div class="section-title">
-					<h2 class="mb-50">Advanced Modeling Techniques</h2>
-					<p>Sophisticated approaches for handling complex scenarios and improving model accuracy.</p>
-				</div>
-			</div>
-		</div>
-
-		<div class="row g-4">
-			<!-- Bifacial Modeling -->
-			<div class="col-md-4 wow fadeInUp">
-				<div class="card h-100 bg-secondary border-0">
-					<div class="card-body p-4">
-						<div class="text-center mb-4">
-							<i class="fa fa-copy text-warning mb-3" style="font-size: 48px;"></i>
-							<h5 class="text-warning">Bifacial System Modeling</h5>
-						</div>
-						<p class="card-text">Advanced modeling of bifacial modules that capture light from both front and rear surfaces, accounting for ground reflectivity and system geometry.</p>
-						<div class="mt-4">
-							<h6 class="text-info mb-3">Key Factors:</h6>
-							<ul class="list-unstyled text-light small">
-								<li class="mb-2"><i class="fa fa-check-circle text-success me-2"></i> Ground albedo and reflectivity</li>
-								<li class="mb-2"><i class="fa fa-check-circle text-success me-2"></i> Module height and spacing</li>
-								<li class="mb-2"><i class="fa fa-check-circle text-success me-2"></i> Rear-side irradiance distribution</li>
-								<li><i class="fa fa-check-circle text-success me-2"></i> Bifaciality factor and electrical mismatch</li>
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<!-- Tracking Systems -->
-			<div class="col-md-4 wow fadeInUp" data-wow-delay=".1s">
-				<div class="card h-100 bg-secondary border-0">
-					<div class="card-body p-4">
-						<div class="text-center mb-4">
-							<i class="fa fa-arrows text-warning mb-3" style="font-size: 48px;"></i>
-							<h5 class="text-warning">Tracking System Modeling</h5>
-						</div>
-						<p class="card-text">Modeling of single-axis and dual-axis tracking systems that follow the sun's path to maximize energy capture throughout the day.</p>
-						<div class="mt-4">
-							<h6 class="text-info mb-3">Tracking Strategies:</h6>
-							<ul class="list-unstyled text-light small">
-								<li class="mb-2"><i class="fa fa-check-circle text-success me-2"></i> Single-axis horizontal tracking</li>
-								<li class="mb-2"><i class="fa fa-check-circle text-success me-2"></i> Single-axis vertical tracking</li>
-								<li class="mb-2"><i class="fa fa-check-circle text-success me-2"></i> Dual-axis tracking systems</li>
-								<li><i class="fa fa-check-circle text-success me-2"></i> Backtracking to avoid shading</li>
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<!-- Spectral Modeling -->
-			<div class="col-md-4 wow fadeInUp" data-wow-delay=".2s">
-				<div class="card h-100 bg-secondary border-0">
-					<div class="card-body p-4">
-						<div class="text-center mb-4">
-							<i class="fa fa-pie-chart text-warning mb-3" style="font-size: 48px;"></i>
-							<h5 class="text-warning">Spectral Response Modeling</h5>
-						</div>
-						<p class="card-text">Accounting for how different photovoltaic technologies respond to varying solar spectra under different atmospheric conditions.</p>
-						<div class="mt-4">
-							<h6 class="text-info mb-3">Spectral Effects:</h6>
-							<ul class="list-unstyled text-light small">
-								<li class="mb-2"><i class="fa fa-check-circle text-success me-2"></i> Air mass variations</li>
-								<li class="mb-2"><i class="fa fa-check-circle text-success me-2"></i> Precipitable water content</li>
-								<li class="mb-2"><i class="fa fa-check-circle text-success me-2"></i> Aerosol optical depth</li>
-								<li><i class="fa fa-check-circle text-success me-2"></i> Technology-specific spectral response</li>
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<!-- Second Row of Advanced Techniques -->
-		<div class="row g-4 mt-4">
-			<!-- Snow and Soiling -->
-			<div class="col-md-4 wow fadeInUp">
-				<div class="card h-100 bg-secondary border-0">
-					<div class="card-body p-4">
-						<div class="text-center mb-4">
-							<i class="fa fa-long-arrow-down text-warning mb-3" style="font-size: 48px;"></i>
-							<h5 class="text-warning">Snow & Soiling Losses</h5>
-						</div>
-						<p class="card-text">Modeling of energy losses due to snow accumulation, dust, dirt, and other soiling factors that reduce light transmission to cells.</p>
-						<div class="mt-4">
-							<h6 class="text-info mb-3">Modeling Approaches:</h6>
-							<ul class="list-unstyled text-light small">
-								<li class="mb-2"><i class="fa fa-check-circle text-success me-2"></i> Statistical soiling models</li>
-								<li class="mb-2"><i class="fa fa-check-circle text-success me-2"></i> Snow shedding algorithms</li>
-								<li class="mb-2"><i class="fa fa-check-circle text-success me-2"></i> Cleaning schedule optimization</li>
-								<li><i class="fa fa-check-circle text-success me-2"></i> Location-specific soiling rates</li>
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<!-- Degradation Modeling -->
-			<div class="col-md-4 wow fadeInUp" data-wow-delay=".1s">
-				<div class="card h-100 bg-secondary border-0">
-					<div class="card-body p-4">
-						<div class="text-center mb-4">
-							<i class="fa fa-line-chart text-warning mb-3" style="font-size: 48px;"></i>
-							<h5 class="text-warning">Performance Degradation</h5>
-						</div>
-						<p class="card-text">Long-term modeling of system performance degradation due to aging, UV exposure, thermal cycling, and other degradation mechanisms.</p>
-						<div class="mt-4">
-							<h6 class="text-info mb-3">Degradation Factors:</h6>
-							<ul class="list-unstyled text-light small">
-								<li class="mb-2"><i class="fa fa-check-circle text-success me-2"></i> LID (Light Induced Degradation)</li>
-								<li class="mb-2"><i class="fa fa-check-circle text-success me-2"></i> LeTID (Light and elevated Temperature Induced Degradation)</li>
-								<li class="mb-2"><i class="fa fa-check-circle text-success me-2"></i> PID (Potential Induced Degradation)</li>
-								<li><i class="fa fa-check-circle text-success me-2"></i> Seasonal degradation patterns</li>
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<!-- Specification Sheet Modeling -->
-			<div class="col-md-4 wow fadeInUp" data-wow-delay=".2s">
-			  <div class="card h-100 bg-secondary border-0">
-			    <div class="card-body p-4">
-			      <div class="text-center mb-4">
-			        <i class="fa fa-file-text text-warning mb-3" style="font-size: 48px;"></i>
-			        <h5 class="text-warning">Specification Sheet Modeling</h5>
-			      </div>
-			      <p class="card-text">
-			        Precise simulation by incorporating detailed module and inverter specs from datasheets. Results reflect the electrical characteristics of components used.
-			      </p>
-			      <div class="mt-4">
-			        <h6 class="text-info mb-3">Key Benefits:</h6>
-			        <ul class="list-unstyled text-light small">
-			          <li class="mb-2"><i class="fa fa-check-circle text-success me-2"></i> Accurate PV module performance simulation</li>
-			          <li class="mb-2"><i class="fa fa-check-circle text-success me-2"></i> Inverter efficiency and clipping analysis</li>
-			          <li class="mb-2"><i class="fa fa-check-circle text-success me-2"></i> Seasonal and temperature impact evaluation</li>
-			          <li><i class="fa fa-check-circle text-success me-2"></i> Supports both fixed and tracking system modeling</li>
-			        </ul>
-			      </div>
-			    </div>
-			  </div>
-			</div>
-
-		</div>
-	</div>
-</section>
-
-<!-- RESULTS & ANALYTICS SECTION -->
-<section id="results" class="mt-100 mb-100" style="background-color: #1a1a00; padding: 80px 0;">
-	<div class="container">
-		<div class="row center mb-50">
-			<div class="col-md-8 col-md-offset-2 col-sm-12">
-				<div class="section-title">
-					<h2 class="mb-50">Results & Analytics</h2>
-					<p>Accurate performance evaluation through advanced analytical models and detailed reporting tools designed for technical and financial assessment.</p>
-				</div>
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="col-md-6 wow fadeInUp">
-				<h3 class="mb-30">Performance Metrics & Reporting</h3>
-				<p class="mb-30">Solarize delivers complete post-simulation analytics that quantify system efficiency, reliability, and financial returns. Reports are automatically generated for every modeling run to ensure consistent and traceable performance evaluation.</p>
-
-				<div class="mb-30">
-					<h3 class="mb-3">Report Components:</h3>
-					<ul class="services-list">
-						<li><strong>Comprehensive System Reports:</strong> Detailed breakdown of model outputs and performance statistics</li>
-						<li><strong>Analytical Summaries:</strong> Key technical and operational metrics for quick insight</li>
-						<li><strong>Seasonal Performance:</strong> Monthly and seasonal yield variations based on irradiance profiles</li>
-						<li><strong>Economic Assessment:</strong> Revenue estimation, payback period, and ROI analysis</li>
-						<li><strong>Environmental Correlation:</strong> Comparison of performance with temperature, irradiance, and weather conditions</li>
-					</ul>
-				</div>
-			</div>
-			<div class="col-md-6 wow fadeInUp">
-				<img src="{% static 'onboarding/img/results_and_analytics.jpg' %}" alt="Results & Analytics" class="images">
-			</div>
-		</div>
-	</div>
-</section>
-
-
-<!-- DASHBOARD ACCESS SECTION -->
-<section class="mt-100 mb-100">
-	<div class="container">
-		<div class="row center">
-			<div class="col-md-8 col-md-offset-2 col-sm-12">
-				<div class="section-title">
-					<h2 class="mb-50">Access Advanced PV Modeling</h2>
-					<p>Start using our comprehensive PV modeling platform with accurate predictions and detailed analytics.</p>
-				</div>
-			</div>
-		</div>
-		<div class="row mt-5">
-			<div class="col-12 text-center">
-				<div class="bg-secondary rounded p-5">
-					<div class="d-flex justify-content-center gap-3 flex-wrap">
-						{% if request.user.is_authenticated %}
-						<a href="{% url 'dash' %}" class="default-btn text-warning">
-							Go to Dashboard <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-						</a>
-						{% else %}
-						<a href="{% url 'signin' %}" class="default-btn text-warning">
-							Start Modeling <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-						</a>
-						<a href="{% url 'signup' %}" class="default-btn btn-light">
-							Free Trial <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-						</a>
-						{% endif %}
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
-
+    <!-- HERO SECTION  -->
+    <div class="site-hero_2"
+         style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.9)), url({% static 'onboarding/img/pvmodelling_hero.jpg' %})">
+        <div class="section-overlay"></div>
+        <div class="page-title">
+            <h2>Advanced PV Modeling</h2>
+            <div class="small-title">home / pv modeling /</div>
+        </div>
+    </div>
+    <!-- PV MODELING OVERVIEW -->
+    <section class="about_descr mt-100">
+        <div class="container">
+            <div class="row center mb-50">
+                <div class="col-md-8 col-md-offset-2 col-sm-12">
+                    <div class="section-title">
+                        <h2 class="mb-50">Photovoltaic System Modeling</h2>
+                        <p>
+                            Comprehensive guide to advanced photovoltaic system performance modeling using industry-standard methodologies and the PVlib Python framework for accurate energy production predictions.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- PV FUNDAMENTALS SECTION -->
+    <section id="fundamentals"
+             class="mt-100 mb-100"
+             style="background-color: #1a1a00;
+                    padding: 80px 0">
+        <div class="container">
+            <div class="row center mb-50">
+                <div class="col-md-8 col-md-offset-2 col-sm-12">
+                    <div class="section-title">
+                        <h2 class="mb-50">PV Modeling Fundamentals</h2>
+                        <p>Understanding the core principles behind photovoltaic energy conversion and system performance prediction.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 wow fadeInUp">
+                    <h3 class="mb-30">What is PV Modeling?</h3>
+                    <p class="mb-30">
+                        Photovoltaic modeling is the process of using mathematical algorithms and computational methods to predict the performance of solar photovoltaic systems under various environmental conditions and system configurations.
+                    </p>
+                    <div class="mb-30">
+                        <h3 class="mb-3">Key Objectives:</h3>
+                        <ul class="services-list">
+                            <li>
+                                <strong>Predict energy production under specific conditions</strong>
+                            </li>
+                            <li>
+                                <strong>Optimize system design and configuration</strong>
+                            </li>
+                            <li>
+                                <strong>Calculate financial returns and payback periods</strong>
+                            </li>
+                            <li>
+                                <strong>Assess system performance over lifetime</strong>
+                            </li>
+                            <li>
+                                <strong>Validate actual system performance against predictions</strong>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="mt-30">
+                        <h3 class="mb-3">Modeling Approaches:</h3>
+                        <ul class="services-list">
+                            <li>
+                                <strong>Empirical Models:</strong> Based on statistical analysis of historical data
+                            </li>
+                            <li>
+                                <strong>Physical Models:</strong> Based on semiconductor physics and system thermodynamics
+                            </li>
+                            <li>
+                                <strong>Hybrid Models:</strong> Combining physical principles with empirical corrections
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6 wow fadeInUp">
+                    <img src="{% static 'onboarding/img/what_is_pvmodelling.jpg' %}"
+                         alt="PV Modeling Fundamentals"
+                         class="images">
+                    <div class="mt-4">
+                        <h3 class="mb-3">Why Accurate Modeling Matters:</h3>
+                        <p>
+                            Precise PV modeling enables stakeholders to make informed decisions about system design, financial investments, and energy production expectations. Without accurate models, solar projects risk underperformance and financial losses.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- MODEL COMPONENTS SECTION -->
+    <section id="components" class="mt-100 mb-100">
+        <div class="container">
+            <div class="row center mb-50">
+                <div class="col-md-8 col-md-offset-2 col-sm-12">
+                    <div class="section-title">
+                        <h2 class="mb-50">Core PV Modeling Components</h2>
+                        <p>Fundamental physical components and calculations that form the basis of accurate photovoltaic system modeling.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row g-4">
+                <!-- GHI Component -->
+                <div class="col-md-4 wow fadeInUp">
+                    <div class="card h-100 bg-secondary border-0">
+                        <div class="card-body p-4">
+                            <div class="text-center mb-4">
+                                <i class="fa fa-sun-o text-warning mb-3" style="font-size: 48px;"></i>
+                                <h5 class="text-warning">Global Horizontal Irradiance (GHI)</h5>
+                            </div>
+                            <p class="card-text">
+                                The total solar radiation received on a horizontal surface, comprising both direct and diffuse sunlight. This forms the baseline for all solar energy calculations.
+                            </p>
+                            <div class="mt-4">
+                                <h6 class="text-info mb-3">Calculation:</h6>
+                                <p class="small text-light">GHI = DNI × cos(θ) + DHI</p>
+                                <ul class="list-unstyled text-light small mt-3">
+                                    <li class="mb-2">
+                                        <i class="fa fa-check-circle text-success me-2"></i> Measured in W/m²
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="fa fa-check-circle text-success me-2"></i> Foundation for energy potential
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-check-circle text-success me-2"></i> Varies by location and time
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- POA Global Component -->
+                <div class="col-md-4 wow fadeInUp" data-wow-delay=".1s">
+                    <div class="card h-100 bg-secondary border-0">
+                        <div class="card-body p-4">
+                            <div class="text-center mb-4">
+                                <i class="fa fa-bullseye text-warning mb-3" style="font-size: 48px;"></i>
+                                <h5 class="text-warning">Plane of Array (POA) Global</h5>
+                            </div>
+                            <p class="card-text">
+                                The total irradiance incident on the actual plane of the solar array, accounting for tilt, orientation, and various reflection components.
+                            </p>
+                            <div class="mt-4">
+                                <h6 class="text-info mb-3">Components:</h6>
+                                <ul class="list-unstyled text-light small">
+                                    <li class="mb-2">
+                                        <i class="fa fa-check-circle text-success me-2"></i> Direct beam component
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="fa fa-check-circle text-success me-2"></i> Diffuse sky component
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="fa fa-check-circle text-success me-2"></i> Ground-reflected radiation
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-check-circle text-success me-2"></i> Angle of incidence losses
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Cell Temperature Component -->
+                <div class="col-md-4 wow fadeInUp" data-wow-delay=".2s">
+                    <div class="card h-100 bg-secondary border-0">
+                        <div class="card-body p-4">
+                            <div class="text-center mb-4">
+                                <i class="fa fa-fire text-warning mb-3" style="font-size: 48px;"></i>
+                                <h5 class="text-warning">Cell Temperature Modeling</h5>
+                            </div>
+                            <p class="card-text">
+                                Photovoltaic cell temperature significantly impacts efficiency and power output. We model temperature effects using advanced thermal models.
+                            </p>
+                            <div class="mt-4">
+                                <h6 class="text-info mb-3">Key Factors:</h6>
+                                <ul class="list-unstyled text-light small">
+                                    <li class="mb-2">
+                                        <i class="fa fa-check-circle text-success me-2"></i> Ambient temperature
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="fa fa-check-circle text-success me-2"></i> Wind speed and cooling
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="fa fa-check-circle text-success me-2"></i> Irradiance levels
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-check-circle text-success me-2"></i> Mounting configuration
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Additional Components Row -->
+            <div class="row g-4 mt-4">
+                <!-- DNI Component -->
+                <div class="col-md-4 wow fadeInUp">
+                    <div class="card h-100 bg-secondary border-0">
+                        <div class="card-body p-4">
+                            <div class="text-center mb-4">
+                                <i class="fa fa-arrow-up text-warning mb-3" style="font-size: 48px;"></i>
+                                <h5 class="text-warning">Direct Normal Irradiance (DNI)</h5>
+                            </div>
+                            <p class="card-text">
+                                Solar radiation coming directly from the sun's disk, measured on a surface perpendicular to the sun's rays. Critical for concentrating solar systems.
+                            </p>
+                            <div class="mt-4">
+                                <h6 class="text-info mb-3">Characteristics:</h6>
+                                <ul class="list-unstyled text-light small">
+                                    <li class="mb-2">
+                                        <i class="fa fa-check-circle text-success me-2"></i> Highest energy concentration
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="fa fa-check-circle text-success me-2"></i> Sensitive to atmospheric conditions
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-check-circle text-success me-2"></i> Key for tracking systems
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- DHI Component -->
+                <div class="col-md-4 wow fadeInUp" data-wow-delay=".1s">
+                    <div class="card h-100 bg-secondary border-0">
+                        <div class="card-body p-4">
+                            <div class="text-center mb-4">
+                                <i class="fa fa-cloud text-warning mb-3" style="font-size: 48px;"></i>
+                                <h5 class="text-warning">Diffuse Horizontal Irradiance (DHI)</h5>
+                            </div>
+                            <p class="card-text">
+                                Solar radiation scattered by atmospheric constituents such as clouds, dust, and molecules. Measured on a horizontal surface.
+                            </p>
+                            <div class="mt-4">
+                                <h6 class="text-info mb-3">Sources:</h6>
+                                <ul class="list-unstyled text-light small">
+                                    <li class="mb-2">
+                                        <i class="fa fa-check-circle text-success me-2"></i> Atmospheric scattering
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="fa fa-check-circle text-success me-2"></i> Cloud cover diffusion
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-check-circle text-success me-2"></i> Aerosol interactions
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Spectral Effects -->
+                <div class="col-md-4 wow fadeInUp" data-wow-delay=".2s">
+                    <div class="card h-100 bg-secondary border-0">
+                        <div class="card-body p-4">
+                            <div class="text-center mb-4">
+                                <i class="fa fa-area-chart text-warning mb-3" style="font-size: 48px;"></i>
+                                <h5 class="text-warning">Spectral & Angle of Incidence Effects</h5>
+                            </div>
+                            <p class="card-text">
+                                Advanced modeling accounts for how solar spectrum changes and incident angles affect panel performance beyond simple irradiance values.
+                            </p>
+                            <div class="mt-4">
+                                <h6 class="text-info mb-3">Considerations:</h6>
+                                <ul class="list-unstyled text-light small">
+                                    <li class="mb-2">
+                                        <i class="fa fa-check-circle text-success me-2"></i> Spectral response of cells
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="fa fa-check-circle text-success me-2"></i> Incidence angle modifiers
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-check-circle text-success me-2"></i> Atmospheric absorption bands
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- PVLIB FRAMEWORK SECTION -->
+    <section id="pvlib-framework"
+             class="mt-100 mb-100"
+             style="background-color: #1a1a00;
+                    padding: 80px 0">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 wow fadeInUp">
+                    <h3 class="mb-30">PVlib Python Modeling Framework</h3>
+                    <p class="mb-20">
+                        <strong>Open-source photovoltaic system modeling</strong>
+                    </p>
+                    <p class="mb-30">
+                        PVlib Python is a comprehensive library for simulating the performance of photovoltaic energy systems. It provides a set of functions and classes for modeling the performance of photovoltaic systems across various technologies and configurations.
+                    </p>
+                    <div class="mb-30">
+                        <h3 class="mb-3">Core PVlib Capabilities:</h3>
+                        <ul class="services-list">
+                            <li>
+                                <strong>Solar Position Calculations:</strong> Precise sun position algorithms for any location and time
+                            </li>
+                            <li>
+                                <strong>Irradiance Modeling:</strong> Transform GHI to POA irradiance using various models
+                            </li>
+                            <li>
+                                <strong>Temperature Modeling:</strong> Cell temperature predictions under operating conditions
+                            </li>
+                            <li>
+                                <strong>DC Power Modeling:</strong> Single diode model and other electrical representations
+                            </li>
+                            <li>
+                                <strong>AC Power Modeling:</strong> Inverter performance and system losses
+                            </li>
+                            <li>
+                                <strong>Spectral Effects:</strong> Advanced spectral response modeling
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6 wow fadeInUp">
+                    <img src="https://opengraph.githubassets.com/27d3bed7a217759c3b54469ffe94cc6509c14eaab34ca1d769c5cca004e295ce/pvlib/pvlib-python"
+                         alt="PVlib Framework"
+                         class="images">
+                    <div class="mt-4">
+                        <h3 class="mb-3">PVlib Architecture:</h3>
+                        <p>
+                            PVlib follows a modular architecture that allows users to mix and match different modeling approaches and customize the modeling chain to specific requirements.
+                        </p>
+                        <div class="bg-dark p-4 rounded mt-4">
+                            <h6 class="text-warning">Key Modules:</h6>
+                            <ul class="list-unstyled text-light small">
+                                <li class="mb-2">
+                                    <i class="fa fa-cube text-info me-2"></i><strong>pvlib.pvsystem:</strong> System component modeling
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fa fa-cube text-info me-2"></i><strong>pvlib.modelchain:</strong> High-level modeling workflow
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fa fa-cube text-info me-2"></i><strong>pvlib.irradiance:</strong> Solar radiation calculations
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fa fa-cube text-info me-2"></i><strong>pvlib.temperature:</strong> Thermal modeling
+                                </li>
+                                <li>
+                                    <i class="fa fa-cube text-info me-2"></i><strong>pvlib.bifacial:</strong> Bifacial system modeling
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- MODEL CHAIN SECTION -->
+    <section id="model-chain" class="mt-100 mb-100">
+        <div class="container">
+            <div class="row center mb-50">
+                <div class="col-md-8 col-md-offset-2 col-sm-12">
+                    <div class="section-title">
+                        <h2 class="mb-50">Model Chain Implementation</h2>
+                        <p>Step-by-step workflow for comprehensive photovoltaic system performance modeling.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="process-steps">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="step">
+                                    <div class="step-number">1</div>
+                                    <h5>Location & Weather Data</h5>
+                                    <p>
+                                        Input geographic coordinates, altitude, and weather data including GHI, DNI, DHI, temperature, and wind speed from reliable sources.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="step">
+                                    <div class="step-number">2</div>
+                                    <h5>Solar Position Calculation</h5>
+                                    <p>
+                                        Calculate solar position (azimuth, elevation) using precise astronomical algorithms for the specified location and time period.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="step">
+                                    <div class="step-number">3</div>
+                                    <h5>POA Irradiance Modeling</h5>
+                                    <p>
+                                        Transform horizontal irradiance components to plane-of-array irradiance accounting for tilt, orientation, and reflection models.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col-md-4">
+                                <div class="step">
+                                    <div class="step-number">4</div>
+                                    <h5>Cell Temperature Modeling</h5>
+                                    <p>
+                                        Calculate operating cell temperature using thermal models that consider irradiance, ambient temperature, and wind effects.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="step">
+                                    <div class="step-number">5</div>
+                                    <h5>DC Power Calculation</h5>
+                                    <p>Model DC power output using single diode model or other electrical models with temperature-corrected parameters.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="step">
+                                    <div class="step-number">6</div>
+                                    <h5>AC Power & Losses</h5>
+                                    <p>Convert DC to AC power using inverter models and apply system losses (soiling, shading, mismatch, wiring, etc.).</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- SPEC SHEET MODELING SECTION -->
+    <section id="spec-sheets"
+             class="mt-100 mb-100"
+             style="background-color: #1a1a00;
+                    padding: 80px 0">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 wow fadeInUp">
+                    <h3 class="mb-30">Spec Sheet Modeling</h3>
+                    <p class="mb-20">
+                        <strong>Manufacturer specification-based modeling</strong>
+                    </p>
+                    <p class="mb-30">
+                        PVlib enables detailed component modeling using manufacturer specification sheets, allowing for precise performance predictions based on actual equipment characteristics and electrical parameters.
+                    </p>
+                    <div class="mb-30">
+                        <h3 class="mb-3">Module Parameter Extraction:</h3>
+                        <ul class="services-list">
+                            <li>
+                                <strong>STC Parameters:</strong> Pmax, Voc, Isc, Vmp, Imp at Standard Test Conditions
+                            </li>
+                            <li>
+                                <strong>Temperature Coefficients:</strong> Voltage, current, and power temperature dependencies
+                            </li>
+                            <li>
+                                <strong>Electrical Characteristics:</strong> Diode ideality factor, series and shunt resistance
+                            </li>
+                            <li>
+                                <strong>NOCT Values:</strong> Nominal Operating Cell Temperature specifications
+                            </li>
+                            <li>
+                                <strong>Spectral Response:</strong> Wavelength-dependent efficiency characteristics
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="mt-4">
+                        <h3 class="mb-3">Inverter Modeling:</h3>
+                        <ul class="services-list">
+                            <li>
+                                <strong>Efficiency curves across operating range</strong>
+                            </li>
+                            <li>
+                                <strong>Power and voltage operating windows</strong>
+                            </li>
+                            <li>
+                                <strong>Maximum power point tracking (MPPT) characteristics</strong>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6 wow fadeInUp">
+                    <img src="https://www.vstarcam.com/wp-content/uploads/2021/11/%E5%A4%AA%E9%98%B3%E8%83%BD%E6%9D%BF8040_03-1.jpg"
+                         alt="Spec Sheet Modeling"
+                         class="images">
+                    <div class="mt-50">
+                        <p>
+                            The system applies <strong>PVlib’s parameter fitting algorithms</strong> to transform raw datasheet inputs into calibrated photovoltaic models.
+                            Using numerical optimization, it estimates the module’s electrical constants and reproduces its current–voltage behavior with high precision.
+                            This approach bridges manufacturer specifications and real operating conditions, ensuring that simulated performance accurately mirrors physical device characteristics across temperature and irradiance variations.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ADVANCED TECHNIQUES SECTION -->
+    <section id="advanced-techniques" class="mt-100 mb-100">
+        <div class="container">
+            <div class="row center mb-50">
+                <div class="col-md-8 col-md-offset-2 col-sm-12">
+                    <div class="section-title">
+                        <h2 class="mb-50">Advanced Modeling Techniques</h2>
+                        <p>Sophisticated approaches for handling complex scenarios and improving model accuracy.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row g-4">
+                <!-- Bifacial Modeling -->
+                <div class="col-md-4 wow fadeInUp">
+                    <div class="card h-100 bg-secondary border-0">
+                        <div class="card-body p-4">
+                            <div class="text-center mb-4">
+                                <i class="fa fa-copy text-warning mb-3" style="font-size: 48px;"></i>
+                                <h5 class="text-warning">Bifacial System Modeling</h5>
+                            </div>
+                            <p class="card-text">
+                                Advanced modeling of bifacial modules that capture light from both front and rear surfaces, accounting for ground reflectivity and system geometry.
+                            </p>
+                            <div class="mt-4">
+                                <h6 class="text-info mb-3">Key Factors:</h6>
+                                <ul class="list-unstyled text-light small">
+                                    <li class="mb-2">
+                                        <i class="fa fa-check-circle text-success me-2"></i> Ground albedo and reflectivity
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="fa fa-check-circle text-success me-2"></i> Module height and spacing
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="fa fa-check-circle text-success me-2"></i> Rear-side irradiance distribution
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-check-circle text-success me-2"></i> Bifaciality factor and electrical mismatch
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Tracking Systems -->
+                <div class="col-md-4 wow fadeInUp" data-wow-delay=".1s">
+                    <div class="card h-100 bg-secondary border-0">
+                        <div class="card-body p-4">
+                            <div class="text-center mb-4">
+                                <i class="fa fa-arrows text-warning mb-3" style="font-size: 48px;"></i>
+                                <h5 class="text-warning">Tracking System Modeling</h5>
+                            </div>
+                            <p class="card-text">
+                                Modeling of single-axis and dual-axis tracking systems that follow the sun's path to maximize energy capture throughout the day.
+                            </p>
+                            <div class="mt-4">
+                                <h6 class="text-info mb-3">Tracking Strategies:</h6>
+                                <ul class="list-unstyled text-light small">
+                                    <li class="mb-2">
+                                        <i class="fa fa-check-circle text-success me-2"></i> Single-axis horizontal tracking
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="fa fa-check-circle text-success me-2"></i> Single-axis vertical tracking
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="fa fa-check-circle text-success me-2"></i> Dual-axis tracking systems
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-check-circle text-success me-2"></i> Backtracking to avoid shading
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Spectral Modeling -->
+                <div class="col-md-4 wow fadeInUp" data-wow-delay=".2s">
+                    <div class="card h-100 bg-secondary border-0">
+                        <div class="card-body p-4">
+                            <div class="text-center mb-4">
+                                <i class="fa fa-pie-chart text-warning mb-3" style="font-size: 48px;"></i>
+                                <h5 class="text-warning">Spectral Response Modeling</h5>
+                            </div>
+                            <p class="card-text">
+                                Accounting for how different photovoltaic technologies respond to varying solar spectra under different atmospheric conditions.
+                            </p>
+                            <div class="mt-4">
+                                <h6 class="text-info mb-3">Spectral Effects:</h6>
+                                <ul class="list-unstyled text-light small">
+                                    <li class="mb-2">
+                                        <i class="fa fa-check-circle text-success me-2"></i> Air mass variations
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="fa fa-check-circle text-success me-2"></i> Precipitable water content
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="fa fa-check-circle text-success me-2"></i> Aerosol optical depth
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-check-circle text-success me-2"></i> Technology-specific spectral response
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Second Row of Advanced Techniques -->
+            <div class="row g-4 mt-4">
+                <!-- Snow and Soiling -->
+                <div class="col-md-4 wow fadeInUp">
+                    <div class="card h-100 bg-secondary border-0">
+                        <div class="card-body p-4">
+                            <div class="text-center mb-4">
+                                <i class="fa fa-long-arrow-down text-warning mb-3"
+                                   style="font-size: 48px"></i>
+                                <h5 class="text-warning">Snow & Soiling Losses</h5>
+                            </div>
+                            <p class="card-text">
+                                Modeling of energy losses due to snow accumulation, dust, dirt, and other soiling factors that reduce light transmission to cells.
+                            </p>
+                            <div class="mt-4">
+                                <h6 class="text-info mb-3">Modeling Approaches:</h6>
+                                <ul class="list-unstyled text-light small">
+                                    <li class="mb-2">
+                                        <i class="fa fa-check-circle text-success me-2"></i> Statistical soiling models
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="fa fa-check-circle text-success me-2"></i> Snow shedding algorithms
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="fa fa-check-circle text-success me-2"></i> Cleaning schedule optimization
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-check-circle text-success me-2"></i> Location-specific soiling rates
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Degradation Modeling -->
+                <div class="col-md-4 wow fadeInUp" data-wow-delay=".1s">
+                    <div class="card h-100 bg-secondary border-0">
+                        <div class="card-body p-4">
+                            <div class="text-center mb-4">
+                                <i class="fa fa-line-chart text-warning mb-3" style="font-size: 48px;"></i>
+                                <h5 class="text-warning">Performance Degradation</h5>
+                            </div>
+                            <p class="card-text">
+                                Long-term modeling of system performance degradation due to aging, UV exposure, thermal cycling, and other degradation mechanisms.
+                            </p>
+                            <div class="mt-4">
+                                <h6 class="text-info mb-3">Degradation Factors:</h6>
+                                <ul class="list-unstyled text-light small">
+                                    <li class="mb-2">
+                                        <i class="fa fa-check-circle text-success me-2"></i> LID (Light Induced Degradation)
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="fa fa-check-circle text-success me-2"></i> LeTID (Light and elevated Temperature Induced Degradation)
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="fa fa-check-circle text-success me-2"></i> PID (Potential Induced Degradation)
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-check-circle text-success me-2"></i> Seasonal degradation patterns
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Specification Sheet Modeling -->
+                <div class="col-md-4 wow fadeInUp" data-wow-delay=".2s">
+                    <div class="card h-100 bg-secondary border-0">
+                        <div class="card-body p-4">
+                            <div class="text-center mb-4">
+                                <i class="fa fa-file-text text-warning mb-3" style="font-size: 48px;"></i>
+                                <h5 class="text-warning">Specification Sheet Modeling</h5>
+                            </div>
+                            <p class="card-text">
+                                Precise simulation by incorporating detailed module and inverter specs from datasheets. Results reflect the electrical characteristics of components used.
+                            </p>
+                            <div class="mt-4">
+                                <h6 class="text-info mb-3">Key Benefits:</h6>
+                                <ul class="list-unstyled text-light small">
+                                    <li class="mb-2">
+                                        <i class="fa fa-check-circle text-success me-2"></i> Accurate PV module performance simulation
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="fa fa-check-circle text-success me-2"></i> Inverter efficiency and clipping analysis
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="fa fa-check-circle text-success me-2"></i> Seasonal and temperature impact evaluation
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-check-circle text-success me-2"></i> Supports both fixed and tracking system modeling
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- RESULTS & ANALYTICS SECTION -->
+    <section id="results"
+             class="mt-100 mb-100"
+             style="background-color: #1a1a00;
+                    padding: 80px 0">
+        <div class="container">
+            <div class="row center mb-50">
+                <div class="col-md-8 col-md-offset-2 col-sm-12">
+                    <div class="section-title">
+                        <h2 class="mb-50">Results & Analytics</h2>
+                        <p>
+                            Accurate performance evaluation through advanced analytical models and detailed reporting tools designed for technical and financial assessment.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 wow fadeInUp">
+                    <h3 class="mb-30">Performance Metrics & Reporting</h3>
+                    <p class="mb-30">
+                        Solarize delivers complete post-simulation analytics that quantify system efficiency, reliability, and financial returns. Reports are automatically generated for every modeling run to ensure consistent and traceable performance evaluation.
+                    </p>
+                    <div class="mb-30">
+                        <h3 class="mb-3">Report Components:</h3>
+                        <ul class="services-list">
+                            <li>
+                                <strong>Comprehensive System Reports:</strong> Detailed breakdown of model outputs and performance statistics
+                            </li>
+                            <li>
+                                <strong>Analytical Summaries:</strong> Key technical and operational metrics for quick insight
+                            </li>
+                            <li>
+                                <strong>Seasonal Performance:</strong> Monthly and seasonal yield variations based on irradiance profiles
+                            </li>
+                            <li>
+                                <strong>Economic Assessment:</strong> Revenue estimation, payback period, and ROI analysis
+                            </li>
+                            <li>
+                                <strong>Environmental Correlation:</strong> Comparison of performance with temperature, irradiance, and weather conditions
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6 wow fadeInUp">
+                    <img src="{% static 'onboarding/img/results_and_analytics.jpg' %}"
+                         alt="Results & Analytics"
+                         class="images">
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- DASHBOARD ACCESS SECTION -->
+    <section class="mt-100 mb-100">
+        <div class="container">
+            <div class="row center">
+                <div class="col-md-8 col-md-offset-2 col-sm-12">
+                    <div class="section-title">
+                        <h2 class="mb-50">Access Advanced PV Modeling</h2>
+                        <p>Start using our comprehensive PV modeling platform with accurate predictions and detailed analytics.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-5">
+                <div class="col-12 text-center">
+                    <div class="bg-secondary rounded p-5">
+                        <div class="d-flex justify-content-center gap-3 flex-wrap">
+                            {% if request.user.is_authenticated %}
+                                <a href="{% url 'dash' %}" class="default-btn text-warning">
+                                    Go to Dashboard <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                                </a>
+                            {% else %}
+                                <a href="{% url 'signin' %}" class="default-btn text-warning">
+                                    Start Modeling <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                                </a>
+                                <a href="{% url 'signup' %}" class="default-btn btn-light">
+                                    Free Trial <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 {% endblock %}

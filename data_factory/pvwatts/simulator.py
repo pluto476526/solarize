@@ -40,15 +40,21 @@ class PVWattsSimulator:
         """Add location for analysis"""
         self.locations[name] = SolarLocation(lat, lon, name)
 
-
-    def generate_report(self, location_name: str, config: Dict, system_cost: float = 50000, electricity_rate: float = 0.15, grid_carbon_intensity: float = 0.4) -> Dict[str, Any]:
+    def generate_report(
+        self,
+        location_name: str,
+        config: Dict,
+        system_cost: float = 50000,
+        electricity_rate: float = 0.15,
+        grid_carbon_intensity: float = 0.4,
+    ) -> Dict[str, Any]:
         """Main Unified Method"""
         location = self.locations[location_name]
         nrel_api = FetchNRELData(location=location, system_config=config)
 
         # Base energy forecast data
         base_data = nrel_api.get_base_forecast()
-        
+
         # Scenario Modelling
         sm = ScenarioModelling(location)
         scenario_analysis = sm.compare_panel_config()
@@ -81,7 +87,7 @@ class PVWattsSimulator:
             "location_info": {
                 "name": location.name,
                 "coordinates": f"{location.lat}, {location.lon}",
-                "report_date": datetime.now().isoformat()
+                "report_date": datetime.now().isoformat(),
             },
             "scenario_analysis": scenario_analysis,
             "financial_analysis": financial_analysis,
@@ -89,28 +95,7 @@ class PVWattsSimulator:
             "seasonal_insights": seasonal_insights,
             "environmental_impact": environmental_impact,
             "system_recommendations": system_recommendations,
-            "comparative_analysis": comparative_analysis
+            "comparative_analysis": comparative_analysis,
         }
 
         return report
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -1,6 +1,7 @@
 ## data_factory/database/queries.py
 ## pkibuka@milky-way.space
 
+
 def insert_irradiance_data_query():
     return f"""
     INSERT INTO irradiance_data (
@@ -9,6 +10,7 @@ def insert_irradiance_data_query():
     VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
     ON CONFLICT (insert_date, parameter, lon, lat) DO NOTHING;
     """
+
 
 def irradiance_ohlc_query(bucket: str = "1 week"):
     return f"""
@@ -37,6 +39,7 @@ def fetch_airmass_query(result_id: float):
     ORDER BY day DESC;
     """
 
+
 def fetch_cell_temp_query(result_id: float):
     return f"""
     SELECT
@@ -47,6 +50,7 @@ def fetch_cell_temp_query(result_id: float):
     GROUP BY DATE(utc_time)
     ORDER BY day DESC;
     """
+
 
 def fetch_dc_output_query(result_id: float):
     return f"""
@@ -65,6 +69,7 @@ def fetch_dc_output_query(result_id: float):
     ORDER BY day DESC;
     """
 
+
 def fetch_diode_params_query(result_id: float):
     return f"""
     SELECT
@@ -80,6 +85,7 @@ def fetch_diode_params_query(result_id: float):
     ORDER BY day DESC;
     """
 
+
 def fetch_total_irradiance_query(result_id: float):
     return f"""
     SELECT
@@ -94,6 +100,7 @@ def fetch_total_irradiance_query(result_id: float):
     GROUP BY DATE(utc_time)
     ORDER BY day DESC;
     """
+
 
 def fetch_solar_position_query(result_id: float):
     return f"""
@@ -111,6 +118,7 @@ def fetch_solar_position_query(result_id: float):
     ORDER BY day DESC;
     """
 
+
 def fetch_weather_query(result_id: float):
     return f"""
     SELECT
@@ -125,16 +133,3 @@ def fetch_weather_query(result_id: float):
     GROUP BY DATE(utc_time)
     ORDER BY day DESC;
     """
-
-
-
-
-
-
-
-
-
-
-
-
-

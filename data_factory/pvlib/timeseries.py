@@ -28,8 +28,6 @@ import pandas as pd
 #     return df.iloc[:, 0]
 
 
-
-
 def _get_array_data(data, array, param=None):
     """
     Extracts a specific parameter column from simulation data.
@@ -65,10 +63,10 @@ def _prepare_and_resample_data(df, param):
     Helper function to prepare data and resample to daily averages.
     """
     df = pd.DataFrame(df)
-    
+
     # Resample to get daily averages if we have a datetime index
     if isinstance(df.index, pd.DatetimeIndex):
-        return df[param].resample('D').mean()
+        return df[param].resample("D").mean()
     else:
         # Fallback if no datetime index
         return df[param]
@@ -82,29 +80,30 @@ def _plot_timeseries(series, title, y_axis_title=None):
     if series.isna().all():
         fig = go.Figure()
         fig.update_layout(
-            title=f"No data available for '{title}'",
-            template="plotly_dark"
+            title=f"No data available for '{title}'", template="plotly_dark"
         )
         return plot(fig, output_type="div", include_plotlyjs=False)
 
     # Plot the data
     fig = go.Figure()
-    fig.add_trace(go.Scatter(
-        x=series.index,
-        y=series.values,
-        mode="lines",
-        connectgaps=True,
-        name=f"Avg Daily {title}"
-    ))
+    fig.add_trace(
+        go.Scatter(
+            x=series.index,
+            y=series.values,
+            mode="lines",
+            connectgaps=True,
+            name=f"Avg Daily {title}",
+        )
+    )
 
     y_axis_title = y_axis_title or title
-    
+
     fig.update_layout(
         template="plotly_dark",
         title=title,
         xaxis_title="Day",
         yaxis_title=y_axis_title,
-        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
+        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
     )
 
     return plot(fig, output_type="div", include_plotlyjs=False)
@@ -166,5 +165,5 @@ def weather_chart(weather, param):
         y_axis_title = "Speed (Km/h)"
     else:
         y_axis_title = f"{param} (W/m²)"
-        
+
     return _plot_timeseries(daily_avg, param.upper(), y_axis_title)

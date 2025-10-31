@@ -1,506 +1,479 @@
 {% extends 'analytics/main.html' %}
 {% load static %}
-
 {% block main %}
-
-<!-- Content Start -->
-<div class="content">
-    <!-- Navbar Start -->
-    {% include 'analytics/nav.html' %}
-    <!-- Navbar End -->
-
-
-
-
-    <!-- Air Quality Metrics Start -->
-    <div class="container-fluid pt-4 px-3">
-        <div class="row g-4">
-            <!-- PM2.5 -->
-            <div class="col-sm-6 col-xl-3">
-                <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
-                    <i class="fas fa-wind fa-3x text-warning"></i>
-                    <div class="ms-3">
-                        <p class="mb-2">PM2.5</p>
-                        <h6 class="mb-0">{{ air_quality.current_conditions.primary_pollutants.pm2_5.value }} µg/m³</h6>
-                        <small class="text-muted">{{ air_quality.current_conditions.primary_pollutants.pm2_5.category }}</small>
+    <!-- Content Start -->
+    <div class="content">
+        <!-- Navbar Start -->
+        {% include 'analytics/nav.html' %}
+        <!-- Navbar End -->
+        <!-- Air Quality Metrics Start -->
+        <div class="container-fluid pt-4 px-3">
+            <div class="row g-4">
+                <!-- PM2.5 -->
+                <div class="col-sm-6 col-xl-3">
+                    <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                        <i class="fas fa-wind fa-3x text-warning"></i>
+                        <div class="ms-3">
+                            <p class="mb-2">PM2.5</p>
+                            <h6 class="mb-0">{{ air_quality.current_conditions.primary_pollutants.pm2_5.value }} µg/m³</h6>
+                            <small class="text-muted">{{ air_quality.current_conditions.primary_pollutants.pm2_5.category }}</small>
+                        </div>
                     </div>
                 </div>
-            </div>
-            
-            <!-- PM10 -->
-            <div class="col-sm-6 col-xl-3">
-                <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
-                    <i class="fas fa-cloud fa-3x text-info"></i>
-                    <div class="ms-3">
-                        <p class="mb-2">PM10</p>
-                        <h6 class="mb-0">{{ air_quality.current_conditions.primary_pollutants.pm10.value }} µg/m³</h6>
-                        <small class="text-muted">{{ air_quality.current_conditions.primary_pollutants.pm10.category }}</small>
+                <!-- PM10 -->
+                <div class="col-sm-6 col-xl-3">
+                    <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                        <i class="fas fa-cloud fa-3x text-info"></i>
+                        <div class="ms-3">
+                            <p class="mb-2">PM10</p>
+                            <h6 class="mb-0">{{ air_quality.current_conditions.primary_pollutants.pm10.value }} µg/m³</h6>
+                            <small class="text-muted">{{ air_quality.current_conditions.primary_pollutants.pm10.category }}</small>
+                        </div>
                     </div>
                 </div>
-            </div>
-            
-            <!-- Air Quality Index -->
-            <div class="col-sm-6 col-xl-3">
-                <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
-                    <i class="fas fa-lungs fa-3x text-primary"></i>
-                    <div class="ms-3">
-                        <p class="mb-2">Air Quality Index</p>
-                        <h6 class="mb-0">{{ air_quality.current_conditions.aqi_indices.european_aqi.value }}</h6>
-                        <small class="text-muted">{{ air_quality.current_conditions.aqi_indices.european_aqi.category }}</small>
+                <!-- Air Quality Index -->
+                <div class="col-sm-6 col-xl-3">
+                    <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                        <i class="fas fa-lungs fa-3x text-primary"></i>
+                        <div class="ms-3">
+                            <p class="mb-2">Air Quality Index</p>
+                            <h6 class="mb-0">{{ air_quality.current_conditions.aqi_indices.european_aqi.value }}</h6>
+                            <small class="text-muted">{{ air_quality.current_conditions.aqi_indices.european_aqi.category }}</small>
+                        </div>
                     </div>
                 </div>
-            </div>
-            
-            <!-- Dominant Pollutant -->
-            <div class="col-sm-6 col-xl-3">
-                <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
-                    <i class="fas fa-exclamation-triangle fa-3x text-success"></i>
-                    <div class="ms-3">
-                        <p class="mb-2">Dominant Pollutant</p>
-                        <h6 class="mb-0">{{ air_quality.current_conditions.dominant_pollutant }}</h6>
-                        <small class="text-muted">Primary concern</small>
+                <!-- Dominant Pollutant -->
+                <div class="col-sm-6 col-xl-3">
+                    <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                        <i class="fas fa-exclamation-triangle fa-3x text-success"></i>
+                        <div class="ms-3">
+                            <p class="mb-2">Dominant Pollutant</p>
+                            <h6 class="mb-0">{{ air_quality.current_conditions.dominant_pollutant }}</h6>
+                            <small class="text-muted">Primary concern</small>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- Air Quality Metrics End -->
-
-    <!-- Current Air Quality Conditions Start -->
-    <div class="container-fluid pt-4 px-3">
-        <div class="row g-4">
-            <!-- Primary Pollutants -->
-            <div class="col-sm-12 col-md-6 col-xl-3">
-                <div class="bg-secondary rounded p-4">
-                    <h6 class="mb-3 text-warning">Primary Pollutants</h6>
-                    <div class="d-flex justify-content-between mb-2">
-                        <span>PM2.5</span>
-                        <strong>{{ air_quality.current_conditions.primary_pollutants.pm2_5.value }} µg/m³</strong>
-                    </div>
-                    <div class="d-flex justify-content-between mb-2">
-                        <span>PM10</span>
-                        <strong>{{ air_quality.current_conditions.primary_pollutants.pm10.value }} µg/m³</strong>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <span>O₃</span>
-                        <strong>{{ air_quality.current_conditions.gas_pollutants.ozone.value }} µg/m³</strong>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Gaseous Pollutants -->
-            <div class="col-sm-12 col-md-6 col-xl-3">
-                <div class="bg-secondary rounded p-4">
-                    <h6 class="mb-3 text-info">Gaseous Pollutants</h6>
-                    <div class="d-flex justify-content-between mb-2">
-                        <span>NO₂</span>
-                        <strong class="text-warning">{{ air_quality.current_conditions.gas_pollutants.nitrogen_dioxide.value }} µg/m³</strong>
-                    </div>
-                    <div class="d-flex justify-content-between mb-2">
-                        <span>SO₂</span>
-                        <strong class="text-warning">{{ air_quality.current_conditions.gas_pollutants.sulphur_dioxide.value }} µg/m³</strong>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <span>CO</span>
-                        <strong class="text-info">{{ air_quality.current_conditions.gas_pollutants.carbon_monoxide.value }} µg/m³</strong>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Additional Parameters -->
-            <div class="col-sm-12 col-md-6 col-xl-3">
-                <div class="bg-secondary rounded p-4">
-                    <h6 class="mb-3 text-success">Additional Parameters</h6>
-                    <div class="d-flex justify-content-between mb-2">
-                        <span>AOD</span>
-                        <span class="badge bg-success">{{ air_quality.current_conditions.other_indicators.aerosol_optical_depth }}</span>
-                    </div>
-                    <div class="d-flex justify-content-between mb-2">
-                        <span>Dust</span>
-                        <span class="badge bg-info">{{ air_quality.current_conditions.other_indicators.dust }}</span>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <span>UV Index</span>
-                        <span class="badge bg-primary">{{ air_quality.current_conditions.other_indicators.uv_index }}</span>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Data Status -->
-            <div class="col-sm-12 col-md-6 col-xl-3">
-                <div class="bg-secondary rounded p-4">
-                    <h6 class="mb-3 text-primary">OpenMeteo Status</h6>
-                    <div class="d-flex justify-content-between mb-2">
-                        <span>Last Update</span>
-                        <small>{{ air_quality.timestamps.data_freshness.current_data_age }}</small>
-                    </div>
-                    <div class="d-flex justify-content-between mb-2">
-                        <span>Data Quality</span>
-                        <span class="badge bg-success">Active</span>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <span>Next Update</span>
-                        <small>1 hour</small>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Current Air Quality Conditions End -->
-
-
-    <!-- Detailed Air Quality Data Start -->
-    <div class="container-fluid pt-4 px-3">
-        <div class="bg-secondary text-center rounded p-4">
-            <div class="d-flex align-items-center justify-content-between mb-4">
-                <h6 class="mb-0">Hourly Air Quality Data</h6>
-                <a href="">Export Data</a>
-            </div>
-            <div class="table-responsive">
-                <table class="table text-start align-middle table-bordered table-hover mb-0">
-                    <thead>
-                        <tr class="text-white">
-                            <th scope="col">Time</th>
-                            <th scope="col">PM2.5 (µg/m³)</th>
-                            <th scope="col">PM10 (µg/m³)</th>
-                            <th scope="col">O₃ (µg/m³)</th>
-                            <th scope="col">NO₂ (µg/m³)</th>
-                            <th scope="col">SO₂ (µg/m³)</th>
-                            <th scope="col">CO (µg/m³)</th>
-                            <th scope="col">Quality</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for hour in air_quality.hourly_analysis.hourly_breakdown|slice:":7" %}
-                        <tr>
-                            <td>{{ hour.time }}</td>
-                            <td>{{ hour.pm2_5.value }}</td>
-                            <td>{{ hour.pm10.value }}</td>
-                            <td>{{ hour.ozone }}</td>
-                            <td>{{ hour.nitrogen_dioxide }}</td>
-                            <td>{{ hour.sulphur_dioxide }}</td>
-                            <td>{{ hour.carbon_monoxide }}</td>
-                            <td>
-                                <span class="badge 
-                                    {% if hour.overall_quality == 'GOOD' %}bg-success
-                                    {% elif hour.overall_quality == 'MODERATE' %}bg-warning
-                                    {% elif hour.overall_quality == 'UNHEALTHY_FOR_SENSITIVE_GROUPS' %}bg-orange
-                                    {% elif hour.overall_quality == 'UNHEALTHY' %}bg-danger
-                                    {% else %}bg-dark{% endif %}">
-                                    {{ hour.overall_quality }}
-                                </span>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-    <!-- Detailed Air Quality Data End -->
-
-    <!-- Air Quality Widgets Start -->
-    <div class="container-fluid pt-4 px-3">
-        <div class="row g-4">
-            <!-- Health Impact Factors -->
-            <div class="col-sm-12 col-md-6 col-xl-4">
-                <div class="h-100 bg-secondary rounded p-4">
-                    <div class="d-flex align-items-center justify-content-between mb-2">
-                        <h6 class="mb-0">Health Impact Factors</h6>
-                        <a href="">View All</a>
-                    </div>
-                    
-                    <!-- Respiratory Risk -->
-                    <div class="d-flex align-items-center border-bottom py-3">
-                        <div class="rounded-circle bg-warning d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
-                            <i class="fas fa-lungs text-dark"></i>
-                        </div>
-                        <div class="w-100 ms-3">
-                            <div class="d-flex w-100 justify-content-between">
-                                <h6 class="mb-0">Respiratory Risk</h6>
-                                <small>{{ air_quality.pollutant_analysis.particulate_matter.pm2_5.health_impact|slice:":8" }}</small>
-                            </div>
-                            <span>PM2.5: {{ air_quality.current_conditions.primary_pollutants.pm2_5.value }} µg/m³</span>
-                        </div>
-                    </div>
-                    
-                    <!-- Cardiovascular -->
-                    <div class="d-flex align-items-center border-bottom py-3">
-                        <div class="rounded-circle bg-info d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
-                            <i class="fas fa-heart text-dark"></i>
-                        </div>
-                        <div class="w-100 ms-3">
-                            <div class="d-flex w-100 justify-content-between">
-                                <h6 class="mb-0">Cardiovascular</h6>
-                                <small>{{ air_quality.pollutant_analysis.gaseous_pollutants.ozone.health_impact|slice:":8" }}</small>
-                            </div>
-                            <span>Ozone: {{ air_quality.current_conditions.gas_pollutants.ozone.value }} µg/m³</span>
-                        </div>
-                    </div>
-                    
-                    <!-- Sensitive Groups -->
-                    <div class="d-flex align-items-center pt-3">
-                        <div class="rounded-circle bg-primary d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
-                            <i class="fas fa-child text-dark"></i>
-                        </div>
-                        <div class="w-100 ms-3">
-                            <div class="d-flex w-100 justify-content-between">
-                                <h6 class="mb-0">Sensitive Groups</h6>
-                                <small>
-                                    {% if air_quality.current_conditions.primary_pollutants.pm2_5.value > 35.4 %}
-                                        Avoid Outdoor
-                                    {% elif air_quality.current_conditions.primary_pollutants.pm2_5.value > 12 %}
-                                        Caution
-                                    {% else %}
-                                        Safe
-                                    {% endif %}
-                                </small>
-                            </div>
-                            <span>{{ air_quality.health_recommendations.sensitive_groups.0|default:"Normal activities safe" }}</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Pollutant Sources & Details -->
-            <div class="col-sm-12 col-md-6 col-xl-4">
-                <div class="h-100 bg-secondary rounded p-4">
-                    <div class="d-flex align-items-center justify-content-between mb-4">
-                        <h6 class="mb-0">Pollutant Analysis</h6>
-                        <a href="">Details</a>
-                    </div>
-                    
-                    <!-- Pollutant Trends -->
-                    <div class="mb-4">
+        <!-- Air Quality Metrics End -->
+        <!-- Current Air Quality Conditions Start -->
+        <div class="container-fluid pt-4 px-3">
+            <div class="row g-4">
+                <!-- Primary Pollutants -->
+                <div class="col-sm-12 col-md-6 col-xl-3">
+                    <div class="bg-secondary rounded p-4">
+                        <h6 class="mb-3 text-warning">Primary Pollutants</h6>
                         <div class="d-flex justify-content-between mb-2">
-                            <span>PM2.5 Trend</span>
-                            <span class="text-{% if air_quality.hourly_analysis.pollutant_trends.pm2_5.trend == 'INCREASING' %}danger{% elif air_quality.hourly_analysis.pollutant_trends.pm2_5.trend == 'DECREASING' %}success{% else %}info{% endif %}">
-                                {{ air_quality.hourly_analysis.pollutant_trends.pm2_5.trend }}
-                            </span>
+                            <span>PM2.5</span>
+                            <strong>{{ air_quality.current_conditions.primary_pollutants.pm2_5.value }} µg/m³</strong>
                         </div>
                         <div class="d-flex justify-content-between mb-2">
-                            <span>PM10 Trend</span>
-                            <span class="text-{% if air_quality.hourly_analysis.pollutant_trends.pm10.trend == 'INCREASING' %}danger{% elif air_quality.hourly_analysis.pollutant_trends.pm10.trend == 'DECREASING' %}success{% else %}info{% endif %}">
-                                {{ air_quality.hourly_analysis.pollutant_trends.pm10.trend }}
-                            </span>
+                            <span>PM10</span>
+                            <strong>{{ air_quality.current_conditions.primary_pollutants.pm10.value }} µg/m³</strong>
                         </div>
-                        <div class="d-flex justify-content-between mb-3">
-                            <span>Ozone Trend</span>
-                            <span class="text-{% if air_quality.hourly_analysis.pollutant_trends.ozone.trend == 'INCREASING' %}danger{% elif air_quality.hourly_analysis.pollutant_trends.ozone.trend == 'DECREASING' %}success{% else %}info{% endif %}">
-                                {{ air_quality.hourly_analysis.pollutant_trends.ozone.trend }}
-                            </span>
-                        </div>
-                        
-                        <!-- Worst Period -->
-                        <div class="d-flex justify-content-between mb-2">
-                            <span>Worst Period</span>
-                            <span class="text-warning">{{ air_quality.hourly_analysis.peak_periods.worst_air_quality.time }}</span>
-                        </div>
-                        <div class="d-flex justify-content-between mb-3">
-                            <span>Best Period</span>
-                            <span class="text-success">{{ air_quality.hourly_analysis.peak_periods.best_air_quality.time }}</span>
-                        </div>
-                        
-                        <!-- Overall Quality Progress -->
-                        <div class="progress mb-3" style="height: 20px;">
-                            <div class="progress-bar 
-                                {% if air_quality.summary.overall_quality == 'GOOD' %}bg-success
-                                {% elif air_quality.summary.overall_quality == 'MODERATE' %}bg-warning
-                                {% elif air_quality.summary.overall_quality == 'UNHEALTHY_FOR_SENSITIVE_GROUPS' %}bg-orange
-                                {% elif air_quality.summary.overall_quality == 'UNHEALTHY' %}bg-danger
-                                {% else %}bg-dark{% endif %}" 
-                                role="progressbar" 
-                                style="width: 
-                                    {% if air_quality.summary.overall_quality == 'GOOD' %}75%
-                                    {% elif air_quality.summary.overall_quality == 'MODERATE' %}60%
-                                    {% elif air_quality.summary.overall_quality == 'UNHEALTHY_FOR_SENSITIVE_GROUPS' %}45%
-                                    {% elif air_quality.summary.overall_quality == 'UNHEALTHY' %}30%
-                                    {% else %}15%{% endif %};">
-                                Air Quality: {{ air_quality.summary.overall_quality }}
-                            </div>
+                        <div class="d-flex justify-content-between">
+                            <span>O₃</span>
+                            <strong>{{ air_quality.current_conditions.gas_pollutants.ozone.value }} µg/m³</strong>
                         </div>
                     </div>
                 </div>
-            </div>
-            
-            <!-- Quick Actions & Alerts -->
-            <div class="col-sm-12 col-md-6 col-xl-4">
-                <div class="h-100 bg-secondary rounded p-4">
-                    <div class="d-flex align-items-center justify-content-between mb-4">
-                        <h6 class="mb-0">Quick Actions & Alerts</h6>
-                    </div>
-                    
-                    <!-- Alerts -->
-                    <div class="mb-4">
-                        <h6 class="mb-3 text-warning">Active Alerts</h6>
-                        {% for alert in air_quality.alerts %}
-                        <div class="alert alert-{% if alert.level == 'SEVERE' %}danger{% elif alert.level == 'HIGH' %}warning{% else %}info{% endif %} mb-2 py-2">
-                            <small>
-                                <strong>{{ alert.type }}</strong><br>
-                                {{ alert.message }}
-                            </small>
+                <!-- Gaseous Pollutants -->
+                <div class="col-sm-12 col-md-6 col-xl-3">
+                    <div class="bg-secondary rounded p-4">
+                        <h6 class="mb-3 text-info">Gaseous Pollutants</h6>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>NO₂</span>
+                            <strong class="text-warning">{{ air_quality.current_conditions.gas_pollutants.nitrogen_dioxide.value }} µg/m³</strong>
                         </div>
-                        {% empty %}
-                        <div class="alert alert-info mb-2 py-2">
-                            <small>
-                                <strong>No Alerts</strong><br>
-                                Enjoy...
-                            </small>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>SO₂</span>
+                            <strong class="text-warning">{{ air_quality.current_conditions.gas_pollutants.sulphur_dioxide.value }} µg/m³</strong>
                         </div>
-                        {% endfor %}
+                        <div class="d-flex justify-content-between">
+                            <span>CO</span>
+                            <strong class="text-info">{{ air_quality.current_conditions.gas_pollutants.carbon_monoxide.value }} µg/m³</strong>
+                        </div>
                     </div>
-                    
-                    <!-- Health Recommendations -->
-                    <div class="mt-4">
-                        <h6 class="mb-3">Health Recommendations</h6>
-                        <ul class="list-unstyled small">
-                            {% for recommendation in air_quality.health_recommendations.general_population|slice:":3" %}
-                            <li class="mb-1">• {{ recommendation }}</li>
-                            {% empty %}
-                            <li class="mb-1">Inhale, relax</li>
-                            {% endfor %}
-                        </ul>
+                </div>
+                <!-- Additional Parameters -->
+                <div class="col-sm-12 col-md-6 col-xl-3">
+                    <div class="bg-secondary rounded p-4">
+                        <h6 class="mb-3 text-success">Additional Parameters</h6>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>AOD</span>
+                            <span class="badge bg-success">{{ air_quality.current_conditions.other_indicators.aerosol_optical_depth }}</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Dust</span>
+                            <span class="badge bg-info">{{ air_quality.current_conditions.other_indicators.dust }}</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span>UV Index</span>
+                            <span class="badge bg-primary">{{ air_quality.current_conditions.other_indicators.uv_index }}</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Data Status -->
+                <div class="col-sm-12 col-md-6 col-xl-3">
+                    <div class="bg-secondary rounded p-4">
+                        <h6 class="mb-3 text-primary">OpenMeteo Status</h6>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Last Update</span>
+                            <small>{{ air_quality.timestamps.data_freshness.current_data_age }}</small>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Data Quality</span>
+                            <span class="badge bg-success">Active</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span>Next Update</span>
+                            <small>1 hour</small>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- Air Quality Widgets End -->
-
-    <!-- Historical Analysis Start -->
-    <div class="container-fluid pt-4 px-3">
-        <div class="row g-4">
-            <!-- Weekly Pollutant Trends -->
-            <div class="col-sm-12 col-xl-4">
-                <div class="bg-secondary rounded p-4">
-                    <h6 class="mb-4 text-warning">Air Quality Summary</h6>
-                    <div class="table-responsive">
-                        <table class="table table-hover">
-                            <thead>
+        <!-- Current Air Quality Conditions End -->
+        <!-- Detailed Air Quality Data Start -->
+        <div class="container-fluid pt-4 px-3">
+            <div class="bg-secondary text-center rounded p-4">
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <h6 class="mb-0">Hourly Air Quality Data</h6>
+                    <a href="">Export Data</a>
+                </div>
+                <div class="table-responsive">
+                    <table class="table text-start align-middle table-bordered table-hover mb-0">
+                        <thead>
+                            <tr class="text-white">
+                                <th scope="col">Time</th>
+                                <th scope="col">PM2.5 (µg/m³)</th>
+                                <th scope="col">PM10 (µg/m³)</th>
+                                <th scope="col">O₃ (µg/m³)</th>
+                                <th scope="col">NO₂ (µg/m³)</th>
+                                <th scope="col">SO₂ (µg/m³)</th>
+                                <th scope="col">CO (µg/m³)</th>
+                                <th scope="col">Quality</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for hour in air_quality.hourly_analysis.hourly_breakdown|slice:":7" %}
                                 <tr>
-                                    <th>Metric</th>
-                                    <th>Value</th>
-                                    <th>Status</th>
-                                    <th>Trend</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Overall Quality</td>
-                                    <td>{{ air_quality.summary.overall_quality }}</td>
+                                    <td>{{ hour.time }}</td>
+                                    <td>{{ hour.pm2_5.value }}</td>
+                                    <td>{{ hour.pm10.value }}</td>
+                                    <td>{{ hour.ozone }}</td>
+                                    <td>{{ hour.nitrogen_dioxide }}</td>
+                                    <td>{{ hour.sulphur_dioxide }}</td>
+                                    <td>{{ hour.carbon_monoxide }}</td>
                                     <td>
-                                        <span class="badge 
-                                            {% if air_quality.summary.overall_quality == 'GOOD' %}bg-success
-                                            {% elif air_quality.summary.overall_quality == 'MODERATE' %}bg-warning
-                                            {% else %}bg-danger{% endif %}">
-                                            {{ air_quality.summary.overall_quality }}
+                                        <span class="badge {% if hour.overall_quality == 'GOOD' %}bg-success {% elif hour.overall_quality == 'MODERATE' %}bg-warning {% elif hour.overall_quality == 'UNHEALTHY_FOR_SENSITIVE_GROUPS' %}bg-orange {% elif hour.overall_quality == 'UNHEALTHY' %}bg-danger {% else %}bg-dark{% endif %}">
+                                            {{ hour.overall_quality }}
                                         </span>
                                     </td>
-                                    <td>{{ air_quality.summary.outlook }}</td>
                                 </tr>
-                                <tr>
-                                    <td>Primary Concern</td>
-                                    <td>{{ air_quality.summary.primary_concern }}</td>
-                                    <td>{{ air_quality.current_conditions.dominant_pollutant }}</td>
-                                    <td>-</td>
-                                </tr>
-                                <tr>
-                                    <td>PM2.5 Average</td>
-                                    <td>{{ air_quality.hourly_analysis.statistical_summary.pm2_5.avg }} µg/m³</td>
-                                    <td>{{ air_quality.current_conditions.primary_pollutants.pm2_5.category }}</td>
-                                    <td>{{ air_quality.hourly_analysis.pollutant_trends.pm2_5.trend }}</td>
-                                </tr>
-                                <tr>
-                                    <td>PM10 Average</td>
-                                    <td>{{ air_quality.hourly_analysis.statistical_summary.pm10.avg }} µg/m³</td>
-                                    <td>{{ air_quality.current_conditions.primary_pollutants.pm10.category }}</td>
-                                    <td>{{ air_quality.hourly_analysis.pollutant_trends.pm10.trend }}</td>
-                                </tr>
-                                <tr>
-                                    <td>Unhealthy Hours</td>
-                                    <td>{{ air_quality.hourly_analysis.statistical_summary.pm2_5.above_unhealthy_hours }}/24</td>
-                                    <td>
-                                        {% if air_quality.hourly_analysis.statistical_summary.pm2_5.above_unhealthy_hours > 12 %}
-                                        <span class="badge bg-danger">High</span>
-                                        {% elif air_quality.hourly_analysis.statistical_summary.pm2_5.above_unhealthy_hours > 6 %}
-                                        <span class="badge bg-warning">Medium</span>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- Detailed Air Quality Data End -->
+        <!-- Air Quality Widgets Start -->
+        <div class="container-fluid pt-4 px-3">
+            <div class="row g-4">
+                <!-- Health Impact Factors -->
+                <div class="col-sm-12 col-md-6 col-xl-4">
+                    <div class="h-100 bg-secondary rounded p-4">
+                        <div class="d-flex align-items-center justify-content-between mb-2">
+                            <h6 class="mb-0">Health Impact Factors</h6>
+                            <a href="">View All</a>
+                        </div>
+                        <!-- Respiratory Risk -->
+                        <div class="d-flex align-items-center border-bottom py-3">
+                            <div class="rounded-circle bg-warning d-flex align-items-center justify-content-center me-3"
+                                 style="width: 40px;
+                                        height: 40px">
+                                <i class="fas fa-lungs text-dark"></i>
+                            </div>
+                            <div class="w-100 ms-3">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-0">Respiratory Risk</h6>
+                                    <small>{{ air_quality.pollutant_analysis.particulate_matter.pm2_5.health_impact|slice:":8" }}</small>
+                                </div>
+                                <span>PM2.5: {{ air_quality.current_conditions.primary_pollutants.pm2_5.value }} µg/m³</span>
+                            </div>
+                        </div>
+                        <!-- Cardiovascular -->
+                        <div class="d-flex align-items-center border-bottom py-3">
+                            <div class="rounded-circle bg-info d-flex align-items-center justify-content-center me-3"
+                                 style="width: 40px;
+                                        height: 40px">
+                                <i class="fas fa-heart text-dark"></i>
+                            </div>
+                            <div class="w-100 ms-3">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-0">Cardiovascular</h6>
+                                    <small>{{ air_quality.pollutant_analysis.gaseous_pollutants.ozone.health_impact|slice:":8" }}</small>
+                                </div>
+                                <span>Ozone: {{ air_quality.current_conditions.gas_pollutants.ozone.value }} µg/m³</span>
+                            </div>
+                        </div>
+                        <!-- Sensitive Groups -->
+                        <div class="d-flex align-items-center pt-3">
+                            <div class="rounded-circle bg-primary d-flex align-items-center justify-content-center me-3"
+                                 style="width: 40px;
+                                        height: 40px">
+                                <i class="fas fa-child text-dark"></i>
+                            </div>
+                            <div class="w-100 ms-3">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-0">Sensitive Groups</h6>
+                                    <small>
+                                        {% if air_quality.current_conditions.primary_pollutants.pm2_5.value > 35.4 %}
+                                            Avoid Outdoor
+                                        {% elif air_quality.current_conditions.primary_pollutants.pm2_5.value > 12 %}
+                                            Caution
                                         {% else %}
-                                        <span class="badge bg-success">Low</span>
+                                            Safe
                                         {% endif %}
-                                    </td>
-                                    <td>-</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                                    </small>
+                                </div>
+                                <span>{{ air_quality.health_recommendations.sensitive_groups.0|default:"Normal activities safe" }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Pollutant Sources & Details -->
+                <div class="col-sm-12 col-md-6 col-xl-4">
+                    <div class="h-100 bg-secondary rounded p-4">
+                        <div class="d-flex align-items-center justify-content-between mb-4">
+                            <h6 class="mb-0">Pollutant Analysis</h6>
+                            <a href="">Details</a>
+                        </div>
+                        <!-- Pollutant Trends -->
+                        <div class="mb-4">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>PM2.5 Trend</span>
+                                <span class="text-{% if air_quality.hourly_analysis.pollutant_trends.pm2_5.trend == 'INCREASING' %}danger{% elif air_quality.hourly_analysis.pollutant_trends.pm2_5.trend == 'DECREASING' %}success{% else %}info{% endif %}">
+                                    {{ air_quality.hourly_analysis.pollutant_trends.pm2_5.trend }}
+                                </span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>PM10 Trend</span>
+                                <span class="text-{% if air_quality.hourly_analysis.pollutant_trends.pm10.trend == 'INCREASING' %}danger{% elif air_quality.hourly_analysis.pollutant_trends.pm10.trend == 'DECREASING' %}success{% else %}info{% endif %}">
+                                    {{ air_quality.hourly_analysis.pollutant_trends.pm10.trend }}
+                                </span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-3">
+                                <span>Ozone Trend</span>
+                                <span class="text-{% if air_quality.hourly_analysis.pollutant_trends.ozone.trend == 'INCREASING' %}danger{% elif air_quality.hourly_analysis.pollutant_trends.ozone.trend == 'DECREASING' %}success{% else %}info{% endif %}">
+                                    {{ air_quality.hourly_analysis.pollutant_trends.ozone.trend }}
+                                </span>
+                            </div>
+                            <!-- Worst Period -->
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Worst Period</span>
+                                <span class="text-warning">{{ air_quality.hourly_analysis.peak_periods.worst_air_quality.time }}</span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-3">
+                                <span>Best Period</span>
+                                <span class="text-success">{{ air_quality.hourly_analysis.peak_periods.best_air_quality.time }}</span>
+                            </div>
+                            <!-- Overall Quality Progress -->
+                            <div class="progress mb-3" style="height: 20px;">
+                                <div class="progress-bar {% if air_quality.summary.overall_quality == 'GOOD' %}bg-success {% elif air_quality.summary.overall_quality == 'MODERATE' %}bg-warning {% elif air_quality.summary.overall_quality == 'UNHEALTHY_FOR_SENSITIVE_GROUPS' %}bg-orange {% elif air_quality.summary.overall_quality == 'UNHEALTHY' %}bg-danger {% else %}bg-dark{% endif %}"
+                                     role="progressbar"
+                                     style="width: {% if air_quality.summary.overall_quality == 'GOOD' %}75% {% elif air_quality.summary.overall_quality == 'MODERATE' %}60% {% elif air_quality.summary.overall_quality == 'UNHEALTHY_FOR_SENSITIVE_GROUPS' %}45% {% elif air_quality.summary.overall_quality == 'UNHEALTHY' %}30% {% else %}15%{% endif %}">
+                                    Air Quality: {{ air_quality.summary.overall_quality }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Quick Actions & Alerts -->
+                <div class="col-sm-12 col-md-6 col-xl-4">
+                    <div class="h-100 bg-secondary rounded p-4">
+                        <div class="d-flex align-items-center justify-content-between mb-4">
+                            <h6 class="mb-0">Quick Actions & Alerts</h6>
+                        </div>
+                        <!-- Alerts -->
+                        <div class="mb-4">
+                            <h6 class="mb-3 text-warning">Active Alerts</h6>
+                            {% for alert in air_quality.alerts %}
+                                <div class="alert alert-{% if alert.level == 'SEVERE' %}danger{% elif alert.level == 'HIGH' %}warning{% else %}info{% endif %} mb-2 py-2">
+                                    <small>
+                                        <strong>{{ alert.type }}</strong>
+                                        <br>
+                                        {{ alert.message }}
+                                    </small>
+                                </div>
+                            {% empty %}
+                                <div class="alert alert-info mb-2 py-2">
+                                    <small>
+                                        <strong>No Alerts</strong>
+                                        <br>
+                                        Enjoy...
+                                    </small>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <!-- Health Recommendations -->
+                        <div class="mt-4">
+                            <h6 class="mb-3">Health Recommendations</h6>
+                            <ul class="list-unstyled small">
+                                {% for recommendation in air_quality.health_recommendations.general_population|slice:":3" %}
+                                    <li class="mb-1">• {{ recommendation }}</li>
+                                {% empty %}
+                                    <li class="mb-1">Inhale, relax</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
-            
-            <!-- Location & API Info -->
-            <div class="col-sm-12 col-xl-4">
-                <div class="bg-secondary rounded p-4">
-                    <h6 class="mb-4 text-warning">Location & API Information</h6>
-                    <div class="table-responsive">
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Parameter</th>
-                                    <th>Value</th>
-                                    <th>Description</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Location</td>
-                                    <td>{{ air_quality.location_info.location_name }}</td>
-                                    <td>Monitoring location</td>
-                                </tr>
-                                <tr>
-                                    <td>Latitude</td>
-                                    <td>{{ air_quality.location_info.latitude }}</td>
-                                    <td>Location latitude</td>
-                                </tr>
-                                <tr>
-                                    <td>Longitude</td>
-                                    <td>{{ air_quality.location_info.longitude }}</td>
-                                    <td>Location longitude</td>
-                                </tr>
-                                <tr>
-                                    <td>Elevation</td>
-                                    <td>{{ air_quality.location_info.elevation }} m</td>
-                                    <td>Location elevation</td>
-                                </tr>
-                                <tr>
-                                    <td>Timezone</td>
-                                    <td>{{ air_quality.location_info.timezone }}</td>
-                                    <td>Location timezone</td>
-                                </tr>
-                            </tbody>
-                        </table>
+        </div>
+        <!-- Air Quality Widgets End -->
+        <!-- Historical Analysis Start -->
+        <div class="container-fluid pt-4 px-3">
+            <div class="row g-4">
+                <!-- Weekly Pollutant Trends -->
+                <div class="col-sm-12 col-xl-4">
+                    <div class="bg-secondary rounded p-4">
+                        <h6 class="mb-4 text-warning">Air Quality Summary</h6>
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Metric</th>
+                                        <th>Value</th>
+                                        <th>Status</th>
+                                        <th>Trend</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Overall Quality</td>
+                                        <td>{{ air_quality.summary.overall_quality }}</td>
+                                        <td>
+                                            <span class="badge {% if air_quality.summary.overall_quality == 'GOOD' %}bg-success {% elif air_quality.summary.overall_quality == 'MODERATE' %}bg-warning {% else %}bg-danger{% endif %}">
+                                                {{ air_quality.summary.overall_quality }}
+                                            </span>
+                                        </td>
+                                        <td>{{ air_quality.summary.outlook }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Primary Concern</td>
+                                        <td>{{ air_quality.summary.primary_concern }}</td>
+                                        <td>{{ air_quality.current_conditions.dominant_pollutant }}</td>
+                                        <td>-</td>
+                                    </tr>
+                                    <tr>
+                                        <td>PM2.5 Average</td>
+                                        <td>{{ air_quality.hourly_analysis.statistical_summary.pm2_5.avg }} µg/m³</td>
+                                        <td>{{ air_quality.current_conditions.primary_pollutants.pm2_5.category }}</td>
+                                        <td>{{ air_quality.hourly_analysis.pollutant_trends.pm2_5.trend }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>PM10 Average</td>
+                                        <td>{{ air_quality.hourly_analysis.statistical_summary.pm10.avg }} µg/m³</td>
+                                        <td>{{ air_quality.current_conditions.primary_pollutants.pm10.category }}</td>
+                                        <td>{{ air_quality.hourly_analysis.pollutant_trends.pm10.trend }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Unhealthy Hours</td>
+                                        <td>{{ air_quality.hourly_analysis.statistical_summary.pm2_5.above_unhealthy_hours }}/24</td>
+                                        <td>
+                                            {% if air_quality.hourly_analysis.statistical_summary.pm2_5.above_unhealthy_hours > 12 %}
+                                                <span class="badge bg-danger">High</span>
+                                            {% elif air_quality.hourly_analysis.statistical_summary.pm2_5.above_unhealthy_hours > 6 %}
+                                                <span class="badge bg-warning">Medium</span>
+                                            {% else %}
+                                                <span class="badge bg-success">Low</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>-</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- Location Parameters -->
-            <div class="col-sm-12 col-xl-4">
-                <div class="card shadow-sm h-100 bg-secondary p-3">
-                    <div class="">
-                        <h6 class="mb-0 text-warning px-3"></i> Select Location</h6>
+                <!-- Location & API Info -->
+                <div class="col-sm-12 col-xl-4">
+                    <div class="bg-secondary rounded p-4">
+                        <h6 class="mb-4 text-warning">Location & API Information</h6>
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Parameter</th>
+                                        <th>Value</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Location</td>
+                                        <td>{{ air_quality.location_info.location_name }}</td>
+                                        <td>Monitoring location</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Latitude</td>
+                                        <td>{{ air_quality.location_info.latitude }}</td>
+                                        <td>Location latitude</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Longitude</td>
+                                        <td>{{ air_quality.location_info.longitude }}</td>
+                                        <td>Location longitude</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Elevation</td>
+                                        <td>{{ air_quality.location_info.elevation }} m</td>
+                                        <td>Location elevation</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Timezone</td>
+                                        <td>{{ air_quality.location_info.timezone }}</td>
+                                        <td>Location timezone</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-
+                </div>
+                <!-- Location Parameters -->
+                <div class="col-sm-12 col-xl-4">
+                    <div class="card shadow-sm h-100 bg-secondary p-3">
+                        <div class="">
+                            <h6 class="mb-0 text-warning px-3">
+                            </i> Select Location
+                        </h6>
+                    </div>
                     <div class="card-body">
                         <div class="row g-2">
                             <div class="col-6">
                                 <label class="form-label small">Latitude</label>
-                                <input type="number" class="form-control form-control-sm" name="lat" value="-1.286389" step="any">
+                                <input type="number"
+                                       class="form-control form-control-sm"
+                                       name="lat"
+                                       value="-1.286389"
+                                       step="any">
                             </div>
                             <div class="col-6">
                                 <label class="form-label small">Longitude</label>
-                                <input type="number" class="form-control form-control-sm" name="lon" value="36.817223" step="any">
+                                <input type="number"
+                                       class="form-control form-control-sm"
+                                       name="lon"
+                                       value="36.817223"
+                                       step="any">
                             </div>
                             <div class="col-12">
                                 <label class="form-label small">Location Name</label>
-                                <input type="text" class="form-control form-control-sm" name="name" value="Nairobi">
+                                <input type="text"
+                                       class="form-control form-control-sm"
+                                       name="name"
+                                       value="Nairobi">
                             </div>
                             <div class="col-12">
                                 <label class="form-label small">Timezone</label>
@@ -520,15 +493,9 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
     <!-- Historical Analysis End -->
-
-
-
-
-
     <!-- OpenMeteo Methodology Documentation -->
     <div class="container-fluid pt-4 px-3">
         <div class="row g-4">
@@ -536,22 +503,28 @@
                 <div class="bg-secondary rounded p-4">
                     <div class="d-flex align-items-center justify-content-between mb-4">
                         <h5 class="mb-0">OpenMeteo Air Quality Data</h5>
-                        <button type="button" class="btn btn-sm btn-outline-light" data-bs-toggle="collapse" data-bs-target="#openmeteoDocsCollapse">
+                        <button type="button"
+                                class="btn btn-sm btn-outline-light"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#openmeteoDocsCollapse">
                             <i class="fas fa-book me-1"></i>Toggle Documentation
                         </button>
                     </div>
-                    
                     <div class="collapse show" id="openmeteoDocsCollapse">
                         <div class="accordion" id="openmeteoDocsAccordion">
-                            
                             <!-- Air Quality Parameters -->
                             <div class="accordion-item bg-dark border-dark">
                                 <h2 class="accordion-header">
-                                    <button class="accordion-button bg-dark text-light" type="button" data-bs-toggle="collapse" data-bs-target="#airQualityParameters">
+                                    <button class="accordion-button bg-dark text-light"
+                                            type="button"
+                                            data-bs-toggle="collapse"
+                                            data-bs-target="#airQualityParameters">
                                         <i class="fas fa-wind me-2"></i>Air Quality Parameters & Health Impacts
                                     </button>
                                 </h2>
-                                <div id="airQualityParameters" class="accordion-collapse collapse show" data-bs-parent="#openmeteoDocsAccordion">
+                                <div id="airQualityParameters"
+                                     class="accordion-collapse collapse show"
+                                     data-bs-parent="#openmeteoDocsAccordion">
                                     <div class="accordion-body">
                                         <div class="row g-4">
                                             <div class="col-md-6 text-center">
@@ -582,38 +555,57 @@
                                     </div>
                                 </div>
                             </div>
-
                             <!-- Pollutant Details -->
                             <div class="accordion-item bg-dark border-dark">
                                 <h2 class="accordion-header">
-                                    <button class="accordion-button bg-dark text-light collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#pollutantDetails">
+                                    <button class="accordion-button bg-dark text-light collapsed"
+                                            type="button"
+                                            data-bs-toggle="collapse"
+                                            data-bs-target="#pollutantDetails">
                                         <i class="fas fa-exclamation-triangle me-2"></i>Pollutant Details & Sources
                                     </button>
                                 </h2>
-                                <div id="pollutantDetails" class="accordion-collapse collapse" data-bs-parent="#openmeteoDocsAccordion">
+                                <div id="pollutantDetails"
+                                     class="accordion-collapse collapse"
+                                     data-bs-parent="#openmeteoDocsAccordion">
                                     <div class="accordion-body">
                                         <h6 class="text-warning mb-3">Detailed Pollutant Information</h6>
                                         <div class="row g-3 mb-4">
                                             <div class="col-md-6">
                                                 <h6 class="text-info">Particulate Matter</h6>
                                                 <ul class="text-light small">
-                                                    <li><strong>PM2.5:</strong> Fine particles ≤2.5µm - from combustion, industrial processes</li>
-                                                    <li><strong>PM10:</strong> Coarse particles ≤10µm - from dust, pollen, construction</li>
-                                                    <li><strong>Health Effects:</strong> Respiratory and cardiovascular diseases</li>
-                                                    <li><strong>Standards:</strong> WHO recommends PM2.5 &lt; 10 µg/m³ annual mean</li>
+                                                    <li>
+                                                        <strong>PM2.5:</strong> Fine particles ≤2.5µm - from combustion, industrial processes
+                                                    </li>
+                                                    <li>
+                                                        <strong>PM10:</strong> Coarse particles ≤10µm - from dust, pollen, construction
+                                                    </li>
+                                                    <li>
+                                                        <strong>Health Effects:</strong> Respiratory and cardiovascular diseases
+                                                    </li>
+                                                    <li>
+                                                        <strong>Standards:</strong> WHO recommends PM2.5 &lt; 10 µg/m³ annual mean
+                                                    </li>
                                                 </ul>
                                             </div>
                                             <div class="col-md-6">
                                                 <h6 class="text-info">Gaseous Pollutants</h6>
                                                 <ul class="text-light small">
-                                                    <li><strong>O₃ (Ozone):</strong> Ground-level ozone from chemical reactions</li>
-                                                    <li><strong>NO₂ (Nitrogen Dioxide):</strong> From vehicle emissions, power plants</li>
-                                                    <li><strong>SO₂ (Sulfur Dioxide):</strong> From burning fossil fuels</li>
-                                                    <li><strong>CO (Carbon Monoxide):</strong> From incomplete combustion</li>
+                                                    <li>
+                                                        <strong>O₃ (Ozone):</strong> Ground-level ozone from chemical reactions
+                                                    </li>
+                                                    <li>
+                                                        <strong>NO₂ (Nitrogen Dioxide):</strong> From vehicle emissions, power plants
+                                                    </li>
+                                                    <li>
+                                                        <strong>SO₂ (Sulfur Dioxide):</strong> From burning fossil fuels
+                                                    </li>
+                                                    <li>
+                                                        <strong>CO (Carbon Monoxide):</strong> From incomplete combustion
+                                                    </li>
                                                 </ul>
                                             </div>
                                         </div>
-
                                         <h6 class="text-warning mb-3">Pollutant Sources & Characteristics</h6>
                                         <div class="row text-center mb-4">
                                             <div class="col-md-4">
@@ -641,47 +633,68 @@
                                                 <small class="text-light">Wildfires, dust, vegetation</small>
                                             </div>
                                         </div>
-
                                         <div class="row g-3">
                                             <div class="col-md-6">
                                                 <h6 class="text-success">Sample OpenMeteo API Call</h6>
                                                 <div class="bg-dark p-3 rounded">
                                                     <code class="text-light small">
-# OpenMeteo Air Quality API<br>
-https://air-quality-api.open-meteo.com/v1/air-quality?<br>
-latitude=33.44&longitude=-94.04&<br>
-hourly=pm10,pm2_5,ozone,nitrogen_dioxide,<br>
-sulphur_dioxide,carbon_monoxide<br><br>
-
-# Response includes hourly data for all parameters<br>
-# with European CAMS model forecasts
+                                                        # OpenMeteo Air Quality API
+                                                        <br>
+                                                        https://air-quality-api.open-meteo.com/v1/air-quality?
+                                                        <br>
+                                                        latitude=33.44&longitude=-94.04&
+                                                        <br>
+                                                        hourly=pm10,pm2_5,ozone,nitrogen_dioxide,
+                                                        <br>
+                                                        sulphur_dioxide,carbon_monoxide
+                                                        <br>
+                                                        <br>
+                                                        # Response includes hourly data for all parameters
+                                                        <br>
+                                                        # with European CAMS model forecasts
                                                     </code>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <h6 class="text-success">Data Fields & Units</h6>
                                                 <ul class="text-light small">
-                                                    <li><strong>pm2_5:</strong> PM2.5 in µg/m³</li>
-                                                    <li><strong>pm10:</strong> PM10 in µg/m³</li>
-                                                    <li><strong>ozone:</strong> O₃ in µg/m³</li>
-                                                    <li><strong>nitrogen_dioxide:</strong> NO₂ in µg/m³</li>
-                                                    <li><strong>sulphur_dioxide:</strong> SO₂ in µg/m³</li>
-                                                    <li><strong>carbon_monoxide:</strong> CO in mg/m³</li>
+                                                    <li>
+                                                        <strong>pm2_5:</strong> PM2.5 in µg/m³
+                                                    </li>
+                                                    <li>
+                                                        <strong>pm10:</strong> PM10 in µg/m³
+                                                    </li>
+                                                    <li>
+                                                        <strong>ozone:</strong> O₃ in µg/m³
+                                                    </li>
+                                                    <li>
+                                                        <strong>nitrogen_dioxide:</strong> NO₂ in µg/m³
+                                                    </li>
+                                                    <li>
+                                                        <strong>sulphur_dioxide:</strong> SO₂ in µg/m³
+                                                    </li>
+                                                    <li>
+                                                        <strong>carbon_monoxide:</strong> CO in mg/m³
+                                                    </li>
                                                 </ul>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
                             <!-- Air Quality Index -->
                             <div class="accordion-item bg-dark border-dark">
                                 <h2 class="accordion-header">
-                                    <button class="accordion-button bg-dark text-light collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#aqiExplanation">
+                                    <button class="accordion-button bg-dark text-light collapsed"
+                                            type="button"
+                                            data-bs-toggle="collapse"
+                                            data-bs-target="#aqiExplanation">
                                         <i class="fas fa-chart-line me-2"></i>Air Quality Index (AQI) Calculation
                                     </button>
                                 </h2>
-                                <div id="aqiExplanation" class="accordion-collapse collapse" data-bs-parent="#openmeteoDocsAccordion">
+                                <div id="aqiExplanation"
+                                     class="accordion-collapse collapse"
+                                     data-bs-parent="#openmeteoDocsAccordion">
                                     <div class="accordion-body">
                                         <div class="row g-3">
                                             <div class="col-md-6">
@@ -701,37 +714,49 @@ sulphur_dioxide,carbon_monoxide<br><br>
                                                                 <td>0-50</td>
                                                                 <td>Good</td>
                                                                 <td>Minimal impact</td>
-                                                                <td><span class="badge bg-success">Green</span></td>
+                                                                <td>
+                                                                    <span class="badge bg-success">Green</span>
+                                                                </td>
                                                             </tr>
                                                             <tr>
                                                                 <td>51-100</td>
                                                                 <td>Moderate</td>
                                                                 <td>Acceptable</td>
-                                                                <td><span class="badge bg-warning">Yellow</span></td>
+                                                                <td>
+                                                                    <span class="badge bg-warning">Yellow</span>
+                                                                </td>
                                                             </tr>
                                                             <tr>
                                                                 <td>101-150</td>
                                                                 <td>Unhealthy for SG</td>
                                                                 <td>Sensitive groups</td>
-                                                                <td><span class="badge bg-orange">Orange</span></td>
+                                                                <td>
+                                                                    <span class="badge bg-orange">Orange</span>
+                                                                </td>
                                                             </tr>
                                                             <tr>
                                                                 <td>151-200</td>
                                                                 <td>Unhealthy</td>
                                                                 <td>Everyone affected</td>
-                                                                <td><span class="badge bg-danger">Red</span></td>
+                                                                <td>
+                                                                    <span class="badge bg-danger">Red</span>
+                                                                </td>
                                                             </tr>
                                                             <tr>
                                                                 <td>201-300</td>
                                                                 <td>Very Unhealthy</td>
                                                                 <td>Health warnings</td>
-                                                                <td><span class="badge bg-purple">Purple</span></td>
+                                                                <td>
+                                                                    <span class="badge bg-purple">Purple</span>
+                                                                </td>
                                                             </tr>
                                                             <tr>
                                                                 <td>301+</td>
                                                                 <td>Hazardous</td>
                                                                 <td>Emergency conditions</td>
-                                                                <td><span class="badge bg-maroon">Maroon</span></td>
+                                                                <td>
+                                                                    <span class="badge bg-maroon">Maroon</span>
+                                                                </td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
@@ -775,15 +800,19 @@ sulphur_dioxide,carbon_monoxide<br><br>
                                     </div>
                                 </div>
                             </div>
-
                             <!-- OpenMeteo API -->
                             <div class="accordion-item bg-dark border-dark">
                                 <h2 class="accordion-header">
-                                    <button class="accordion-button bg-dark text-light collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#openmeteoAPI">
+                                    <button class="accordion-button bg-dark text-light collapsed"
+                                            type="button"
+                                            data-bs-toggle="collapse"
+                                            data-bs-target="#openmeteoAPI">
                                         <i class="fas fa-code me-2"></i>OpenMeteo API Integration
                                     </button>
                                 </h2>
-                                <div id="openmeteoAPI" class="accordion-collapse collapse" data-bs-parent="#openmeteoDocsAccordion">
+                                <div id="openmeteoAPI"
+                                     class="accordion-collapse collapse"
+                                     data-bs-parent="#openmeteoDocsAccordion">
                                     <div class="accordion-body">
                                         <div class="row g-3">
                                             <div class="col-md-4 text-center">
@@ -811,7 +840,6 @@ sulphur_dioxide,carbon_monoxide<br><br>
                                                 </div>
                                             </div>
                                         </div>
-                                        
                                         <h6 class="text-warning mt-4 mb-3">API Endpoints & Features</h6>
                                         <div class="table-responsive">
                                             <table class="table table-sm table-dark">
@@ -849,16 +877,16 @@ sulphur_dioxide,carbon_monoxide<br><br>
                                                 </tbody>
                                             </table>
                                         </div>
-                                        
                                         <div class="alert alert-success mt-3">
                                             <small>
                                                 <i class="fas fa-graduation-cap me-2"></i>
-                                                <strong>Technical Resource:</strong> For detailed technical information about CAMS air quality data, visit the 
-                                                <a href="https://atmosphere.copernicus.eu/" class="alert-link" target="_blank">Copernicus Atmosphere Monitoring Service</a> and 
+                                                <strong>Technical Resource:</strong> For detailed technical information about CAMS air quality data, visit the
+                                                <a href="https://atmosphere.copernicus.eu/"
+                                                   class="alert-link"
+                                                   target="_blank">Copernicus Atmosphere Monitoring Service</a> and
                                                 <a href="https://open-meteo.com/" class="alert-link" target="_blank">Open-Meteo Documentation</a>.
                                             </small>
                                         </div>
-
                                         <h6 class="text-warning mt-3">Data Accuracy & Limitations</h6>
                                         <div class="row g-3">
                                             <div class="col-md-6">
@@ -889,9 +917,7 @@ sulphur_dioxide,carbon_monoxide<br><br>
             </div>
         </div>
     </div>
-
     {% include 'analytics/footer.html' %}
 </div>
 <!-- Content End -->
-
 {% endblock %}

@@ -9,9 +9,11 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+
 def home_view(request):
     context = {}
     return render(request, "onboarding/index.html", context)
+
 
 def profile_view(request):
     profile = Profile.objects.get(user=request.user)
@@ -34,26 +36,30 @@ def profile_view(request):
     return render(request, "analytics/profile.html", context)
 
 
-
 def features_view(request):
     context = {}
     return render(request, "onboarding/features.html", context)
+
 
 def data_sources_view(request):
     context = {}
     return render(request, "onboarding/data_sources.html", context)
 
+
 def solutions_view(request):
     context = {}
     return render(request, "onboarding/solutions.html", context)
+
 
 def pv_modelling_view(request):
     context = {}
     return render(request, "onboarding/pv_modelling.html", context)
 
+
 def climate_projection_view(request):
     context = {}
     return render(request, "onboarding/climate_projection.html", context)
+
 
 def signin_view(request):
     if request.user.is_authenticated:
@@ -69,9 +75,10 @@ def signin_view(request):
             return redirect("home")
         else:
             messages.error(request, "Please check your credentials and try again")
-    
+
     context = {}
     return render(request, "onboarding/signin.html", context)
+
 
 def signup_view(request):
     if request.user.is_authenticated:
@@ -85,15 +92,15 @@ def signup_view(request):
 
         if password1 == password2:
             models.User.objects.create_user(username, email, password1)
-            messages.success(request, "Account succesfully created. You can now log in.")
+            messages.success(
+                request, "Account succesfully created. You can now log in."
+            )
             return redirect("signin")
 
-    
     context = {}
     return render(request, "onboarding/signup.html", context)
+
 
 def signout_view(request):
     logout(request)
     return redirect("home")
-
-

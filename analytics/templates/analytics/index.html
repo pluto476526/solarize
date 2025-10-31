@@ -1,942 +1,1129 @@
 {% extends 'analytics/main.html' %}
 {% load static %}
-
 {% block main %}
-
-
-<!-- Content Start -->
-<div class="content">
-    <!-- Navbar Start -->
-    {% include 'analytics/nav.html' %}
-    <!-- Navbar End -->
-
-
-    <!-- App Overview & Tools -->
-    <div class="container-fluid pt-4 px-3">
-        <div class="row g-4">
-            <!-- pvlib Version -->
-            <div class="col-sm-6 col-xl-3">
-                <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
-                    <i class="fas fa-code fa-3x text-warning"></i>
-                    <div class="ms-3">
-                        <p class="mb-2">pvlib Version</p>
-                        <h6 class="mb-0">v0.13.1</h6>
-                        <small class="text-muted">Advanced Solar Modeling</small>
-                    </div>
-                </div>
-            </div>
-
-            <!-- PVWatts Version -->
-            <div class="col-sm-6 col-xl-3">
-                <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
-                    <i class="fas fa-calculator fa-3x text-warning"></i>
-                    <div class="ms-3">
-                        <p class="mb-2">PVWatts Engine</p>
-                        <h6 class="mb-0">v8</h6>
-                        <small class="text-muted">NREL Standard Model</small>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Data Source: PVGIS -->
-            <div class="col-sm-6 col-xl-3">
-                <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
-                    <i class="fas fa-globe-europe fa-3x text-primary"></i>
-                    <div class="ms-3">
-                        <p class="mb-2">TMY Data Source</p>
-                        <h6 class="mb-0">PVGIS v5.2</h6>
-                        <small class="text-muted">EU Joint Research Centre</small>
-                    </div>
-                </div>
-            </div>
-
-            <!-- NASA POWER -->
-            <div class="col-sm-6 col-xl-3">
-                <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
-                    <i class="fas fa-satellite-dish fa-3x text-info"></i>
-                    <div class="ms-3">
-                        <p class="mb-2">Climate Data</p>
-                        <h6 class="mb-0">NASA POWER</h6>
-                        <small class="text-muted">Global Coverage 1981–Present</small>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- End: App Overview -->
-
-    <!-- Modeling Capabilities -->
-    <div class="container-fluid pt-4 px-3">
-        <div class="bg-secondary rounded p-4">
-            <h5 class="text-warning mb-4">Supported System Types</h5>
-            <div class="row text-center align-items-stretch">
-                <!-- Fixed Mount -->
-                <div class="col-6 col-md-3 border-end border-light">
-                    <div class="p-3 h-100">
-                        <i class="fas fa-home fa-2x text-info mb-2"></i>
-                        <p class="fw-bold mb-1">Fixed Mount</p>
-                        <small class="text-muted d-block">
-                            Stationary modules set at a fixed tilt for simplicity and minimal upkeep.
-                        </small>
-                    </div>
-                </div>
-
-                <!-- Single-Axis Tracker -->
-                <div class="col-6 col-md-3 border-end border-light">
-                    <div class="p-3 h-100">
-                        <i class="fas fa-sync fa-2x text-info mb-2"></i>
-                        <p class="fw-bold mb-1">Single-Axis Tracker</p>
-                        <small class="text-muted d-block">
-                            Rotates east to west to capture sunlight throughout the day.
-                        </small>
-                    </div>
-                </div>
-
-                <!-- Dual-Axis Tracker -->
-                <div class="col-6 col-md-3 border-end border-light">
-                    <div class="p-3 h-100">
-                        <i class="fas fa-sync-alt fa-2x text-info mb-2"></i>
-                        <p class="fw-bold mb-1">Dual-Axis Tracker</p>
-                        <small class="text-muted d-block">
-                            Adjusts both tilt and rotation angles for maximum daily yield.
-                        </small>
-                    </div>
-                </div>
-
-                <!-- Bifacial Modules -->
-                <div class="col-6 col-md-3">
-                    <div class="p-3 h-100">
-                        <i class="fas fa-layer-group fa-2x text-info mb-2"></i>
-                        <p class="fw-bold mb-1">Bifacial Modules</p>
-                        <small class="text-muted d-block">
-                            Harvests light from both sides for improved efficiency on reflective terrain.
-                        </small>
-                    </div>
-                </div>
-            </div>
-
-            <div class="text-center mt-4">
-                <small class="text-muted">
-                    All systems are modeled with <code>pvlib.ModelChain</code>, including temperature, IAM, spectral, and soiling losses.
-                </small>
-            </div>
-        </div>
-    </div>
-    <!-- End: Modeling Capabilities -->
-
-    <!-- Data & Accuracy -->
-    <div class="container-fluid pt-4 px-3">
-        <div class="row g-4">
-            <!-- Data Resolution & Coverage -->
-            <div class="col-sm-12 col-md-6">
-                <div class="bg-secondary rounded p-4 h-100">
-                    <h5 class="text-warning mb-3">Data Resolution & Coverage</h5>
-                    <ul class="list-unstyled mb-0 small">
-                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i><strong>Weather Data:</strong> Hourly solar irradiance & temperature</li>
-                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i><strong>Geographic Coverage:</strong> Global, with accurate local estimates</li>
-                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i><strong>Time Period:</strong> Last 10–20 years historical data</li>
-                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i><strong>Resolution:</strong> Sufficient for residential & commercial simulations</li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Model Accuracy -->
-            <div class="col-sm-12 col-md-6">
-                <div class="bg-secondary rounded p-4 h-100">
-                    <h5 class="text-warning mb-3">Model Accuracy</h5>
-                    <ul class="list-unstyled mb-0 small">
-                        <li class="mb-2"><i class="fas fa-trophy text-warning me-2"></i><strong>PVWatts Estimates:</strong> Typical error ±5–10% for annual energy</li>
-                        <li class="mb-2"><i class="fas fa-trophy text-warning me-2"></i><strong>pvlib:</strong> Matches standard reference models for most systems</li>
-                        <li class="mb-2"><i class="fas fa-shield-alt text-primary me-2"></i><strong>Bifacial Systems:</strong> Uses realistic shading & rear irradiance calculations</li>
-                        <li class="mb-2"><i class="fas fa-certificate text-info me-2"></i><strong>Transparency:</strong> Fully auditable & reproducible simulations</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- End: Data & Accuracy -->
-
-
-    <!-- Model Comparison: pvlib vs Industry Standards -->
-    <div class="container-fluid pt-4 px-3">
-        <div class="bg-secondary rounded p-4">
-            <h5 class="text-warning mb-4">pvlib vs Other Modeling Approaches</h5>
-            <div class="table-responsive">
-                <table class="table table-sm table-bordered align-middle mb-0">
-                    <thead class="table-dark">
-                        <tr>
-                            <th scope="col" class="text-center">Feature</th>
-                            <th scope="col" class="text-center">pvlib</th>
-                            <th scope="col" class="text-center">PVWatts (NREL)</th>
-                            <th scope="col" class="text-center">PVSyst</th>
-                            <th scope="col" class="text-center">SAM (NREL)</th>
-                        </tr>
-                    </thead>
-                    <tbody class="small">
-                        <tr>
-                            <td><strong>Core Engine</strong></td>
-                            <td class="text-success text-center"><i class="fas fa-check"></i> Open Source Python</td>
-                            <td class="text-center"><i class="fas fa-check"></i> Web API / Fixed Model</td>
-                            <td class="text-center"><i class="fas fa-times text-danger"></i> Proprietary</td>
-                            <td class="text-center"><i class="fas fa-check"></i> Open Source (C++/Python)</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Modeling Flexibility</strong></td>
-                            <td class="text-success text-center"><strong>High</strong> (Custom losses, bifacial, spectral)</td>
-                            <td class="text-center">Low (Fixed assumptions)</td>
-                            <td class="text-center">High (GUI-based)</td>
-                            <td class="text-center">Very High (Scriptable)</td>
-                        </tr>
-                        <tr>
-                            <td><strong>System Types</strong></td>
-                            <td class="text-success text-center">Fixed, 1-Axis, 2-Axis, Bifacial</td>
-                            <td class="text-center">Fixed, 1-Axis only</td>
-                            <td class="text-center">All types</td>
-                            <td class="text-center">All types</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Loss Modeling</strong></td>
-                            <td class="text-success text-center">IAM, Spectral, Soiling, Temp, Shading</td>
-                            <td class="text-center">Basic (temp + soiling)</td>
-                            <td class="text-center">Advanced (configurable)</td>
-                            <td class="text-center">Full control</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Bifacial Support</strong></td>
-                            <td class="text-success text-center"><i class="fas fa-check"></i> <code>pvfactors</code> view-factor</td>
-                            <td class="text-center"><i class="fas fa-times text-danger"></i> No</td>
-                            <td class="text-center"><i class="fas fa-check"></i> Yes (ray-tracing)</td>
-                            <td class="text-center"><i class="fas fa-check"></i> Yes</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Accuracy (vs Measured)</strong></td>
-                            <td class="text-center"><strong>±1–3%</strong> (validated)</td>
-                            <td class="text-center">±8% (annual)</td>
-                            <td class="text-center">±3–5%</td>
-                            <td class="text-center">±2–4%</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Cost</strong></td>
-                            <td class="text-success text-center"><strong>Free</strong> (Open Source)</td>
-                            <td class="text-center">Free</td>
-                            <td class="text-center">Paid (~$1,200/year)</td>
-                            <td class="text-center">Free</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Best For</strong></td>
-                            <td class="text-success text-center">Research, Custom Systems, Automation</td>
-                            <td class="text-center">Quick Estimates</td>
-                            <td class="text-center">Bankable Reports</td>
-                            <td class="text-center">Detailed Engineering</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="mt-3 text-center">
-                <small class="text-muted">
-                    <i class="fas fa-info-circle"></i> 
-                    Solarize uses <code>pvlib.ModelChain</code> with full loss modeling.
-                    <strong>More accurate than PVWatts</strong>, <strong>more flexible than PVSyst</strong>, and <strong>fully open</strong>.
-                </small>
-            </div>
-        </div>
-    </div>
-    <!-- End: Model Comparison -->
-
-    <!-- Recommended CEC Libraries -->
-    <div class="container-fluid pt-4 px-3">
-        <div class="bg-secondary rounded p-4">
-            <h5 class="text-warning mb-4">
-                <i class="fas fa-database me-2"></i>Component Libraries
-            </h5>
-
-            <!-- 3-Column Layout -->
+    <!-- Content Start -->
+    <div class="content">
+        <!-- Navbar Start -->
+        {% include 'analytics/nav.html' %}
+        <!-- Navbar End -->
+        <!-- App Overview & Tools -->
+        <div class="container-fluid pt-4 px-3">
             <div class="row g-4">
-                <!-- Column 1: CEC Modules -->
-                <div class="col-lg-4 col-md-6">
-                    <div class="h-100 p-4 rounded bg-dark bg-opacity-50 border border-success border-opacity-25 d-flex flex-column">
-                        <div class="d-flex align-items-center mb-3">
-                            <i class="fas fa-solar-panel fa-2x text-success me-3"></i>
-                            <h6 class="mb-0">CEC Module Library</h6>
+                <!-- pvlib Version -->
+                <div class="col-sm-6 col-xl-3">
+                    <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                        <i class="fas fa-code fa-3x text-warning"></i>
+                        <div class="ms-3">
+                            <p class="mb-2">pvlib Version</p>
+                            <h6 class="mb-0">v0.13.1</h6>
+                            <small class="text-muted">Advanced Solar Modeling</small>
                         </div>
-                        <p class="small text-light mb-2">
-                            <strong>Used by Solarize.</strong> Real-world performance from outdoor flash testing.
-                        </p>
-                        <ul class="small text-light list-unstyled mb-3 flex-grow-1">
-                            <li><i class="fas fa-check text-success me-2"></i>Updated quarterly</li>
-                            <li><i class="fas fa-check text-success me-2"></i>Over 25,000 modules</li>
-                            <li><i class="fas fa-check text-success me-2"></i>STC + NOCT + temp coeffs</li>
-                            <li><i class="fas fa-check text-success me-2"></i>Bifacial & high-efficiency</li>
-                            <li><i class="fas fa-check text-success me-2"></i>Degradation & warranty</li>
-                        </ul>
-                        <p class="small text-light mb-3">
-                            The CEC module database is the gold standard for PV system modeling in the U.S. It includes detailed electrical characteristics derived from <strong>outdoor flash testing</strong> under real operating conditions, making it far more reliable than manufacturer datasheets alone.
-                        </p>
-                        <div class="d-flex flex-wrap gap-1 mb-3">
-                            <span class="badge bg-success text-xs">Jinko</span>
-                            <span class="badge bg-success text-xs">Trina</span>
-                            <span class="badge bg-success text-xs">LONGi</span>
-                            <span class="badge bg-success text-xs">Q CELLS</span>
-                            <span class="badge bg-success text-xs">REC</span>
-                        </div>
-                        <a href="https://solarequipment.energy.ca.gov/Home/PVModuleList" target="_blank" 
-                           class="btn btn-sm btn-outline-success mt-auto">
-                            <i class="fa fa-list me-2"></i> View CEC PV Modules
-                        </a>
-
                     </div>
                 </div>
-
-                <!-- Column 2: CEC Inverters -->
-                <div class="col-lg-4 col-md-6">
-                    <div class="h-100 p-4 rounded bg-dark bg-opacity-50 border border-info border-opacity-25 d-flex flex-column">
-                        <div class="d-flex align-items-center mb-3">
-                            <i class="fas fa-plug fa-2x text-info me-3"></i>
-                            <h6 class="mb-0">CEC Inverter Library</h6>
+                <!-- PVWatts Version -->
+                <div class="col-sm-6 col-xl-3">
+                    <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                        <i class="fas fa-calculator fa-3x text-warning"></i>
+                        <div class="ms-3">
+                            <p class="mb-2">PVWatts Engine</p>
+                            <h6 class="mb-0">v8</h6>
+                            <small class="text-muted">NREL Standard Model</small>
                         </div>
-                        <p class="small text-light mb-2">
-                            <strong>Used by Solarize.</strong> Efficiency curves from CEC lab testing.
-                        </p>
-                        <ul class="small text-light list-unstyled mb-3 flex-grow-1">
-                            <li><i class="fas fa-check text-info me-2"></i>Over 3,000 inverters</li>
-                            <li><i class="fas fa-check text-info me-2"></i>MPPT voltage ranges</li>
-                            <li><i class="fas fa-check text-info me-2"></i>AC/DC clipping</li>
-                            <li><i class="fas fa-check text-info me-2"></i>Nightly updated</li>
-                            <li><i class="fas fa-check text-info me-2"></i>Partial load efficiency</li>
-                        </ul>
-                        <p class="small text-light mb-3">
-                            CEC inverter data comes from <strong>independent lab testing</strong> using the <em>California Energy Commission protocol</em>, which measures performance across voltage, load, and temperature. These parameters are critical for accurate DC-to-AC conversion modeling.
-                        </p>
-                        <div class="d-flex flex-wrap gap-1 mb-3">
-                            <span class="badge bg-info text-dark text-xs">SolarEdge</span>
-                            <span class="badge bg-info text-dark text-xs">Enphase</span>
-                            <span class="badge bg-info text-dark text-xs">SMA</span>
-                            <span class="badge bg-info text-dark text-xs">Fronius</span>
-                            <span class="badge bg-info text-dark text-xs">Huawei</span>
-                        </div>
-                        <a href="https://solarequipment.energy.ca.gov/Home/InverterSolarList" target="_blank" 
-                           class="btn btn-sm btn-outline-info mt-auto">
-                            <i class="fa fa-list me-2"></i> View CEC Inverters List
-                        </a>
                     </div>
                 </div>
-
-                <!-- Column 3: Why CEC? + Sources -->
-                <div class="col-lg-4">
-                    <div class="h-100 p-4 rounded bg-dark bg-opacity-75 border border-warning border-opacity-25 d-flex flex-column">
-                        <div class="d-flex align-items-center mb-3">
-                            <i class="fas fa-exclamation-circle fa-2x text-warning me-3"></i>
-                            <h6 class="mb-0">Why CEC Data?</h6>
+                <!-- Data Source: PVGIS -->
+                <div class="col-sm-6 col-xl-3">
+                    <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                        <i class="fas fa-globe-europe fa-3x text-primary"></i>
+                        <div class="ms-3">
+                            <p class="mb-2">TMY Data Source</p>
+                            <h6 class="mb-0">PVGIS v5.2</h6>
+                            <small class="text-muted">EU Joint Research Centre</small>
                         </div>
-                        <p class="small text-light mb-2">
-                            Unlike <strong>SANDIA</strong> (lab-only, idealized conditions) or manufacturer datasheets (often optimistic), 
-                            <strong>CEC data reflects real-world performance</strong> — tested outdoors under varying irradiance, temperature, and soiling.
-                        </p>
-                        <ul class="small text-light list-unstyled mb-3 flex-grow-1">
-                            <li><i class="fas fa-arrow-right text-warning me-2"></i>±2–3% yield accuracy</li>
-                            <li><i class="fas fa-arrow-right text-warning me-2"></i>Used by utilities & incentives</li>
-                            <li><i class="fas fa-arrow-right text-warning me-2"></i>In SAM, PVsyst, HelioScope</li>
+                    </div>
+                </div>
+                <!-- NASA POWER -->
+                <div class="col-sm-6 col-xl-3">
+                    <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                        <i class="fas fa-satellite-dish fa-3x text-info"></i>
+                        <div class="ms-3">
+                            <p class="mb-2">Climate Data</p>
+                            <h6 class="mb-0">NASA POWER</h6>
+                            <small class="text-muted">Global Coverage 1981–Present</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End: App Overview -->
+        <!-- Modeling Capabilities -->
+        <div class="container-fluid pt-4 px-3">
+            <div class="bg-secondary rounded p-4">
+                <h5 class="text-warning mb-4">Supported System Types</h5>
+                <div class="row text-center align-items-stretch">
+                    <!-- Fixed Mount -->
+                    <div class="col-6 col-md-3 border-end border-light">
+                        <div class="p-3 h-100">
+                            <i class="fas fa-home fa-2x text-info mb-2"></i>
+                            <p class="fw-bold mb-1">Fixed Mount</p>
+                            <small class="text-muted d-block">Stationary modules set at a fixed tilt for simplicity and minimal upkeep.</small>
+                        </div>
+                    </div>
+                    <!-- Single-Axis Tracker -->
+                    <div class="col-6 col-md-3 border-end border-light">
+                        <div class="p-3 h-100">
+                            <i class="fas fa-sync fa-2x text-info mb-2"></i>
+                            <p class="fw-bold mb-1">Single-Axis Tracker</p>
+                            <small class="text-muted d-block">Rotates east to west to capture sunlight throughout the day.</small>
+                        </div>
+                    </div>
+                    <!-- Dual-Axis Tracker -->
+                    <div class="col-6 col-md-3 border-end border-light">
+                        <div class="p-3 h-100">
+                            <i class="fas fa-sync-alt fa-2x text-info mb-2"></i>
+                            <p class="fw-bold mb-1">Dual-Axis Tracker</p>
+                            <small class="text-muted d-block">Adjusts both tilt and rotation angles for maximum daily yield.</small>
+                        </div>
+                    </div>
+                    <!-- Bifacial Modules -->
+                    <div class="col-6 col-md-3">
+                        <div class="p-3 h-100">
+                            <i class="fas fa-layer-group fa-2x text-info mb-2"></i>
+                            <p class="fw-bold mb-1">Bifacial Modules</p>
+                            <small class="text-muted d-block">Harvests light from both sides for improved efficiency on reflective terrain.</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center mt-4">
+                    <small class="text-muted">
+                        All systems are modeled with <code>pvlib.ModelChain</code>, including temperature, IAM, spectral, and soiling losses.
+                    </small>
+                </div>
+            </div>
+        </div>
+        <!-- End: Modeling Capabilities -->
+        <!-- Data & Accuracy -->
+        <div class="container-fluid pt-4 px-3">
+            <div class="row g-4">
+                <!-- Data Resolution & Coverage -->
+                <div class="col-sm-12 col-md-6">
+                    <div class="bg-secondary rounded p-4 h-100">
+                        <h5 class="text-warning mb-3">Data Resolution & Coverage</h5>
+                        <ul class="list-unstyled mb-0 small">
+                            <li class="mb-2">
+                                <i class="fas fa-check text-success me-2"></i><strong>Weather Data:</strong> Hourly solar irradiance & temperature
+                            </li>
+                            <li class="mb-2">
+                                <i class="fas fa-check text-success me-2"></i><strong>Geographic Coverage:</strong> Global, with accurate local estimates
+                            </li>
+                            <li class="mb-2">
+                                <i class="fas fa-check text-success me-2"></i><strong>Time Period:</strong> Last 10–20 years historical data
+                            </li>
+                            <li class="mb-2">
+                                <i class="fas fa-check text-success me-2"></i><strong>Resolution:</strong> Sufficient for residential & commercial simulations
+                            </li>
                         </ul>
-
-                        <div class="mt-auto">
+                    </div>
+                </div>
+                <!-- Model Accuracy -->
+                <div class="col-sm-12 col-md-6">
+                    <div class="bg-secondary rounded p-4 h-100">
+                        <h5 class="text-warning mb-3">Model Accuracy</h5>
+                        <ul class="list-unstyled mb-0 small">
+                            <li class="mb-2">
+                                <i class="fas fa-trophy text-warning me-2"></i><strong>PVWatts Estimates:</strong> Typical error ±5–10% for annual energy
+                            </li>
+                            <li class="mb-2">
+                                <i class="fas fa-trophy text-warning me-2"></i><strong>pvlib:</strong> Matches standard reference models for most systems
+                            </li>
+                            <li class="mb-2">
+                                <i class="fas fa-shield-alt text-primary me-2"></i><strong>Bifacial Systems:</strong> Uses realistic shading & rear irradiance calculations
+                            </li>
+                            <li class="mb-2">
+                                <i class="fas fa-certificate text-info me-2"></i><strong>Transparency:</strong> Fully auditable & reproducible simulations
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End: Data & Accuracy -->
+        <!-- Model Comparison: pvlib vs Industry Standards -->
+        <div class="container-fluid pt-4 px-3">
+            <div class="bg-secondary rounded p-4">
+                <h5 class="text-warning mb-4">pvlib vs Other Modeling Approaches</h5>
+                <div class="table-responsive">
+                    <table class="table table-sm table-bordered align-middle mb-0">
+                        <thead class="table-dark">
+                            <tr>
+                                <th scope="col" class="text-center">Feature</th>
+                                <th scope="col" class="text-center">pvlib</th>
+                                <th scope="col" class="text-center">PVWatts (NREL)</th>
+                                <th scope="col" class="text-center">PVSyst</th>
+                                <th scope="col" class="text-center">SAM (NREL)</th>
+                            </tr>
+                        </thead>
+                        <tbody class="small">
+                            <tr>
+                                <td>
+                                    <strong>Core Engine</strong>
+                                </td>
+                                <td class="text-success text-center">
+                                    <i class="fas fa-check"></i> Open Source Python
+                                </td>
+                                <td class="text-center">
+                                    <i class="fas fa-check"></i> Web API / Fixed Model
+                                </td>
+                                <td class="text-center">
+                                    <i class="fas fa-times text-danger"></i> Proprietary
+                                </td>
+                                <td class="text-center">
+                                    <i class="fas fa-check"></i> Open Source (C++/Python)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Modeling Flexibility</strong>
+                                </td>
+                                <td class="text-success text-center">
+                                    <strong>High</strong> (Custom losses, bifacial, spectral)
+                                </td>
+                                <td class="text-center">Low (Fixed assumptions)</td>
+                                <td class="text-center">High (GUI-based)</td>
+                                <td class="text-center">Very High (Scriptable)</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>System Types</strong>
+                                </td>
+                                <td class="text-success text-center">Fixed, 1-Axis, 2-Axis, Bifacial</td>
+                                <td class="text-center">Fixed, 1-Axis only</td>
+                                <td class="text-center">All types</td>
+                                <td class="text-center">All types</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Loss Modeling</strong>
+                                </td>
+                                <td class="text-success text-center">IAM, Spectral, Soiling, Temp, Shading</td>
+                                <td class="text-center">Basic (temp + soiling)</td>
+                                <td class="text-center">Advanced (configurable)</td>
+                                <td class="text-center">Full control</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Bifacial Support</strong>
+                                </td>
+                                <td class="text-success text-center">
+                                    <i class="fas fa-check"></i> <code>pvfactors</code> view-factor
+                                </td>
+                                <td class="text-center">
+                                    <i class="fas fa-times text-danger"></i> No
+                                </td>
+                                <td class="text-center">
+                                    <i class="fas fa-check"></i> Yes (ray-tracing)
+                                </td>
+                                <td class="text-center">
+                                    <i class="fas fa-check"></i> Yes
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Accuracy (vs Measured)</strong>
+                                </td>
+                                <td class="text-center">
+                                    <strong>±1–3%</strong> (validated)
+                                </td>
+                                <td class="text-center">±8% (annual)</td>
+                                <td class="text-center">±3–5%</td>
+                                <td class="text-center">±2–4%</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Cost</strong>
+                                </td>
+                                <td class="text-success text-center">
+                                    <strong>Free</strong> (Open Source)
+                                </td>
+                                <td class="text-center">Free</td>
+                                <td class="text-center">Paid (~$1,200/year)</td>
+                                <td class="text-center">Free</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Best For</strong>
+                                </td>
+                                <td class="text-success text-center">Research, Custom Systems, Automation</td>
+                                <td class="text-center">Quick Estimates</td>
+                                <td class="text-center">Bankable Reports</td>
+                                <td class="text-center">Detailed Engineering</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="mt-3 text-center">
+                    <small class="text-muted">
+                        <i class="fas fa-info-circle"></i>
+                        Solarize uses <code>pvlib.ModelChain</code> with full loss modeling.
+                        <strong>More accurate than PVWatts</strong>, <strong>more flexible than PVSyst</strong>, and <strong>fully open</strong>.
+                    </small>
+                </div>
+            </div>
+        </div>
+        <!-- End: Model Comparison -->
+        <!-- Recommended CEC Libraries -->
+        <div class="container-fluid pt-4 px-3">
+            <div class="bg-secondary rounded p-4">
+                <h5 class="text-warning mb-4">
+                    <i class="fas fa-database me-2"></i>Component Libraries
+                </h5>
+                <!-- 3-Column Layout -->
+                <div class="row g-4">
+                    <!-- Column 1: CEC Modules -->
+                    <div class="col-lg-4 col-md-6">
+                        <div class="h-100 p-4 rounded bg-dark bg-opacity-50 border border-success border-opacity-25 d-flex flex-column">
+                            <div class="d-flex align-items-center mb-3">
+                                <i class="fas fa-solar-panel fa-2x text-success me-3"></i>
+                                <h6 class="mb-0">CEC Module Library</h6>
+                            </div>
                             <p class="small text-light mb-2">
-                                <i class="fas fa-link text-info me-1"></i>
-                                <strong>Sources:</strong>
+                                <strong>Used by Solarize.</strong> Real-world performance from outdoor flash testing.
                             </p>
-                            <p class="small mb-2">
-                                <a href="https://www.energy.ca.gov/programs-and-topics/programs/solar-equipment-lists" 
-                                   target="_blank" class="text-info text-decoration-underline">
-                                    CEC Equipment Certification
+                            <ul class="small text-light list-unstyled mb-3 flex-grow-1">
+                                <li>
+                                    <i class="fas fa-check text-success me-2"></i>Updated quarterly
+                                </li>
+                                <li>
+                                    <i class="fas fa-check text-success me-2"></i>Over 25,000 modules
+                                </li>
+                                <li>
+                                    <i class="fas fa-check text-success me-2"></i>STC + NOCT + temp coeffs
+                                </li>
+                                <li>
+                                    <i class="fas fa-check text-success me-2"></i>Bifacial & high-efficiency
+                                </li>
+                                <li>
+                                    <i class="fas fa-check text-success me-2"></i>Degradation & warranty
+                                </li>
+                            </ul>
+                            <p class="small text-light mb-3">
+                                The CEC module database is the gold standard for PV system modeling in the U.S. It includes detailed electrical characteristics derived from <strong>outdoor flash testing</strong> under real operating conditions, making it far more reliable than manufacturer datasheets alone.
+                            </p>
+                            <div class="d-flex flex-wrap gap-1 mb-3">
+                                <span class="badge bg-success text-xs">Jinko</span>
+                                <span class="badge bg-success text-xs">Trina</span>
+                                <span class="badge bg-success text-xs">LONGi</span>
+                                <span class="badge bg-success text-xs">Q CELLS</span>
+                                <span class="badge bg-success text-xs">REC</span>
+                            </div>
+                            <a href="https://solarequipment.energy.ca.gov/Home/PVModuleList"
+                               target="_blank"
+                               class="btn btn-sm btn-outline-success mt-auto">
+                                <i class="fa fa-list me-2"></i> View CEC PV Modules
+                            </a>
+                        </div>
+                    </div>
+                    <!-- Column 2: CEC Inverters -->
+                    <div class="col-lg-4 col-md-6">
+                        <div class="h-100 p-4 rounded bg-dark bg-opacity-50 border border-info border-opacity-25 d-flex flex-column">
+                            <div class="d-flex align-items-center mb-3">
+                                <i class="fas fa-plug fa-2x text-info me-3"></i>
+                                <h6 class="mb-0">CEC Inverter Library</h6>
+                            </div>
+                            <p class="small text-light mb-2">
+                                <strong>Used by Solarize.</strong> Efficiency curves from CEC lab testing.
+                            </p>
+                            <ul class="small text-light list-unstyled mb-3 flex-grow-1">
+                                <li>
+                                    <i class="fas fa-check text-info me-2"></i>Over 3,000 inverters
+                                </li>
+                                <li>
+                                    <i class="fas fa-check text-info me-2"></i>MPPT voltage ranges
+                                </li>
+                                <li>
+                                    <i class="fas fa-check text-info me-2"></i>AC/DC clipping
+                                </li>
+                                <li>
+                                    <i class="fas fa-check text-info me-2"></i>Nightly updated
+                                </li>
+                                <li>
+                                    <i class="fas fa-check text-info me-2"></i>Partial load efficiency
+                                </li>
+                            </ul>
+                            <p class="small text-light mb-3">
+                                CEC inverter data comes from <strong>independent lab testing</strong> using the <em>California Energy Commission protocol</em>, which measures performance across voltage, load, and temperature. These parameters are critical for accurate DC-to-AC conversion modeling.
+                            </p>
+                            <div class="d-flex flex-wrap gap-1 mb-3">
+                                <span class="badge bg-info text-dark text-xs">SolarEdge</span>
+                                <span class="badge bg-info text-dark text-xs">Enphase</span>
+                                <span class="badge bg-info text-dark text-xs">SMA</span>
+                                <span class="badge bg-info text-dark text-xs">Fronius</span>
+                                <span class="badge bg-info text-dark text-xs">Huawei</span>
+                            </div>
+                            <a href="https://solarequipment.energy.ca.gov/Home/InverterSolarList"
+                               target="_blank"
+                               class="btn btn-sm btn-outline-info mt-auto">
+                                <i class="fa fa-list me-2"></i> View CEC Inverters List
+                            </a>
+                        </div>
+                    </div>
+                    <!-- Column 3: Why CEC? + Sources -->
+                    <div class="col-lg-4">
+                        <div class="h-100 p-4 rounded bg-dark bg-opacity-75 border border-warning border-opacity-25 d-flex flex-column">
+                            <div class="d-flex align-items-center mb-3">
+                                <i class="fas fa-exclamation-circle fa-2x text-warning me-3"></i>
+                                <h6 class="mb-0">Why CEC Data?</h6>
+                            </div>
+                            <p class="small text-light mb-2">
+                                Unlike <strong>SANDIA</strong> (lab-only, idealized conditions) or manufacturer datasheets (often optimistic),
+                                <strong>CEC data reflects real-world performance</strong> — tested outdoors under varying irradiance, temperature, and soiling.
+                            </p>
+                            <ul class="small text-light list-unstyled mb-3 flex-grow-1">
+                                <li>
+                                    <i class="fas fa-arrow-right text-warning me-2"></i>±2–3% yield accuracy
+                                </li>
+                                <li>
+                                    <i class="fas fa-arrow-right text-warning me-2"></i>Used by utilities & incentives
+                                </li>
+                                <li>
+                                    <i class="fas fa-arrow-right text-warning me-2"></i>In SAM, PVsyst, HelioScope
+                                </li>
+                            </ul>
+                            <div class="mt-auto">
+                                <p class="small text-light mb-2">
+                                    <i class="fas fa-link text-info me-1"></i>
+                                    <strong>Sources:</strong>
+                                </p>
+                                <p class="small mb-2">
+                                    <a href="https://www.energy.ca.gov/programs-and-topics/programs/solar-equipment-lists"
+                                       target="_blank"
+                                       class="text-info text-decoration-underline">CEC Equipment Certification</a>
+                                </p>
+                                <p class="small mb-2">
+                                    <a href="https://sam.nrel.gov/"
+                                       target="_blank"
+                                       class="text-info text-decoration-underline">NREL System Advisor Model (SAM)</a>
+                                </p>
+                                <a href="https://github.com/NREL/SAM/tree/develop/deploy/libraries"
+                                   target="_blank"
+                                   class="btn btn-sm btn-outline-warning w-100">
+                                    <i class="fab fa-github me-1"></i> Full SAM Libraries
                                 </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End 3-Column Layout -->
+            </div>
+        </div>
+        <!-- End: CEC Libraries -->
+        <!-- Limitations + User Responsibility -->
+        <div class="container-fluid pt-4 px-3">
+            <div class="row g-4">
+                <!-- LEFT: Limitations of PV Simulation -->
+                <div class="col-lg-6">
+                    <div class="bg-secondary rounded p-4 border-start border-danger border-4 h-100">
+                        <div class="d-flex align-items-start mb-3">
+                            <i class="fas fa-exclamation-circle text-danger me-3 mt-1 fa-lg"></i>
+                            <div>
+                                <h5 class="text-danger mb-2">Limitations of PV Simulation</h5>
+                                <p class="small mb-0 text-light">
+                                    <strong>Even the best models are approximations.</strong>
+                                    Here are the key limitations you should know before trusting simulation results.
+                                </p>
+                            </div>
+                        </div>
+                        <hr class="border-light opacity-50">
+                        <div class="row g-3">
+                            <!-- Weather Data Uncertainty -->
+                            <div class="col-12">
+                                <div class="p-3 bg-dark bg-opacity-50 rounded">
+                                    <h6 class="text-warning">
+                                        <i class="fas fa-cloud me-2"></i>Weather Data is Historical & Averaged
+                                    </h6>
+                                    <ul class="small text-light list-unstyled mb-0">
+                                        <li class="mb-2">
+                                            <i class="fas fa-times text-danger me-2"></i>TMY datasets (PVGIS, NASA) represent <em>typical</em> years, not future climate
+                                        </li>
+                                        <li class="mb-2">
+                                            <i class="fas fa-times text-danger me-2"></i>Resolution: 0.25°–1° grid → local microclimates (hills, lakes) not captured
+                                        </li>
+                                        <li class="mb-2">
+                                            <i class="fas fa-times text-danger me-2"></i>Extreme events (dust storms, hail) not included
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- Model Assumptions -->
+                            <div class="col-12">
+                                <div class="p-3 bg-dark bg-opacity-50 rounded">
+                                    <h6 class="text-info">
+                                        <i class="fas fa-cogs me-2"></i>Model Assumptions Simplify Reality
+                                    </h6>
+                                    <ul class="small text-light list-unstyled mb-0">
+                                        <li class="mb-2">
+                                            <i class="fas fa-times text-danger me-2"></i>Assumes uniform module temperature across array
+                                        </li>
+                                        <li class="mb-2">
+                                            <i class="fas fa-times text-danger me-2"></i>Shading modeled via horizon or simple geometry — not 3D objects
+                                        </li>
+                                        <li class="mb-2">
+                                            <i class="fas fa-times text-danger me-2"></i>Soiling, snow, and degradation applied as fixed percentages
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- Long-Term Degradation -->
+                            <div class="col-12">
+                                <div class="p-3 bg-dark bg-opacity-50 rounded">
+                                    <h6 class="text-muted">
+                                        <i class="fas fa-chart-line me-2"></i>Degradation & Aging Not Fully Modeled
+                                    </h6>
+                                    <ul class="small text-light list-unstyled mb-0">
+                                        <li class="mb-2">
+                                            <i class="fas fa-times text-danger me-2"></i>Default: 0.5%/year linear — real modules vary (LID, PID, cracks)
+                                        </li>
+                                        <li class="mb-2">
+                                            <i class="fas fa-times text-danger me-2"></i>Inverter failure, wiring corrosion not simulated
+                                        </li>
+                                        <li class="mb-2">
+                                            <i class="fas fa-times text-danger me-2"></i>25-year forecast assumes perfect maintenance
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- System Variability -->
+                            <div class="col-12">
+                                <div class="p-3 bg-dark bg-opacity-50 rounded">
+                                    <h6 class="text-primary">
+                                        <i class="fas fa-random me-2"></i>Real Systems Have Variability
+                                    </h6>
+                                    <ul class="small text-light list-unstyled mb-0">
+                                        <li class="mb-2">
+                                            <i class="fas fa-times text-danger me-2"></i>Module-to-module mismatch, manufacturing tolerances (±3%)
+                                        </li>
+                                        <li class="mb-2">
+                                            <i class="fas fa-times text-danger me-2"></i>Tracker accuracy, wind stow, maintenance downtime not modeled
+                                        </li>
+                                        <li class="mb-2">
+                                            <i class="fas fa-times text-danger me-2"></i>Grid curtailment, export limits ignored
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="border-light opacity-50">
+                        <!-- What Simulation IS Good For -->
+                        <div class="p-3 bg-dark bg-opacity-10 rounded border border-success border-opacity-25">
+                            <h6 class="text-success mb-3">
+                                <i class="fas fa-check-circle me-2"></i>Simulation Is Still Extremely Valuable For:
+                            </h6>
+                            <div class="row g-2 small text-light">
+                                <div class="col-6">
+                                    <div class="d-flex align-items-start">
+                                        <i class="fas fa-arrow-right text-success me-2 mt-1"></i>
+                                        <div>
+                                            <strong>Design Optimization</strong>
+                                            <br>
+                                            <span class="text-muted">Compare tilt, tracking, bifacial vs fixed</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="d-flex align-items-start">
+                                        <i class="fas fa-arrow-right text-success me-2 mt-1"></i>
+                                        <div>
+                                            <strong>Energy Yield Estimation</strong>
+                                            <br>
+                                            <span class="text-muted">±5–10% accuracy with good inputs</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="d-flex align-items-start">
+                                        <i class="fas fa-arrow-right text-success me-2 mt-1"></i>
+                                        <div>
+                                            <strong>Financial Modeling</strong>
+                                            <br>
+                                            <span class="text-muted">LCOE, payback, ROI sensitivity</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="d-flex align-items-start">
+                                        <i class="fas fa-arrow-right text-success me-2 mt-1"></i>
+                                        <div>
+                                            <strong>Performance Benchmarking</strong>
+                                            <br>
+                                            <span class="text-muted">Compare sites, technologies, layouts</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-3 p-3 bg-dark bg-opacity-50 rounded text-center small">
+                            <p class="mb-0">
+                                <i class="fas fa-balance-scale text-warning me-2"></i>
+                                <strong>Best Practice:</strong>
+                                Use simulation as a <em>planning tool</em> —
+                                always validate with on-site measurements after installation.
                             </p>
-                            <p class="small mb-2">
-                                <a href="https://sam.nrel.gov/" target="_blank" class="text-info text-decoration-underline">
-                                    NREL System Advisor Model (SAM)
-                                </a>
+                        </div>
+                    </div>
+                </div>
+                <!-- RIGHT: User Responsibility & Best Practices -->
+                <div class="col-lg-6">
+                    <div class="bg-secondary rounded p-4 border-start border-warning border-4 h-100">
+                        <div class="d-flex align-items-start mb-3">
+                            <i class="fas fa-exclamation-triangle text-warning me-3 mt-1 fa-lg"></i>
+                            <div>
+                                <h5 class="text-warning mb-2">Your Input = Your Results</h5>
+                                <p class="small mb-0 text-light">
+                                    <strong>Solarize and pvlib do not prevent incorrect simulations.</strong>
+                                    The accuracy of your results depends entirely on the parameters you provide.
+                                </p>
+                            </div>
+                        </div>
+                        <hr class="border-light opacity-50">
+                        <div class="row g-4">
+                            <!-- Key Responsibility -->
+                            <div class="col-12">
+                                <h6 class="text-info">
+                                    <i class="fas fa-user-cog me-2"></i>User Responsibility
+                                </h6>
+                                <ul class="small text-light list-unstyled">
+                                    <li class="mb-2">
+                                        <i class="fas fa-arrow-right text-success me-2"></i><strong>You must verify:</strong> Module specs, tilt/azimuth, losses, albedo, tracking type
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="fas fa-arrow-right text-success me-2"></i><strong>pvlib assumes your inputs are correct.</strong> It will not warn about unrealistic values
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="fas fa-arrow-right text-success me-2"></i><strong>Garbage in → Garbage out (GIGO)</strong> applies fully
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- Smart Defaults -->
+                            <div class="col-12">
+                                <h6 class="text-success">
+                                    <i class="fas fa-cogs me-2"></i>Smart Defaults (But Check Them!)
+                                </h6>
+                                <ul class="small text-light list-unstyled">
+                                    <li class="mb-2">
+                                        <i class="fas fa-check text-success me-2"></i><strong>Tilt:</strong> Latitude-optimized (e.g., 0° at equator)
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="fas fa-check text-success me-2"></i><strong>Azimuth:</strong> 180° (South in N. Hemisphere)
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="fas fa-check text-success me-2"></i><strong>Albedo:</strong> 0.2 (grass), 0.3 (concrete)
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="fas fa-check text-success me-2"></i><strong>Soiling:</strong> 2% monthly average
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="fas fa-check text-success me-2"></i><strong>DC/AC Ratio:</strong> 1.2 (standard)
+                                    </li>
+                                </ul>
+                                <small class="text-muted d-block mt-2">
+                                    <i class="fas fa-info-circle"></i> Defaults are <strong>conservative and realistic</strong> — but always adjust for your site.
+                                </small>
+                            </div>
+                        </div>
+                        <hr class="border-light opacity-50">
+                        <!-- Pro Tips -->
+                        <h6 class="text-primary mb-3">
+                            <i class="fas fa-lightbulb me-2"></i>Pro Tips for Reliable Simulations
+                        </h6>
+                        <div class="row g-3 small">
+                            <div class="col-6">
+                                <div class="bg-dark bg-opacity-50 rounded p-3 h-100">
+                                    <strong>Use Module Datasheet Values</strong>
+                                    <br>
+                                    <span class="text-muted">Pmax, Voc, Isc, temp coeffs from manufacturer PDF</span>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="bg-dark bg-opacity-50 rounded p-3 h-100">
+                                    <strong>Verify Tilt & Orientation</strong>
+                                    <br>
+                                    <span class="text-muted">Use Google Earth or on-site measurement</span>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="bg-dark bg-opacity-50 rounded p-3 h-100">
+                                    <strong>Check Albedo Seasonally</strong>
+                                    <br>
+                                    <span class="text-muted">Snow = 0.7, dry soil = 0.15</span>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="bg-dark bg-opacity-50 rounded p-3 h-100">
+                                    <strong>Enable Shading if Applicable</strong>
+                                    <br>
+                                    <span class="text-muted">Trees, buildings → use horizon profile</span>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="bg-dark bg-opacity-50 rounded p-3 h-100">
+                                    <strong>Compare with PVWatts</strong>
+                                    <br>
+                                    <span class="text-muted">If results differ >10%, double-check inputs</span>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="bg-dark bg-opacity-50 rounded p-3 h-100">
+                                    <strong>Export & Review 8760 Data</strong>
+                                    <br>
+                                    <span class="text-muted">Spot anomalies in hourly output</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-4 p-3 bg-dark rounded border border-warning border-opacity-25">
+                            <p class="small mb-0 text-center">
+                                <i class="fas fa-shield-alt text-warning me-2"></i>
+                                <strong>Best Practice:</strong> Always run a <em>baseline simulation</em> with known-good data (e.g., NREL TMY + standard module) to validate your setup.
                             </p>
-                            <a href="https://github.com/NREL/SAM/tree/develop/deploy/libraries" 
-                               target="_blank" class="btn btn-sm btn-outline-warning w-100">
-                                <i class="fab fa-github me-1"></i> Full SAM Libraries
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End: Side-by-Side Limitations & Responsibility -->
+        <!-- Quick Start + What's New -->
+        <div class="container-fluid pt-4 px-3">
+            <div class="row g-4">
+                <!-- RIGHT: What's New in Solarize -->
+                <div class="col-lg-8">
+                    <div class="bg-secondary rounded p-4 h-100 d-flex flex-column">
+                        <h5 class="text-warning mb-4">
+                            <i class="fas fa-sync-alt me-2"></i>What’s New in Solarize
+                            <span class="badge bg-warning ms-2 text-dark">v0.0.2</span>
+                        </h5>
+                        <div class="row g-3 flex-grow-1">
+                            <div class="col-md-6">
+                                <div class="p-3 bg-dark bg-opacity-50 rounded h-100 d-flex flex-column">
+                                    <h6 class="text-success">
+                                        <i class="fas fa-paint-brush me-2"></i>Refreshed UI
+                                    </h6>
+                                    <p class="small text-light mb-0 mt-auto">Redesigned dashboard with cleaner layouts, charts, and better spacing.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="p-3 bg-dark bg-opacity-50 rounded h-100 d-flex flex-column">
+                                    <h6 class="text-info">
+                                        <i class="fas fa-bolt me-2"></i>Faster Loading
+                                    </h6>
+                                    <p class="small text-light mb-0 mt-auto">Optimized SQL queries, caching, and asset delivery.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="p-3 bg-dark bg-opacity-50 rounded h-100 d-flex flex-column">
+                                    <h6 class="text-warning">
+                                        <i class="fas fa-chart-line me-2"></i>Analytics Dashboard
+                                    </h6>
+                                    <p class="small text-light mb-0 mt-auto">Enhanced performance metrics and system insights under active development.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="p-3 bg-dark bg-opacity-50 rounded h-100 d-flex flex-column">
+                                    <h6 class="text-success">
+                                        <i class="fas fa-solar-panel me-2"></i>Enhanced System Modeling
+                                    </h6>
+                                    <p class="small text-light mb-0 mt-auto">Refined PV system simulation logic to add detailed loss factors.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-4 text-center">
+                            <small class="text-muted d-block mt-2">
+                                <i class="fas fa-sync me-1"></i> We are continually updating and improving Solarize to deliver the most accurate system modeling experience.
+                            </small>
+                        </div>
+                    </div>
+                </div>
+                <!-- LEFT: Quick Start Guide -->
+                <div class="col-lg-4">
+                    <div class="bg-secondary rounded p-4 h-100 text-center">
+                        <h5 class="text-warning mb-4">Get Started in 3 Easy Steps</h5>
+                        <div class="d-flex justify-content-between align-items-start text-center mb-4">
+                            <div class="flex-fill px-2">
+                                <div class="rounded-circle bg-dark d-inline-flex align-items-center justify-content-center mb-2"
+                                     style="width: 50px;
+                                            height: 50px">
+                                    <strong>1</strong>
+                                </div>
+                                <h6 class="mb-1">Set Location</h6>
+                                <small class="text-muted d-block">System location coordinates</small>
+                            </div>
+                            <div class="flex-fill px-2">
+                                <div class="rounded-circle bg-dark d-inline-flex align-items-center justify-content-center mb-2"
+                                     style="width: 50px;
+                                            height: 50px">
+                                    <strong>2</strong>
+                                </div>
+                                <h6 class="mb-1">Configuration</h6>
+                                <small class="text-muted d-block">Module, inverter, losses etc</small>
+                            </div>
+                            <div class="flex-fill px-2">
+                                <div class="rounded-circle bg-dark d-inline-flex align-items-center justify-content-center mb-2"
+                                     style="width: 50px;
+                                            height: 50px">
+                                    <strong>3</strong>
+                                </div>
+                                <h6 class="mb-1">Run Simulation</h6>
+                                <small class="text-muted d-block">Analysis, charts, and hourly timeseries</small>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <a href="{% url 'spec_sheet_modelling' %}"
+                               class="btn btn-warning btn-sm">
+                                <i class="fas fa-play me-1"></i> Start New Simulation
                             </a>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- End 3-Column Layout -->
         </div>
-    </div>
-    <!-- End: CEC Libraries -->
-
-    <!-- Limitations + User Responsibility -->
-    <div class="container-fluid pt-4 px-3">
-        <div class="row g-4">
-            <!-- LEFT: Limitations of PV Simulation -->
-            <div class="col-lg-6">
-                <div class="bg-secondary rounded p-4 border-start border-danger border-4 h-100">
-                    <div class="d-flex align-items-start mb-3">
-                        <i class="fas fa-exclamation-circle text-danger me-3 mt-1 fa-lg"></i>
-                        <div>
-                            <h5 class="text-danger mb-2">Limitations of PV Simulation</h5>
-                            <p class="small mb-0 text-light">
-                                <strong>Even the best models are approximations.</strong> 
-                                Here are the key limitations you should know before trusting simulation results.
-                            </p>
-                        </div>
-                    </div>
-
-                    <hr class="border-light opacity-50">
-
-                    <div class="row g-3">
-                        <!-- Weather Data Uncertainty -->
-                        <div class="col-12">
-                            <div class="p-3 bg-dark bg-opacity-50 rounded">
-                                <h6 class="text-warning"><i class="fas fa-cloud me-2"></i>Weather Data is Historical & Averaged</h6>
-                                <ul class="small text-light list-unstyled mb-0">
-                                    <li class="mb-2"><i class="fas fa-times text-danger me-2"></i>TMY datasets (PVGIS, NASA) represent <em>typical</em> years, not future climate</li>
-                                    <li class="mb-2"><i class="fas fa-times text-danger me-2"></i>Resolution: 0.25°–1° grid → local microclimates (hills, lakes) not captured</li>
-                                    <li class="mb-2"><i class="fas fa-times text-danger me-2"></i>Extreme events (dust storms, hail) not included</li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <!-- Model Assumptions -->
-                        <div class="col-12">
-                            <div class="p-3 bg-dark bg-opacity-50 rounded">
-                                <h6 class="text-info"><i class="fas fa-cogs me-2"></i>Model Assumptions Simplify Reality</h6>
-                                <ul class="small text-light list-unstyled mb-0">
-                                    <li class="mb-2"><i class="fas fa-times text-danger me-2"></i>Assumes uniform module temperature across array</li>
-                                    <li class="mb-2"><i class="fas fa-times text-danger me-2"></i>Shading modeled via horizon or simple geometry — not 3D objects</li>
-                                    <li class="mb-2"><i class="fas fa-times text-danger me-2"></i>Soiling, snow, and degradation applied as fixed percentages</li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <!-- Long-Term Degradation -->
-                        <div class="col-12">
-                            <div class="p-3 bg-dark bg-opacity-50 rounded">
-                                <h6 class="text-muted"><i class="fas fa-chart-line me-2"></i>Degradation & Aging Not Fully Modeled</h6>
-                                <ul class="small text-light list-unstyled mb-0">
-                                    <li class="mb-2"><i class="fas fa-times text-danger me-2"></i>Default: 0.5%/year linear — real modules vary (LID, PID, cracks)</li>
-                                    <li class="mb-2"><i class="fas fa-times text-danger me-2"></i>Inverter failure, wiring corrosion not simulated</li>
-                                    <li class="mb-2"><i class="fas fa-times text-danger me-2"></i>25-year forecast assumes perfect maintenance</li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <!-- System Variability -->
-                        <div class="col-12">
-                            <div class="p-3 bg-dark bg-opacity-50 rounded">
-                                <h6 class="text-primary"><i class="fas fa-random me-2"></i>Real Systems Have Variability</h6>
-                                <ul class="small text-light list-unstyled mb-0">
-                                    <li class="mb-2"><i class="fas fa-times text-danger me-2"></i>Module-to-module mismatch, manufacturing tolerances (±3%)</li>
-                                    <li class="mb-2"><i class="fas fa-times text-danger me-2"></i>Tracker accuracy, wind stow, maintenance downtime not modeled</li>
-                                    <li class="mb-2"><i class="fas fa-times text-danger me-2"></i>Grid curtailment, export limits ignored</li>
-                                </ul>
+        <!-- End: Side-by-Side Quick Start & What's New -->
+        <!-- Solar Industry Glossary -->
+        <div class="container-fluid pt-4 px-3 pb-5">
+            <div class="bg-secondary rounded p-4">
+                <h5 class="text-warning mb-4">
+                    <i class="fas fa-book me-2"></i>Solar Industry Glossary
+                </h5>
+                <div class="accordion accordion-flush" id="glossaryAccordion">
+                    <!-- A -->
+                    <div class="accordion-item bg-dark">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#termA">
+                                <strong>A</strong>
+                            </button>
+                        </h2>
+                        <div id="termA"
+                             class="accordion-collapse collapse"
+                             data-bs-parent="#glossaryAccordion">
+                            <div class="accordion-body small">
+                                <strong>AC (Alternating Current)</strong>: Electrical current that reverses direction periodically. Standard grid power.
+                                <br>
+                                <strong>Albedo</strong>: Fraction of solar radiation reflected by the ground (0.1–0.9). Critical for bifacial gain.
+                                <br>
+                                <strong>Azimuth</strong>: Compass direction the PV array faces (0° = North, 180° = South).
                             </div>
                         </div>
                     </div>
-
-                    <hr class="border-light opacity-50">
-
-                    <!-- What Simulation IS Good For -->
-                    <div class="p-3 bg-dark bg-opacity-10 rounded border border-success border-opacity-25">
-                        <h6 class="text-success mb-3"><i class="fas fa-check-circle me-2"></i>Simulation Is Still Extremely Valuable For:</h6>
-                        <div class="row g-2 small text-light">
-                            <div class="col-6">
-                                <div class="d-flex align-items-start">
-                                    <i class="fas fa-arrow-right text-success me-2 mt-1"></i>
-                                    <div>
-                                        <strong>Design Optimization</strong><br>
-                                        <span class="text-muted">Compare tilt, tracking, bifacial vs fixed</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="d-flex align-items-start">
-                                    <i class="fas fa-arrow-right text-success me-2 mt-1"></i>
-                                    <div>
-                                        <strong>Energy Yield Estimation</strong><br>
-                                        <span class="text-muted">±5–10% accuracy with good inputs</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="d-flex align-items-start">
-                                    <i class="fas fa-arrow-right text-success me-2 mt-1"></i>
-                                    <div>
-                                        <strong>Financial Modeling</strong><br>
-                                        <span class="text-muted">LCOE, payback, ROI sensitivity</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="d-flex align-items-start">
-                                    <i class="fas fa-arrow-right text-success me-2 mt-1"></i>
-                                    <div>
-                                        <strong>Performance Benchmarking</strong><br>
-                                        <span class="text-muted">Compare sites, technologies, layouts</span>
-                                    </div>
-                                </div>
+                    <!-- B -->
+                    <div class="accordion-item bg-dark bg-opacity-50">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#termB">
+                                <strong>B</strong>
+                            </button>
+                        </h2>
+                        <div id="termB"
+                             class="accordion-collapse collapse"
+                             data-bs-parent="#glossaryAccordion">
+                            <div class="accordion-body small">
+                                <strong>Bifacial Module</strong>: PV panel that generates power from both sides. Gains 5–30% with reflective ground.
+                                <br>
+                                <strong>BOS (Balance of System)</strong>: All components except modules: inverters, wiring, racking, etc.
                             </div>
                         </div>
                     </div>
-
-                    <div class="mt-3 p-3 bg-dark bg-opacity-50 rounded text-center small">
-                        <p class="mb-0">
-                            <i class="fas fa-balance-scale text-warning me-2"></i>
-                            <strong>Best Practice:</strong> 
-                            Use simulation as a <em>planning tool</em> — 
-                            always validate with on-site measurements after installation.
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- RIGHT: User Responsibility & Best Practices -->
-            <div class="col-lg-6">
-                <div class="bg-secondary rounded p-4 border-start border-warning border-4 h-100">
-                    <div class="d-flex align-items-start mb-3">
-                        <i class="fas fa-exclamation-triangle text-warning me-3 mt-1 fa-lg"></i>
-                        <div>
-                            <h5 class="text-warning mb-2">Your Input = Your Results</h5>
-                            <p class="small mb-0 text-light">
-                                <strong>Solarize and pvlib do not prevent incorrect simulations.</strong> 
-                                The accuracy of your results depends entirely on the parameters you provide.
-                            </p>
-                        </div>
-                    </div>
-
-                    <hr class="border-light opacity-50">
-
-                    <div class="row g-4">
-                        <!-- Key Responsibility -->
-                        <div class="col-12">
-                            <h6 class="text-info"><i class="fas fa-user-cog me-2"></i>User Responsibility</h6>
-                            <ul class="small text-light list-unstyled">
-                                <li class="mb-2"><i class="fas fa-arrow-right text-success me-2"></i><strong>You must verify:</strong> Module specs, tilt/azimuth, losses, albedo, tracking type</li>
-                                <li class="mb-2"><i class="fas fa-arrow-right text-success me-2"></i><strong>pvlib assumes your inputs are correct.</strong> It will not warn about unrealistic values</li>
-                                <li class="mb-2"><i class="fas fa-arrow-right text-success me-2"></i><strong>Garbage in → Garbage out (GIGO)</strong> applies fully</li>
-                            </ul>
-                        </div>
-
-                        <!-- Smart Defaults -->
-                        <div class="col-12">
-                            <h6 class="text-success"><i class="fas fa-cogs me-2"></i>Smart Defaults (But Check Them!)</h6>
-                            <ul class="small text-light list-unstyled">
-                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i><strong>Tilt:</strong> Latitude-optimized (e.g., 0° at equator)</li>
-                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i><strong>Azimuth:</strong> 180° (South in N. Hemisphere)</li>
-                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i><strong>Albedo:</strong> 0.2 (grass), 0.3 (concrete)</li>
-                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i><strong>Soiling:</strong> 2% monthly average</li>
-                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i><strong>DC/AC Ratio:</strong> 1.2 (standard)</li>
-                            </ul>
-                            <small class="text-muted d-block mt-2">
-                                <i class="fas fa-info-circle"></i> Defaults are <strong>conservative and realistic</strong> — but always adjust for your site.
-                            </small>
-                        </div>
-                    </div>
-
-                    <hr class="border-light opacity-50">
-
-                    <!-- Pro Tips -->
-                    <h6 class="text-primary mb-3"><i class="fas fa-lightbulb me-2"></i>Pro Tips for Reliable Simulations</h6>
-                    <div class="row g-3 small">
-                        <div class="col-6">
-                            <div class="bg-dark bg-opacity-50 rounded p-3 h-100">
-                                <strong>Use Module Datasheet Values</strong><br>
-                                <span class="text-muted">Pmax, Voc, Isc, temp coeffs from manufacturer PDF</span>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="bg-dark bg-opacity-50 rounded p-3 h-100">
-                                <strong>Verify Tilt & Orientation</strong><br>
-                                <span class="text-muted">Use Google Earth or on-site measurement</span>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="bg-dark bg-opacity-50 rounded p-3 h-100">
-                                <strong>Check Albedo Seasonally</strong><br>
-                                <span class="text-muted">Snow = 0.7, dry soil = 0.15</span>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="bg-dark bg-opacity-50 rounded p-3 h-100">
-                                <strong>Enable Shading if Applicable</strong><br>
-                                <span class="text-muted">Trees, buildings → use horizon profile</span>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="bg-dark bg-opacity-50 rounded p-3 h-100">
-                                <strong>Compare with PVWatts</strong><br>
-                                <span class="text-muted">If results differ >10%, double-check inputs</span>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="bg-dark bg-opacity-50 rounded p-3 h-100">
-                                <strong>Export & Review 8760 Data</strong><br>
-                                <span class="text-muted">Spot anomalies in hourly output</span>
+                    <!-- C -->
+                    <div class="accordion-item bg-dark bg-opacity-50">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#termC">
+                                <strong>C</strong>
+                            </button>
+                        </h2>
+                        <div id="termC"
+                             class="accordion-collapse collapse"
+                             data-bs-parent="#glossaryAccordion">
+                            <div class="accordion-body small">
+                                <strong>CEC (California Energy Commission)</strong>: Maintains real-world module/inverter performance database.
+                                <br>
+                                <strong>Clipping</strong>: Inverter limits output when DC power exceeds AC rating.
+                                <br>
+                                <strong>CPV (Concentrator PV)</strong>: Uses lenses to focus sunlight on high-efficiency cells.
                             </div>
                         </div>
                     </div>
-
-                    <div class="mt-4 p-3 bg-dark rounded border border-warning border-opacity-25">
-                        <p class="small mb-0 text-center">
-                            <i class="fas fa-shield-alt text-warning me-2"></i>
-                            <strong>Best Practice:</strong> Always run a <em>baseline simulation</em> with known-good data (e.g., NREL TMY + standard module) to validate your setup.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- End: Side-by-Side Limitations & Responsibility -->
-
-    <!-- Quick Start + What's New -->
-    <div class="container-fluid pt-4 px-3">
-        <div class="row g-4">
-            <!-- RIGHT: What's New in Solarize -->
-            <div class="col-lg-8">
-                <div class="bg-secondary rounded p-4 h-100 d-flex flex-column">
-                    <h5 class="text-warning mb-4">
-                        <i class="fas fa-sync-alt me-2"></i>What’s New in Solarize
-                        <span class="badge bg-warning ms-2 text-dark">v0.0.2</span>
-                    </h5>
-
-                     <div class="row g-3 flex-grow-1">
-                        <div class="col-md-6">
-                            <div class="p-3 bg-dark bg-opacity-50 rounded h-100 d-flex flex-column">
-                                <h6 class="text-success"><i class="fas fa-paint-brush me-2"></i>Refreshed UI</h6>
-                                <p class="small text-light mb-0 mt-auto">Redesigned dashboard with cleaner layouts, charts, and better spacing.</p>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="p-3 bg-dark bg-opacity-50 rounded h-100 d-flex flex-column">
-                                <h6 class="text-info"><i class="fas fa-bolt me-2"></i>Faster Loading</h6>
-                                <p class="small text-light mb-0 mt-auto">Optimized SQL queries, caching, and asset delivery.</p>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="p-3 bg-dark bg-opacity-50 rounded h-100 d-flex flex-column">
-                                <h6 class="text-warning"><i class="fas fa-chart-line me-2"></i>Analytics Dashboard</h6>
-                                <p class="small text-light mb-0 mt-auto">Enhanced performance metrics and system insights under active development.</p>
-                            </div>
-
-                        </div>
-                        <div class="col-md-6">
-                            <div class="p-3 bg-dark bg-opacity-50 rounded h-100 d-flex flex-column">
-                                <h6 class="text-success"><i class="fas fa-solar-panel me-2"></i>Enhanced System Modeling</h6>
-                                <p class="small text-light mb-0 mt-auto">Refined PV system simulation logic to add detailed loss factors.</p>
+                    <!-- D -->
+                    <div class="accordion-item bg-dark bg-opacity-50">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#termD">
+                                <strong>D</strong>
+                            </button>
+                        </h2>
+                        <div id="termD"
+                             class="accordion-collapse collapse"
+                             data-bs-parent="#glossaryAccordion">
+                            <div class="accordion-body small">
+                                <strong>DC (Direct Current)</strong>: Unidirectional current from PV modules.
+                                <br>
+                                <strong>DC/AC Ratio</strong>: DC capacity ÷ AC inverter capacity. Typically 1.1–1.5.
+                                <br>
+                                <strong>DNI (Direct Normal Irradiance)</strong>: Solar radiation on surface perpendicular to sun’s rays.
+                                <br>
+                                <strong>DHI (Diffuse Horizontal Irradiance)</strong>: Scattered sunlight on horizontal surface.
                             </div>
                         </div>
                     </div>
-
-                    <div class="mt-4 text-center">
-                        <small class="text-muted d-block mt-2">
-                            <i class="fas fa-sync me-1"></i> We are continually updating and improving Solarize to deliver the most accurate system modeling experience.
-                        </small>
+                    <!-- E -->
+                    <div class="accordion-item bg-dark bg-opacity-50">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#termE">
+                                <strong>E</strong>
+                            </button>
+                        </h2>
+                        <div id="termE"
+                             class="accordion-collapse collapse"
+                             data-bs-parent="#glossaryAccordion">
+                            <div class="accordion-body small">
+                                <strong>Efficiency</strong>: Ratio of electrical output to solar input. Typical: 15–23%.
+                                <br>
+                                <strong>Energy Yield</strong>: Total kWh produced annually per kWp installed.
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-
-            <!-- LEFT: Quick Start Guide -->
-            <div class="col-lg-4">
-              <div class="bg-secondary rounded p-4 h-100 text-center">
-                <h5 class="text-warning mb-4">Get Started in 3 Easy Steps</h5>
-
-                <div class="d-flex justify-content-between align-items-start text-center mb-4">
-                  <div class="flex-fill px-2">
-                    <div class="rounded-circle bg-dark d-inline-flex align-items-center justify-content-center mb-2" style="width: 50px; height: 50px;">
-                      <strong>1</strong>
+                    <!-- G -->
+                    <div class="accordion-item bg-dark bg-opacity-50">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#termG">
+                                <strong>G</strong>
+                            </button>
+                        </h2>
+                        <div id="termG"
+                             class="accordion-collapse collapse"
+                             data-bs-parent="#glossaryAccordion">
+                            <div class="accordion-body small">
+                                <strong>GCR (Ground Coverage Ratio)</strong>: Array width ÷ row spacing. Affects shading in tracking systems.
+                                <br>
+                                <strong>GHI (Global Horizontal Irradiance)</strong>: Total solar radiation on horizontal surface (DNI + DHI).
+                                <br>
+                                <strong>GTI (Global Tilted Irradiance)</strong>: Total irradiance on tilted plane (POA).
+                            </div>
+                        </div>
                     </div>
-                    <h6 class="mb-1">Set Location</h6>
-                    <small class="text-muted d-block">System location coordinates</small>
-                  </div>
-
-                  <div class="flex-fill px-2">
-                    <div class="rounded-circle bg-dark d-inline-flex align-items-center justify-content-center mb-2" style="width: 50px; height: 50px;">
-                      <strong>2</strong>
+                    <!-- I -->
+                    <div class="accordion-item bg-dark bg-opacity-50">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#termI">
+                                <strong>I</strong>
+                            </button>
+                        </h2>
+                        <div id="termI"
+                             class="accordion-collapse collapse"
+                             data-bs-parent="#glossaryAccordion">
+                            <div class="accordion-body small">
+                                <strong>IAM (Incidence Angle Modifier)</strong>: Loss factor due to sunlight hitting panel at an angle.
+                                <br>
+                                <strong>ISC (Short Circuit Current)</strong>: Max current under short circuit at STC.
+                                <br>
+                                <strong>IV Curve</strong>: Current vs. voltage relationship of a PV cell/module.
+                            </div>
+                        </div>
                     </div>
-                    <h6 class="mb-1">Configuration</h6>
-                    <small class="text-muted d-block">Module, inverter, losses etc</small>
-                  </div>
-
-                  <div class="flex-fill px-2">
-                    <div class="rounded-circle bg-dark d-inline-flex align-items-center justify-content-center mb-2" style="width: 50px; height: 50px;">
-                      <strong>3</strong>
+                    <!-- L -->
+                    <div class="accordion-item bg-dark bg-opacity-50">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#termL">
+                                <strong>L</strong>
+                            </button>
+                        </h2>
+                        <div id="termL"
+                             class="accordion-collapse collapse"
+                             data-bs-parent="#glossaryAccordion">
+                            <div class="accordion-body small">
+                                <strong>LID (Light-Induced Degradation)</strong>: Initial power loss in new modules (1–3%).
+                                <br>
+                                <strong>LCOE (Levelized Cost of Energy)</strong>: Total lifetime cost ÷ total energy produced.
+                            </div>
+                        </div>
                     </div>
-                    <h6 class="mb-1">Run Simulation</h6>
-                    <small class="text-muted d-block">Analysis, charts, and hourly timeseries</small>
-                  </div>
-                </div>
-
-                <div class="text-center">
-                  <a href="{% url 'spec_sheet_modelling' %}" class="btn btn-warning btn-sm">
-                    <i class="fas fa-play me-1"></i> Start New Simulation
-                  </a>
-                </div>
-              </div>
-            </div>
-
-        </div>
-    </div>
-    <!-- End: Side-by-Side Quick Start & What's New -->
-
-
-    <!-- Solar Industry Glossary -->
-    <div class="container-fluid pt-4 px-3 pb-5">
-        <div class="bg-secondary rounded p-4">
-            <h5 class="text-warning mb-4">
-                <i class="fas fa-book me-2"></i>Solar Industry Glossary
-            </h5>
-
-            <div class="accordion accordion-flush" id="glossaryAccordion">
-                <!-- A -->
-                <div class="accordion-item bg-dark">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#termA">
-                            <strong>A</strong>
-                        </button>
-                    </h2>
-                    <div id="termA" class="accordion-collapse collapse" data-bs-parent="#glossaryAccordion">
-                        <div class="accordion-body small">
-                            <strong>AC (Alternating Current)</strong>: Electrical current that reverses direction periodically. Standard grid power.<br>
-                            <strong>Albedo</strong>: Fraction of solar radiation reflected by the ground (0.1–0.9). Critical for bifacial gain.<br>
-                            <strong>Azimuth</strong>: Compass direction the PV array faces (0° = North, 180° = South).
+                    <!-- M -->
+                    <div class="accordion-item bg-dark bg-opacity-50">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#termM">
+                                <strong>M</strong>
+                            </button>
+                        </h2>
+                        <div id="termM"
+                             class="accordion-collapse collapse"
+                             data-bs-parent="#glossaryAccordion">
+                            <div class="accordion-body small">
+                                <strong>ModelChain</strong>: pvlib’s end-to-end simulation pipeline (weather → AC power).
+                                <br>
+                                <strong>MPPT (Maximum Power Point Tracking)</strong>: Inverter algorithm to extract max power.
+                            </div>
+                        </div>
+                    </div>
+                    <!-- N -->
+                    <div class="accordion-item bg-dark bg-opacity-50">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#termN">
+                                <strong>N</strong>
+                            </button>
+                        </h2>
+                        <div id="termN"
+                             class="accordion-collapse collapse"
+                             data-bs-parent="#glossaryAccordion">
+                            <div class="accordion-body small">
+                                <strong>NOCT (Nominal Operating Cell Temperature)</strong>: Cell temp at 800 W/m², 20°C ambient, 1 m/s wind.
+                                <br>
+                                <strong>NREL</strong>: National Renewable Energy Laboratory (USA). Creators of PVWatts, SAM.
+                            </div>
+                        </div>
+                    </div>
+                    <!-- P -->
+                    <div class="accordion-item bg-dark bg-opacity-50">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#termP">
+                                <strong>P</strong>
+                            </button>
+                        </h2>
+                        <div id="termP"
+                             class="accordion-collapse collapse"
+                             data-bs-parent="#glossaryAccordion">
+                            <div class="accordion-body small">
+                                <strong>Performance Ratio (PR)</strong>: Actual yield ÷ theoretical yield. Typical: 75–85%.
+                                <br>
+                                <strong>POA (Plane of Array)</strong>: Total irradiance on the tilted module surface.
+                                <br>
+                                <strong>PVGIS</strong>: EU’s Photovoltaic Geographical Information System. Provides TMY data.
+                            </div>
+                        </div>
+                    </div>
+                    <!-- S -->
+                    <div class="accordion-item bg-dark bg-opacity-50">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#termS">
+                                <strong>S</strong>
+                            </button>
+                        </h2>
+                        <div id="termS"
+                             class="accordion-collapse collapse"
+                             data-bs-parent="#glossaryAccordion">
+                            <div class="accordion-body small">
+                                <strong>SAM (System Advisor Model)</strong>: NREL’s detailed PV modeling software.
+                                <br>
+                                <strong>STC (Standard Test Conditions)</strong>: 1000 W/m², 25°C cell temp, AM 1.5 spectrum.
+                                <br>
+                                <strong>Spectral Mismatch</strong>: Loss due to mismatch between panel response and actual sunlight spectrum.
+                            </div>
+                        </div>
+                    </div>
+                    <!-- T -->
+                    <div class="accordion-item bg-dark bg-opacity-50">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#termT">
+                                <strong>T</strong>
+                            </button>
+                        </h2>
+                        <div id="termT"
+                             class="accordion-collapse collapse"
+                             data-bs-parent="#glossaryAccordion">
+                            <div class="accordion-body small">
+                                <strong>TMY (Typical Meteorological Year)</strong>: 8760-hour weather dataset representing average conditions.
+                                <br>
+                                <strong>Tilt Angle</strong>: Angle of PV array from horizontal. Optimal ≈ latitude.
+                            </div>
+                        </div>
+                    </div>
+                    <!-- V -->
+                    <div class="accordion-item bg-dark bg-opacity-50">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#termV">
+                                <strong>V</strong>
+                            </button>
+                        </h2>
+                        <div id="termV"
+                             class="accordion-collapse collapse"
+                             data-bs-parent="#glossaryAccordion">
+                            <div class="accordion-body small">
+                                <strong>VOC (Open Circuit Voltage)</strong>: Max voltage when no load is connected.
+                                <br>
+                                <strong>VMMP (Voltage at Maximum Power)</strong>: Voltage at peak power point.
+                            </div>
                         </div>
                     </div>
                 </div>
-
-                <!-- B -->
-                <div class="accordion-item bg-dark bg-opacity-50">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#termB">
-                            <strong>B</strong>
-                        </button>
-                    </h2>
-                    <div id="termB" class="accordion-collapse collapse" data-bs-parent="#glossaryAccordion">
-                        <div class="accordion-body small">
-                            <strong>Bifacial Module</strong>: PV panel that generates power from both sides. Gains 5–30% with reflective ground.<br>
-                            <strong>BOS (Balance of System)</strong>: All components except modules: inverters, wiring, racking, etc.
-                        </div>
-                    </div>
+                <div class="mt-3 text-center">
+                    <small class="text-muted">
+                        <i class="fas fa-lightbulb me-1"></i>
+                        Click any letter to expand definitions
+                    </small>
                 </div>
-
-                <!-- C -->
-                <div class="accordion-item bg-dark bg-opacity-50">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#termC">
-                            <strong>C</strong>
-                        </button>
-                    </h2>
-                    <div id="termC" class="accordion-collapse collapse" data-bs-parent="#glossaryAccordion">
-                        <div class="accordion-body small">
-                            <strong>CEC (California Energy Commission)</strong>: Maintains real-world module/inverter performance database.<br>
-                            <strong>Clipping</strong>: Inverter limits output when DC power exceeds AC rating.<br>
-                            <strong>CPV (Concentrator PV)</strong>: Uses lenses to focus sunlight on high-efficiency cells.
-                        </div>
-                    </div>
-                </div>
-
-                <!-- D -->
-                <div class="accordion-item bg-dark bg-opacity-50">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#termD">
-                            <strong>D</strong>
-                        </button>
-                    </h2>
-                    <div id="termD" class="accordion-collapse collapse" data-bs-parent="#glossaryAccordion">
-                        <div class="accordion-body small">
-                            <strong>DC (Direct Current)</strong>: Unidirectional current from PV modules.<br>
-                            <strong>DC/AC Ratio</strong>: DC capacity ÷ AC inverter capacity. Typically 1.1–1.5.<br>
-                            <strong>DNI (Direct Normal Irradiance)</strong>: Solar radiation on surface perpendicular to sun’s rays.<br>
-                            <strong>DHI (Diffuse Horizontal Irradiance)</strong>: Scattered sunlight on horizontal surface.
-                        </div>
-                    </div>
-                </div>
-
-                <!-- E -->
-                <div class="accordion-item bg-dark bg-opacity-50">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#termE">
-                            <strong>E</strong>
-                        </button>
-                    </h2>
-                    <div id="termE" class="accordion-collapse collapse" data-bs-parent="#glossaryAccordion">
-                        <div class="accordion-body small">
-                            <strong>Efficiency</strong>: Ratio of electrical output to solar input. Typical: 15–23%.<br>
-                            <strong>Energy Yield</strong>: Total kWh produced annually per kWp installed.
-                        </div>
-                    </div>
-                </div>
-
-                <!-- G -->
-                <div class="accordion-item bg-dark bg-opacity-50">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#termG">
-                            <strong>G</strong>
-                        </button>
-                    </h2>
-                    <div id="termG" class="accordion-collapse collapse" data-bs-parent="#glossaryAccordion">
-                        <div class="accordion-body small">
-                            <strong>GCR (Ground Coverage Ratio)</strong>: Array width ÷ row spacing. Affects shading in tracking systems.<br>
-                            <strong>GHI (Global Horizontal Irradiance)</strong>: Total solar radiation on horizontal surface (DNI + DHI).<br>
-                            <strong>GTI (Global Tilted Irradiance)</strong>: Total irradiance on tilted plane (POA).
-                        </div>
-                    </div>
-                </div>
-
-                <!-- I -->
-                <div class="accordion-item bg-dark bg-opacity-50">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#termI">
-                            <strong>I</strong>
-                        </button>
-                    </h2>
-                    <div id="termI" class="accordion-collapse collapse" data-bs-parent="#glossaryAccordion">
-                        <div class="accordion-body small">
-                            <strong>IAM (Incidence Angle Modifier)</strong>: Loss factor due to sunlight hitting panel at an angle.<br>
-                            <strong>ISC (Short Circuit Current)</strong>: Max current under short circuit at STC.<br>
-                            <strong>IV Curve</strong>: Current vs. voltage relationship of a PV cell/module.
-                        </div>
-                    </div>
-                </div>
-
-                <!-- L -->
-                <div class="accordion-item bg-dark bg-opacity-50">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#termL">
-                            <strong>L</strong>
-                        </button>
-                    </h2>
-                    <div id="termL" class="accordion-collapse collapse" data-bs-parent="#glossaryAccordion">
-                        <div class="accordion-body small">
-                            <strong>LID (Light-Induced Degradation)</strong>: Initial power loss in new modules (1–3%).<br>
-                            <strong>LCOE (Levelized Cost of Energy)</strong>: Total lifetime cost ÷ total energy produced.
-                        </div>
-                    </div>
-                </div>
-
-                <!-- M -->
-                <div class="accordion-item bg-dark bg-opacity-50">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#termM">
-                            <strong>M</strong>
-                        </button>
-                    </h2>
-                    <div id="termM" class="accordion-collapse collapse" data-bs-parent="#glossaryAccordion">
-                        <div class="accordion-body small">
-                            <strong>ModelChain</strong>: pvlib’s end-to-end simulation pipeline (weather → AC power).<br>
-                            <strong>MPPT (Maximum Power Point Tracking)</strong>: Inverter algorithm to extract max power.
-                        </div>
-                    </div>
-                </div>
-
-                <!-- N -->
-                <div class="accordion-item bg-dark bg-opacity-50">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#termN">
-                            <strong>N</strong>
-                        </button>
-                    </h2>
-                    <div id="termN" class="accordion-collapse collapse" data-bs-parent="#glossaryAccordion">
-                        <div class="accordion-body small">
-                            <strong>NOCT (Nominal Operating Cell Temperature)</strong>: Cell temp at 800 W/m², 20°C ambient, 1 m/s wind.<br>
-                            <strong>NREL</strong>: National Renewable Energy Laboratory (USA). Creators of PVWatts, SAM.
-                        </div>
-                    </div>
-                </div>
-
-                <!-- P -->
-                <div class="accordion-item bg-dark bg-opacity-50">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#termP">
-                            <strong>P</strong>
-                        </button>
-                    </h2>
-                    <div id="termP" class="accordion-collapse collapse" data-bs-parent="#glossaryAccordion">
-                        <div class="accordion-body small">
-                            <strong>Performance Ratio (PR)</strong>: Actual yield ÷ theoretical yield. Typical: 75–85%.<br>
-                            <strong>POA (Plane of Array)</strong>: Total irradiance on the tilted module surface.<br>
-                            <strong>PVGIS</strong>: EU’s Photovoltaic Geographical Information System. Provides TMY data.
-                        </div>
-                    </div>
-                </div>
-
-                <!-- S -->
-                <div class="accordion-item bg-dark bg-opacity-50">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#termS">
-                            <strong>S</strong>
-                        </button>
-                    </h2>
-                    <div id="termS" class="accordion-collapse collapse" data-bs-parent="#glossaryAccordion">
-                        <div class="accordion-body small">
-                            <strong>SAM (System Advisor Model)</strong>: NREL’s detailed PV modeling software.<br>
-                            <strong>STC (Standard Test Conditions)</strong>: 1000 W/m², 25°C cell temp, AM 1.5 spectrum.<br>
-                            <strong>Spectral Mismatch</strong>: Loss due to mismatch between panel response and actual sunlight spectrum.
-                        </div>
-                    </div>
-                </div>
-
-                <!-- T -->
-                <div class="accordion-item bg-dark bg-opacity-50">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#termT">
-                            <strong>T</strong>
-                        </button>
-                    </h2>
-                    <div id="termT" class="accordion-collapse collapse" data-bs-parent="#glossaryAccordion">
-                        <div class="accordion-body small">
-                            <strong>TMY (Typical Meteorological Year)</strong>: 8760-hour weather dataset representing average conditions.<br>
-                            <strong>Tilt Angle</strong>: Angle of PV array from horizontal. Optimal ≈ latitude.
-                        </div>
-                    </div>
-                </div>
-
-                <!-- V -->
-                <div class="accordion-item bg-dark bg-opacity-50">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#termV">
-                            <strong>V</strong>
-                        </button>
-                    </h2>
-                    <div id="termV" class="accordion-collapse collapse" data-bs-parent="#glossaryAccordion">
-                        <div class="accordion-body small">
-                            <strong>VOC (Open Circuit Voltage)</strong>: Max voltage when no load is connected.<br>
-                            <strong>VMMP (Voltage at Maximum Power)</strong>: Voltage at peak power point.
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="mt-3 text-center">
-                <small class="text-muted">
-                    <i class="fas fa-lightbulb me-1"></i>
-                    Click any letter to expand definitions
-                </small>
             </div>
         </div>
-    </div>
-    <!-- End: Glossary -->
-
-    <!-- Trusted By -->
-    <div class="container-fluid pt-2">
-        <div class="text-center px-4 pb-5 pt-4 bg-secondary">
-            <p class="text-muted small mb-3">Powered by Industry-Standard Open Tools</p>
-            <div class="d-flex justify-content-center align-items-center flex-wrap gap-4">
-                <img src="https://www.python.org/static/community_logos/python-logo-master-v3-TM.png" alt="python" height="32">
-                <img src="https://cdn.pvgis.com/images/logo.png" alt="PVGIS" height="32">
-                <img src="https://i0.wp.com/pythonguides.com/wp-content/uploads/2023/09/Python-Pandas-logo.jpg" alt="pandas" height="32">
-                <img src="https://tpl.nrel.gov/static/media/nrel-logo@2x-01.13cfb1bf.png" alt="NREL" height="32">
-                <img src="https://pvlib-python.readthedocs.io/en/stable/_images/pvlib_logo_horiz.png" alt="pvlib" height="32">
-                <img src="https://power.larc.nasa.gov/docs/images/power_icon.png" alt="NASA POWER" height="34">
+        <!-- End: Glossary -->
+        <!-- Trusted By -->
+        <div class="container-fluid pt-2">
+            <div class="text-center px-4 pb-5 pt-4 bg-secondary">
+                <p class="text-muted small mb-3">Powered by Industry-Standard Open Tools</p>
+                <div class="d-flex justify-content-center align-items-center flex-wrap gap-4">
+                    <img src="https://www.python.org/static/community_logos/python-logo-master-v3-TM.png"
+                         alt="python"
+                         height="32">
+                    <img src="https://cdn.pvgis.com/images/logo.png" alt="PVGIS" height="32">
+                    <img src="https://i0.wp.com/pythonguides.com/wp-content/uploads/2023/09/Python-Pandas-logo.jpg"
+                         alt="pandas"
+                         height="32">
+                    <img src="https://tpl.nrel.gov/static/media/nrel-logo@2x-01.13cfb1bf.png"
+                         alt="NREL"
+                         height="32">
+                    <img src="https://pvlib-python.readthedocs.io/en/stable/_images/pvlib_logo_horiz.png"
+                         alt="pvlib"
+                         height="32">
+                    <img src="https://power.larc.nasa.gov/docs/images/power_icon.png"
+                         alt="NASA POWER"
+                         height="34">
+                </div>
             </div>
         </div>
+        <!-- End: Trusted By -->
+        {% include 'analytics/footer.html' %}
     </div>
-    <!-- End: Trusted By -->
-
-    {% include 'analytics/footer.html' %}
-</div>
-<!-- Content End -->
-
-
+    <!-- Content End -->
 {% endblock %}

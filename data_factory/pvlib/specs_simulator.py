@@ -8,9 +8,10 @@ from data_factory.pvlib import utils, dual_axis_tracker_mount
 
 logger = logging.getLogger(__name__)
 
+
 class SpecSheetSimulator:
     """Advanced PV system simulator for fixed and tracking systems."""
-    
+
     def __init__(self, location_params, system_params, losses_params):
         """Initialize the PV simulator with system, location, and loss parameters.
 
@@ -30,24 +31,30 @@ class SpecSheetSimulator:
         self.alt = float(location_params["alt"])
         self.tz = location_params["tz"]
         self.albedo = float(location_params["albedo"])
-        
+
         # Timeframe parameters
         self.year = int(system_params["year"])
-        
+
         # Mount configuration
         self.mount_type = "fixed"
         self.mount_config = {}
-        
+
         # System parameters
-        self.module_type = system_params.get("module_type") # glass_glass, glass_polymer
-        self.celltype = system_params.get("celltype") #  monoSi, multiSi, polySi, cis, cigs, cdte, amorphous
+        self.module_type = system_params.get(
+            "module_type"
+        )  # glass_glass, glass_polymer
+        self.celltype = system_params.get(
+            "celltype"
+        )  #  monoSi, multiSi, polySi, cis, cigs, cdte, amorphous
         self.modules_per_string = int(system_params["modules_per_string"])
         self.strings = int(system_params["strings"])
         self.arrays = system_params.get("arrays_config", [])
         self.temp_model = system_params["temp_model"]
         self.temp_model_params = system_params["temp_model_params"]
         self.description = system_params["description"]
-        self.racking_model = system_params.get("racking_model", "open_rack") #open_rack, close_mount, insulated_back, freestanding, insulated
+        self.racking_model = system_params.get(
+            "racking_model", "open_rack"
+        )  # open_rack, close_mount, insulated_back, freestanding, insulated
 
         # Custom component parameters
         self.custom_module_params = system_params.get("module_params")
@@ -66,7 +73,6 @@ class SpecSheetSimulator:
         self.age = float(losses_params.get("age", 0))
         self.availability = float(losses_params.get("availability", 0))
 
-
     def create_location(self) -> pvlib.location.Location:
         """Create a pvlib Location object.
 
@@ -78,7 +84,7 @@ class SpecSheetSimulator:
             latitude=self.lat,
             longitude=self.lon,
             altitude=self.alt,
-            tz=self.tz
+            tz=self.tz,
         )
 
     def _get_CEC_params(self) -> Dict:
@@ -93,7 +99,7 @@ class SpecSheetSimulator:
             beta_voc=self.custom_temp_coefficients.get("beta_voc"),
             gamma_pmp=self.custom_temp_coefficients.get("gamma_pmp"),
             cells_in_series=110,
-            temp_ref=25
+            temp_ref=25,
         )
 
         return {
@@ -103,7 +109,7 @@ class SpecSheetSimulator:
             "R_sh_ref": R_sh_ref,
             "a_ref": a_ref,
             "Adjust": Adjust,
-            "alpha_sc": self.custom_temp_coefficients["alpha_sc"]
+            "alpha_sc": self.custom_temp_coefficients["alpha_sc"],
         }
 
     def _create_mount(self, array_config: Dict) -> pvlib.pvsystem.AbstractMount:
@@ -124,29 +130,30 @@ class SpecSheetSimulator:
         # Common validation for tilt and azimuth
         surface_tilt = float(array_config.get("surface_tilt", 30))
         surface_azimuth = float(array_config.get("surface_azimuth", 180))
-        
 
         if mount_type == "fixed":
-            return pvlib.pvsystem.FixedMount(surface_tilt=surface_tilt, surface_azimuth=surface_azimuth)
-        
+            return pvlib.pvsystem.FixedMount(
+                surface_tilt=surface_tilt, surface_azimuth=surface_azimuth
+            )
+
         elif mount_type == "single_axis":
             axis_tilt = float(tracker_config.get("axis_tilt", 0))
             axis_azimuth = float(tracker_config.get("axis_azimuth", 0))
             max_angle = float(tracker_config.get("max_angle", 90))
             gcr = float(tracker_config.get("gcr", 0.4))
             backtrack = bool(tracker_config.get("backtrack", True))
-            
+
             return pvlib.pvsystem.SingleAxisTrackerMount(
                 axis_tilt=axis_tilt,
                 axis_azimuth=axis_azimuth,
                 max_angle=max_angle,
                 backtrack=backtrack,
-                gcr=gcr
+                gcr=gcr,
             )
-        
-        elif mount_type == "dual_axis":            
+
+        elif mount_type == "dual_axis":
             return dual_axis_tracker_mount.DualAxisTrackerMount()
-        
+
         else:
             logger.error(f"Invalid mount type: {mount_type}")
 
@@ -156,7 +163,9 @@ class SpecSheetSimulator:
         Returns:
             pvlib.modelchain.ModelChain: Configured model chain for simulation.
         """
-        temp_parameters = pvlib.temperature.TEMPERATURE_MODEL_PARAMETERS[self.temp_model][self.temp_model_params]
+        temp_parameters = pvlib.temperature.TEMPERATURE_MODEL_PARAMETERS[
+            self.temp_model
+        ][self.temp_model_params]
 
         # System-wide losses
         loss_params = pvlib.pvsystem.pvwatts_losses(
@@ -169,7 +178,7 @@ class SpecSheetSimulator:
             lid=self.lid,
             nameplate_rating=self.nameplate,
             age=self.age,
-            availability=self.availability
+            availability=self.availability,
         )
 
         # Build array configurations
@@ -193,7 +202,9 @@ class SpecSheetSimulator:
         arrays = []
         for config in self.arrays:
             mount = self._create_mount(config)
-            array_losses = config.get("array_losses", {"mismatch": self.mismatch, "wiring": self.wiring})
+            array_losses = config.get(
+                "array_losses", {"mismatch": self.mismatch, "wiring": self.wiring}
+            )
             albedo = float(config.get("albedo", self.albedo))
 
             arr = pvlib.pvsystem.Array(
@@ -205,7 +216,7 @@ class SpecSheetSimulator:
                 temperature_model_parameters=temp_parameters,
                 modules_per_string=int(config["modules_per_string"]),
                 strings=int(config["strings"]),
-                array_losses_parameters=array_losses
+                array_losses_parameters=array_losses,
             )
             arrays.append(arr)
 
@@ -214,11 +225,13 @@ class SpecSheetSimulator:
             arrays=arrays,
             inverter_parameters=self.custom_inverter_params,
             racking_model=self.racking_model,
-            losses_parameters=loss_params
+            losses_parameters=loss_params,
         )
 
         # Initialize model chain
-        aoi_model = "physical" if self.mount_type in ["single_axis", "dual_axis"] else "ashrae"
+        aoi_model = (
+            "physical" if self.mount_type in ["single_axis", "dual_axis"] else "ashrae"
+        )
         mc = pvlib.modelchain.ModelChain(
             system=system,
             location=self.create_location(),
@@ -230,7 +243,9 @@ class SpecSheetSimulator:
         )
         return mc
 
-    def format_results(self, results: pvlib.modelchain.ModelChainResult) -> pd.DataFrame:
+    def format_results(
+        self, results: pvlib.modelchain.ModelChainResult
+    ) -> pd.DataFrame:
         """Format simulation results into a structured DataFrame.
 
         Args:
@@ -239,20 +254,24 @@ class SpecSheetSimulator:
         Returns:
             pd.DataFrame: Formatted results with key metrics and system summary in attrs.
         """
-        df = pd.DataFrame({
-            'ac_power': results.ac,
-            'dc_power': results.dc['p_mp'],
-            'ghi': results.weather['ghi'],
-            'dni': results.weather['dni'],
-            'dhi': results.weather['dhi'],
-            'effective_irradiance': results.effective_irradiance,
-            'cell_temperature': results.cell_temperature
-        })
-        df['timestamp'] = df.index
-        df.attrs['system_summary'] = self.get_system_summary()
+        df = pd.DataFrame(
+            {
+                "ac_power": results.ac,
+                "dc_power": results.dc["p_mp"],
+                "ghi": results.weather["ghi"],
+                "dni": results.weather["dni"],
+                "dhi": results.weather["dhi"],
+                "effective_irradiance": results.effective_irradiance,
+                "cell_temperature": results.cell_temperature,
+            }
+        )
+        df["timestamp"] = df.index
+        df.attrs["system_summary"] = self.get_system_summary()
         return df
 
-    def run_simulation(self, weather_data: Optional[pd.DataFrame] = None) -> pd.DataFrame:
+    def run_simulation(
+        self, weather_data: Optional[pd.DataFrame] = None
+    ) -> pd.DataFrame:
         """Run PV system simulation with optional custom weather data.
 
         Args:
@@ -264,10 +283,9 @@ class SpecSheetSimulator:
         Raises:
             ValueError: If weather data is empty or invalid.
         """
-        weather_data = weather_data or utils.fetch_TMY_data(self.lat, self.lon, self.year)
+        weather_data = weather_data or utils.fetch_TMY_data(
+            self.lat, self.lon, self.year
+        )
         mc = self.simulation_setup()
         mc.run_model(weather_data)
         return mc.results
-
-
-

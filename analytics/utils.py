@@ -22,12 +22,14 @@ def load_locations():
         locations = json.load(f)
         return locations
 
+
 def load_CEC_modules():
     path = os.path.join(settings.BASE_DIR, "config", "cec_modules.json")
 
     with open(path, mode="r") as f:
         modules = json.load(f)
         return modules
+
 
 def load_CEC_inverters():
     path = os.path.join(settings.BASE_DIR, "config", "cec_inverters.json")
@@ -36,7 +38,6 @@ def load_CEC_inverters():
         inverters = json.load(f)
         return inverters
 
-        
 
 def monthly_savings_chart(monthly_savings: Dict):
     # Sort months (1–12) and map to names
@@ -45,26 +46,24 @@ def monthly_savings_chart(monthly_savings: Dict):
     savings = [monthly_savings[str(m)] for m in months]
 
     # Create line chart
-    fig = go.Figure(data=[
-        go.Scatter(
-            x=month_names,
-            y=savings,
-            mode="lines+markers",
-            name="Savings"
-        )
-    ])
+    fig = go.Figure(
+        data=[
+            go.Scatter(x=month_names, y=savings, mode="lines+markers", name="Savings")
+        ]
+    )
 
     fig.update_layout(
         xaxis_title="Month",
         yaxis_title="Savings",
         xaxis=dict(tickmode="array", tickvals=month_names),
         xaxis_rangeslider_visible=False,
-        template="plotly_dark"
+        template="plotly_dark",
     )
 
     # Convert figure to HTML div
     savings_chart = plot(fig, output_type="div", include_plotlyjs=False)
     return savings_chart
+
 
 def scenario_efficiency_chart(scenario_data: Dict):
     scenarios = [d["scenario"] for d in scenario_data]
@@ -75,30 +74,28 @@ def scenario_efficiency_chart(scenario_data: Dict):
     # Build bubble chart
     fig = go.Figure()
 
-    fig.add_trace(go.Scatter(
-        x=efficiency,
-        y=annual_kwh,
-        mode="markers",
-        text=scenarios,
-        textposition="top center",
-        marker=dict(
-            size=[p/2 for p in percent_opt],  # scale bubble size
-            sizemode="area",
-            color=percent_opt,
-            colorscale="Viridis",
-            showscale=True,
-            line=dict(width=1, color="DarkSlateGrey")
-        ),
-        hovertemplate="<b>%{text}</b><br>Efficiency: %{x}<br>Annual kWh: %{y}<br>Optional: %{marker.size}<extra></extra>"
-    ))
+    fig.add_trace(
+        go.Scatter(
+            x=efficiency,
+            y=annual_kwh,
+            mode="markers",
+            text=scenarios,
+            textposition="top center",
+            marker=dict(
+                size=[p / 2 for p in percent_opt],  # scale bubble size
+                sizemode="area",
+                color=percent_opt,
+                colorscale="Viridis",
+                showscale=True,
+                line=dict(width=1, color="DarkSlateGrey"),
+            ),
+            hovertemplate="<b>%{text}</b><br>Efficiency: %{x}<br>Annual kWh: %{y}<br>Optional: %{marker.size}<extra></extra>",
+        )
+    )
 
     fig.update_layout(
-        xaxis_title="Efficiency Ratio",
-        yaxis_title="Annual kWh",
-        template="plotly_dark"
+        xaxis_title="Efficiency Ratio", yaxis_title="Annual kWh", template="plotly_dark"
     )
 
     efficiency_chart = plot(fig, output_type="div", include_plotlyjs=False)
     return efficiency_chart
-
-

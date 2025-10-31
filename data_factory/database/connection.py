@@ -15,11 +15,7 @@ class DatabaseConnection:
 
         try:
             self.conn = psycopg2.connect(
-                dbname=dbname,
-                user=user,
-                password=password,
-                host=host,
-                port=port
+                dbname=dbname, user=user, password=password, host=host, port=port
             )
             logger.warning("DatabaseConnection: Connected to database")
 

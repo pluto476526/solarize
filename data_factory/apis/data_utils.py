@@ -1,4 +1,3 @@
-
 import pandas as pd
 import logging
 
@@ -7,18 +6,18 @@ def process_openmeteo_weather(response):
     # Process current data. The order of variables needs to be the same as requested.
     current = response.Current()
     current_data = {
-    	"time": [pd.to_datetime(current.Time(), unit="s", utc=True)],
-    	"temperature_2m": [current.Variables(0).Value()],
-    	"relative_humidity_2m": [current.Variables(1).Value()],
-    	"apparent_temperature": [current.Variables(2).Value()],
-    	"precipitation": [current.Variables(3).Value()],
-    	"rain": [current.Variables(4).Value()],
-    	"showers": [current.Variables(5).Value()],
-    	"weather_code": [current.Variables(6).Value()],
-    	"cloud_cover": [current.Variables(7).Value()],
-    	"wind_speed_10m": [current.Variables(8).Value()],
-    	"wind_direction_10m": [current.Variables(9).Value()],
-    	"wind_gusts_10m": [current.Variables(10).Value()]
+        "time": [pd.to_datetime(current.Time(), unit="s", utc=True)],
+        "temperature_2m": [current.Variables(0).Value()],
+        "relative_humidity_2m": [current.Variables(1).Value()],
+        "apparent_temperature": [current.Variables(2).Value()],
+        "precipitation": [current.Variables(3).Value()],
+        "rain": [current.Variables(4).Value()],
+        "showers": [current.Variables(5).Value()],
+        "weather_code": [current.Variables(6).Value()],
+        "cloud_cover": [current.Variables(7).Value()],
+        "wind_speed_10m": [current.Variables(8).Value()],
+        "wind_direction_10m": [current.Variables(9).Value()],
+        "wind_gusts_10m": [current.Variables(10).Value()],
     }
     current_dataframe = pd.DataFrame(data=current_data)
 
@@ -34,12 +33,14 @@ def process_openmeteo_weather(response):
     hourly_direct_normal_irradiance = hourly.Variables(7).ValuesAsNumpy()
     hourly_sunshine_duration = hourly.Variables(8).ValuesAsNumpy()
 
-    hourly_data = {"date": pd.date_range(
-        start=pd.to_datetime(hourly.Time(), unit="s", utc=True),
-        end=pd.to_datetime(hourly.TimeEnd(), unit="s", utc=True),
-        freq=pd.Timedelta(seconds = hourly.Interval()),
-        inclusive="left"
-    )}
+    hourly_data = {
+        "date": pd.date_range(
+            start=pd.to_datetime(hourly.Time(), unit="s", utc=True),
+            end=pd.to_datetime(hourly.TimeEnd(), unit="s", utc=True),
+            freq=pd.Timedelta(seconds=hourly.Interval()),
+            inclusive="left",
+        )
+    }
 
     hourly_data["temperature_2m"] = hourly_temperature_2m
     hourly_data["precipitation_probability"] = hourly_precipitation_probability
@@ -68,12 +69,14 @@ def process_openmeteo_weather(response):
     daily_shortwave_radiation_sum = daily.Variables(11).ValuesAsNumpy()
     daily_wind_direction_10m_dominant = daily.Variables(12).ValuesAsNumpy()
 
-    daily_data = {"date": pd.date_range(
-        start=pd.to_datetime(daily.Time(), unit="s", utc=True),
-        end=pd.to_datetime(daily.TimeEnd(), unit="s", utc=True),
-        freq=pd.Timedelta(seconds=daily.Interval()),
-        inclusive="left"
-    )}
+    daily_data = {
+        "date": pd.date_range(
+            start=pd.to_datetime(daily.Time(), unit="s", utc=True),
+            end=pd.to_datetime(daily.TimeEnd(), unit="s", utc=True),
+            freq=pd.Timedelta(seconds=daily.Interval()),
+            inclusive="left",
+        )
+    }
 
     daily_data["sunrise"] = daily_sunrise
     daily_data["sunset"] = daily_sunset
@@ -93,8 +96,6 @@ def process_openmeteo_weather(response):
     return current_dataframe, hourly_dataframe, daily_dataframe
 
 
-
-
 def process_airquality_data(response):
     # Process current data. The order of variables needs to be the same as requested.
     current = response.Current()
@@ -110,7 +111,7 @@ def process_airquality_data(response):
         "ozone": [current.Variables(7).Value()],
         "aerosol_optical_depth": [current.Variables(8).Value()],
         "dust": [current.Variables(9).Value()],
-        "uv_index": [current.Variables(10).Value()]
+        "uv_index": [current.Variables(10).Value()],
     }
     current_dataframe = pd.DataFrame(data=current_data)
 
@@ -126,12 +127,14 @@ def process_airquality_data(response):
     hourly_uv_index = hourly.Variables(7).ValuesAsNumpy()
     hourly_pm10 = hourly.Variables(8).ValuesAsNumpy()
 
-    hourly_data = {"date": pd.date_range(
-        start = pd.to_datetime(hourly.Time(), unit = "s", utc = True),
-        end =  pd.to_datetime(hourly.TimeEnd(), unit = "s", utc = True),
-        freq = pd.Timedelta(seconds = hourly.Interval()),
-        inclusive = "left"
-    )}
+    hourly_data = {
+        "date": pd.date_range(
+            start=pd.to_datetime(hourly.Time(), unit="s", utc=True),
+            end=pd.to_datetime(hourly.TimeEnd(), unit="s", utc=True),
+            freq=pd.Timedelta(seconds=hourly.Interval()),
+            inclusive="left",
+        )
+    }
 
     hourly_data["pm2_5"] = hourly_pm2_5
     hourly_data["carbon_monoxide"] = hourly_carbon_monoxide
@@ -142,7 +145,6 @@ def process_airquality_data(response):
     hourly_data["dust"] = hourly_dust
     hourly_data["uv_index"] = hourly_uv_index
     hourly_data["pm10"] = hourly_pm10
-    hourly_dataframe = pd.DataFrame(data = hourly_data)
+    hourly_dataframe = pd.DataFrame(data=hourly_data)
 
     return current_dataframe, hourly_dataframe
-    

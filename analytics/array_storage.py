@@ -23,6 +23,7 @@ def _get_file_path(user, filename):
 
 # ------------------ SAVE / LOAD ------------------
 
+
 def save_array_file(user, filename, array_names):
     """Save array data to a file within the user’s directory."""
     file_path = _get_file_path(user, filename)
@@ -41,11 +42,11 @@ def load_array_file(user, filename):
 
 # ------------------ FILE MANAGEMENT ------------------
 
+
 def list_user_files(user):
     """List all array files for the given user."""
     user_dir = _get_user_dir(user)
     return sorted(os.listdir(user_dir))
-
 
 
 def delete_array_files(user, days=30):
@@ -64,7 +65,3 @@ def delete_array_files(user, days=30):
             if age_days > days:
                 os.remove(file_path)
                 return True
-
-
-
-

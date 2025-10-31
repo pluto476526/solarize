@@ -10,7 +10,12 @@ from django.core.signing import Signer
 from data_factory.database.manager import DataManager
 from data_factory.database.connection import DatabaseConnection
 from data_factory.pvwatts.simulator import PVWattsSimulator
-from data_factory.pvlib import fixed_mount_simulator, specs_simulator, bifacial_simulation, axis_tracking
+from data_factory.pvlib import (
+    fixed_mount_simulator,
+    specs_simulator,
+    bifacial_simulation,
+    axis_tracking,
+)
 from data_factory.pvlib import general_analyzer, seasonal_analyzer, financial_analysis
 from data_factory.pvlib import plots, timeseries
 from data_factory import weather_analyzer, airquality_analyzer
@@ -20,37 +25,40 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+
 def index_view(request):
     locations = utils.load_locations()
     conn = DatabaseConnection()
     dbm = DataManager(conn)
     df = dbm.get_irradiance_ohlc_data(bucket="1 week")
-    
+
     if df.empty:
         irradiance_chart = "<p>No data available</p>"
 
     else:
         df.dropna(subset=["open", "high", "low", "close"], how="all", inplace=True)
 
-        fig = go.Figure(data=[
-            go.Candlestick(
-                x=df["bucket"],
-                open=df["open"],
-                high=df["high"],
-                low=df["low"],
-                close=df["close"],
-            )
-        ])
+        fig = go.Figure(
+            data=[
+                go.Candlestick(
+                    x=df["bucket"],
+                    open=df["open"],
+                    high=df["high"],
+                    low=df["low"],
+                    close=df["close"],
+                )
+            ]
+        )
 
         fig.update_layout(
             xaxis_title="Date",
             yaxis_title="kWh/m²/day",
             xaxis_rangeslider_visible=False,
-            template="plotly_dark"
+            template="plotly_dark",
         )
 
         irradiance_chart = plot(fig, output_type="div", include_plotlyjs=False)
-    
+
     context = {
         "locations": locations,
         "irradiance_chart": irradiance_chart,
@@ -62,7 +70,7 @@ def pvwatts_modelling_view(request):
     simulator = PVWattsSimulator()
     reports = []
     location_idx = 0
-    
+
     if request.method == "POST":
         # Get system config parameters
         system_config = {
@@ -82,21 +90,20 @@ def pvwatts_modelling_view(request):
 
             # Stop looping if no more locations in POST data
             if not (loc_name and lat and lon):
-                break  
+                break
 
             simulator.add_location(name=loc_name, lat=float(lat), lon=float(lon))
             report = simulator.generate_report(loc_name, config=system_config)
             reports.append(report)
 
             location_idx += 1
-        
+
         request.session["pvwatts_report"] = reports
         logger.debug(reports)
         return redirect("pvwatts_report")
 
     context = {}
     return render(request, "analytics/pvwatts_modelling.html", context)
-
 
 
 def pvwatts_report_view(request):
@@ -130,7 +137,7 @@ def fixed_mount_system_view(request):
     if request.method == "POST":
         simulation_name = request.POST.get("name", "Fixed_Mount")
         description = request.POST.get("description")
-        arrays_file = request.FILES.get('arrays_json')
+        arrays_file = request.FILES.get("arrays_json")
         arrays_config = json.load(arrays_file) if arrays_file else {}
 
         array_names = {}
@@ -141,7 +148,9 @@ def fixed_mount_system_view(request):
 
         index = len(array_names)
         array_names[str(index)] = "MainArray"
-        array_storage.save_array_file(request.user, f"{simulation_name}_fms_arrays.json", array_names)
+        array_storage.save_array_file(
+            request.user, f"{simulation_name}_fms_arrays.json", array_names
+        )
 
         location_params = {
             "name": simulation_name,
@@ -164,7 +173,7 @@ def fixed_mount_system_view(request):
             "temp_model_params": request.POST.get("temp_model_params"),
             "arrays_config": arrays_config,
             "description": request.POST.get("description", ""),
-            "year": request.POST.get("year")
+            "year": request.POST.get("year"),
         }
 
         losses_params = {
@@ -183,7 +192,7 @@ def fixed_mount_system_view(request):
         fms = fixed_mount_simulator.FixedMountSimulator(
             location_params=location_params,
             system_params=system_params,
-            losses_params=losses_params
+            losses_params=losses_params,
         )
 
         result = fms.run_simulation()
@@ -191,14 +200,14 @@ def fixed_mount_system_view(request):
             result=result,
             array_names=array_names,
             simulation_name=simulation_name,
-            description=description
+            description=description,
         )
 
         db.close()
         messages.success(request, f"Configured system with {len(arrays_config)} arrays")
         signer = Signer()
         token = signer.sign(result_id)
-        return redirect("modelchain_result", token=token)        
+        return redirect("modelchain_result", token=token)
 
     context = {}
     return render(request, "analytics/fixed_mount_system.html", context)
@@ -211,7 +220,7 @@ def spec_sheet_modelling_view(request):
     if request.method == "POST":
         simulation_name = request.POST.get("name", "Spec_Sheet")
         description = request.POST.get("description")
-        arrays_file = request.FILES.get('arrays_json')
+        arrays_file = request.FILES.get("arrays_json")
         arrays_config = json.load(arrays_file) if arrays_file else {}
 
         array_names = {}
@@ -222,7 +231,9 @@ def spec_sheet_modelling_view(request):
 
         index = len(array_names)
         array_names[str(index)] = "MainArray"
-        array_storage.save_array_file(request.user, f"{simulation_name}_ssm_arrays.json", array_names)
+        array_storage.save_array_file(
+            request.user, f"{simulation_name}_ssm_arrays.json", array_names
+        )
 
         location_params = {
             "name": simulation_name,
@@ -242,8 +253,10 @@ def spec_sheet_modelling_view(request):
         }
 
         temp_coefficients = {
-            "alpha_sc": (float(request.POST.get("Isc")) / 100) * float(request.POST.get("i_sc")),
-            "beta_voc": (float(request.POST.get("voc")) / 100) * float(request.POST.get("v_oc")),
+            "alpha_sc": (float(request.POST.get("Isc")) / 100)
+            * float(request.POST.get("i_sc")),
+            "beta_voc": (float(request.POST.get("voc")) / 100)
+            * float(request.POST.get("v_oc")),
             "gamma_pmp": float(request.POST.get("Pmax")),
         }
 
@@ -252,7 +265,6 @@ def spec_sheet_modelling_view(request):
             "eta_inv_nom": float(request.POST.get("eta_inv_nom")),
             "eta_inv_ref": float(request.POST.get("eta_inv_ref")),
         }
-
 
         system_params = {
             "arrays_config": arrays_config,
@@ -268,7 +280,7 @@ def spec_sheet_modelling_view(request):
             "temp_model": request.POST.get("temp_model"),
             "temp_model_params": request.POST.get("temp_model_params"),
             "description": request.POST.get("description"),
-            "year": request.POST.get("year")
+            "year": request.POST.get("year"),
         }
 
         losses_params = {
@@ -287,7 +299,7 @@ def spec_sheet_modelling_view(request):
         sss = specs_simulator.SpecSheetSimulator(
             location_params=location_params,
             system_params=system_params,
-            losses_params=losses_params
+            losses_params=losses_params,
         )
 
         result = sss.run_simulation()
@@ -295,7 +307,7 @@ def spec_sheet_modelling_view(request):
             result=result,
             array_names=array_names,
             simulation_name=simulation_name,
-            description=description
+            description=description,
         )
 
         db.close()
@@ -307,6 +319,7 @@ def spec_sheet_modelling_view(request):
     context = {}
     return render(request, "analytics/spec_sheet_modelling.html", context)
 
+
 def axis_tracking_view(request):
     conn = DatabaseConnection()
     db = DataManager(conn)
@@ -314,7 +327,7 @@ def axis_tracking_view(request):
     if request.method == "POST":
         simulation_name = request.POST.get("name", "Single_Dual_Axis_Tracking")
         description = request.POST.get("description")
-        arrays_file = request.FILES.get('arrays_json')
+        arrays_file = request.FILES.get("arrays_json")
         arrays_config = json.load(arrays_file) if arrays_file else {}
 
         array_names = {}
@@ -325,7 +338,9 @@ def axis_tracking_view(request):
 
         index = len(array_names)
         array_names[str(index)] = "MainArray"
-        array_storage.save_array_file(request.user, f"{simulation_name}_sdt_arrays.json", array_names)
+        array_storage.save_array_file(
+            request.user, f"{simulation_name}_sdt_arrays.json", array_names
+        )
 
         timeframe_params = {
             "start_date": request.POST.get("start_date"),
@@ -352,7 +367,7 @@ def axis_tracking_view(request):
             "temp_model": request.POST.get("temp_model"),
             "temp_model_params": request.POST.get("temp_model_params"),
             "description": request.POST.get("description"),
-            "year": request.POST.get("year")
+            "year": request.POST.get("year"),
         }
 
         tracking_params = {
@@ -360,7 +375,7 @@ def axis_tracking_view(request):
             "axis_tilt": request.POST.get("tilt"),
             "max_angle": request.POST.get("max_angle"),
             "backtrack": request.POST.get("backtrack"),
-            "gcr": request.POST.get("gcr")
+            "gcr": request.POST.get("gcr"),
         }
 
         losses_params = {
@@ -380,7 +395,7 @@ def axis_tracking_view(request):
             location_params=location_params,
             system_params=system_params,
             tracking_params=tracking_params,
-            losses_params=losses_params
+            losses_params=losses_params,
         )
 
         result = sdt.run_simulation()
@@ -388,7 +403,7 @@ def axis_tracking_view(request):
             result=result,
             array_names=array_names,
             simulation_name=simulation_name,
-            description=description
+            description=description,
         )
 
         db.close()
@@ -400,6 +415,7 @@ def axis_tracking_view(request):
     context = {}
     return render(request, "analytics/axis_tracking.html", context)
 
+
 def bifacial_system_view(request):
     conn = DatabaseConnection()
     db = DataManager(conn)
@@ -407,7 +423,7 @@ def bifacial_system_view(request):
     if request.method == "POST":
         simulation_name = request.POST.get("name", "Bifacial_System")
         description = request.POST.get("description")
-        arrays_file = request.FILES.get('arrays_json')
+        arrays_file = request.FILES.get("arrays_json")
         arrays_config = json.load(arrays_file) if arrays_file else {}
 
         array_names = {}
@@ -418,7 +434,9 @@ def bifacial_system_view(request):
 
         index = len(array_names)
         array_names[str(index)] = "MainArray"
-        array_storage.save_array_file(request.user, f"{simulation_name}_bfs_arrays.json", array_names)
+        array_storage.save_array_file(
+            request.user, f"{simulation_name}_bfs_arrays.json", array_names
+        )
 
         location_params = {
             "name": simulation_name,
@@ -438,7 +456,7 @@ def bifacial_system_view(request):
             "index_observed_pvrow": int(request.POST.get("index_observed_pvrow")),
             "rho_front_pvrow": float(request.POST.get("rho_front_pvrow")),
             "rho_back_pvrow": float(request.POST.get("rho_back_pvrow")),
-            "horizon_band_angle": float(request.POST.get("horizon_band_angle"))
+            "horizon_band_angle": float(request.POST.get("horizon_band_angle")),
         }
 
         system_params = {
@@ -454,7 +472,7 @@ def bifacial_system_view(request):
             "temp_model": request.POST.get("temp_model"),
             "temp_model_params": request.POST.get("temp_model_params"),
             "description": request.POST.get("description"),
-            "year": request.POST.get("year")
+            "year": request.POST.get("year"),
         }
 
         losses_params = {
@@ -473,7 +491,7 @@ def bifacial_system_view(request):
         bpv = bifacial_simulation.BifacialPVSimulator(
             location_params=location_params,
             system_params=system_params,
-            losses_params=losses_params
+            losses_params=losses_params,
         )
 
         result = bpv.run_simulation()
@@ -481,7 +499,7 @@ def bifacial_system_view(request):
             result=result,
             array_names=array_names,
             simulation_name=simulation_name,
-            description=description
+            description=description,
         )
 
         db.close()
@@ -500,7 +518,7 @@ def modelchain_result_view(request, token):
     try:
         result_id = signer.unsign(token)
     except Exception:
-        return redirect(request.META.get('HTTP_REFERER', '/'))
+        return redirect(request.META.get("HTTP_REFERER", "/"))
 
     user_id = request.user.id
     cache_version_key = f"mc_result_version_{user_id}_{result_id}"
@@ -549,7 +567,9 @@ def modelchain_result_view(request, token):
             "daily_yield": plots.daily_yield(nd["ac"]),
             "cap_factor": plots.capacity_factor(nd["ac"]),
             "cum_energy": plots.cumulative_energy(nd["ac"]),
-            "solar_elevation": plots.solar_elevation_chart(simulation_data["solar_position"]),
+            "solar_elevation": plots.solar_elevation_chart(
+                simulation_data["solar_position"]
+            ),
             "sunpath": plots.sunpath_chart(simulation_data["solar_position"]),
             "poa_vs_ghi": plots.poa_vs_ghi_chart(nd["irr"], nd["weather"]),
             "poa_heatmap": plots.poa_heatmap(nd["irr"]),
@@ -573,11 +593,21 @@ def modelchain_result_view(request, token):
 
     # Build time-series charts (not cached — lightweight & parameterized)
     time_series = {
-        "ac_aoi": timeseries.ac_aoi_chart(simulation_data["ac_aoi"], ac_aoi_array, ac_aoi_param),
-        "cell_temp": timeseries.cell_temp_chart(simulation_data["cell_temperature"], cell_temp_array),
-        "dc_output": timeseries.dc_output_chart(simulation_data["dc"], dc_output_array, dc_output_param),
-        "diode_params": timeseries.diode_params_chart(simulation_data["diode_params"], diode_params_array, diode_params_param),
-        "irradiance": timeseries.total_irradiance_chart(simulation_data["irradiance"], irradiance_array, irradiance_param),
+        "ac_aoi": timeseries.ac_aoi_chart(
+            simulation_data["ac_aoi"], ac_aoi_array, ac_aoi_param
+        ),
+        "cell_temp": timeseries.cell_temp_chart(
+            simulation_data["cell_temperature"], cell_temp_array
+        ),
+        "dc_output": timeseries.dc_output_chart(
+            simulation_data["dc"], dc_output_array, dc_output_param
+        ),
+        "diode_params": timeseries.diode_params_chart(
+            simulation_data["diode_params"], diode_params_array, diode_params_param
+        ),
+        "irradiance": timeseries.total_irradiance_chart(
+            simulation_data["irradiance"], irradiance_array, irradiance_param
+        ),
         "weather": timeseries.weather_chart(simulation_data["weather"], weather_param),
     }
 
@@ -606,14 +636,28 @@ def modelchain_result_view(request, token):
         "cell_temp_cols": ["temperature"],
         "dc_output_cols": ["i_sc", "v_oc", "i_mp", "v_mp", "p_mp", "i_x", "i_xx"],
         "diode_params_cols": ["I_L", "I_o", "R_s", "R_sh", "nNsVth"],
-        "irradiance_cols": ["poa_global", "poa_direct", "poa_diffuse", "poa_sky_diffuse", "poa_ground_diffuse"],
+        "irradiance_cols": [
+            "poa_global",
+            "poa_direct",
+            "poa_diffuse",
+            "poa_sky_diffuse",
+            "poa_ground_diffuse",
+        ],
         "weather_cols": ["ghi", "dni", "dhi", "temp_air", "wind_speed"],
-        "solar_cols": ["zenith", "azimuth", "elevation", "apparent_zenith", "apparent_elevation", "equation_of_time"],
-        "arrays": array_storage.load_array_file(request.user, "random_simulation_arrays.json"),
+        "solar_cols": [
+            "zenith",
+            "azimuth",
+            "elevation",
+            "apparent_zenith",
+            "apparent_elevation",
+            "equation_of_time",
+        ],
+        "arrays": array_storage.load_array_file(
+            request.user, "random_simulation_arrays.json"
+        ),
     }
 
     return render(request, "analytics/modelchain_result.html", context)
-
 
 
 def weather_view(request):
@@ -626,23 +670,27 @@ def weather_view(request):
         location_data=location_data,
         current_weather=current_df,
         hourly_weather=hourly_df,
-        daily_weather=daily_df
+        daily_weather=daily_df,
     )
     analysis = wa.analyze_weather()
     context = {"analysis": analysis}
     return render(request, "analytics/weather.html", context)
 
+
 def climate_modelling_view(request):
     context = {}
     return render(request, "analytics/climate_modelling.html", context)
+
 
 def help_view(request):
     context = {}
     return render(request, "analytics/help.html", context)
 
+
 def repository_view(request):
     context = {}
     return render(request, "analytics/repository.html", context)
+
 
 def air_quality_view(request):
     conn = DatabaseConnection()
@@ -653,11 +701,12 @@ def air_quality_view(request):
     aq = airquality_analyzer.AirQualityAnalyzer(
         location_data=location_data,
         current_weather=current_df,
-        hourly_weather=hourly_df
+        hourly_weather=hourly_df,
     )
     analysis = aq.analyze_air_quality()
     context = {"air_quality": analysis}
     return render(request, "analytics/air_quality.html", context)
+
 
 def module_search(request):
     query = request.GET.get("q", "").lower()
@@ -666,8 +715,11 @@ def module_search(request):
         {"name": name, "manufacturer": mfg}
         for name, mfg in modules.items()
         if query in name.lower()
-    ][:50]  # limit to 50 results
+    ][
+        :50
+    ]  # limit to 50 results
     return JsonResponse(results, safe=False)
+
 
 def inverter_search(request):
     query = request.GET.get("q", "").lower()
@@ -676,6 +728,7 @@ def inverter_search(request):
         {"name": name, "manufacturer": mfg}
         for name, mfg in modules.items()
         if query in name.lower()
-    ][:50]  # limit to 50 results
+    ][
+        :50
+    ]  # limit to 50 results
     return JsonResponse(results, safe=False)
-

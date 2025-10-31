@@ -1,384 +1,373 @@
 {% extends 'analytics/main.html' %}
 {% load static %}
-
 {% block main %}
-
-<!-- Content Start -->
-<div class="content">
-    <!-- Navbar Start -->
-    {% include 'analytics/nav.html' %}
-    <!-- Navbar End -->
-
-    <!-- Profile Header Start -->
-    <div class="container-fluid pt-4 px-3">
-        <div class="row g-4">
-            <div class="col-12">
-                <form class="bg-secondary rounded p-4" method="post" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <input type="hidden" name="source" value="update_profile_form">
-                    <div class="d-flex align-items-center justify-content-between mb-4">
-                        <h4 class="mb-0">User Profile</h4>
-                        <div class="d-flex">
-                            <button class="btn btn-warning me-2" type="submit">
-                                <i class="fas fa-save me-2"></i>Save Changes
-                            </button>
-                            <button class="btn btn-outline-light">
-                                <i class="fas fa-times me-2"></i>Cancel
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <div class="row">
-                        <div class="col-md-4 text-center mb-4">
-                            <div class="position-relative d-inline-block">
-                                <img class="rounded-circle mb-3" src="{{ profile.avatar.url }}" alt="Avatar" style="width: 150px; height: 150px;">
-                                <label for="file-input" class="position-absolute bottom-0 end-0 bg-warning rounded-circle p-2 border border-3 border-secondary">
-                                    <i class="fas fa-camera text-dark"></i>
-                                    <input type="file" id="file-input" class="d-none" name="avatar" accept="image/*">
-                                </label>
-                            </div>
-                            <small class="text-muted" id="file-name"></small>
-                            <h5 class="mt-2">{{ request.user.username|title }}, <small class="text-muted">{{ profile.job_title }}</small></h5>
-                            <p class="text-muted">Joined on {{ request.user.date_joined|date:"M d, Y" }}</p>
-                            <div class="d-flex justify-content-center">
-                                <div class="me-3 text-center">
-                                    <h6 class="mb-0">66</h6>
-                                    <small class="text-muted">Simulations</small>
-                                </div>
-                                <div class="text-center">
-                                    <h6 class="mb-0">8</h6>
-                                    <small class="text-muted">Configurations</small>
-                                </div>
+    <!-- Content Start -->
+    <div class="content">
+        <!-- Navbar Start -->
+        {% include 'analytics/nav.html' %}
+        <!-- Navbar End -->
+        <!-- Profile Header Start -->
+        <div class="container-fluid pt-4 px-3">
+            <div class="row g-4">
+                <div class="col-12">
+                    <form class="bg-secondary rounded p-4"
+                          method="post"
+                          enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <input type="hidden" name="source" value="update_profile_form">
+                        <div class="d-flex align-items-center justify-content-between mb-4">
+                            <h4 class="mb-0">User Profile</h4>
+                            <div class="d-flex">
+                                <button class="btn btn-warning me-2" type="submit">
+                                    <i class="fas fa-save me-2"></i>Save Changes
+                                </button>
+                                <button class="btn btn-outline-light">
+                                    <i class="fas fa-times me-2"></i>Cancel
+                                </button>
                             </div>
                         </div>
-                        
-                        <div class="col-md-8">
-                            <div class="row">
-                                <div class="col-sm-6 mb-3">
-                                    <label class="form-label">Username</label>
-                                    <input type="text" class="form-control bg-dark border-0 text-white" value="{{ request.user.username }}" disabled>
-                                </div>
-                                <div class="col-sm-6 mb-3">
-                                    <label class="form-label">Email Address</label>
-                                    <input type="email" class="form-control bg-dark border-0 text-white" value="{{ request.user.email }}" disabled>
-                                </div>
-                                <div class="col-sm-6 mb-3">
-                                    <label class="form-label">Fullname</label>
-                                    <input type="text" class="form-control bg-dark border-0 text-white" name="full_name" value="{{ profile.full_name }}">
-                                </div>
-                                <div class="col-sm-6 mb-3">
-                                    <label class="form-label">Phone Number</label>
-                                    <input type="text" class="form-control bg-dark border-0 text-white" name="phone" value="{{ profile.phone }}">
-                                </div>
-                                <div class="col-sm-6 mb-3">
-                                    <label class="form-label">Job Title</label>
-                                    <input type="text" class="form-control bg-dark border-0 text-white" name="job_title" value="{{ profile.job_title }}">
-                                </div>
-                                <div class="col-sm-6 mb-3">
-                                    <label class="form-label">Department</label>
-                                    <input type="text" class="form-control bg-dark border-0 text-white" name="department" value="{{ profile.department }}">
-                                </div>
-                                <div class="col-12 mb-3">
-                                    <label class="form-label">Bio</label>
-                                    <textarea class="form-control bg-dark border-0 text-white" rows="3" name="bio">{{ profile.bio }}</textarea>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    <!-- Profile Header End -->
-
-    <!-- Notifications Settings Start -->
-    <div class="container-fluid pt-4 px-3">
-        <div class="row g-4">
-            <div class="col-md-8">
-                <div class="bg-secondary rounded p-4 h-100">
-                    <div class="bg-secondary rounded p-4">
-                        <h5 class="mb-4">Notification Preferences</h5>
-                        
                         <div class="row">
-                            <div class="col-md-6">
-                                <h6 class="mb-3">Solar Alerts</h6>
-                                
-                                <div class="form-check form-switch mb-3">
-                                    <input class="form-check-input" type="checkbox" id="cloudAlerts" checked>
-                                    <label class="form-check-label" for="cloudAlerts">
-                                        Cloud Cover Changes
+                            <div class="col-md-4 text-center mb-4">
+                                <div class="position-relative d-inline-block">
+                                    <img class="rounded-circle mb-3"
+                                         src="{{ profile.avatar.url }}"
+                                         alt="Avatar"
+                                         style="width: 150px;
+                                                height: 150px">
+                                    <label for="file-input"
+                                           class="position-absolute bottom-0 end-0 bg-warning rounded-circle p-2 border border-3 border-secondary">
+                                        <i class="fas fa-camera text-dark"></i>
+                                        <input type="file"
+                                               id="file-input"
+                                               class="d-none"
+                                               name="avatar"
+                                               accept="image/*">
                                     </label>
                                 </div>
-                                
-                                <div class="form-check form-switch mb-3">
-                                    <input class="form-check-input" type="checkbox" id="efficiencyAlerts" checked>
-                                    <label class="form-check-label" for="efficiencyAlerts">
-                                        Efficiency Drops
-                                    </label>
-                                </div>
-                                
-                                <div class="form-check form-switch mb-3">
-                                    <input class="form-check-input" type="checkbox" id="maintenanceAlerts">
-                                    <label class="form-check-label" for="maintenanceAlerts">
-                                        Maintenance Required
-                                    </label>
-                                </div>
-                                
-                                <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" id="weatherAlerts" checked>
-                                    <label class="form-check-label" for="weatherAlerts">
-                                        Severe Weather
-                                    </label>
-                                </div>
-                            </div>
-                            
-                            <div class="col-md-6">
-                                <h6 class="mb-3">System Notifications</h6>
-                                
-                                <div class="form-check form-switch mb-3">
-                                    <input class="form-check-input" type="checkbox" id="forecastUpdates" checked>
-                                    <label class="form-check-label" for="forecastUpdates">
-                                        Forecast Updates
-                                    </label>
-                                </div>
-                                
-                                <div class="form-check form-switch mb-3">
-                                    <input class="form-check-input" type="checkbox" id="dataSync" checked>
-                                    <label class="form-check-label" for="dataSync">
-                                        Data Sync Status
-                                    </label>
-                                </div>
-                                
-                                <div class="form-check form-switch mb-3">
-                                    <input class="form-check-input" type="checkbox" id="apiStatus">
-                                    <label class="form-check-label" for="apiStatus">
-                                        API Status Changes
-                                    </label>
-                                </div>
-                                
-                                <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" id="systemUpdates" checked>
-                                    <label class="form-check-label" for="systemUpdates">
-                                        System Updates
-                                    </label>
+                                <small class="text-muted" id="file-name"></small>
+                                <h5 class="mt-2">
+                                    {{ request.user.username|title }}, <small class="text-muted">{{ profile.job_title }}</small>
+                                </h5>
+                                <p class="text-muted">Joined on {{ request.user.date_joined|date:"M d, Y" }}</p>
+                                <div class="d-flex justify-content-center">
+                                    <div class="me-3 text-center">
+                                        <h6 class="mb-0">66</h6>
+                                        <small class="text-muted">Simulations</small>
+                                    </div>
+                                    <div class="text-center">
+                                        <h6 class="mb-0">8</h6>
+                                        <small class="text-muted">Configurations</small>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        
-                        <div class="row mt-4">
-                            <div class="col-md-6">
-                                <h6 class="mb-3">Notification Methods</h6>
-                                
-                                <div class="form-check mb-3">
-                                    <input class="form-check-input" type="checkbox" id="emailNotifications2" checked>
-                                    <label class="form-check-label" for="emailNotifications2">
-                                        Email Notifications
-                                    </label>
-                                </div>
-                                
-                                <div class="form-check mb-3">
-                                    <input class="form-check-input" type="checkbox" id="pushNotifications" checked>
-                                    <label class="form-check-label" for="pushNotifications">
-                                        Push Notifications
-                                    </label>
-                                </div>
-                                
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="smsNotifications">
-                                    <label class="form-check-label" for="smsNotifications">
-                                        SMS Notifications
-                                    </label>
-                                </div>
-                            </div>
-                            
-                            <div class="col-md-6">
-                                <h6 class="mb-3">Notification Frequency</h6>
-                                
-                                <div class="form-check mb-3">
-                                    <input class="form-check-input" type="radio" name="frequency" id="frequencyRealtime" checked>
-                                    <label class="form-check-label" for="frequencyRealtime">
-                                        Real-time
-                                    </label>
-                                </div>
-                                
-                                <div class="form-check mb-3">
-                                    <input class="form-check-input" type="radio" name="frequency" id="frequencyHourly">
-                                    <label class="form-check-label" for="frequencyHourly">
-                                        Hourly Digest
-                                    </label>
-                                </div>
-                                
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="frequency" id="frequencyDaily">
-                                    <label class="form-check-label" for="frequencyDaily">
-                                        Daily Summary
-                                    </label>
+                            <div class="col-md-8">
+                                <div class="row">
+                                    <div class="col-sm-6 mb-3">
+                                        <label class="form-label">Username</label>
+                                        <input type="text"
+                                               class="form-control bg-dark border-0 text-white"
+                                               value="{{ request.user.username }}"
+                                               disabled>
+                                    </div>
+                                    <div class="col-sm-6 mb-3">
+                                        <label class="form-label">Email Address</label>
+                                        <input type="email"
+                                               class="form-control bg-dark border-0 text-white"
+                                               value="{{ request.user.email }}"
+                                               disabled>
+                                    </div>
+                                    <div class="col-sm-6 mb-3">
+                                        <label class="form-label">Fullname</label>
+                                        <input type="text"
+                                               class="form-control bg-dark border-0 text-white"
+                                               name="full_name"
+                                               value="{{ profile.full_name }}">
+                                    </div>
+                                    <div class="col-sm-6 mb-3">
+                                        <label class="form-label">Phone Number</label>
+                                        <input type="text"
+                                               class="form-control bg-dark border-0 text-white"
+                                               name="phone"
+                                               value="{{ profile.phone }}">
+                                    </div>
+                                    <div class="col-sm-6 mb-3">
+                                        <label class="form-label">Job Title</label>
+                                        <input type="text"
+                                               class="form-control bg-dark border-0 text-white"
+                                               name="job_title"
+                                               value="{{ profile.job_title }}">
+                                    </div>
+                                    <div class="col-sm-6 mb-3">
+                                        <label class="form-label">Department</label>
+                                        <input type="text"
+                                               class="form-control bg-dark border-0 text-white"
+                                               name="department"
+                                               value="{{ profile.department }}">
+                                    </div>
+                                    <div class="col-12 mb-3">
+                                        <label class="form-label">Bio</label>
+                                        <textarea class="form-control bg-dark border-0 text-white" rows="3" name="bio">{{ profile.bio }}</textarea>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-md-4">
-                <div class="bg-secondary rounded p-4 h-100">
-                    <h5 class="mb-4">Security Settings</h5>
-                    
-                    <div class="mb-3">
-                        <label class="form-label">Current Password</label>
-                        <input type="password" class="form-control bg-dark border-0 text-white" placeholder="Enter current password">
-                    </div>
-                    
-                    <div class="mb-3">
-                        <label class="form-label">New Password</label>
-                        <input type="password" class="form-control bg-dark border-0 text-white" placeholder="Enter new password">
-                    </div>
-                    
-                    <div class="mb-4">
-                        <label class="form-label">Confirm New Password</label>
-                        <input type="password" class="form-control bg-dark border-0 text-white" placeholder="Confirm new password">
-                    </div>
-                    
-                    <div class="mb-4">
-                        <label class="form-label">Two-Factor Authentication</label>
-                        <div class="d-flex align-items-center">
-                            <div class="form-check form-switch me-3">
-                                <input class="form-check-input" type="checkbox" id="twoFactorAuth">
-                                <label class="form-check-label" for="twoFactorAuth">
-                                    Enable 2FA
-                                </label>
-                            </div>
-                            <span class="badge bg-warning">Recommended</span>
-                        </div>
-                        <small class="text-muted">Add an extra layer of security to your account</small>
-                    </div>
-                    
-                    <button class="btn btn-warning w-100">
-                        <i class="fas fa-key me-2"></i>Update Password
-                    </button>
+                    </form>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- Security Settings End -->
-
-    <!-- Activity & Sessions Start -->
-    <div class="container-fluid pt-4 px-3">
-        <div class="row g-4">
-            <div class="col-md-6">
-                <div class="bg-secondary rounded p-4 h-100">
-                    <h5 class="mb-4">Recent Activity</h5>
-                    
-                    <div class="d-flex border-bottom border-dark pb-3 mb-3">
-                        <div class="rounded-circle bg-warning d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
-                            <i class="fas fa-cloud-sun text-dark"></i>
-                        </div>
-                        <div>
-                            <h6 class="mb-1">Generated Solar Forecast</h6>
-                            <p class="mb-0 text-muted">Solar Farm Alpha - 2 hours ago</p>
-                        </div>
-                    </div>
-                    
-                    <div class="d-flex border-bottom border-dark pb-3 mb-3">
-                        <div class="rounded-circle bg-info d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
-                            <i class="fas fa-chart-bar text-dark"></i>
-                        </div>
-                        <div>
-                            <h6 class="mb-1">Created Analytics Report</h6>
-                            <p class="mb-0 text-muted">Weekly Performance - 5 hours ago</p>
-                        </div>
-                    </div>
-                    
-                    <div class="d-flex border-bottom border-dark pb-3 mb-3">
-                        <div class="rounded-circle bg-success d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
-                            <i class="fas fa-map-marker-alt text-dark"></i>
-                        </div>
-                        <div>
-                            <h6 class="mb-1">Added New Solar Farm</h6>
-                            <p class="mb-0 text-muted">Industrial Park Epsilon - Yesterday</p>
-                        </div>
-                    </div>
-                    
-                    <div class="d-flex">
-                        <div class="rounded-circle bg-primary d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
-                            <i class="fas fa-cog text-dark"></i>
-                        </div>
-                        <div>
-                            <h6 class="mb-1">Updated System Settings</h6>
-                            <p class="mb-0 text-muted">API Configuration - 2 days ago</p>
+        <!-- Profile Header End -->
+        <!-- Notifications Settings Start -->
+        <div class="container-fluid pt-4 px-3">
+            <div class="row g-4">
+                <div class="col-md-8">
+                    <div class="bg-secondary rounded p-4 h-100">
+                        <div class="bg-secondary rounded p-4">
+                            <h5 class="mb-4">Notification Preferences</h5>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h6 class="mb-3">Solar Alerts</h6>
+                                    <div class="form-check form-switch mb-3">
+                                        <input class="form-check-input" type="checkbox" id="cloudAlerts" checked>
+                                        <label class="form-check-label" for="cloudAlerts">Cloud Cover Changes</label>
+                                    </div>
+                                    <div class="form-check form-switch mb-3">
+                                        <input class="form-check-input"
+                                               type="checkbox"
+                                               id="efficiencyAlerts"
+                                               checked>
+                                        <label class="form-check-label" for="efficiencyAlerts">Efficiency Drops</label>
+                                    </div>
+                                    <div class="form-check form-switch mb-3">
+                                        <input class="form-check-input" type="checkbox" id="maintenanceAlerts">
+                                        <label class="form-check-label" for="maintenanceAlerts">Maintenance Required</label>
+                                    </div>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="weatherAlerts" checked>
+                                        <label class="form-check-label" for="weatherAlerts">Severe Weather</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6 class="mb-3">System Notifications</h6>
+                                    <div class="form-check form-switch mb-3">
+                                        <input class="form-check-input" type="checkbox" id="forecastUpdates" checked>
+                                        <label class="form-check-label" for="forecastUpdates">Forecast Updates</label>
+                                    </div>
+                                    <div class="form-check form-switch mb-3">
+                                        <input class="form-check-input" type="checkbox" id="dataSync" checked>
+                                        <label class="form-check-label" for="dataSync">Data Sync Status</label>
+                                    </div>
+                                    <div class="form-check form-switch mb-3">
+                                        <input class="form-check-input" type="checkbox" id="apiStatus">
+                                        <label class="form-check-label" for="apiStatus">API Status Changes</label>
+                                    </div>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="systemUpdates" checked>
+                                        <label class="form-check-label" for="systemUpdates">System Updates</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-4">
+                                <div class="col-md-6">
+                                    <h6 class="mb-3">Notification Methods</h6>
+                                    <div class="form-check mb-3">
+                                        <input class="form-check-input"
+                                               type="checkbox"
+                                               id="emailNotifications2"
+                                               checked>
+                                        <label class="form-check-label" for="emailNotifications2">Email Notifications</label>
+                                    </div>
+                                    <div class="form-check mb-3">
+                                        <input class="form-check-input"
+                                               type="checkbox"
+                                               id="pushNotifications"
+                                               checked>
+                                        <label class="form-check-label" for="pushNotifications">Push Notifications</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="smsNotifications">
+                                        <label class="form-check-label" for="smsNotifications">SMS Notifications</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6 class="mb-3">Notification Frequency</h6>
+                                    <div class="form-check mb-3">
+                                        <input class="form-check-input"
+                                               type="radio"
+                                               name="frequency"
+                                               id="frequencyRealtime"
+                                               checked>
+                                        <label class="form-check-label" for="frequencyRealtime">Real-time</label>
+                                    </div>
+                                    <div class="form-check mb-3">
+                                        <input class="form-check-input"
+                                               type="radio"
+                                               name="frequency"
+                                               id="frequencyHourly">
+                                        <label class="form-check-label" for="frequencyHourly">Hourly Digest</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input"
+                                               type="radio"
+                                               name="frequency"
+                                               id="frequencyDaily">
+                                        <label class="form-check-label" for="frequencyDaily">Daily Summary</label>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            
-            <div class="col-md-6">
-                <div class="bg-secondary rounded p-4 h-100">
-                    <h5 class="mb-4">Active Sessions</h5>
-                    
-                    <div class="d-flex border-bottom border-dark pb-3 mb-3">
-                        <div class="me-3">
-                            <i class="fas fa-desktop fa-2x text-warning"></i>
+                <div class="col-md-4">
+                    <div class="bg-secondary rounded p-4 h-100">
+                        <h5 class="mb-4">Security Settings</h5>
+                        <div class="mb-3">
+                            <label class="form-label">Current Password</label>
+                            <input type="password"
+                                   class="form-control bg-dark border-0 text-white"
+                                   placeholder="Enter current password">
                         </div>
-                        <div class="flex-grow-1">
-                            <h6 class="mb-1">Windows Desktop</h6>
-                            <p class="mb-0 text-muted">Chrome • New York, USA</p>
-                            <small class="text-success">Current Session</small>
+                        <div class="mb-3">
+                            <label class="form-label">New Password</label>
+                            <input type="password"
+                                   class="form-control bg-dark border-0 text-white"
+                                   placeholder="Enter new password">
                         </div>
-                        <div>
-                            <button class="btn btn-sm btn-outline-light">
-                                <i class="fas fa-times"></i>
-                            </button>
+                        <div class="mb-4">
+                            <label class="form-label">Confirm New Password</label>
+                            <input type="password"
+                                   class="form-control bg-dark border-0 text-white"
+                                   placeholder="Confirm new password">
                         </div>
-                    </div>
-                    
-                    <div class="d-flex border-bottom border-dark pb-3 mb-3">
-                        <div class="me-3">
-                            <i class="fas fa-mobile-alt fa-2x text-info"></i>
+                        <div class="mb-4">
+                            <label class="form-label">Two-Factor Authentication</label>
+                            <div class="d-flex align-items-center">
+                                <div class="form-check form-switch me-3">
+                                    <input class="form-check-input" type="checkbox" id="twoFactorAuth">
+                                    <label class="form-check-label" for="twoFactorAuth">Enable 2FA</label>
+                                </div>
+                                <span class="badge bg-warning">Recommended</span>
+                            </div>
+                            <small class="text-muted">Add an extra layer of security to your account</small>
                         </div>
-                        <div class="flex-grow-1">
-                            <h6 class="mb-1">iPhone 13</h6>
-                            <p class="mb-0 text-muted">Safari • Boston, USA</p>
-                            <small class="text-muted">Active 2 hours ago</small>
-                        </div>
-                        <div>
-                            <button class="btn btn-sm btn-outline-light">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <div class="d-flex">
-                        <div class="me-3">
-                            <i class="fas fa-laptop fa-2x text-primary"></i>
-                        </div>
-                        <div class="flex-grow-1">
-                            <h6 class="mb-1">MacBook Pro</h6>
-                            <p class="mb-0 text-muted">Firefox • Chicago, USA</p>
-                            <small class="text-muted">Active 1 day ago</small>
-                        </div>
-                        <div>
-                            <button class="btn btn-sm btn-outline-light">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <div class="mt-4">
-                        <button class="btn btn-outline-light w-100">
-                            <i class="fas fa-sign-out-alt me-2"></i>Log Out All Other Sessions
+                        <button class="btn btn-warning w-100">
+                            <i class="fas fa-key me-2"></i>Update Password
                         </button>
                     </div>
                 </div>
             </div>
         </div>
+        <!-- Security Settings End -->
+        <!-- Activity & Sessions Start -->
+        <div class="container-fluid pt-4 px-3">
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="bg-secondary rounded p-4 h-100">
+                        <h5 class="mb-4">Recent Activity</h5>
+                        <div class="d-flex border-bottom border-dark pb-3 mb-3">
+                            <div class="rounded-circle bg-warning d-flex align-items-center justify-content-center me-3"
+                                 style="width: 40px;
+                                        height: 40px">
+                                <i class="fas fa-cloud-sun text-dark"></i>
+                            </div>
+                            <div>
+                                <h6 class="mb-1">Generated Solar Forecast</h6>
+                                <p class="mb-0 text-muted">Solar Farm Alpha - 2 hours ago</p>
+                            </div>
+                        </div>
+                        <div class="d-flex border-bottom border-dark pb-3 mb-3">
+                            <div class="rounded-circle bg-info d-flex align-items-center justify-content-center me-3"
+                                 style="width: 40px;
+                                        height: 40px">
+                                <i class="fas fa-chart-bar text-dark"></i>
+                            </div>
+                            <div>
+                                <h6 class="mb-1">Created Analytics Report</h6>
+                                <p class="mb-0 text-muted">Weekly Performance - 5 hours ago</p>
+                            </div>
+                        </div>
+                        <div class="d-flex border-bottom border-dark pb-3 mb-3">
+                            <div class="rounded-circle bg-success d-flex align-items-center justify-content-center me-3"
+                                 style="width: 40px;
+                                        height: 40px">
+                                <i class="fas fa-map-marker-alt text-dark"></i>
+                            </div>
+                            <div>
+                                <h6 class="mb-1">Added New Solar Farm</h6>
+                                <p class="mb-0 text-muted">Industrial Park Epsilon - Yesterday</p>
+                            </div>
+                        </div>
+                        <div class="d-flex">
+                            <div class="rounded-circle bg-primary d-flex align-items-center justify-content-center me-3"
+                                 style="width: 40px;
+                                        height: 40px">
+                                <i class="fas fa-cog text-dark"></i>
+                            </div>
+                            <div>
+                                <h6 class="mb-1">Updated System Settings</h6>
+                                <p class="mb-0 text-muted">API Configuration - 2 days ago</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="bg-secondary rounded p-4 h-100">
+                        <h5 class="mb-4">Active Sessions</h5>
+                        <div class="d-flex border-bottom border-dark pb-3 mb-3">
+                            <div class="me-3">
+                                <i class="fas fa-desktop fa-2x text-warning"></i>
+                            </div>
+                            <div class="flex-grow-1">
+                                <h6 class="mb-1">Windows Desktop</h6>
+                                <p class="mb-0 text-muted">Chrome • New York, USA</p>
+                                <small class="text-success">Current Session</small>
+                            </div>
+                            <div>
+                                <button class="btn btn-sm btn-outline-light">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="d-flex border-bottom border-dark pb-3 mb-3">
+                            <div class="me-3">
+                                <i class="fas fa-mobile-alt fa-2x text-info"></i>
+                            </div>
+                            <div class="flex-grow-1">
+                                <h6 class="mb-1">iPhone 13</h6>
+                                <p class="mb-0 text-muted">Safari • Boston, USA</p>
+                                <small class="text-muted">Active 2 hours ago</small>
+                            </div>
+                            <div>
+                                <button class="btn btn-sm btn-outline-light">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="d-flex">
+                            <div class="me-3">
+                                <i class="fas fa-laptop fa-2x text-primary"></i>
+                            </div>
+                            <div class="flex-grow-1">
+                                <h6 class="mb-1">MacBook Pro</h6>
+                                <p class="mb-0 text-muted">Firefox • Chicago, USA</p>
+                                <small class="text-muted">Active 1 day ago</small>
+                            </div>
+                            <div>
+                                <button class="btn btn-sm btn-outline-light">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <button class="btn btn-outline-light w-100">
+                                <i class="fas fa-sign-out-alt me-2"></i>Log Out All Other Sessions
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Activity & Sessions End -->
+        {% include 'analytics/footer.html' %}
     </div>
-    <!-- Activity & Sessions End -->
-
-    {% include 'analytics/footer.html' %}
-</div>
-<!-- Content End -->
-
-
-
-
+    <!-- Content End -->
 {% endblock %}

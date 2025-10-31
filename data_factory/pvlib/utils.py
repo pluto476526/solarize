@@ -25,9 +25,9 @@ def fetch_TMY_data(lat, lon, year):
             latitude=lat,
             longitude=lon,
             url="https://re.jrc.ec.europa.eu/api/v5_2/",
-            coerce_year=year
+            coerce_year=year,
         )
-        
+
         weather.index.name = "utc_time"
         cache.set(cache_key, weather, timeout=604800)
 
@@ -45,6 +45,7 @@ def fetch_cec_params(module, inverter):
     module_params = module_db[module]
     inverter_params = inverter_db[inverter]
     return module_params, inverter_params
+
 
 def aggregate_timeseries(data, column: str = None):
     # If not a tuple, return the Series or column from DataFrame
@@ -70,7 +71,3 @@ def aggregate_timeseries(data, column: str = None):
         return series_list[0]
     else:
         return pd.concat(series_list, axis=1).mean(axis=1)
-
-
-
-

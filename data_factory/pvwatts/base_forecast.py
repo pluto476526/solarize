@@ -15,7 +15,7 @@ class FetchNRELData:
         self.nrel_api_key = config("NREL_API_KEY")
         self.location = location
         self.config = system_config
-        
+
     def get_base_forecast(self) -> Dict:
         """Get fundamental NREL data"""
         url = "https://developer.nrel.gov/api/pvwatts/v8.json"
@@ -30,30 +30,32 @@ class FetchNRELData:
             "array_type": self.config.get("array_type", 0),
             "module_type": self.config.get("module_type", 0),
             "losses": self.config.get("losses", 14),
-            "timeframe": "hourly"
+            "timeframe": "hourly",
         }
 
         response = requests.get(url, params=params)
         data = response.json()
 
         # create hourly dataframe for the year
-        hours = 8760 # 1 year
+        hours = 8760  # 1 year
         timestamps = pd.date_range(start="2024-01-01", periods=hours, freq="h")
 
         base_forecast = {
             "location": self.location,
             "system_config": self.config,
-            "hourly_data": pd.DataFrame({
-                "timestamp": timestamps,
-                "ac_power": data["outputs"]["ac"],
-                "dc_power": data["outputs"]["dc"],
-                "poa_irradiance": data["outputs"]["poa"],
-                "month": timestamps.month,
-                "hour": timestamps.hour,
-                "day_of_year": timestamps.dayofyear
-            }),
+            "hourly_data": pd.DataFrame(
+                {
+                    "timestamp": timestamps,
+                    "ac_power": data["outputs"]["ac"],
+                    "dc_power": data["outputs"]["dc"],
+                    "poa_irradiance": data["outputs"]["poa"],
+                    "month": timestamps.month,
+                    "hour": timestamps.hour,
+                    "day_of_year": timestamps.dayofyear,
+                }
+            ),
             "annual_total": sum(data["outputs"]["ac"]),
-            "capacity_factor": data["outputs"]["capacity_factor"]
+            "capacity_factor": data["outputs"]["capacity_factor"],
         }
 
         return base_forecast

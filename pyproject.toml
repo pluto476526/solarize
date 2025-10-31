@@ -1,0 +1,24 @@
+[tool.black]
+line-length = 88
+target-version = ['py311']
+exclude = '''
+/(
+    migrations
+  | venv
+  | .git
+  | __pycache__
+  | build
+  | dist
+)/
+'''
+
+[tool.djlint]
+profile = "django"
+indent = 4
+max_line_length = 120
+
+
+[tool.isort]
+profile = "black"
+line_length = 88
+

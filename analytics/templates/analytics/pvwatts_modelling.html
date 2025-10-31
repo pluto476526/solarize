@@ -1,94 +1,100 @@
 {% extends 'analytics/main.html' %}
 {% load static %}
-
 {% block main %}
-
-<!-- Content Start -->
-<div class="content">
-    <!-- Navbar Start -->
-    {% include 'analytics/nav.html' %}
-    <!-- Navbar End -->
-
-
-    <div class="container-fluid pt-2 px-3">
-        <div class="row mb-3 mt-3 px-3">
-            <div class="col-12 card shadow-sm bg-secondary p-4">
-                <h1 class="h3 text-warning my-3"><i class="fas fa-bolt me-2"></i>PVWatts Energy Simulation</h1>
-
-                <p class="text-muted small">
-                    PVWatts, developed by NREL (National Renewable Energy Laboratory), is a widely used online simulation platform 
-                    for estimating energy production of photovoltaic systems. It calculates solar energy generation by combining historical
-                    weather data, solar irradiance measurements, and detailed system parameters to provide accurate and
-                    actionable insights for residential, commercial, and utility-scale solar projects.
-                </p>
-
-                <p class="text-muted small">
-                    The simulation accounts for geographic location, solar panel orientation (azimuth and tilt), system capacity,
-                    module type, array configuration, and potential system losses such as shading, soiling, and inverter inefficiencies.
-                    By analyzing these factors, PVWatts provides realistic predictions of expected energy output, monthly and
-                    yearly production, and performance ratios under varying environmental conditions.
-                </p>
-
-                <p class="text-muted small">
-                    PVWatts also incorporates temperature-dependent efficiency changes, irradiance variability, and local climate
-                    patterns to generate precise energy forecasts. It allows users to explore different system configurations,
-                    compare energy production across multiple locations, and assess the impact of upgrades or design adjustments.
-                </p>
-
-                <p class="text-muted small">
-                    By leveraging PVWatts, you can make informed decisions regarding
-                    system sizing, financial modeling, and long-term energy planning. The tool ensures that solar investments
-                    are optimized for both performance and cost-efficiency, supporting sustainable and reliable energy solutions.
-                </p>
+    <!-- Content Start -->
+    <div class="content">
+        <!-- Navbar Start -->
+        {% include 'analytics/nav.html' %}
+        <!-- Navbar End -->
+        <div class="container-fluid pt-2 px-3">
+            <div class="row mb-3 mt-3 px-3">
+                <div class="col-12 card shadow-sm bg-secondary p-4">
+                    <h1 class="h3 text-warning my-3">
+                        <i class="fas fa-bolt me-2"></i>PVWatts Energy Simulation
+                    </h1>
+                    <p class="text-muted small">
+                        PVWatts, developed by NREL (National Renewable Energy Laboratory), is a widely used online simulation platform
+                        for estimating energy production of photovoltaic systems. It calculates solar energy generation by combining historical
+                        weather data, solar irradiance measurements, and detailed system parameters to provide accurate and
+                        actionable insights for residential, commercial, and utility-scale solar projects.
+                    </p>
+                    <p class="text-muted small">
+                        The simulation accounts for geographic location, solar panel orientation (azimuth and tilt), system capacity,
+                        module type, array configuration, and potential system losses such as shading, soiling, and inverter inefficiencies.
+                        By analyzing these factors, PVWatts provides realistic predictions of expected energy output, monthly and
+                        yearly production, and performance ratios under varying environmental conditions.
+                    </p>
+                    <p class="text-muted small">
+                        PVWatts also incorporates temperature-dependent efficiency changes, irradiance variability, and local climate
+                        patterns to generate precise energy forecasts. It allows users to explore different system configurations,
+                        compare energy production across multiple locations, and assess the impact of upgrades or design adjustments.
+                    </p>
+                    <p class="text-muted small">
+                        By leveraging PVWatts, you can make informed decisions regarding
+                        system sizing, financial modeling, and long-term energy planning. The tool ensures that solar investments
+                        are optimized for both performance and cost-efficiency, supporting sustainable and reliable energy solutions.
+                    </p>
+                </div>
             </div>
-        </div>
-
-        <div class="row g-4">
-            <!-- Header -->
-            <div class="col-12">
-                
-            </div>
-
-            <!-- Locations Section -->
-            <div class="col-12">
-                <div class="bg-secondary rounded p-4">
-                    <div class="d-flex align-items-center justify-content-between mb-3">
-                        <h6 class="mb-0 text-warning"></i>Locations</h6>
+            <div class="row g-4">
+                <!-- Header -->
+                <div class="col-12"></div>
+                <!-- Locations Section -->
+                <div class="col-12">
+                    <div class="bg-secondary rounded p-4">
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <h6 class="mb-0 text-warning">
+                            </i>Locations
+                        </h6>
                         <button type="button" class="btn btn-sm btn-outline-light" id="addLocation">
                             <i class="fas fa-plus me-1"></i>Add Location
                         </button>
                     </div>
                     <div id="locationsContainer">
                         <!-- Default Location -->
-                        <div class="location-group mb-4 p-3 border rounded" data-location-index="0">
+                        <div class="location-group mb-4 p-3 border rounded"
+                             data-location-index="0">
                             <div class="d-flex justify-content-between align-items-center mb-3">
                                 <h6 class="mb-0 text-light">Location #1</h6>
-                                <button type="button" class="btn btn-sm btn-outline-danger remove-location" disabled>
+                                <button type="button"
+                                        class="btn btn-sm btn-outline-danger remove-location"
+                                        disabled>
                                     <i class="fas fa-times"></i>
                                 </button>
                             </div>
                             <div class="row g-2">
                                 <div class="col-md-4">
                                     <label class="form-label small text-light">Location Name</label>
-                                    <input type="text" class="form-control form-control-sm location-name" 
-                                           name="locations[0][name]" placeholder="e.g., Nairobi" value="Nairobi" required>
+                                    <input type="text"
+                                           class="form-control form-control-sm location-name"
+                                           name="locations[0][name]"
+                                           placeholder="e.g., Nairobi"
+                                           value="Nairobi"
+                                           required>
                                 </div>
                                 <div class="col-md-4">
                                     <label class="form-label small text-light">Latitude</label>
-                                    <input type="number" class="form-control form-control-sm" 
-                                           name="locations[0][lat]" step="any" value="-1.286389" required>
+                                    <input type="number"
+                                           class="form-control form-control-sm"
+                                           name="locations[0][lat]"
+                                           step="any"
+                                           value="-1.286389"
+                                           required>
                                 </div>
                                 <div class="col-md-4">
                                     <label class="form-label small text-light">Longitude</label>
-                                    <input type="number" class="form-control form-control-sm" 
-                                           name="locations[0][lon]" step="any" value="36.817223" required>
+                                    <input type="number"
+                                           class="form-control form-control-sm"
+                                           name="locations[0][lon]"
+                                           step="any"
+                                           value="36.817223"
+                                           required>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
             <!-- System Configuration Section -->
             <div class="col-12 col-md-4">
                 <div class="bg-secondary rounded h-100 p-3">
@@ -97,32 +103,47 @@
                         <!-- Pair 1: System Capacity & Azimuth -->
                         <div class="col-md-6">
                             <label class="form-label small text-light">System Capacity (kW)</label>
-                            <input type="number" class="form-control form-control-sm" name="system_capacity" 
-                                   step="0.1" value="5" min="0">
+                            <input type="number"
+                                   class="form-control form-control-sm"
+                                   name="system_capacity"
+                                   step="0.1"
+                                   value="5"
+                                   min="0">
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label small text-light">Azimuth (°) <small class="text-muted">0°=North, 180°=South</small></label>
-                            <input type="number" class="form-control form-control-sm" name="azimuth" 
-                                   value="180" min="0" max="360">
-                            
+                            <label class="form-label small text-light">
+                                Azimuth (°) <small class="text-muted">0°=North, 180°=South</small>
+                            </label>
+                            <input type="number"
+                                   class="form-control form-control-sm"
+                                   name="azimuth"
+                                   value="180"
+                                   min="0"
+                                   max="360">
                         </div>
-
                         <!-- Pair 2: Tilt Angle & System Losses -->
                         <div class="col-md-6">
                             <label class="form-label small text-light">Tilt Angle (°)</label>
-                            <input type="number" class="form-control form-control-sm" name="tilt" 
-                                   value="20" min="0" max="90">
+                            <input type="number"
+                                   class="form-control form-control-sm"
+                                   name="tilt"
+                                   value="20"
+                                   min="0"
+                                   max="90">
                         </div>
                         <div class="col-md-6">
                             <label class="form-label small text-light">System Losses (%)</label>
-                            <input type="number" class="form-control form-control-sm" name="losses" 
-                                   min="0" max="100" value="14" step="1">
+                            <input type="number"
+                                   class="form-control form-control-sm"
+                                   name="losses"
+                                   min="0"
+                                   max="100"
+                                   value="14"
+                                   step="1">
                         </div>
                     </div>
                 </div>
-
             </div>
-
             <!-- Array & Module Section -->
             <div class="col-12 col-md-4">
                 <div class="bg-secondary rounded h-100 p-3">
@@ -147,45 +168,38 @@
                     </div>
                 </div>
             </div>
-
             <!-- Simulation Parameters Section -->
             <div class="col-12 col-md-4">
                 <div class="bg-secondary rounded h-100 p-3">
                     <h6 class="text-warning mb-3">TMY Data Year</h6>
                     <div class="row g-3 align-items-end">
-                    <!-- Timeframe Selection -->
-                    <div class="col-md-12">
-                        <label class="form-label small text-light">Output Year</label>
-                        <input type="number" class="form-control form-control-sm" name="year" value="2025" step="1">
-                        <small class="text-muted d-block mt-1">Defines the year used in the simulated output, not the data source period.</small>
-                    </div>
-
-                    <!-- Buttons -->
-                    <div class="col-md-12 d-flex justify-content-md-end gap-2">
-                        <button type="reset" class="btn btn-outline-light btn-sm">
-                            <i class="fas fa-redo me-1"></i>Reset
-                        </button>
-                        <button type="submit" class="btn btn-warning btn-sm">
-                            <i class="fas fa-bolt me-1"></i>Simulate
-                        </button>
+                        <!-- Timeframe Selection -->
+                        <div class="col-md-12">
+                            <label class="form-label small text-light">Output Year</label>
+                            <input type="number"
+                                   class="form-control form-control-sm"
+                                   name="year"
+                                   value="2025"
+                                   step="1">
+                            <small class="text-muted d-block mt-1">Defines the year used in the simulated output, not the data source period.</small>
+                        </div>
+                        <!-- Buttons -->
+                        <div class="col-md-12 d-flex justify-content-md-end gap-2">
+                            <button type="reset" class="btn btn-outline-light btn-sm">
+                                <i class="fas fa-redo me-1"></i>Reset
+                            </button>
+                            <button type="submit" class="btn btn-warning btn-sm">
+                                <i class="fas fa-bolt me-1"></i>Simulate
+                            </button>
+                        </div>
                     </div>
                 </div>
-
-                </div>
-
             </div>
-
             <!-- Submit Buttons -->
-            <div class="col-12">
-                
-            </div>
-
+            <div class="col-12"></div>
         </div>
     </div>
-
     {% include 'analytics/footer.html' %}
 </div>
 <!-- Content End -->
-
-
 {% endblock %}

@@ -3,7 +3,10 @@ import os
 import argparse
 from PIL import Image
 
-def compress_and_resize_images(input_dir, output_dir, max_width=1920, max_height=1080, quality=85):
+
+def compress_and_resize_images(
+    input_dir, output_dir, max_width=1920, max_height=1080, quality=85
+):
     os.makedirs(output_dir, exist_ok=True)
     supported_ext = (".jpg", ".jpeg", ".png", ".webp")
 
@@ -34,6 +37,7 @@ def compress_and_resize_images(input_dir, output_dir, max_width=1920, max_height
 
     print("Done compressing all images.")
 
+
 def main():
     parser = argparse.ArgumentParser(
         description="Compress and optionally resize all images in a directory."
@@ -47,6 +51,6 @@ def main():
         output_dir=args.output,
     )
 
+
 if __name__ == "__main__":
     main()
-

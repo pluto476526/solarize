@@ -7,7 +7,9 @@ import secrets, string
 
 
 class Profile(models.Model):
-    user = models.OneToOneField("auth.User", on_delete=models.CASCADE, related_name="profile")
+    user = models.OneToOneField(
+        "auth.User", on_delete=models.CASCADE, related_name="profile"
+    )
     userID = models.CharField(max_length=10, unique=True, null=True)
     full_name = models.CharField(max_length=255, blank=True, null=True)
     bio = models.CharField(max_length=100, default="I love solar energy.")
@@ -24,5 +26,8 @@ class Profile(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.userID:
-            self.userID = "".join(secrets.choice(string.ascii_uppercase + string.digits) for _ in range(10))
+            self.userID = "".join(
+                secrets.choice(string.ascii_uppercase + string.digits)
+                for _ in range(10)
+            )
         super().save(*args, **kwargs)

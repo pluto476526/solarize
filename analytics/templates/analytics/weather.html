@@ -1,415 +1,412 @@
 {% extends 'analytics/main.html' %}
 {% load static %}
-
 {% block main %}
-
-<!-- Content Start -->
-<div class="content">
-    <!-- Navbar Start -->
-    {% include 'analytics/nav.html' %}
-    <!-- Navbar End -->
-
-        
-    <!-- Weather Metrics Start -->
-    <div class="container-fluid pt-4 px-3">
-        <div class="row g-4">
-            <!-- Current Temperature -->
-            <div class="col-sm-6 col-xl-3">
-                <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
-                    <i class="fas fa-thermometer-half fa-3x text-warning"></i>
-                    <div class="ms-3">
-                        <p class="mb-2">Current Temperature</p>
-                        <h6 class="mb-0">{{ analysis.current_conditions.temperature.value }}°C</h6>
-                        <small class="text-muted">Feels like {{ analysis.current_conditions.temperature.feels_like }}°C</small>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Weather Condition -->
-            <div class="col-sm-6 col-xl-3">
-                <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
-                    <i class="fas fa-cloud fa-3x text-info"></i>
-                    <div class="ms-3">
-                        <p class="mb-2">Weather Condition</p>
-                        <h6 class="mb-0">{{ analysis.current_conditions.condition_code }}</h6>
-                        <small class="text-muted">{{ analysis.current_conditions.cloud_cover.value }}% cloud cover</small>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Wind Conditions -->
-            <div class="col-sm-6 col-xl-3">
-                <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
-                    <i class="fas fa-wind fa-3x text-primary"></i>
-                    <div class="ms-3">
-                        <p class="mb-2">Wind Speed</p>
-                        <h6 class="mb-0">{{ analysis.current_conditions.wind.speed }} {{ analysis.current_conditions.wind.unit }}</h6>
-                        <small class="text-muted">From {{ analysis.current_conditions.wind.direction }}°</small>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Humidity & Pressure -->
-            <div class="col-sm-6 col-xl-3">
-                <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
-                    <i class="fas fa-tint fa-3x text-success"></i>
-                    <div class="ms-3">
-                        <p class="mb-2">Relative Humidity</p>
-                        <h6 class="mb-0">{{ analysis.current_conditions.humidity.value }}%</h6>
-                        <small class="text-muted">{{ analysis.current_conditions.precipitation.type|title }}</small>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Weather Metrics End -->
-
-    <!-- Current Conditions Start -->
-    <div class="container-fluid pt-4 px-3">
-        <div class="row g-4">
-            <!-- Current Weather Widget -->
-            <div class="col-sm-12 col-md-6 col-xl-3">
-                <div class="bg-secondary rounded p-4">
-                    <h6 class="mb-3 text-info">Current Conditions</h6>
-                    <div class="d-flex justify-content-between mb-2">
-                        <span>Visibility</span>
-                        <strong>{{ analysis.current_conditions.visibility.value }} {{ analysis.current_conditions.visibility.unit }}</strong>
-                    </div>
-                    <div class="d-flex justify-content-between mb-2">
-                        <span>UV Index</span>
-                        <strong>{{ analysis.daily_analysis.daily_breakdown.0.solar.uv_index_max }}</strong>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <span>Wind Gust</span>
-                        <strong>{{ analysis.current_conditions.wind.gusts }} {{ analysis.current_conditions.wind.unit }}</strong>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Sun & Moon Times -->
-            <div class="col-sm-12 col-md-6 col-xl-3">
-                <div class="bg-secondary rounded p-4">
-                    <h6 class="mb-3 text-warning">Sun Events</h6>
-                    <div class="d-flex justify-content-between mb-2">
-                        <span>Sunrise</span>
-                        <strong class="text-warning">{{ analysis.daily_analysis.daily_breakdown.0.sunrise }}</strong>
-                    </div>
-                    <div class="d-flex justify-content-between mb-2">
-                        <span>Sunset</span>
-                        <strong class="text-warning">{{ analysis.daily_analysis.daily_breakdown.0.sunset }}</strong>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <span>Daylight</span>
-                        <strong class="text-warning">{{ analysis.daily_analysis.daily_breakdown.0.daylight_hours }}h</strong>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Weather Alerts Status -->
-            <div class="col-sm-12 col-md-6 col-xl-3">
-                <div class="bg-secondary rounded p-4">
-                    <h6 class="mb-3 text-danger">Weather Alerts</h6>
-                    <div class="d-flex justify-content-between mb-2">
-                        <span>Active Alerts</span>
-                        <span class="badge bg-danger">{{ analysis.weather_alerts.total }} Active</span>
-                    </div>
-                    <div class="d-flex justify-content-between mb-2">
-                        <span>Severity</span>
-                        {% if analysis.weather_alerts %}
-                        <span class="badge bg-warning">{{ analysis.weather_alerts.alerts.0.level }}</span>
-                        {% else %}
-                        <span class="badge bg-success">None</span>
-                        {% endif %}
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <span>Status</span>
-                        <small>{% if analysis.weather_alerts %}Monitoring{% else %}Clear{% endif %}</small>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Data Freshness -->
-            <div class="col-sm-12 col-md-6 col-xl-3">
-                <div class="bg-secondary rounded p-4">
-                    <h6 class="mb-3 text-primary">Data Status</h6>
-                    <div class="d-flex justify-content-between mb-2">
-                        <span>Last Updated</span>
-                        <small>{{ analysis.timestamps.analysis_time }}</small>
-                    </div>
-                    <div class="d-flex justify-content-between mb-2">
-                        <span>Data Quality</span>
-                        <span class="badge bg-success">High</span>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <span>Data Source</span>
-                        <small>Openmeteo</small>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Current Conditions End -->
-
-    <!-- Weather Alerts Overview Start -->
-    <div class="container-fluid p-4">
-        <div class="row g-4">
-            <div class="col-sm-12 col-md-6 col-xl-8 bg-secondary text-center rounded p-4">
-                <div class="d-flex align-items-center justify-content-between mb-4">
-                    <h6 class="mb-0 text-warning">Active Weather Alerts</h6>
-                </div>
-                <div class="table-responsive">
-                    <table class="table text-start align-middle table-bordered table-hover mb-0">
-                        <thead>
-                            <tr class="text-white">
-                                <th scope="col">Alert Type</th>
-                                <th scope="col">Level</th>
-                                <th scope="col">Message</th>
-                                <th scope="col">Details</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for alert in analysis.weather_alerts.alerts %}
-                            <tr>
-                                <td>{{ alert.type }}</td>
-                                <td>
-                                    {% if alert.level == 'SEVERE' %}
-                                    <span class="badge bg-danger">{{ alert.level }}</span>
-                                    {% elif alert.level == 'MODERATE' %}
-                                    <span class="badge bg-warning">{{ alert.level }}</span>
-                                    {% else %}
-                                    <span class="badge bg-info">{{ alert.level }}</span>
-                                    {% endif %}
-                                </td>
-                                <td>{{ alert.message }}</td>
-                                <td>{{ alert.details }}</td>
-                            </tr>
-                            {% empty %}
-                            <tr>
-                                <td colspan="5" class="text-center text-muted">No active weather alerts</td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <!-- Weather Factors -->
-            <div class="col-sm-12 col-md-6 col-xl-4">
-                <div class="h-100 bg-secondary rounded p-4">
-                    <div class="d-flex align-items-center justify-content-between mb-2">
-                        <h6 class="mb-0 text-warning">Weather Factors</h6>
-                    </div>
-                    <div class="d-flex align-items-center border-bottom py-3">
-                        <div class="rounded-circle bg-warning d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
-                            <i class="fas fa-cloud-rain text-dark"></i>
-                        </div>
-                        <div class="w-100 ms-3">
-                            <div class="d-flex w-100 justify-content-between">
-                                <h6 class="mb-0">Precipitation</h6>
-                                <small>{{ analysis.hourly_analysis.precipitation_analysis.precipitation_probability_avg }}%</small>
-                            </div>
-                            <span>{{ analysis.current_conditions.precipitation.type|title }} conditions</span>
+    <!-- Content Start -->
+    <div class="content">
+        <!-- Navbar Start -->
+        {% include 'analytics/nav.html' %}
+        <!-- Navbar End -->
+        <!-- Weather Metrics Start -->
+        <div class="container-fluid pt-4 px-3">
+            <div class="row g-4">
+                <!-- Current Temperature -->
+                <div class="col-sm-6 col-xl-3">
+                    <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                        <i class="fas fa-thermometer-half fa-3x text-warning"></i>
+                        <div class="ms-3">
+                            <p class="mb-2">Current Temperature</p>
+                            <h6 class="mb-0">{{ analysis.current_conditions.temperature.value }}°C</h6>
+                            <small class="text-muted">Feels like {{ analysis.current_conditions.temperature.feels_like }}°C</small>
                         </div>
                     </div>
-                    <div class="d-flex align-items-center border-bottom py-3">
-                        <div class="rounded-circle bg-info d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
-                            <i class="fas fa-temperature-low text-dark"></i>
-                        </div>
-                        <div class="w-100 ms-3">
-                            <div class="d-flex w-100 justify-content-between">
-                                <h6 class="mb-0">Temperature Range</h6>
-                                <small>{{ analysis.hourly_analysis.temperature_analysis.min_temp }}° - {{ analysis.hourly_analysis.temperature_analysis.max_temp }}°</small>
-                            </div>
-                            <span>{{ analysis.hourly_analysis.temperature_analysis.trend|title }} trend</span>
-                        </div>
-                    </div>
-                    <div class="d-flex align-items-center border-bottom py-3">
-                        <div class="rounded-circle bg-success d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
-                            <i class="fas fa-eye text-dark"></i>
-                        </div>
-                        <div class="w-100 ms-3">
-                            <div class="d-flex w-100 justify-content-between">
-                                <h6 class="mb-0">Visibility</h6>
-                                <small>{{ analysis.current_conditions.visibility.value }} {{ analysis.current_conditions.visibility.unit }}</small>
-                            </div>
-                            <span>Clear visibility conditions</span>
+                </div>
+                <!-- Weather Condition -->
+                <div class="col-sm-6 col-xl-3">
+                    <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                        <i class="fas fa-cloud fa-3x text-info"></i>
+                        <div class="ms-3">
+                            <p class="mb-2">Weather Condition</p>
+                            <h6 class="mb-0">{{ analysis.current_conditions.condition_code }}</h6>
+                            <small class="text-muted">{{ analysis.current_conditions.cloud_cover.value }}% cloud cover</small>
                         </div>
                     </div>
-                    <div class="d-flex align-items-center pt-3">
-                        <div class="rounded-circle bg-primary d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
-                            <i class="fas fa-compress-arrows-alt text-dark"></i>
+                </div>
+                <!-- Wind Conditions -->
+                <div class="col-sm-6 col-xl-3">
+                    <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                        <i class="fas fa-wind fa-3x text-primary"></i>
+                        <div class="ms-3">
+                            <p class="mb-2">Wind Speed</p>
+                            <h6 class="mb-0">{{ analysis.current_conditions.wind.speed }} {{ analysis.current_conditions.wind.unit }}</h6>
+                            <small class="text-muted">From {{ analysis.current_conditions.wind.direction }}°</small>
                         </div>
-                        <div class="w-100 ms-3">
-                            <div class="d-flex w-100 justify-content-between">
-                                <h6 class="mb-0">Solar Energy</h6>
-                                <small>{{ analysis.hourly_analysis.solar_analysis.total_sunshine_hours }}h</small>
-                            </div>
-                            <span>Sunshine duration</span>
+                    </div>
+                </div>
+                <!-- Humidity & Pressure -->
+                <div class="col-sm-6 col-xl-3">
+                    <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                        <i class="fas fa-tint fa-3x text-success"></i>
+                        <div class="ms-3">
+                            <p class="mb-2">Relative Humidity</p>
+                            <h6 class="mb-0">{{ analysis.current_conditions.humidity.value }}%</h6>
+                            <small class="text-muted">{{ analysis.current_conditions.precipitation.type|title }}</small>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- Weather Alerts Overview End -->
-
-    <!-- Weather Widgets Start -->
-    <div class="container-fluid px-3">
-        <div class="row g-4">            
-           <!-- Weather Summary -->
-            <div class="col-sm-12 col-md-6 col-xl-4">
-                <div class="h-100 bg-secondary rounded p-4">
-                    <!-- Header -->
-                    <div class="d-flex align-items-center justify-content-between mb-3">
-                        <h6 class="mb-0 text-warning">Weather Summary</h6>
-                    </div>
-
-                    <!-- Key Statistics -->
-                    <div class="mb-4">
-                        <h6 class="mb-3 text-light">Statistics</h6>
-
-                        <!-- Average Temperature -->
-                        <div class="mb-3">
-                            <small>Avg Temperature: 
-                                <span class="text-success fw-bold">
-                                    {{ analysis.hourly_analysis.temperature_analysis.avg_temp }}°C
-                                </span>
-                            </small>
-                            <div class="progress" style="height: 6px;">
-                                <div class="progress-bar bg-success" role="progressbar"
-                                     style="width: {{ analysis.hourly_analysis.temperature_analysis.avg_temp }}%;">
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Precipitation -->
-                        <div class="mb-3">
-                            <small>Precipitation: 
-                                <span class="text-primary fw-bold">
-                                    {{ analysis.hourly_analysis.precipitation_analysis.total_precipitation }}mm
-                                </span>
-                            </small>
-                            <div class="progress" style="height: 6px;">
-                                <div class="progress-bar bg-primary" role="progressbar"
-                                     style="width: {{ analysis.hourly_analysis.precipitation_analysis.total_precipitation }}%;">
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Sunshine -->
-                        <div class="mb-3">
-                            <small>Sunshine: 
-                                <span class="text-warning fw-bold">
-                                    {{ analysis.hourly_analysis.solar_analysis.total_sunshine_hours }}h
-                                </span>
-                            </small>
-                            <div class="progress" style="height: 6px;">
-                                <div class="progress-bar bg-warning" role="progressbar"
-                                     style="width: {{ analysis.hourly_analysis.solar_analysis.total_sunshine_hours }}%;">
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <!-- Summary Section -->
-                    <div class="border-top border-light pt-3">
+        <!-- Weather Metrics End -->
+        <!-- Current Conditions Start -->
+        <div class="container-fluid pt-4 px-3">
+            <div class="row g-4">
+                <!-- Current Weather Widget -->
+                <div class="col-sm-12 col-md-6 col-xl-3">
+                    <div class="bg-secondary rounded p-4">
+                        <h6 class="mb-3 text-info">Current Conditions</h6>
                         <div class="d-flex justify-content-between mb-2">
-                            <span>Overall Condition:</span>
-                            <span class="text-warning fw-bold">{{ analysis.summary.overall_condition }}</span>
+                            <span>Visibility</span>
+                            <strong>{{ analysis.current_conditions.visibility.value }} {{ analysis.current_conditions.visibility.unit }}</strong>
                         </div>
                         <div class="d-flex justify-content-between mb-2">
-                            <span>Comfort Hours:</span>
-                            <span class="text-success fw-bold">{{ analysis.hourly_analysis.temperature_analysis.comfort_hours }}h</span>
+                            <span>UV Index</span>
+                            <strong>{{ analysis.daily_analysis.daily_breakdown.0.solar.uv_index_max }}</strong>
                         </div>
-                        <div class="d-flex justify-content-between mb-2">
-                            <span>Rain Hours:</span>
-                            <span class="text-primary fw-bold">{{ analysis.hourly_analysis.precipitation_analysis.precipitation_hours }}h</span>
-                        </div>
-                        <div class="d-flex justify-content-between mb-3">
-                            <span>Heavy Precipitation:</span>
-                            <span class="text-info fw-bold">{{ analysis.hourly_analysis.precipitation_analysis.heavy_precipitation_hours }}h</span>
+                        <div class="d-flex justify-content-between">
+                            <span>Wind Gust</span>
+                            <strong>{{ analysis.current_conditions.wind.gusts }} {{ analysis.current_conditions.wind.unit }}</strong>
                         </div>
                     </div>
-
+                </div>
+                <!-- Sun & Moon Times -->
+                <div class="col-sm-12 col-md-6 col-xl-3">
+                    <div class="bg-secondary rounded p-4">
+                        <h6 class="mb-3 text-warning">Sun Events</h6>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Sunrise</span>
+                            <strong class="text-warning">{{ analysis.daily_analysis.daily_breakdown.0.sunrise }}</strong>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Sunset</span>
+                            <strong class="text-warning">{{ analysis.daily_analysis.daily_breakdown.0.sunset }}</strong>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span>Daylight</span>
+                            <strong class="text-warning">{{ analysis.daily_analysis.daily_breakdown.0.daylight_hours }}h</strong>
+                        </div>
+                    </div>
+                </div>
+                <!-- Weather Alerts Status -->
+                <div class="col-sm-12 col-md-6 col-xl-3">
+                    <div class="bg-secondary rounded p-4">
+                        <h6 class="mb-3 text-danger">Weather Alerts</h6>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Active Alerts</span>
+                            <span class="badge bg-danger">{{ analysis.weather_alerts.total }} Active</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Severity</span>
+                            {% if analysis.weather_alerts %}
+                                <span class="badge bg-warning">{{ analysis.weather_alerts.alerts.0.level }}</span>
+                            {% else %}
+                                <span class="badge bg-success">None</span>
+                            {% endif %}
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span>Status</span>
+                            <small>
+                                {% if analysis.weather_alerts %}
+                                    Monitoring
+                                {% else %}
+                                    Clear
+                                {% endif %}
+                            </small>
+                        </div>
+                    </div>
+                </div>
+                <!-- Data Freshness -->
+                <div class="col-sm-12 col-md-6 col-xl-3">
+                    <div class="bg-secondary rounded p-4">
+                        <h6 class="mb-3 text-primary">Data Status</h6>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Last Updated</span>
+                            <small>{{ analysis.timestamps.analysis_time }}</small>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Data Quality</span>
+                            <span class="badge bg-success">High</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span>Data Source</span>
+                            <small>Openmeteo</small>
+                        </div>
+                    </div>
                 </div>
             </div>
-
-
-            <!-- Location & API Info -->
-            <div class="col-sm-12 col-md-6 col-xl-4">
-                <div class="bg-secondary rounded p-4 h-100">
-                    <!-- Section Header -->
-                    <h6 class="mb-4 text-warning border-bottom border-light pb-2">Location & API Information</h6>
-
-                    <!-- Table -->
-                    <div class="table-responsive mb-4">
-                        <table class="table table-sm table-borderless align-middle">
+        </div>
+        <!-- Current Conditions End -->
+        <!-- Weather Alerts Overview Start -->
+        <div class="container-fluid p-4">
+            <div class="row g-4">
+                <div class="col-sm-12 col-md-6 col-xl-8 bg-secondary text-center rounded p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h6 class="mb-0 text-warning">Active Weather Alerts</h6>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table text-start align-middle table-bordered table-hover mb-0">
+                            <thead>
+                                <tr class="text-white">
+                                    <th scope="col">Alert Type</th>
+                                    <th scope="col">Level</th>
+                                    <th scope="col">Message</th>
+                                    <th scope="col">Details</th>
+                                </tr>
+                            </thead>
                             <tbody>
-                                <tr>
-                                    <td class="fw-bold text-light">Location</td>
-                                    <td class="text-light">{{ analysis.location_info.location_name }}</td>
-                                    <td class="text-muted small">Monitoring location</td>
-                                </tr>
-                                <tr>
-                                    <td class="fw-bold text-light">Latitude</td>
-                                    <td class="text-light">{{ analysis.location_info.latitude }}</td>
-                                    <td class="text-muted small">Location latitude</td>
-                                </tr>
-                                <tr>
-                                    <td class="fw-bold text-light">Longitude</td>
-                                    <td class="text-light">{{ analysis.location_info.longitude }}</td>
-                                    <td class="text-muted small">Location longitude</td>
-                                </tr>
-                                <tr>
-                                    <td class="fw-bold text-light">Elevation</td>
-                                    <td class="text-light">{{ analysis.location_info.elevation }} m</td>
-                                    <td class="text-muted small">Location elevation</td>
-                                </tr>
-                                <tr>
-                                    <td class="fw-bold text-light">Timezone</td>
-                                    <td class="text-light">{{ analysis.location_info.timezone }}</td>
-                                    <td class="text-muted small">Location timezone</td>
-                                </tr>
+                                {% for alert in analysis.weather_alerts.alerts %}
+                                    <tr>
+                                        <td>{{ alert.type }}</td>
+                                        <td>
+                                            {% if alert.level == 'SEVERE' %}
+                                                <span class="badge bg-danger">{{ alert.level }}</span>
+                                            {% elif alert.level == 'MODERATE' %}
+                                                <span class="badge bg-warning">{{ alert.level }}</span>
+                                            {% else %}
+                                                <span class="badge bg-info">{{ alert.level }}</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>{{ alert.message }}</td>
+                                        <td>{{ alert.details }}</td>
+                                    </tr>
+                                {% empty %}
+                                    <tr>
+                                        <td colspan="5" class="text-center text-muted">No active weather alerts</td>
+                                    </tr>
+                                {% endfor %}
                             </tbody>
                         </table>
                     </div>
-
-                    <!-- Recommendations -->
-                    <div class="border-top border-light pt-3">
-                        <h6 class="mb-3 text-warning">Recommendations</h6>
-                        {% for recommendation in analysis.summary.recommendations %}
-                        <div class="d-flex align-items-start mb-2">
-                            <i class="fas fa-check-circle text-success me-2 mt-1"></i>
-                            <small class="text-light">{{ recommendation }}</small>
+                </div>
+                <!-- Weather Factors -->
+                <div class="col-sm-12 col-md-6 col-xl-4">
+                    <div class="h-100 bg-secondary rounded p-4">
+                        <div class="d-flex align-items-center justify-content-between mb-2">
+                            <h6 class="mb-0 text-warning">Weather Factors</h6>
                         </div>
-                        {% empty %}
-                        <small class="text-muted">No specific recommendations</small>
-                        {% endfor %}
+                        <div class="d-flex align-items-center border-bottom py-3">
+                            <div class="rounded-circle bg-warning d-flex align-items-center justify-content-center me-3"
+                                 style="width: 40px;
+                                        height: 40px">
+                                <i class="fas fa-cloud-rain text-dark"></i>
+                            </div>
+                            <div class="w-100 ms-3">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-0">Precipitation</h6>
+                                    <small>{{ analysis.hourly_analysis.precipitation_analysis.precipitation_probability_avg }}%</small>
+                                </div>
+                                <span>{{ analysis.current_conditions.precipitation.type|title }} conditions</span>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center border-bottom py-3">
+                            <div class="rounded-circle bg-info d-flex align-items-center justify-content-center me-3"
+                                 style="width: 40px;
+                                        height: 40px">
+                                <i class="fas fa-temperature-low text-dark"></i>
+                            </div>
+                            <div class="w-100 ms-3">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-0">Temperature Range</h6>
+                                    <small>{{ analysis.hourly_analysis.temperature_analysis.min_temp }}° - {{ analysis.hourly_analysis.temperature_analysis.max_temp }}°</small>
+                                </div>
+                                <span>{{ analysis.hourly_analysis.temperature_analysis.trend|title }} trend</span>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center border-bottom py-3">
+                            <div class="rounded-circle bg-success d-flex align-items-center justify-content-center me-3"
+                                 style="width: 40px;
+                                        height: 40px">
+                                <i class="fas fa-eye text-dark"></i>
+                            </div>
+                            <div class="w-100 ms-3">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-0">Visibility</h6>
+                                    <small>{{ analysis.current_conditions.visibility.value }} {{ analysis.current_conditions.visibility.unit }}</small>
+                                </div>
+                                <span>Clear visibility conditions</span>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center pt-3">
+                            <div class="rounded-circle bg-primary d-flex align-items-center justify-content-center me-3"
+                                 style="width: 40px;
+                                        height: 40px">
+                                <i class="fas fa-compress-arrows-alt text-dark"></i>
+                            </div>
+                            <div class="w-100 ms-3">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-0">Solar Energy</h6>
+                                    <small>{{ analysis.hourly_analysis.solar_analysis.total_sunshine_hours }}h</small>
+                                </div>
+                                <span>Sunshine duration</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-
-
-            <!-- Location Parameters -->
-            <div class="col-sm-12 col-md-6 col-xl-4">
-                <div class="card shadow-sm h-100 bg-secondary p-3">
-                    <div class="">
-                        <h6 class="mb-0 text-warning px-3"></i> Select Location</h6>
+        </div>
+        <!-- Weather Alerts Overview End -->
+        <!-- Weather Widgets Start -->
+        <div class="container-fluid px-3">
+            <div class="row g-4">
+                <!-- Weather Summary -->
+                <div class="col-sm-12 col-md-6 col-xl-4">
+                    <div class="h-100 bg-secondary rounded p-4">
+                        <!-- Header -->
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <h6 class="mb-0 text-warning">Weather Summary</h6>
+                        </div>
+                        <!-- Key Statistics -->
+                        <div class="mb-4">
+                            <h6 class="mb-3 text-light">Statistics</h6>
+                            <!-- Average Temperature -->
+                            <div class="mb-3">
+                                <small>Avg Temperature:
+                                    <span class="text-success fw-bold">{{ analysis.hourly_analysis.temperature_analysis.avg_temp }}°C</span>
+                                </small>
+                                <div class="progress" style="height: 6px;">
+                                    <div class="progress-bar bg-success"
+                                         role="progressbar"
+                                         style="width: {{ analysis.hourly_analysis.temperature_analysis.avg_temp }}%">
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Precipitation -->
+                            <div class="mb-3">
+                                <small>Precipitation:
+                                    <span class="text-primary fw-bold">{{ analysis.hourly_analysis.precipitation_analysis.total_precipitation }}mm</span>
+                                </small>
+                                <div class="progress" style="height: 6px;">
+                                    <div class="progress-bar bg-primary"
+                                         role="progressbar"
+                                         style="width: {{ analysis.hourly_analysis.precipitation_analysis.total_precipitation }}%">
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Sunshine -->
+                            <div class="mb-3">
+                                <small>Sunshine:
+                                    <span class="text-warning fw-bold">{{ analysis.hourly_analysis.solar_analysis.total_sunshine_hours }}h</span>
+                                </small>
+                                <div class="progress" style="height: 6px;">
+                                    <div class="progress-bar bg-warning"
+                                         role="progressbar"
+                                         style="width: {{ analysis.hourly_analysis.solar_analysis.total_sunshine_hours }}%">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Summary Section -->
+                        <div class="border-top border-light pt-3">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Overall Condition:</span>
+                                <span class="text-warning fw-bold">{{ analysis.summary.overall_condition }}</span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Comfort Hours:</span>
+                                <span class="text-success fw-bold">{{ analysis.hourly_analysis.temperature_analysis.comfort_hours }}h</span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Rain Hours:</span>
+                                <span class="text-primary fw-bold">{{ analysis.hourly_analysis.precipitation_analysis.precipitation_hours }}h</span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-3">
+                                <span>Heavy Precipitation:</span>
+                                <span class="text-info fw-bold">{{ analysis.hourly_analysis.precipitation_analysis.heavy_precipitation_hours }}h</span>
+                            </div>
+                        </div>
                     </div>
-
+                </div>
+                <!-- Location & API Info -->
+                <div class="col-sm-12 col-md-6 col-xl-4">
+                    <div class="bg-secondary rounded p-4 h-100">
+                        <!-- Section Header -->
+                        <h6 class="mb-4 text-warning border-bottom border-light pb-2">Location & API Information</h6>
+                        <!-- Table -->
+                        <div class="table-responsive mb-4">
+                            <table class="table table-sm table-borderless align-middle">
+                                <tbody>
+                                    <tr>
+                                        <td class="fw-bold text-light">Location</td>
+                                        <td class="text-light">{{ analysis.location_info.location_name }}</td>
+                                        <td class="text-muted small">Monitoring location</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold text-light">Latitude</td>
+                                        <td class="text-light">{{ analysis.location_info.latitude }}</td>
+                                        <td class="text-muted small">Location latitude</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold text-light">Longitude</td>
+                                        <td class="text-light">{{ analysis.location_info.longitude }}</td>
+                                        <td class="text-muted small">Location longitude</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold text-light">Elevation</td>
+                                        <td class="text-light">{{ analysis.location_info.elevation }} m</td>
+                                        <td class="text-muted small">Location elevation</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold text-light">Timezone</td>
+                                        <td class="text-light">{{ analysis.location_info.timezone }}</td>
+                                        <td class="text-muted small">Location timezone</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- Recommendations -->
+                        <div class="border-top border-light pt-3">
+                            <h6 class="mb-3 text-warning">Recommendations</h6>
+                            {% for recommendation in analysis.summary.recommendations %}
+                                <div class="d-flex align-items-start mb-2">
+                                    <i class="fas fa-check-circle text-success me-2 mt-1"></i>
+                                    <small class="text-light">{{ recommendation }}</small>
+                                </div>
+                            {% empty %}
+                                <small class="text-muted">No specific recommendations</small>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <!-- Location Parameters -->
+                <div class="col-sm-12 col-md-6 col-xl-4">
+                    <div class="card shadow-sm h-100 bg-secondary p-3">
+                        <div class="">
+                            <h6 class="mb-0 text-warning px-3">
+                            </i> Select Location
+                        </h6>
+                    </div>
                     <div class="card-body">
                         <div class="row g-2">
                             <div class="col-6">
                                 <label class="form-label small">Latitude</label>
-                                <input type="number" class="form-control form-control-sm" name="lat" value="-1.286389" step="any">
+                                <input type="number"
+                                       class="form-control form-control-sm"
+                                       name="lat"
+                                       value="-1.286389"
+                                       step="any">
                             </div>
                             <div class="col-6">
                                 <label class="form-label small">Longitude</label>
-                                <input type="number" class="form-control form-control-sm" name="lon" value="36.817223" step="any">
+                                <input type="number"
+                                       class="form-control form-control-sm"
+                                       name="lon"
+                                       value="36.817223"
+                                       step="any">
                             </div>
                             <div class="col-12">
                                 <label class="form-label small">Location Name</label>
-                                <input type="text" class="form-control form-control-sm" name="name" value="Nairobi">
+                                <input type="text"
+                                       class="form-control form-control-sm"
+                                       name="name"
+                                       value="Nairobi">
                             </div>
                             <div class="col-12">
                                 <label class="form-label small">Timezone</label>
@@ -432,7 +429,6 @@
         </div>
     </div>
     <!-- Weather Widgets End -->
-
     <!-- Detailed Forecast Start -->
     <div class="container-fluid pt-4 px-3">
         <div class="row g-4">
@@ -455,34 +451,33 @@
                             </thead>
                             <tbody>
                                 {% for hour in analysis.hourly_analysis.hourly_breakdown|slice:"-18:" %}
-                                <tr>
-                                    <td>{{ hour.time }}</td>
-                                    <td>{{ hour.temperature }}°C</td>
-                                    <td>
-                                        {% if hour.condition == 'SUNNY' %}
-                                        <i class="fas fa-sun text-warning"></i>
-                                        {% elif hour.condition == 'PARTLY_CLOUDY' %}
-                                        <i class="fas fa-cloud-sun text-info"></i>
-                                        {% elif hour.condition == 'CLOUDY' %}
-                                        <i class="fas fa-cloud text-secondary"></i>
-                                        {% elif hour.condition == 'RAINY' %}
-                                        <i class="fas fa-cloud-rain text-primary"></i>
-                                        {% else %}
-                                        <i class="fas fa-cloud text-info"></i>
-                                        {% endif %}
-                                    </td>
-                                    <td>{{ hour.precipitation.probability }}%</td>
-                                    <td>{{ hour.precipitation.amount }}mm</td>
-                                    <td>{{ hour.solar.radiation }}W/m</td>
-                                    <td>{{ hour.solar.sunshine }}W/m</td>
-                                </tr>
+                                    <tr>
+                                        <td>{{ hour.time }}</td>
+                                        <td>{{ hour.temperature }}°C</td>
+                                        <td>
+                                            {% if hour.condition == 'SUNNY' %}
+                                                <i class="fas fa-sun text-warning"></i>
+                                            {% elif hour.condition == 'PARTLY_CLOUDY' %}
+                                                <i class="fas fa-cloud-sun text-info"></i>
+                                            {% elif hour.condition == 'CLOUDY' %}
+                                                <i class="fas fa-cloud text-secondary"></i>
+                                            {% elif hour.condition == 'RAINY' %}
+                                                <i class="fas fa-cloud-rain text-primary"></i>
+                                            {% else %}
+                                                <i class="fas fa-cloud text-info"></i>
+                                            {% endif %}
+                                        </td>
+                                        <td>{{ hour.precipitation.probability }}%</td>
+                                        <td>{{ hour.precipitation.amount }}mm</td>
+                                        <td>{{ hour.solar.radiation }}W/m</td>
+                                        <td>{{ hour.solar.sunshine }}W/m</td>
+                                    </tr>
                                 {% endfor %}
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
-            
             <!-- Daily Forecast Details -->
             <div class="col-sm-12 col-xl-6">
                 <div class="bg-secondary rounded p-4">
@@ -501,28 +496,28 @@
                             </thead>
                             <tbody>
                                 {% for day in analysis.daily_analysis.daily_breakdown %}
-                                <tr>
-                                    <td>{{ day.date }}</td>
-                                    <td>{{ day.max_temperature }}° / {{ day.min_temperature }}°</td>
-                                    <td>
-                                        {% if day.weather_condition == 'SUNNY' %}
-                                        <i class="fas fa-sun text-warning"></i>
-                                        {% elif day.weather_condition == 'PARTLY_CLOUDY' %}
-                                        <i class="fas fa-cloud-sun text-info"></i>
-                                        {% elif day.weather_condition == 'CLOUDY' %}
-                                        <i class="fas fa-cloud text-secondary"></i>
-                                        {% elif day.weather_condition == 'RAINY' %}
-                                        <i class="fas fa-cloud-rain text-primary"></i>
-                                        {% elif day.weather_condition == 'OCCASIONAL_RAIN' %}
-                                        <i class="fas fa-cloud-drizzle text-info"></i>
-                                        {% else %}
-                                        <i class="fas fa-cloud text-info"></i>
-                                        {% endif %}
-                                    </td>
-                                    <td>{{ day.precipitation.probability }}%</td>
-                                    <td>{{ day.solar.sunshine_hours }}h</td>
-                                    <td>{{ day.solar.uv_index_max }}</td>
-                                </tr>
+                                    <tr>
+                                        <td>{{ day.date }}</td>
+                                        <td>{{ day.max_temperature }}° / {{ day.min_temperature }}°</td>
+                                        <td>
+                                            {% if day.weather_condition == 'SUNNY' %}
+                                                <i class="fas fa-sun text-warning"></i>
+                                            {% elif day.weather_condition == 'PARTLY_CLOUDY' %}
+                                                <i class="fas fa-cloud-sun text-info"></i>
+                                            {% elif day.weather_condition == 'CLOUDY' %}
+                                                <i class="fas fa-cloud text-secondary"></i>
+                                            {% elif day.weather_condition == 'RAINY' %}
+                                                <i class="fas fa-cloud-rain text-primary"></i>
+                                            {% elif day.weather_condition == 'OCCASIONAL_RAIN' %}
+                                                <i class="fas fa-cloud-drizzle text-info"></i>
+                                            {% else %}
+                                                <i class="fas fa-cloud text-info"></i>
+                                            {% endif %}
+                                        </td>
+                                        <td>{{ day.precipitation.probability }}%</td>
+                                        <td>{{ day.solar.sunshine_hours }}h</td>
+                                        <td>{{ day.solar.uv_index_max }}</td>
+                                    </tr>
                                 {% endfor %}
                             </tbody>
                         </table>
@@ -532,10 +527,6 @@
         </div>
     </div>
     <!-- Detailed Forecast End -->
-
-
-
-
     <!-- Data Sources & Methodology Documentation -->
     <div class="container-fluid pt-4 px-3">
         <div class="row g-4">
@@ -543,22 +534,28 @@
                 <div class="bg-secondary rounded p-4">
                     <div class="d-flex align-items-center justify-content-between mb-4">
                         <h5 class="mb-0">Weather Data Sources & Methodology</h5>
-                        <button type="button" class="btn btn-sm btn-outline-light" data-bs-toggle="collapse" data-bs-target="#dataSourcesCollapse">
+                        <button type="button"
+                                class="btn btn-sm btn-outline-light"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#dataSourcesCollapse">
                             <i class="fas fa-database me-1"></i>Toggle Data Documentation
                         </button>
                     </div>
-                    
                     <div class="collapse show" id="dataSourcesCollapse">
                         <div class="accordion" id="dataSourcesAccordion">
-                            
                             <!-- API Providers Section -->
                             <div class="accordion-item bg-dark border-dark">
                                 <h2 class="accordion-header">
-                                    <button class="accordion-button bg-dark text-light" type="button" data-bs-toggle="collapse" data-bs-target="#apiProviders">
+                                    <button class="accordion-button bg-dark text-light"
+                                            type="button"
+                                            data-bs-toggle="collapse"
+                                            data-bs-target="#apiProviders">
                                         <i class="fas fa-cloud me-2"></i>Weather Data Providers
                                     </button>
                                 </h2>
-                                <div id="apiProviders" class="accordion-collapse collapse show" data-bs-parent="#dataSourcesAccordion">
+                                <div id="apiProviders"
+                                     class="accordion-collapse collapse show"
+                                     data-bs-parent="#dataSourcesAccordion">
                                     <div class="accordion-body">
                                         <div class="row g-4">
                                             <div class="col-md-4 text-center">
@@ -598,39 +595,60 @@
                                     </div>
                                 </div>
                             </div>
-
                             <!-- Data Structure -->
                             <div class="accordion-item bg-dark border-dark">
                                 <h2 class="accordion-header">
-                                    <button class="accordion-button bg-dark text-light collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#dataStructure">
+                                    <button class="accordion-button bg-dark text-light collapsed"
+                                            type="button"
+                                            data-bs-toggle="collapse"
+                                            data-bs-target="#dataStructure">
                                         <i class="fas fa-code me-2"></i>Weather Data Structure
                                     </button>
                                 </h2>
-                                <div id="dataStructure" class="accordion-collapse collapse" data-bs-parent="#dataSourcesAccordion">
+                                <div id="dataStructure"
+                                     class="accordion-collapse collapse"
+                                     data-bs-parent="#dataSourcesAccordion">
                                     <div class="accordion-body">
                                         <h6 class="text-warning mb-3">API Response Structure</h6>
                                         <div class="row g-3 mb-4">
                                             <div class="col-md-6">
                                                 <h6 class="text-info">Current Weather Data</h6>
                                                 <ul class="text-light small">
-                                                    <li><strong>Temperature:</strong> Current, feels like, min, max</li>
-                                                    <li><strong>Atmospheric:</strong> Pressure, humidity, visibility</li>
-                                                    <li><strong>Wind:</strong> Speed, direction, gust</li>
-                                                    <li><strong>Weather:</strong> Conditions, description, icon</li>
-                                                    <li><strong>Astronomical:</strong> Sunrise, sunset times</li>
+                                                    <li>
+                                                        <strong>Temperature:</strong> Current, feels like, min, max
+                                                    </li>
+                                                    <li>
+                                                        <strong>Atmospheric:</strong> Pressure, humidity, visibility
+                                                    </li>
+                                                    <li>
+                                                        <strong>Wind:</strong> Speed, direction, gust
+                                                    </li>
+                                                    <li>
+                                                        <strong>Weather:</strong> Conditions, description, icon
+                                                    </li>
+                                                    <li>
+                                                        <strong>Astronomical:</strong> Sunrise, sunset times
+                                                    </li>
                                                 </ul>
                                             </div>
                                             <div class="col-md-6">
                                                 <h6 class="text-info">Forecast Data</h6>
                                                 <ul class="text-light small">
-                                                    <li><strong>Minutely:</strong> Precipitation for next hour</li>
-                                                    <li><strong>Hourly:</strong> 48-hour forecast with intervals</li>
-                                                    <li><strong>Daily:</strong> 7-day forecast with details</li>
-                                                    <li><strong>Alerts:</strong> Severe weather notifications</li>
+                                                    <li>
+                                                        <strong>Minutely:</strong> Precipitation for next hour
+                                                    </li>
+                                                    <li>
+                                                        <strong>Hourly:</strong> 48-hour forecast with intervals
+                                                    </li>
+                                                    <li>
+                                                        <strong>Daily:</strong> 7-day forecast with details
+                                                    </li>
+                                                    <li>
+                                                        <strong>Alerts:</strong> Severe weather notifications
+                                                    </li>
                                                 </ul>
                                             </div>
                                         </div>
-
                                         <h6 class="text-warning mb-3">Data Processing Pipeline</h6>
                                         <div class="row text-center mb-4">
                                             <div class="col-md-3">
@@ -666,54 +684,85 @@
                                                 <small class="text-light">Display to users</small>
                                             </div>
                                         </div>
-
                                         <div class="row g-3">
                                             <div class="col-md-6">
                                                 <h6 class="text-success">Sample Data Structure</h6>
                                                 <div class="bg-dark p-3 rounded">
                                                     <code class="text-light small">
-    {<br>
-    &nbsp;&nbsp;"lat": 33.44,<br>
-    &nbsp;&nbsp;"lon": -94.04,<br>
-    &nbsp;&nbsp;"timezone": "America/Chicago",<br>
-    &nbsp;&nbsp;"current": {<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;"dt": 1684929490,<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;"temp": 292.55,<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;"weather": [{...}]<br>
-    &nbsp;&nbsp;},<br>
-    &nbsp;&nbsp;"hourly": [...],<br>
-    &nbsp;&nbsp;"daily": [...],<br>
-    &nbsp;&nbsp;"alerts": [...]<br>
-    }
+                                                        {
+                                                        <br>
+                                                        &nbsp;&nbsp;"lat": 33.44,
+                                                        <br>
+                                                        &nbsp;&nbsp;"lon": -94.04,
+                                                        <br>
+                                                        &nbsp;&nbsp;"timezone": "America/Chicago",
+                                                        <br>
+                                                        &nbsp;&nbsp;"current": {
+                                                        <br>
+                                                        &nbsp;&nbsp;&nbsp;&nbsp;"dt": 1684929490,
+                                                        <br>
+                                                        &nbsp;&nbsp;&nbsp;&nbsp;"temp": 292.55,
+                                                        <br>
+                                                        &nbsp;&nbsp;&nbsp;&nbsp;"weather": [{...}]
+                                                        <br>
+                                                        &nbsp;&nbsp;},
+                                                        <br>
+                                                        &nbsp;&nbsp;"hourly": [...],
+                                                        <br>
+                                                        &nbsp;&nbsp;"daily": [...],
+                                                        <br>
+                                                        &nbsp;&nbsp;"alerts": [...]
+                                                        <br>
+                                                        }
                                                     </code>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <h6 class="text-success">Key Data Fields</h6>
                                                 <ul class="text-light small">
-                                                    <li><strong>dt:</strong> Unix timestamp of data point</li>
-                                                    <li><strong>temp:</strong> Temperature in Kelvin</li>
-                                                    <li><strong>feels_like:</strong> Human perception of temperature</li>
-                                                    <li><strong>pressure:</strong> Atmospheric pressure (hPa)</li>
-                                                    <li><strong>humidity:</strong> Relative humidity (%)</li>
-                                                    <li><strong>weather:</strong> Array of weather conditions</li>
-                                                    <li><strong>wind_speed:</strong> Wind speed (m/s)</li>
-                                                    <li><strong>pop:</strong> Probability of precipitation</li>
+                                                    <li>
+                                                        <strong>dt:</strong> Unix timestamp of data point
+                                                    </li>
+                                                    <li>
+                                                        <strong>temp:</strong> Temperature in Kelvin
+                                                    </li>
+                                                    <li>
+                                                        <strong>feels_like:</strong> Human perception of temperature
+                                                    </li>
+                                                    <li>
+                                                        <strong>pressure:</strong> Atmospheric pressure (hPa)
+                                                    </li>
+                                                    <li>
+                                                        <strong>humidity:</strong> Relative humidity (%)
+                                                    </li>
+                                                    <li>
+                                                        <strong>weather:</strong> Array of weather conditions
+                                                    </li>
+                                                    <li>
+                                                        <strong>wind_speed:</strong> Wind speed (m/s)
+                                                    </li>
+                                                    <li>
+                                                        <strong>pop:</strong> Probability of precipitation
+                                                    </li>
                                                 </ul>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
                             <!-- Data Quality & Accuracy -->
                             <div class="accordion-item bg-dark border-dark">
                                 <h2 class="accordion-header">
-                                    <button class="accordion-button bg-dark text-light collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#dataQuality">
+                                    <button class="accordion-button bg-dark text-light collapsed"
+                                            type="button"
+                                            data-bs-toggle="collapse"
+                                            data-bs-target="#dataQuality">
                                         <i class="fas fa-check-circle me-2"></i>Data Quality & Accuracy
                                     </button>
                                 </h2>
-                                <div id="dataQuality" class="accordion-collapse collapse" data-bs-parent="#dataSourcesAccordion">
+                                <div id="dataQuality"
+                                     class="accordion-collapse collapse"
+                                     data-bs-parent="#dataSourcesAccordion">
                                     <div class="accordion-body">
                                         <div class="row g-3">
                                             <div class="col-md-6">
@@ -730,22 +779,30 @@
                                                         <tbody>
                                                             <tr>
                                                                 <td>Current Conditions</td>
-                                                                <td><span class="badge bg-success">±0.5°C</span></td>
+                                                                <td>
+                                                                    <span class="badge bg-success">±0.5°C</span>
+                                                                </td>
                                                                 <td>10 minutes</td>
                                                             </tr>
                                                             <tr>
                                                                 <td>24-hour Forecast</td>
-                                                                <td><span class="badge bg-warning">±1.5°C</span></td>
+                                                                <td>
+                                                                    <span class="badge bg-warning">±1.5°C</span>
+                                                                </td>
                                                                 <td>Hourly</td>
                                                             </tr>
                                                             <tr>
                                                                 <td>7-day Forecast</td>
-                                                                <td><span class="badge bg-info">±3.0°C</span></td>
+                                                                <td>
+                                                                    <span class="badge bg-info">±3.0°C</span>
+                                                                </td>
                                                                 <td>Daily</td>
                                                             </tr>
                                                             <tr>
                                                                 <td>Precipitation</td>
-                                                                <td><span class="badge bg-success">±10%</span></td>
+                                                                <td>
+                                                                    <span class="badge bg-success">±10%</span>
+                                                                </td>
                                                                 <td>15 minutes</td>
                                                             </tr>
                                                         </tbody>
@@ -789,9 +846,7 @@
             </div>
         </div>
     </div>
-
     {% include 'analytics/footer.html' %}
 </div>
 <!-- Content End -->
-
 {% endblock %}

@@ -1,202 +1,195 @@
 {% extends 'onboarding/sub_main.html' %}
 {% load static %}
-
 {% block main %}
-<!-- HERO SECTION  -->
-<div class="site-hero_2" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.9)), url({% static 'onboarding/img/solutions_hero.jpg' %});">
-	<div class="section-overlay"></div>
-	<div class="page-title">
-		<h2>Our Solutions</h2>
-		<div class="small-title">home / solutions / </div>
-	</div>
-</div>
-
-<!-- SOLUTIONS INTRO -->
-<section class="about_descr mt-100">
-	<div class="container">
-		<div class="row center mb-50">
-			<div class="col-md-8 col-md-offset-2 col-sm-12">
-				<div class="section-title">
-					<h2 class="mb-50">Solar energy modelling solutions for every scale and application</h2>
-					<p>We deliver precise solutions designed to meet specific needs across residential, commercial, and industrial applications. Our technology helps optimize energy usage, improve system performance, and maximize returns on solar investments.</p>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
-
-<!-- RESIDENTIAL SOLUTION -->
-<section class="mb-100">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-6 wow fadeInUp">
-				<img src="{% static 'onboarding/img/solutions_residential.jpg' %}" alt="Residential Solar Solution" class="images">
-			</div>
-			<div class="col-md-6 wow fadeInUp" data-wow-delay=".1s">
-				<h3>Residential Users</h3>
-				<p>
-					Our residential modeling solution provides homeowners with accurate energy production estimates for their solar systems. By understanding exactly how much energy your panels will produce under different conditions, you can make informed decisions about system sizing and energy usage patterns.
-				</p>
-				<p>
-					For homes considering solar investments, our modeling tools help evaluate different system configurations, panel types, and installation angles to maximize energy production and financial returns. We provide clear, understandable reports that show expected energy output and cost savings.
-				</p>
-				<p>
-					The result is confident investment decisions, optimized system design, and realistic expectations about solar energy production for your specific location and home characteristics.
-				</p>
-				<ul class="services-list">
-					<li>Accurate energy production estimates</li>
-					<li>System sizing guidance</li>
-					<li>Financial return calculations</li>
-					<li>Location-specific analysis</li>
-					<li>Simple, user-friendly interface</li>
-				</ul>
-			</div>
-		</div>
-	</div>
-</section>
-
-<!-- COMMERCIAL SOLUTION -->
-<section class="mb-100" style="background-color: #1a1a00; padding: 80px 0;">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-6 wow fadeInUp">
-				<h3>Commercial Buildings</h3>
-				<p>
-					For commercial facilities, our modeling solutions provide detailed energy production analysis to support investment decisions and system design. We model performance under various conditions to give businesses confidence in their solar projects.
-				</p>
-				<p>
-					Our system analyzes multiple factors including roof orientation, shading, local climate patterns, and energy consumption profiles to deliver precise production estimates. This helps businesses evaluate the financial viability and operational impact of solar installations.
-				</p>
-				<p>
-					For existing solar systems, our tools provide performance benchmarking and help identify optimization opportunities through detailed analysis of actual vs. expected production.
-				</p>
-				<ul class="services-list">
-					<li>Detailed production analysis</li>
-					<li>Financial modeling</li>
-					<li>ROI calculations</li>
-					<li>System optimization</li>
-					<li>Performance reporting</li>
-				</ul>
-			</div>
-			<div class="col-md-6 wow fadeInUp" data-wow-delay=".1s">
-				<img src="{% static 'onboarding/img/solutions_commercial.jpg' %}" alt="Commercial Solar Solution" class="images">
-			</div>
-		</div>
-	</div>
-</section>
-
-<!-- SOLAR INSTALLERS SOLUTION -->
-<section class="mb-100">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-6 wow fadeInUp">
-				<img src="{% static 'onboarding/img/solutions_installers.jpg' %}" alt="Solar Installer Solution" class="images">
-			</div>
-			<div class="col-md-6 wow fadeInUp" data-wow-delay=".1s">
-				<h3>Solar Installation Companies</h3>
-				<p>
-					Our specialized modeling tools for solar installers provide accurate system performance estimates using industry-standard PVWatts and advanced PVlib modeling. We help design optimal solar solutions for each unique location and customer need.
-				</p>
-				<p>
-					During the design phase, our software enables rapid comparison of different system configurations, panel orientations, and component selections. This helps installers create proposals that maximize energy production and financial returns for their clients.
-				</p>
-				<p>
-					We incorporate multiple data sources including NASA climate data, local weather patterns, and astronomical calculations to deliver comprehensive system modeling that accounts for real-world conditions.
-				</p>
-				<ul class="services-list">
-					<li>PVWatts and PVlib modeling</li>
-					<li>System configuration comparison</li>
-					<li>Production estimates</li>
-					<li>Technical proposal support</li>
-					<li>Customer education tools</li>
-				</ul>
-			</div>
-		</div>
-	</div>
-</section>
-
-<!-- RESEARCHERS SOLUTION -->
-<section class="mb-100" style="background-color: #1a1a00; padding: 80px 0;">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-6 wow fadeInUp">
-				<h3>Researchers & Analysts</h3>
-				<p>
-					For academic institutions, research organizations, and energy analysts, we provide access to comprehensive solar data and advanced modeling tools. Our platform offers multiple modeling approaches and data sources to support research applications.
-				</p>
-				<p>
-					Researchers can access detailed solar radiation data, climate information, and system performance models. Our tools support comparative analysis between different modeling methodologies and validation against real-world data.
-				</p>
-				<p>
-					Energy analysts benefit from our integrated data approach, combining NASA climate data, real-time weather information, and industry-standard modeling tools to support policy development, market analysis, and technical research.
-				</p>
-				<ul class="services-list">
-					<li>Multiple modeling methodologies</li>
-					<li>Comprehensive data access</li>
-					<li>Comparative analysis tools</li>
-					<li>Data export capabilities</li>
-					<li>Research project support</li>
-				</ul>
-			</div>
-			<div class="col-md-6 wow fadeInUp" data-wow-delay=".1s">
-				<img src="{% static 'onboarding/img/solutions_research.jpg' %}" alt="Research Solution" class="images">
-			</div>
-		</div>
-	</div>
-</section>
-
-<!-- BENEFITS SECTION -->
-<section class="mb-100">
-	<div class="container">
-		<div class="row center mb-50">
-			<div class="col-md-8 col-md-offset-2 col-sm-12">
-				<div class="section-title">
-					<h2 class="mb-50">Why Choose Our Solutions</h2>
-					<p>Our solar modeling technology delivers reliable results across all applications</p>
-				</div>
-			</div>
-		</div>
-		
-		<div class="row">
-			<div class="col-md-3 col-sm-6 col-xs-12 wow fadeInUp">
-				<div class="mb-50">
-					<i class="lnr lnr-sun"></i>
-					<h4>Proven Methodology</h4>
-					<p>
-						Industry-standard PVWatts and advanced PVlib modeling validated across diverse locations and system types.
-					</p>
-				</div>
-			</div>
-			<div class="col-md-3 col-sm-6 col-xs-12 wow fadeInUp" data-wow-delay=".1s">
-				<div class="mb-50">
-					<i class="lnr lnr-database"></i>
-					<h4>Multiple Data Sources</h4>
-					<p>
-						Comprehensive modeling powered by NASA climate data, weather APIs, and astronomical calculations.
-					</p>
-				</div>
-			</div>
-			<div class="col-md-3 col-sm-6 col-xs-12 wow fadeInUp" data-wow-delay=".2s">
-				<div class="mb-50">
-					<i class="lnr lnr-chart-bars"></i>
-					<h4>Detailed Analysis</h4>
-					<p>
-						Comprehensive reporting and clear insights to support investment decisions and system optimization.
-					</p>
-				</div>
-			</div>
-			<div class="col-md-3 col-sm-6 col-xs-12 wow fadeInUp" data-wow-delay=".3s">
-				<div class="mb-50">
-					<i class="lnr lnr-cog"></i>
-					<h4>Practical Solutions</h4>
-					<p>
-						Tools designed for real-world applications, from residential system sizing to commercial project planning.
-					</p>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
-
-
+    <!-- HERO SECTION  -->
+    <div class="site-hero_2"
+         style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.9)), url({% static 'onboarding/img/solutions_hero.jpg' %})">
+        <div class="section-overlay"></div>
+        <div class="page-title">
+            <h2>Our Solutions</h2>
+            <div class="small-title">home / solutions /</div>
+        </div>
+    </div>
+    <!-- SOLUTIONS INTRO -->
+    <section class="about_descr mt-100">
+        <div class="container">
+            <div class="row center mb-50">
+                <div class="col-md-8 col-md-offset-2 col-sm-12">
+                    <div class="section-title">
+                        <h2 class="mb-50">Solar energy modelling solutions for every scale and application</h2>
+                        <p>
+                            We deliver precise solutions designed to meet specific needs across residential, commercial, and industrial applications. Our technology helps optimize energy usage, improve system performance, and maximize returns on solar investments.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- RESIDENTIAL SOLUTION -->
+    <section class="mb-100">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 wow fadeInUp">
+                    <img src="{% static 'onboarding/img/solutions_residential.jpg' %}"
+                         alt="Residential Solar Solution"
+                         class="images">
+                </div>
+                <div class="col-md-6 wow fadeInUp" data-wow-delay=".1s">
+                    <h3>Residential Users</h3>
+                    <p>
+                        Our residential modeling solution provides homeowners with accurate energy production estimates for their solar systems. By understanding exactly how much energy your panels will produce under different conditions, you can make informed decisions about system sizing and energy usage patterns.
+                    </p>
+                    <p>
+                        For homes considering solar investments, our modeling tools help evaluate different system configurations, panel types, and installation angles to maximize energy production and financial returns. We provide clear, understandable reports that show expected energy output and cost savings.
+                    </p>
+                    <p>
+                        The result is confident investment decisions, optimized system design, and realistic expectations about solar energy production for your specific location and home characteristics.
+                    </p>
+                    <ul class="services-list">
+                        <li>Accurate energy production estimates</li>
+                        <li>System sizing guidance</li>
+                        <li>Financial return calculations</li>
+                        <li>Location-specific analysis</li>
+                        <li>Simple, user-friendly interface</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- COMMERCIAL SOLUTION -->
+    <section class="mb-100" style="background-color: #1a1a00; padding: 80px 0;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 wow fadeInUp">
+                    <h3>Commercial Buildings</h3>
+                    <p>
+                        For commercial facilities, our modeling solutions provide detailed energy production analysis to support investment decisions and system design. We model performance under various conditions to give businesses confidence in their solar projects.
+                    </p>
+                    <p>
+                        Our system analyzes multiple factors including roof orientation, shading, local climate patterns, and energy consumption profiles to deliver precise production estimates. This helps businesses evaluate the financial viability and operational impact of solar installations.
+                    </p>
+                    <p>
+                        For existing solar systems, our tools provide performance benchmarking and help identify optimization opportunities through detailed analysis of actual vs. expected production.
+                    </p>
+                    <ul class="services-list">
+                        <li>Detailed production analysis</li>
+                        <li>Financial modeling</li>
+                        <li>ROI calculations</li>
+                        <li>System optimization</li>
+                        <li>Performance reporting</li>
+                    </ul>
+                </div>
+                <div class="col-md-6 wow fadeInUp" data-wow-delay=".1s">
+                    <img src="{% static 'onboarding/img/solutions_commercial.jpg' %}"
+                         alt="Commercial Solar Solution"
+                         class="images">
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- SOLAR INSTALLERS SOLUTION -->
+    <section class="mb-100">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 wow fadeInUp">
+                    <img src="{% static 'onboarding/img/solutions_installers.jpg' %}"
+                         alt="Solar Installer Solution"
+                         class="images">
+                </div>
+                <div class="col-md-6 wow fadeInUp" data-wow-delay=".1s">
+                    <h3>Solar Installation Companies</h3>
+                    <p>
+                        Our specialized modeling tools for solar installers provide accurate system performance estimates using industry-standard PVWatts and advanced PVlib modeling. We help design optimal solar solutions for each unique location and customer need.
+                    </p>
+                    <p>
+                        During the design phase, our software enables rapid comparison of different system configurations, panel orientations, and component selections. This helps installers create proposals that maximize energy production and financial returns for their clients.
+                    </p>
+                    <p>
+                        We incorporate multiple data sources including NASA climate data, local weather patterns, and astronomical calculations to deliver comprehensive system modeling that accounts for real-world conditions.
+                    </p>
+                    <ul class="services-list">
+                        <li>PVWatts and PVlib modeling</li>
+                        <li>System configuration comparison</li>
+                        <li>Production estimates</li>
+                        <li>Technical proposal support</li>
+                        <li>Customer education tools</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- RESEARCHERS SOLUTION -->
+    <section class="mb-100" style="background-color: #1a1a00; padding: 80px 0;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 wow fadeInUp">
+                    <h3>Researchers & Analysts</h3>
+                    <p>
+                        For academic institutions, research organizations, and energy analysts, we provide access to comprehensive solar data and advanced modeling tools. Our platform offers multiple modeling approaches and data sources to support research applications.
+                    </p>
+                    <p>
+                        Researchers can access detailed solar radiation data, climate information, and system performance models. Our tools support comparative analysis between different modeling methodologies and validation against real-world data.
+                    </p>
+                    <p>
+                        Energy analysts benefit from our integrated data approach, combining NASA climate data, real-time weather information, and industry-standard modeling tools to support policy development, market analysis, and technical research.
+                    </p>
+                    <ul class="services-list">
+                        <li>Multiple modeling methodologies</li>
+                        <li>Comprehensive data access</li>
+                        <li>Comparative analysis tools</li>
+                        <li>Data export capabilities</li>
+                        <li>Research project support</li>
+                    </ul>
+                </div>
+                <div class="col-md-6 wow fadeInUp" data-wow-delay=".1s">
+                    <img src="{% static 'onboarding/img/solutions_research.jpg' %}"
+                         alt="Research Solution"
+                         class="images">
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- BENEFITS SECTION -->
+    <section class="mb-100">
+        <div class="container">
+            <div class="row center mb-50">
+                <div class="col-md-8 col-md-offset-2 col-sm-12">
+                    <div class="section-title">
+                        <h2 class="mb-50">Why Choose Our Solutions</h2>
+                        <p>Our solar modeling technology delivers reliable results across all applications</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 col-sm-6 col-xs-12 wow fadeInUp">
+                    <div class="mb-50">
+                        <i class="lnr lnr-sun"></i>
+                        <h4>Proven Methodology</h4>
+                        <p>Industry-standard PVWatts and advanced PVlib modeling validated across diverse locations and system types.</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-xs-12 wow fadeInUp" data-wow-delay=".1s">
+                    <div class="mb-50">
+                        <i class="lnr lnr-database"></i>
+                        <h4>Multiple Data Sources</h4>
+                        <p>Comprehensive modeling powered by NASA climate data, weather APIs, and astronomical calculations.</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-xs-12 wow fadeInUp" data-wow-delay=".2s">
+                    <div class="mb-50">
+                        <i class="lnr lnr-chart-bars"></i>
+                        <h4>Detailed Analysis</h4>
+                        <p>Comprehensive reporting and clear insights to support investment decisions and system optimization.</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-xs-12 wow fadeInUp" data-wow-delay=".3s">
+                    <div class="mb-50">
+                        <i class="lnr lnr-cog"></i>
+                        <h4>Practical Solutions</h4>
+                        <p>Tools designed for real-world applications, from residential system sizing to commercial project planning.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 {% endblock %}

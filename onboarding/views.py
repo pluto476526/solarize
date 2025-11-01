@@ -16,7 +16,10 @@ def home_view(request):
 
 
 def profile_view(request):
-    profile = Profile.objects.get(user=request.user)
+    try:
+        profile = Profile.objects.get(user=request.user)
+    except Exception as e:
+        return redirect("signup")
 
     if request.method == "POST":
         source = request.POST.get("source")

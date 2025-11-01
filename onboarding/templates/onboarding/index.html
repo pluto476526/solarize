@@ -1,6 +1,7 @@
 {% extends 'onboarding/main.html' %}
 {% load static %}
 {% block main %}
+
     <!-- What is PV Modeling? -->
     <section id="what-is-pv" class="features mb-50">
         <div class="container">
@@ -20,7 +21,7 @@
                     <div class="feature-card h-100 p-4">
                         <h3 class="text-light mb-3">Photovoltaic System Simulation</h3>
                         <p>
-                            PV modeling involves a series of computational steps that replicate how a solar system operates in real conditions. The process begins with collecting input data such as solar irradiance, temperature, and system configuration. Next, mathematical models simulate how solar panels convert sunlight into DC electricity, followed by inverter models that transform it into AC power. The simulation then accounts for system losses before generating time-series outputs that represent the system’s electrical performance.
+                            PV modeling involves a series of computational steps that replicate how a solar system operates in real conditions. The process begins with collecting input data such as solar irradiance, temperature, and system configuration. Next, mathematical models simulate how solar panels convert sunlight into DC electricity, followed by inverter models that transform it into AC power. The simulation then accounts for system losses before generating time-series outputs that represent the system's electrical performance.
                         </p>
                     </div>
                 </div>
@@ -80,6 +81,7 @@
             </div>
         </div>
     </section>
+
     <!-- Why Model PV Systems? -->
     <section id="why-model" class="mb-50" style="background-color: #1a1a00;">
         <div class="container">
@@ -184,6 +186,7 @@
             </div>
         </div>
     </section>
+
     <!-- How PV Modeling Works -->
     <section id="how-modeling-works" class="features mb-50">
         <div class="container">
@@ -193,7 +196,7 @@
                         <div class="process-numbers">03</div>
                         <h2>How PV Modeling Works</h2>
                         <p>
-                            pvlib simulates photovoltaic systems using a deterministic pipeline grounded in physics and empirically derived models. It first calculates the sun’s position and estimates irradiance on the plane of the array using geometric and transposition models. Module temperature is then determined through empirical correlations such as the Sandia or Faiman models. These models account for ambient conditions and irradiance. Electrical output is computed using single-diode or SAPM models that describe the I–V characteristics of PV modules, followed by inverter models that convert DC to AC power while considering efficiency and clipping. System losses from shading, soiling, and wiring are incorporated as fixed correction factors. Throughout this process, all equations are pre-defined, and no machine learning or adaptive data-driven methods are used. Any statistical components rely on fixed coefficients derived from experimental data.
+                            pvlib simulates photovoltaic systems using a deterministic pipeline grounded in physics and empirically derived models. It first calculates the sun's position and estimates irradiance on the plane of the array using geometric and transposition models. Module temperature is then determined through empirical correlations such as the Sandia or Faiman models. These models account for ambient conditions and irradiance. Electrical output is computed using single-diode or SAPM models that describe the I–V characteristics of PV modules, followed by inverter models that convert DC to AC power while considering efficiency and clipping. System losses from shading, soiling, and wiring are incorporated as fixed correction factors. Throughout this process, all equations are pre-defined, and no machine learning or adaptive data-driven methods are used. Any statistical components rely on fixed coefficients derived from experimental data.
                         </p>
                     </div>
                 </div>
@@ -275,125 +278,7 @@
             </div>
         </div>
     </section>
-    <!-- Challenges Solved with Python -->
-    <section id="python" class="mb-50" style="background-color: #1a1a00;">
-        <div class="container">
-            <div class="row center mb-50">
-                <div class="col-md-8 col-md-offset-2 col-sm-12">
-                    <div class="section-title-parralax">
-                        <div class="process-numbers">04</div>
-                        <h2>Python in The Data Analysis Sector</h2>
-                        <p>
-                            How modern programming addresses complex solar modeling problems through advanced computational techniques and data science integration
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="row mb-50">
-                <div class="col-md-6">
-                    <div class="benefits_1_single mb-50" style="background-color: #2a2a00;">
-                        <h6 class="mb-30">Data Integration Complexity</h6>
-                        <p class="text-light mb-3">
-                            Python's extensive library ecosystem enables seamless integration of multiple heterogeneous data sources including NASA's POWER database, NREL's NSRDB, real-time weather APIs, and local meteorological stations into a unified modeling framework. This solves the critical challenge of fragmented solar data that traditionally required manual processing and validation across different formats, temporal resolutions, and quality standards.
-                        </p>
-                        <p class="text-light">
-                            The pandas library provides robust data manipulation capabilities for time series alignment, while specialized packages like pvlib handle the complex task of converting raw meteorological data into solar position calculations and irradiance models. This integration ensures that simulation inputs maintain temporal consistency and physical validity across the entire modeling pipeline, from raw weather data to final energy yield predictions.
-                        </p>
-                    </div>
-                    <div class="benefits_1_single" style="background-color: #2a2a00;">
-                        <h6 class="mb-30">Computational Efficiency</h6>
-                        <p class="text-light mb-3">
-                            Python's scientific computing libraries (NumPy, SciPy, Numba) enable efficient processing of complex mathematical models and large datasets, making sophisticated solar modeling accessible without specialized hardware. The vectorized operations in NumPy allow for simultaneous calculation of solar position, irradiance components, and system performance across entire years of hourly data, reducing computation times from hours to seconds compared to traditional spreadsheet-based approaches.
-                        </p>
-                        <p class="text-light">
-                            Advanced optimization techniques and just-in-time compilation through Numba further accelerate performance-critical sections of the modeling workflow. This computational efficiency enables rapid scenario analysis, parameter sensitivity studies, and Monte Carlo simulations that would be computationally prohibitive with conventional tools, allowing engineers to explore design alternatives and optimize system configurations with unprecedented speed and depth.
-                        </p>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="benefits_1_single mb-50 mt-50"
-                         style="background-color: #2a2a00">
-                        <h6 class="mb-30">Model Accuracy & Validation</h6>
-                        <p class="text-light mb-3">
-                            Advanced Python libraries provide robust statistical analysis and machine learning capabilities to validate models against historical performance data and continuously improve prediction accuracy. The scikit-learn and statsmodels packages enable sophisticated regression analysis, uncertainty quantification, and model calibration techniques that account for site-specific conditions and technology characteristics. This addresses the fundamental challenge of translating laboratory test conditions to real-world performance under varying environmental factors.
-                        </p>
-                        <p class="text-light">
-                            Python's visualization ecosystem (Matplotlib, Plotly, Seaborn) facilitates comprehensive model diagnostics and residual analysis, allowing engineers to identify systematic errors, validate model assumptions, and communicate results with stakeholders. The integration of machine learning algorithms enables pattern recognition in performance data, detection of underperforming systems, and development of site-specific correction factors that enhance model reliability beyond standard empirical relationships.
-                        </p>
-                    </div>
-                    <div class="benefits_1_single" style="background-color: #2a2a00;">
-                        <h6 class="mb-30">Scalability & Automation</h6>
-                        <p class="text-light mb-3">
-                            Python enables the creation of scalable modeling systems that can process thousands of locations simultaneously, automating what would otherwise be manual, time-intensive calculations. Through multiprocessing, concurrent futures, and distributed computing frameworks like Dask, Python scripts can efficiently handle portfolio-level analysis across diverse geographic regions and technology configurations. This scalability transforms solar resource assessment from a project-specific activity to an enterprise-level capability.
-                        </p>
-                        <p class="text-light">
-                            The automation capabilities extend beyond mere computation to include automated report generation, results visualization, and quality control checks. Python scripts can generate professional-grade technical reports with dynamic content, interactive dashboards for result exploration, and automated alert systems for model anomalies or data quality issues. This end-to-end automation reduces human error, ensures consistency across analyses, and frees engineering resources for higher-value design optimization and innovation activities.
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="row mt-5 mb-50">
-                <div class="col-12 text-center">
-                    <div class="bg-secondary rounded p-5">
-                        <div class="d-flex justify-content-center gap-3 flex-wrap">
-                            <a href="{% url 'pv_modelling' %}" class="default-btn text-warning">
-                                Learn More <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- SOLUTIONS PARALAX -->
-    <section id="solutions" class="services mb-50">
-        <div class="container">
-            <div class="row center">
-                <div class="col-md-8 col-md-offset-2 col-sm-12">
-                    <div class="section-title-parralax">
-                        <div class="process-numbers">07</div>
-                        <h2 class="text-center me-2">What we Do</h2>
-                        <p class="module-subtitle" style="color: aliceblue;">Comprehensive solar modeling solutions for every application</p>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-6 right col-full right-0">
-                    <i class="lnr lnr-home"></i>
-                    <h6>Residential Modeling</h6>
-                    <p>Accurate energy production estimates for home solar systems with detailed performance analysis.</p>
-                </div>
-                <div class="col-lg-6 left col-full left-0">
-                    <i class="lnr lnr-apartment"></i>
-                    <h6>Commercial Systems</h6>
-                    <p>Comprehensive modeling for commercial solar installations with ROI analysis and system optimization.</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-6 right col-full right-0">
-                    <i class="lnr lnr-sun"></i>
-                    <h6>Solar Developers</h6>
-                    <p>Professional-grade modeling tools for system design, performance estimates, and client proposals.</p>
-                </div>
-                <div class="col-lg-6 left col-full left-0">
-                    <i class="lnr lnr-chart-bars"></i>
-                    <h6>Research & Education</h6>
-                    <p>Access to comprehensive solar data and advanced modeling capabilities for academic research.</p>
-                </div>
-            </div>
-            <div class="row mt-5">
-                <div class="col-12 text-center">
-                    <div class="bg-secondary rounded p-5">
-                        <div class="d-flex justify-content-center gap-3 flex-wrap">
-                            <a href="{% url 'solutions' %}" class="default-btn text-warning">
-                                View Solutions <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+
     <!-- Advanced Analytics -->
     <section id="advanced-analytics"
              class="mb-50"
@@ -402,7 +287,7 @@
             <div class="row center">
                 <div class="col-md-8 col-md-offset-2 col-sm-12">
                     <div class="section-title-parralax">
-                        <div class="process-numbers">08</div>
+                        <div class="process-numbers">04</div>
                         <h2>Advanced Analytics</h2>
                         <p class="module-subtitle" style="color: aliceblue;">
                             Our platform delivers powerful simulation and analytical capabilities powered by cutting-edge environmental and solar data.
@@ -420,7 +305,7 @@
                                 <h5 class="text-warning">NREL PVWatts Simulation</h5>
                             </div>
                             <p class="card-text">
-                                Run simplified solar simulations using NREL’s PVWatts model to estimate energy generation and system performance under standard configurations.
+                                Run simplified solar simulations using NREL's PVWatts model to estimate energy generation and system performance under standard configurations.
                             </p>
                             <div class="mt-4">
                                 <h6 class="text-info mb-3">Key Features:</h6>
@@ -556,16 +441,17 @@
             </div>
         </div>
     </section>
+
     <!-- Climate Modeling Overview -->
     <section id="climate-projection" class="features mb-50">
         <div class="container">
             <div class="row center mb-50">
                 <div class="col-md-8 col-md-offset-2 col-sm-12">
                     <div class="section-title-parralax">
-                        <div class="process-numbers">04</div>
+                        <div class="process-numbers">05</div>
                         <h2>Climate Projection with NASA POWER</h2>
                         <p>
-                            Climate modeling uses advanced data-driven simulations to predict how Earth’s atmosphere, land, and oceans respond to natural and human influences over time. NASA’s POWER (Prediction Of Worldwide Energy Resources) provides globally consistent climate and meteorological datasets derived from satellite observations and reanalysis products. These datasets support renewable energy assessment, agricultural forecasting, and environmental research by offering both historical records and future projections under standardized climate scenarios.
+                            Climate modeling uses advanced data-driven simulations to predict how Earth's atmosphere, land, and oceans respond to natural and human influences over time. NASA's POWER (Prediction Of Worldwide Energy Resources) provides globally consistent climate and meteorological datasets derived from satellite observations and reanalysis products. These datasets support renewable energy assessment, agricultural forecasting, and environmental research by offering both historical records and future projections under standardized climate scenarios.
                         </p>
                     </div>
                 </div>
@@ -620,13 +506,135 @@
             </div>
         </div>
     </section>
+
+    <!-- Challenges Solved with Python -->
+    <section id="python" class="mb-50" style="background-color: #1a1a00;">
+        <div class="container">
+            <div class="row center mb-50">
+                <div class="col-md-8 col-md-offset-2 col-sm-12">
+                    <div class="section-title-parralax">
+                        <div class="process-numbers">06</div>
+                        <h2>Python in The Data Analysis Sector</h2>
+                        <p>
+                            How modern programming addresses complex solar modeling problems through advanced computational techniques and data science integration
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-50">
+                <div class="col-md-6">
+                    <div class="benefits_1_single mb-50" style="background-color: #2a2a00;">
+                        <h6 class="mb-30">Data Integration Complexity</h6>
+                        <p class="text-light mb-3">
+                            Python's extensive library ecosystem enables seamless integration of multiple heterogeneous data sources including NASA's POWER database, NREL's NSRDB, real-time weather APIs, and local meteorological stations into a unified modeling framework. This solves the critical challenge of fragmented solar data that traditionally required manual processing and validation across different formats, temporal resolutions, and quality standards.
+                        </p>
+                        <p class="text-light">
+                            The pandas library provides robust data manipulation capabilities for time series alignment, while specialized packages like pvlib handle the complex task of converting raw meteorological data into solar position calculations and irradiance models. This integration ensures that simulation inputs maintain temporal consistency and physical validity across the entire modeling pipeline, from raw weather data to final energy yield predictions.
+                        </p>
+                    </div>
+                    <div class="benefits_1_single" style="background-color: #2a2a00;">
+                        <h6 class="mb-30">Computational Efficiency</h6>
+                        <p class="text-light mb-3">
+                            Python's scientific computing libraries (NumPy, SciPy, Numba) enable efficient processing of complex mathematical models and large datasets, making sophisticated solar modeling accessible without specialized hardware. The vectorized operations in NumPy allow for simultaneous calculation of solar position, irradiance components, and system performance across entire years of hourly data, reducing computation times from hours to seconds compared to traditional spreadsheet-based approaches.
+                        </p>
+                        <p class="text-light">
+                            Advanced optimization techniques and just-in-time compilation through Numba further accelerate performance-critical sections of the modeling workflow. This computational efficiency enables rapid scenario analysis, parameter sensitivity studies, and Monte Carlo simulations that would be computationally prohibitive with conventional tools, allowing engineers to explore design alternatives and optimize system configurations with unprecedented speed and depth.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="benefits_1_single mb-50 mt-50"
+                         style="background-color: #2a2a00">
+                        <h6 class="mb-30">Model Accuracy & Validation</h6>
+                        <p class="text-light mb-3">
+                            Advanced Python libraries provide robust statistical analysis and machine learning capabilities to validate models against historical performance data and continuously improve prediction accuracy. The scikit-learn and statsmodels packages enable sophisticated regression analysis, uncertainty quantification, and model calibration techniques that account for site-specific conditions and technology characteristics. This addresses the fundamental challenge of translating laboratory test conditions to real-world performance under varying environmental factors.
+                        </p>
+                        <p class="text-light">
+                            Python's visualization ecosystem (Matplotlib, Plotly, Seaborn) facilitates comprehensive model diagnostics and residual analysis, allowing engineers to identify systematic errors, validate model assumptions, and communicate results with stakeholders. The integration of machine learning algorithms enables pattern recognition in performance data, detection of underperforming systems, and development of site-specific correction factors that enhance model reliability beyond standard empirical relationships.
+                        </p>
+                    </div>
+                    <div class="benefits_1_single" style="background-color: #2a2a00;">
+                        <h6 class="mb-30">Scalability & Automation</h6>
+                        <p class="text-light mb-3">
+                            Python enables the creation of scalable modeling systems that can process thousands of locations simultaneously, automating what would otherwise be manual, time-intensive calculations. Through multiprocessing, concurrent futures, and distributed computing frameworks like Dask, Python scripts can efficiently handle portfolio-level analysis across diverse geographic regions and technology configurations. This scalability transforms solar resource assessment from a project-specific activity to an enterprise-level capability.
+                        </p>
+                        <p class="text-light">
+                            The automation capabilities extend beyond mere computation to include automated report generation, results visualization, and quality control checks. Python scripts can generate professional-grade technical reports with dynamic content, interactive dashboards for result exploration, and automated alert systems for model anomalies or data quality issues. This end-to-end automation reduces human error, ensures consistency across analyses, and frees engineering resources for higher-value design optimization and innovation activities.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-5 mb-50">
+                <div class="col-12 text-center">
+                    <div class="bg-secondary rounded p-5">
+                        <div class="d-flex justify-content-center gap-3 flex-wrap">
+                            <a href="{% url 'pv_modelling' %}" class="default-btn text-warning">
+                                Learn More <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOLUTIONS PARALAX -->
+    <section id="solutions" class="services mb-50">
+        <div class="container">
+            <div class="row center">
+                <div class="col-md-8 col-md-offset-2 col-sm-12">
+                    <div class="section-title-parralax">
+                        <div class="process-numbers">07</div>
+                        <h2 class="text-center me-2">What we Do</h2>
+                        <p class="module-subtitle" style="color: aliceblue;">Comprehensive solar modeling solutions for every application</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 right col-full right-0">
+                    <i class="lnr lnr-home"></i>
+                    <h6>Residential Modeling</h6>
+                    <p>Accurate energy production estimates for home solar systems with detailed performance analysis.</p>
+                </div>
+                <div class="col-lg-6 left col-full left-0">
+                    <i class="lnr lnr-apartment"></i>
+                    <h6>Commercial Systems</h6>
+                    <p>Comprehensive modeling for commercial solar installations with ROI analysis and system optimization.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 right col-full right-0">
+                    <i class="lnr lnr-sun"></i>
+                    <h6>Solar Developers</h6>
+                    <p>Professional-grade modeling tools for system design, performance estimates, and client proposals.</p>
+                </div>
+                <div class="col-lg-6 left col-full left-0">
+                    <i class="lnr lnr-chart-bars"></i>
+                    <h6>Research & Education</h6>
+                    <p>Access to comprehensive solar data and advanced modeling capabilities for academic research.</p>
+                </div>
+            </div>
+            <div class="row mt-5">
+                <div class="col-12 text-center">
+                    <div class="bg-secondary rounded p-5">
+                        <div class="d-flex justify-content-center gap-3 flex-wrap">
+                            <a href="{% url 'solutions' %}" class="default-btn text-warning">
+                                View Solutions <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- PRICING -->
     <section id="pricing" class="pricing mb-50" style="background-color: #1a1a00;">
         <div class="container">
             <div class="row center">
                 <div class="col-md-8 col-md-offset-2 col-sm-12">
                     <div class="section-title-parralax">
-                        <div class="process-numbers">09</div>
+                        <div class="process-numbers">08</div>
                         <h2>Our Prices</h2>
                         <p class="module-subtitle" style="color: aliceblue;">
                             Simple, transparent pricing that scales with your modeling needs
@@ -724,13 +732,14 @@
             </div>
         </div>
     </section>
+
     <!-- Testimonials -->
     <section id="testimonials" class="mb-50">
         <div class="container">
             <div class="row center mb-50">
                 <div class="col-md-8 col-md-offset-2 col-sm-12">
                     <div class="section-title-parralax">
-                        <div class="process-numbers">10</div>
+                        <div class="process-numbers">09</div>
                         <h2>What Our Users Say</h2>
                         <p class="module-subtitle" style="color: aliceblue;">
                             Discover how Solarize helps professionals and enthusiasts optimize their solar projects.

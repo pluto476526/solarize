@@ -91,7 +91,8 @@ def signup_view(request):
         password2 = request.POST.get("password2")
 
         if password1 == password2:
-            models.User.objects.create_user(username, email, password1)
+            user = models.User.objects.create_user(username, email, password1)
+            Profile.objects.create(user=user)
             messages.success(
                 request, "Account succesfully created. You can now log in."
             )

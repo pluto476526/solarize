@@ -281,6 +281,7 @@ CREATE TABLE IF NOT EXISTS air_quality_hourly (
 -- ===============================================================
 -- 4. Permissions
 -- ===============================================================
+GRANT CREATE ON SCHEMA public TO pluto;
 GRANT USAGE ON SCHEMA public TO pluto;
 GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO pluto;
 GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO pluto;

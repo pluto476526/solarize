@@ -192,7 +192,7 @@ class DataManager:
                 )
                 insert_timeseries(dfs, "cell_temperature")
 
-            if hasattrtr(result, "dc") and result.dc is not None:
+            if hasattr(result, "dc") and result.dc is not None:
                 dfs = result.dc if isinstance(result.dc, tuple) else (result.dc,)
                 insert_timeseries(dfs, "dc_output")
 

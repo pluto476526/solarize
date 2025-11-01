@@ -1,0 +1,50 @@
+[  
+  {
+    "name": "FixedArrayNorth",
+    "mount_type": "dual_axis",
+    "surface_tilt": 30,
+    "surface_azimuth": 180,
+    "modules_per_string": 10,
+    "strings": 5,
+    "albedo": 0.28,
+    "tracker_config": {},
+    "array_losses": {
+      "mismatch": 0.015,
+      "wiring": 0.008
+    }
+  },
+  {
+    "name": "SingleAxisArray",
+    "mount_type": "single_axis",
+    "surface_tilt": 0,
+    "surface_azimuth": 180,
+    "modules_per_string": 12,
+    "strings": 4,
+    "albedo": 0.32,
+    "tracker_config": {
+      "axis_tilt": 5,
+      "axis_azimuth": 180,
+      "max_angle": 60,
+      "backtrack": true,
+      "gcr": 0.35
+    },
+    "array_losses": {
+      "mismatch": 0.02,
+      "wiring": 0.01
+    }
+  },
+  {
+    "name": "DualAxisArray",
+    "mount_type": "dual_axis",
+    "surface_tilt": 0,
+    "surface_azimuth": 180,
+    "modules_per_string": 10,
+    "strings": 3,
+    "albedo": 0.3,
+    "tracker_config": {},
+    "array_losses": {
+      "mismatch": 0.018,
+      "wiring": 0.009
+    }
+  }
+]

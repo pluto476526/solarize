@@ -145,21 +145,10 @@
                     <div class="footer-widget company-links">
                         <h4>Platform</h4>
                         <ul class="footer-links">
-                            <li>
-                                <a href="#what-is-pv">What is PV Modeling</a>
-                            </li>
-                            <li>
-                                <a href="#why-model">Why Model PV Sytems</a>
-                            </li>
-                            <li>
-                                <a href="#how-modeling-works">How PV Modelling works</a>
-                            </li>
-                            <li>
-                                <a href="#climate-projection">Climate Projection</a>
-                            </li>
-                            <li>
-                                <a href="#solutions">What we Do</a>
-                            </li>
+                            <li><a href="{% url 'pv_modelling' %}">PV Modelling</li>
+                            <li><a href="{% url 'climate_projection' %}">Climate Projection</a></li>
+                            <li><a href="{% url 'data_sources' %}">Data Sources</a></li>
+                            <li><a href="{% url 'solutions' %}">What We Do</a></li>
                         </ul>
                     </div>
                 </div>

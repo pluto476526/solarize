@@ -68,42 +68,16 @@
                 <nav>
                     <ul class="box-primary-nav">
                         <li class="box-label">PV MODELING</li>
-                        <li>
-                            <a href="{% url 'home' %}">Home</a> <i class="lnr lnr-home"></i>
-                        </li>
-                        <li>
-                            <a href="#fundamentals">PV Fundamentals</a>
-                        </li>
-                        <li>
-                            <a href="#components">Model Components</a>
-                        </li>
-                        <li>
-                            <a href="#pvlib-framework">PVlib Framework</a>
-                        </li>
-                        <li>
-                            <a href="#model-chain">Model Chain</a>
-                        </li>
-                        <li>
-                            <a href="#spec-sheets">Spec Sheet Modeling</a>
-                        </li>
-                        <li>
-                            <a href="#advanced-techniques">Advanced Techniques</a>
-                        </li>
-                        <li>
-                            <a href="#results">Results & Analytics</a>
-                        </li>
+                        <li><a href="{% url 'home' %}">Home</a> <i class="lnr lnr-home"></i></li>
+                        <li><a href="{% url 'climate_projection' %}">Climate Projection</a></li>
+                        <li><a href="{% url 'data_sources' %}">Data Sources</a></li>
+                        <li><a href="{% url 'solutions' %}">What We Do</a></li>
                         <li class="box-label">ACCOUNT</li>
                         {% if request.user.is_authenticated %}
-                            <li>
-                                <a href="{% url 'dash' %}">Dashboard</a>
-                            </li>
-                            <li>
-                                <a href="">Log out</a>
-                            </li>
+                            <li><a href="{% url 'dash' %}">Dashboard</a></li>
+                            <li><a href="{% url 'signout' %}">Log out</a></li>
                         {% else %}
-                            <li>
-                                <a href="{% url 'signin' %}">Sign In</a>
-                            </li>
+                            <li><a href="{% url 'signin' %}">Sign In</a></li>
                         {% endif %}
                         <li class="box-label">SOCIAL</li>
                         <li class="box-social">
@@ -126,35 +100,15 @@
                     <div class="mobile-menu">
                         <ul class="mobile-primary-nav">
                             <li class="mobile-label">SOLARIZE</li>
-                            <li>
-                                <a href="#what-is-pv">What is PV Modeling</a>
-                            </li>
-                            <li>
-                                <a href="#why-model">Why Model PV Systems</a>
-                            </li>
-                            <li>
-                                <a href="#how-modeling-works">How PV Modeling Works</a>
-                            </li>
-                            <li>
-                                <a href="#python">Python and Data Analysis</a>
-                            </li>
-                            <li>
-                                <a href="#solutions">Our Solutions</a>
-                            </li>
-                            <li>
-                                <a href="#climate-projection">Climate Projection</a>
-                            </li>
+                            <li><a href="{% url 'home' %}">Home</a></li>
+                            <li><a href="{% url 'climate_projection' %}">Climate Projection</a></li>
+                            <li><a href="{% url 'data_sources' %}">Data Sources</a></li>
+                            <li><a href="{% url 'solutions' %}">What We Do</a></li>
                             {% if request.user.is_authenticated %}
-                                <li>
-                                    <a href="{% url 'dash' %}">Dashboard</a>
-                                </li>
-                                <li>
-                                    <a href="">Log out</a>
-                                </li>
+                                <li><a href="{% url 'dash' %}">Dashboard</a></li>
+                                <li><a href="{% url 'signout' %}">Log out</a></li>
                             {% else %}
-                                <li>
-                                    <a href="{% url 'signin' %}">Sign In</a>
-                                </li>
+                                <li><a href="{% url 'signin' %}">Sign In</a></li>
                             {% endif %}
                             </ul>
                         </div>

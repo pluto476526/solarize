@@ -36,169 +36,168 @@
                     </p>
                 </div>
             </div>
-            <div class="row g-4">
-                <!-- Header -->
-                <div class="col-12"></div>
+            <form method="post" class="row g-4">
+                {% csrf_token %}
                 <!-- Locations Section -->
                 <div class="col-12">
                     <div class="bg-secondary rounded p-4">
                         <div class="d-flex align-items-center justify-content-between mb-3">
-                            <h6 class="mb-0 text-warning">
-                            </i>Locations
-                        </h6>
-                        <button type="button" class="btn btn-sm btn-outline-light" id="addLocation">
-                            <i class="fas fa-plus me-1"></i>Add Location
-                        </button>
+                            <h6 class="mb-0 text-warning">Locations</h6>
+                            <button type="button" class="btn btn-sm btn-outline-light" id="addLocation">
+                                <i class="fas fa-plus me-1"></i>Add Location
+                            </button>
+                        </div>
+                        <div id="locationsContainer">
+                            <!-- Default Location -->
+                            <div class="location-group mb-4 p-3 border rounded"
+                                 data-location-index="0">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h6 class="mb-0 text-light">Location #1</h6>
+                                    <button type="button"
+                                            class="btn btn-sm btn-outline-danger remove-location"
+                                            disabled>
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                                <div class="row g-2">
+                                    <div class="col-md-4">
+                                        <label class="form-label small text-light">Location Name</label>
+                                        <input type="text"
+                                               class="form-control form-control-sm location-name"
+                                               name="locations[0][name]"
+                                               placeholder="e.g., Nairobi"
+                                               value="Nairobi"
+                                               required>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label small text-light">Latitude</label>
+                                        <input type="number"
+                                               class="form-control form-control-sm"
+                                               name="locations[0][lat]"
+                                               step="any"
+                                               value="-1.286389"
+                                               required>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label small text-light">Longitude</label>
+                                        <input type="number"
+                                               class="form-control form-control-sm"
+                                               name="locations[0][lon]"
+                                               step="any"
+                                               value="36.817223"
+                                               required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div id="locationsContainer">
-                        <!-- Default Location -->
-                        <div class="location-group mb-4 p-3 border rounded"
-                             data-location-index="0">
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h6 class="mb-0 text-light">Location #1</h6>
-                                <button type="button"
-                                        class="btn btn-sm btn-outline-danger remove-location"
-                                        disabled>
-                                    <i class="fas fa-times"></i>
+                </div>
+
+                <!-- System Configuration Section -->
+                <div class="col-12 col-md-4">
+                    <div class="bg-secondary rounded h-100 p-3">
+                        <h6 class="text-warning mb-3">System Configuration</h6>
+                        <div class="row g-3">
+                            <!-- Pair 1: System Capacity & Azimuth -->
+                            <div class="col-md-6">
+                                <label class="form-label small text-light">System Capacity (kW)</label>
+                                <input type="number"
+                                       class="form-control form-control-sm"
+                                       name="system_capacity"
+                                       step="0.1"
+                                       value="5"
+                                       min="0">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small text-light">
+                                    Azimuth (°) <small class="text-muted">0°=North, 180°=South</small>
+                                </label>
+                                <input type="number"
+                                       class="form-control form-control-sm"
+                                       name="azimuth"
+                                       value="180"
+                                       min="0"
+                                       max="360">
+                            </div>
+                            <!-- Pair 2: Tilt Angle & System Losses -->
+                            <div class="col-md-6">
+                                <label class="form-label small text-light">Tilt Angle (°)</label>
+                                <input type="number"
+                                       class="form-control form-control-sm"
+                                       name="tilt"
+                                       value="20"
+                                       min="0"
+                                       max="90">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small text-light">System Losses (%)</label>
+                                <input type="number"
+                                       class="form-control form-control-sm"
+                                       name="losses"
+                                       min="0"
+                                       max="100"
+                                       value="14"
+                                       step="1">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Array & Module Section -->
+                <div class="col-12 col-md-4">
+                    <div class="bg-secondary rounded h-100 p-3">
+                        <h6 class="text-warning mb-3">Array & Module</h6>
+                        <div class="mb-3">
+                            <label class="form-label small text-light">Array Type</label>
+                            <select class="form-select form-select-sm" name="array_type">
+                                <option value="0">Fixed - Open Rack</option>
+                                <option value="1">Fixed - Roof Mount</option>
+                                <option value="2">1-Axis Tracking</option>
+                                <option value="3">1-Axis Backtracking</option>
+                                <option value="4">2-Axis Tracking</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small text-light">Module Type</label>
+                            <select class="form-select form-select-sm" name="module_type">
+                                <option value="0">Standard</option>
+                                <option value="1">Premium</option>
+                                <option value="2">Thin Film</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <!-- Simulation Parameters Section -->
+                <div class="col-12 col-md-4">
+                    <div class="bg-secondary rounded h-100 p-3">
+                        <h6 class="text-warning mb-3">TMY Data Year</h6>
+                        <div class="row g-3 align-items-end">
+                            <!-- Timeframe Selection -->
+                            <div class="col-md-12">
+                                <label class="form-label small text-light">Output Year</label>
+                                <input type="number"
+                                       class="form-control form-control-sm"
+                                       name="year"
+                                       value="2025"
+                                       step="1">
+                                <small class="text-muted d-block mt-1">Defines the year used in the simulated output, not the data source period.</small>
+                            </div>
+                            <!-- Buttons -->
+                            <div class="col-md-12 d-flex justify-content-md-end gap-2">
+                                <button type="reset" class="btn btn-outline-light btn-sm">
+                                    <i class="fas fa-redo me-1"></i>Reset
+                                </button>
+                                <button type="submit" class="btn btn-warning btn-sm">
+                                    <i class="fas fa-bolt me-1"></i>Simulate
                                 </button>
                             </div>
-                            <div class="row g-2">
-                                <div class="col-md-4">
-                                    <label class="form-label small text-light">Location Name</label>
-                                    <input type="text"
-                                           class="form-control form-control-sm location-name"
-                                           name="locations[0][name]"
-                                           placeholder="e.g., Nairobi"
-                                           value="Nairobi"
-                                           required>
-                                </div>
-                                <div class="col-md-4">
-                                    <label class="form-label small text-light">Latitude</label>
-                                    <input type="number"
-                                           class="form-control form-control-sm"
-                                           name="locations[0][lat]"
-                                           step="any"
-                                           value="-1.286389"
-                                           required>
-                                </div>
-                                <div class="col-md-4">
-                                    <label class="form-label small text-light">Longitude</label>
-                                    <input type="number"
-                                           class="form-control form-control-sm"
-                                           name="locations[0][lon]"
-                                           step="any"
-                                           value="36.817223"
-                                           required>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <!-- System Configuration Section -->
-            <div class="col-12 col-md-4">
-                <div class="bg-secondary rounded h-100 p-3">
-                    <h6 class="text-warning mb-3">System Configuration</h6>
-                    <div class="row g-3">
-                        <!-- Pair 1: System Capacity & Azimuth -->
-                        <div class="col-md-6">
-                            <label class="form-label small text-light">System Capacity (kW)</label>
-                            <input type="number"
-                                   class="form-control form-control-sm"
-                                   name="system_capacity"
-                                   step="0.1"
-                                   value="5"
-                                   min="0">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label small text-light">
-                                Azimuth (°) <small class="text-muted">0°=North, 180°=South</small>
-                            </label>
-                            <input type="number"
-                                   class="form-control form-control-sm"
-                                   name="azimuth"
-                                   value="180"
-                                   min="0"
-                                   max="360">
-                        </div>
-                        <!-- Pair 2: Tilt Angle & System Losses -->
-                        <div class="col-md-6">
-                            <label class="form-label small text-light">Tilt Angle (°)</label>
-                            <input type="number"
-                                   class="form-control form-control-sm"
-                                   name="tilt"
-                                   value="20"
-                                   min="0"
-                                   max="90">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label small text-light">System Losses (%)</label>
-                            <input type="number"
-                                   class="form-control form-control-sm"
-                                   name="losses"
-                                   min="0"
-                                   max="100"
-                                   value="14"
-                                   step="1">
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Array & Module Section -->
-            <div class="col-12 col-md-4">
-                <div class="bg-secondary rounded h-100 p-3">
-                    <h6 class="text-warning mb-3">Array & Module</h6>
-                    <div class="mb-3">
-                        <label class="form-label small text-light">Array Type</label>
-                        <select class="form-select form-select-sm" name="array_type">
-                            <option value="0">Fixed - Open Rack</option>
-                            <option value="1">Fixed - Roof Mount</option>
-                            <option value="2">1-Axis Tracking</option>
-                            <option value="3">1-Axis Backtracking</option>
-                            <option value="4">2-Axis Tracking</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label small text-light">Module Type</label>
-                        <select class="form-select form-select-sm" name="module_type">
-                            <option value="0">Standard</option>
-                            <option value="1">Premium</option>
-                            <option value="2">Thin Film</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <!-- Simulation Parameters Section -->
-            <div class="col-12 col-md-4">
-                <div class="bg-secondary rounded h-100 p-3">
-                    <h6 class="text-warning mb-3">TMY Data Year</h6>
-                    <div class="row g-3 align-items-end">
-                        <!-- Timeframe Selection -->
-                        <div class="col-md-12">
-                            <label class="form-label small text-light">Output Year</label>
-                            <input type="number"
-                                   class="form-control form-control-sm"
-                                   name="year"
-                                   value="2025"
-                                   step="1">
-                            <small class="text-muted d-block mt-1">Defines the year used in the simulated output, not the data source period.</small>
-                        </div>
-                        <!-- Buttons -->
-                        <div class="col-md-12 d-flex justify-content-md-end gap-2">
-                            <button type="reset" class="btn btn-outline-light btn-sm">
-                                <i class="fas fa-redo me-1"></i>Reset
-                            </button>
-                            <button type="submit" class="btn btn-warning btn-sm">
-                                <i class="fas fa-bolt me-1"></i>Simulate
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Submit Buttons -->
-            <div class="col-12"></div>
+                <!-- Submit Buttons -->
+                <div class="col-12"></div>
+            </form>
         </div>
-    </div>
+  
     {% include 'analytics/footer.html' %}
 </div>
 <!-- Content End -->

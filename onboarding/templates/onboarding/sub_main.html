@@ -142,20 +142,20 @@
                                 <a href="#solutions">Our Solutions</a>
                             </li>
                             <li>
-                                <a href="#climate-projection">Climate Projection
+                                <a href="#climate-projection">Climate Projection</a>
+                            </li>
+                            {% if request.user.is_authenticated %}
+                                <li>
+                                    <a href="{% url 'dash' %}">Dashboard</a>
                                 </li>
-                                {% if request.user.is_authenticated %}
-                                    <li>
-                                        <a href="{% url 'dash' %}">Dashboard</a>
-                                    </li>
-                                    <li>
-                                        <a href="">Log out</a>
-                                    </li>
-                                {% else %}
-                                    <li>
-                                        <a href="{% url 'signin' %}">Sign In</a>
-                                    </li>
-                                {% endif %}
+                                <li>
+                                    <a href="">Log out</a>
+                                </li>
+                            {% else %}
+                                <li>
+                                    <a href="{% url 'signin' %}">Sign In</a>
+                                </li>
+                            {% endif %}
                             </ul>
                         </div>
                     </div>

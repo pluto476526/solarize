@@ -1,0 +1,375 @@
+{% extends 'analytics/main.html' %}
+{% load static %}
+{% block main %}
+    <!-- Content Start -->
+    <div class="content">
+        <!-- Navbar Start -->
+        {% include 'analytics/nav.html' %}
+        <!-- Navbar End -->
+        <div class="container-fluid px-3">
+            <!-- Header -->
+            <div class="row mb-3 mt-3 px-2">
+                <div class="col-12 card shadow-sm bg-secondary p-4">
+                    <h1 class="h3 text-warning my-3">
+                        <i class="fas fa-globe-africa me-2"></i>Climate Projection
+                    </h1>
+                    <p class="text-muted small">
+                        Climate projection modeling leverages high-resolution observational and satellite-derived datasets to simulate future environmental conditions with spatial and temporal precision. Using NASA POWER data, which integrates satellite measurements, reanalysis models, and validated ground observations, projections can quantify critical meteorological and solar parameters including global horizontal irradiance (GHI), direct normal irradiance (DNI), diffuse horizontal irradiance (DHI), temperature, wind speed, precipitation, and humidity. This modeling transforms raw observational data into actionable insights by applying statistical, physical, and machine-learning approaches to estimate how local and regional climates are likely to evolve under various greenhouse gas emission and land-use scenarios.
+                    </p>
+                    <p class="text-muted small">
+                        NASA POWER datasets provide a standardized and globally consistent framework for climate projection, allowing the extraction of daily, monthly, and annual averages, as well as extreme event statistics. By incorporating scenario-based corrections such as Representative Concentration Pathways (RCPs) or Shared Socioeconomic Pathways (SSPs), models can simulate realistic ranges of future temperature and solar radiation variability. These adjustments enable precise prediction of climate-dependent performance metrics for renewable energy systems, agriculture, water resource management, and urban planning, bridging the gap between raw satellite data and practical decision-making requirements.
+                    </p>
+                    <p class="text-muted small">
+                        The value of comprehensive climate projection modeling manifests in design, optimization, and risk assessment. For solar energy projects, accurate GHI, DNI, and DHI projections inform photovoltaic system sizing, orientation, and expected energy yield under changing climate conditions. Temperature and wind forecasts allow better estimation of system efficiency and thermal losses, while precipitation and humidity projections guide maintenance planning and infrastructure resilience. Integrating NASA POWER data ensures projections are scientifically grounded, globally comparable, and suitable for high-resolution, site-specific analyses, enabling stakeholders to anticipate and adapt to climate variability with confidence.
+                    </p>
+                </div>
+
+            </div>
+            <!-- Compact Form Layout -->
+            <form method="post" class="row g-3">
+                {% csrf_token %}
+                <!-- Geographic Parameters -->
+                <div class="col-lg-4">
+                    <div class="card shadow-sm h-100 bg-secondary p-4">
+                        <div class="">
+                            <h6 class="mb-0 text-warning px-3">
+                                <i class="fas fa-map me-1"></i>Geographic Parameters
+                            </h6>
+                        </div>
+                        <div class="card-body p-3">
+                            <div class="row g-2">
+                                <div class="col-12">
+                                    <label class="form-label small">Location/Project Name</label>
+                                    <input type="text"
+                                           class="form-control form-control-sm"
+                                           name="name"
+                                           value="Nairobi"
+                                           required>
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label small">Time Standard</label>
+                                    <select class="form-select form-select-sm" name="time_standard" required>
+                                        <option value="utc" selected>UTC</option>
+                                        <option value="lst">LST</option>
+                                    </select>
+                                </div>
+                                <div class="col-6">
+                                    <label class="form-label small">Latitude</label>
+                                    <input type="number"
+                                           class="form-control form-control-sm"
+                                           name="lat"
+                                           value="-1.286389"
+                                           step="any"
+                                           required>
+                                </div>
+                                <div class="col-6">
+                                    <label class="form-label small">Longitude</label>
+                                    <input type="number"
+                                           class="form-control form-control-sm"
+                                           name="lon"
+                                           value="36.817223"
+                                           step="any"
+                                           required>
+                                </div>                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Model Configuration -->
+                <div class="col-lg-4">
+                    <div class="card shadow-sm h-100 bg-secondary p-4">
+                        <div class="">
+                            <h6 class="mb-0 text-warning px-3">
+                                <i class="fas fa-cogs me-1"></i>Model Configuration
+                            </h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-2">
+                                <div class="col-12">
+                                    <label for="community" class="form-label small">Research Community</label>
+                                    <select class="form-select form-select-sm" id="community" name="community">
+                                        <option value="re" selected>Renewable Energy</option>
+                                        <option value="ag">Agriculture</option>
+                                    </select>
+                                </div>
+                                <div class="col-12">
+                                    <label for="climate-model" class="form-label small">Climate Model</label>
+                                    <select class="form-select form-select-sm" id="climate-model" name="climate_model">
+                                        <option value="ensemble" selected>Multi-Model Ensemble</option>
+                                        <option value="cmcc_esm2">CMCC ESM2</option>
+                                        <option value="cnrm_esm2_1">CNRM ESM2-1</option>
+                                        <option value="fgoals_g3">FGOALS G3</option>
+                                        <option value="inm_cm5_0">INM CM5.0</option>
+                                        <option value="mri_esm2_0">MRI ESM2.0</option>
+                                        <option value="noresm2_lm">NorESM2 LM</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-12">
+                                    <label class="form-label small">Scenario</label>
+                                    <select class="form-select form-select-sm" name="scenario">
+                                        <option value="ssp245" selected>SSP2-4.5</option>
+                                        <option value="ssp126">SSP1-2.6</option>
+                                        <option value="ssp370">SSP3-7.0</option>
+                                    </select>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Simulation Parameters -->
+                <div class="col-lg-4">
+                    <div class="card shadow-sm h-100 bg-secondary p-4">
+                        <div class="">
+                            <h6 class="mb-0 text-warning px-3">
+                                <i class="fas fa-sliders-h me-1"></i>Crops and Simulation Parameters
+                            </h6>
+                        </div>
+                        <div class="card-body p-3">
+                            <div class="row g-2">
+                              <div class="col-6">
+                                <div class="form-check">
+                                  <input class="form-check-input" type="checkbox" id="maize" name="crop" value="maize" checked>
+                                  <label class="form-check-label small" for="maize">Maize (Kc = 1.15)</label>
+                                </div>
+                                <div class="form-check">
+                                  <input class="form-check-input" type="checkbox" id="wheat" name="crop" value="wheat" checked>
+                                  <label class="form-check-label small" for="wheat">Wheat (Kc = 1.15)</label>
+                                </div>
+                                <div class="form-check">
+                                  <input class="form-check-input" type="checkbox" id="rice" name="crop" value="rice">
+                                  <label class="form-check-label small" for="rice">Rice (Kc = 1.20)</label>
+                                </div>
+                              </div>
+
+                              <div class="col-6">
+                                <div class="form-check">
+                                  <input class="form-check-input" type="checkbox" id="tomato" name="crop" value="tomato">
+                                  <label class="form-check-label small" for="tomato">Tomato (Kc = 1.15)</label>
+                                </div>
+                                <div class="form-check">
+                                  <input class="form-check-input" type="checkbox" id="soybean" name="crop" value="soybean">
+                                  <label class="form-check-label small" for="soybean">Soybean (Kc = 1.15)</label>
+                                </div>
+                                <div class="form-check">
+                                  <input class="form-check-input" type="checkbox" id="potato" name="crop" value="potato">
+                                  <label class="form-check-label small" for="potato">Potato (Kc = 1.15)</label>
+                                </div>
+                              </div>
+
+                              <div class="col-6">
+                                <div class="form-check">
+                                  <input class="form-check-input" type="checkbox" id="sugarcane" name="crop" value="sugarcane">
+                                  <label class="form-check-label small" for="sugarcane">Sugarcane (Kc = 1.25)</label>
+                                </div>
+                                <div class="form-check">
+                                  <input class="form-check-input" type="checkbox" id="cotton" name="crop" value="cotton">
+                                  <label class="form-check-label small" for="cotton">Cotton (Kc = 1.15)</label>
+                                </div>
+                              </div>
+
+                              <div class="col-6">
+                                <div class="form-check">
+                                  <input class="form-check-input" type="checkbox" id="grass" name="crop" value="grass">
+                                  <label class="form-check-label small" for="grass">Grass (Kc = 1.00)</label>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="row g-2 mt-2">
+                                <div class="col-6">
+                                    <label class="form-label small">Start Year</label>
+                                    <input type="number"
+                                           class="form-control form-control-sm"
+                                           name="start"
+                                           value="2020"
+                                           min="1850"
+                                           max="2100">
+                                </div>
+                                <div class="col-6">
+                                    <label class="form-label small">End Year</label>
+                                    <input type="number"
+                                           class="form-control form-control-sm"
+                                           name="end"
+                                           value="2023"
+                                           min="2025"
+                                           max="2100">
+                                </div>
+                            </div>
+                            <!-- Action Buttons -->
+                            <div class="row mt-3">
+                                <div class="col-12">
+                                    <div class="d-flex justify-content-end gap-2">
+                                        <button type="button" class="btn btn-outline-primary btn-sm">
+                                            <i class="fas fa-redo me-1"></i>Reset Parameters
+                                        </button>
+                                        <button type="submit" class="btn btn-warning btn-sm">
+                                            <i class="fas fa-satellite me-1"></i>Run Climate Simulation
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            
+            <!-- Compact Documentation -->
+            <div class="row mt-3">
+                <div class="col-12">
+                    <div class="card shadow-sm bg-secondary">
+                        <div class="text-center rounded py-3">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h6 class="mb-0 text-warning px-3">
+                                    <i class="fas fa-book me-1"></i>NASA Climate Modeling Documentation
+                                </h6>
+                                <button class="btn btn-sm btn-outline-light"
+                                        type="button"
+                                        data-bs-toggle="collapse"
+                                        data-bs-target="#docsCollapse">
+                                    <i class="fas fa-chevron-down"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="collapse show" id="docsCollapse">
+                            <div class="card-body p-3">
+                                <div class="row g-3">
+                                    <div class="col-md-4">
+                                        <h6 class="text-primary">Model Configuration</h6>
+                                        <ul class="small ps-3">
+                                            <li>
+                                                <strong>Climate Model:</strong> NASA's GISS ModelE, GEOS, or MERRA-2
+                                            </li>
+                                            <li>
+                                                <strong>Scenario:</strong> SSP pathways representing different future emissions
+                                            </li>
+                                            <li>
+                                                <strong>Time Period:</strong> Simulation years (historical or future projections)
+                                            </li>
+                                            <li>
+                                                <strong>Time Resolution:</strong> Temporal granularity of output data
+                                            </li>
+                                            <li>
+                                                <strong>Ensemble Member:</strong> Different initial conditions for uncertainty analysis
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <h6 class="text-primary">Geographic Parameters</h6>
+                                        <ul class="small ps-3">
+                                            <li>
+                                                <strong>Region:</strong> Geographic domain for analysis (global or regional)
+                                            </li>
+                                            <li>
+                                                <strong>Spatial Resolution:</strong> Grid spacing in degrees latitude/longitude
+                                            </li>
+                                            <li>
+                                                <strong>Bounding Box:</strong> Custom geographic domain coordinates
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <h6 class="text-primary">Climate Variables</h6>
+                                        <ul class="small ps-3">
+                                            <li>
+                                                <strong>Surface Temperature:</strong> Near-surface air temperature (°C)
+                                            </li>
+                                            <li>
+                                                <strong>Precipitation:</strong> Rainfall and snowfall (mm/day)
+                                            </li>
+                                            <li>
+                                                <strong>Sea Level Pressure:</strong> Atmospheric pressure at sea level (hPa)
+                                            </li>
+                                            <li>
+                                                <strong>Relative Humidity:</strong> Atmospheric moisture content (%)
+                                            </li>
+                                            <li>
+                                                <strong>Wind Speed:</strong> Near-surface wind velocity (m/s)
+                                            </li>
+                                            <li>
+                                                <strong>Solar Radiation:</strong> Incoming shortwave radiation (W/m²)
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <h6 class="text-primary">Simulation Parameters</h6>
+                                        <ul class="small ps-3">
+                                            <li>
+                                                <strong>Ocean Model:</strong> Component simulating ocean circulation and heat transport
+                                            </li>
+                                            <li>
+                                                <strong>Sea Ice Model:</strong> Component simulating sea ice formation and melt
+                                            </li>
+                                            <li>
+                                                <strong>Carbon Cycle:</strong> Interactive atmospheric CO₂ or prescribed concentrations
+                                            </li>
+                                            <li>
+                                                <strong>Aerosols:</strong> Atmospheric particles affecting climate (direct/indirect effects)
+                                            </li>
+                                            <li>
+                                                <strong>Spin-up Years:</strong> Initialization period for model equilibrium
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <h6 class="text-primary">NASA GISS ModelE</h6>
+                                        <ul class="small ps-3">
+                                            <li>
+                                                <strong>Atmosphere:</strong> 3D primitive equations, 40-120 vertical layers
+                                            </li>
+                                            <li>
+                                                <strong>Resolution:</strong> Typically 2°×2.5°, with higher resolutions available
+                                            </li>
+                                            <li>
+                                                <strong>Physics:</strong> Radiation, clouds, convection, boundary layer, land surface
+                                            </li>
+                                            <li>
+                                                <strong>Chemistry:</strong> Interactive aerosols and atmospheric chemistry
+                                            </li>
+                                            <li>
+                                                <strong>Coupling:</strong> Fully coupled atmosphere-ocean-sea ice-land system
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <h6 class="text-primary">SSP Scenarios</h6>
+                                        <ul class="small ps-3">
+                                            <li>
+                                                <strong>SSP1-2.6:</strong> Sustainability pathway (~2.6 W/m² radiative forcing)
+                                            </li>
+                                            <li>
+                                                <strong>SSP2-4.5:</strong> Middle-of-the-road pathway (~4.5 W/m²)
+                                            </li>
+                                            <li>
+                                                <strong>SSP3-7.0:</strong> Regional rivalry pathway (~7.0 W/m²)
+                                            </li>
+                                            <li>
+                                                <strong>SSP5-8.5:</strong> Fossil-fueled development pathway (~8.5 W/m²)
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="alert alert-info mt-3 p-2 small">
+                                    <i class="fas fa-info-circle me-2"></i>
+                                    <strong>Note:</strong> NASA's climate models are complex Earth system models that simulate physical, chemical, and biological processes. Simulation times vary based on resolution and complexity, from hours to weeks for century-scale simulations.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Footer Start -->
+        <div class="container-fluid pt-4 px-4">
+            <div class="bg-secondary rounded-top p-4">
+                <div class="row">
+                    <div class="col-12 col-sm-6 text-center text-sm-start">
+                        &copy; <a href="#">NASA Climate Modeling Portal</a>, All Rights Reserved.
+                    </div>
+                    <div class="col-12 col-sm-6 text-center text-sm-end">Goddard Institute for Space Studies</div>
+                </div>
+            </div>
+        </div>
+        <!-- Footer End -->
+    </div>
+{% endblock %}

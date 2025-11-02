@@ -16,6 +16,7 @@ from data_factory.pvlib import (
     bifacial_simulation,
     axis_tracking,
 )
+from data_factory.climate_projection import climate_projector, climate_plots
 from data_factory.pvlib import general_analyzer, seasonal_analyzer, financial_analysis
 from data_factory.pvlib import plots, timeseries
 from data_factory import weather_analyzer, airquality_analyzer
@@ -591,7 +592,7 @@ def modelchain_result_view(request, token):
     irradiance_array = int(request.GET.get("irradiance_array", 0))
     weather_param = request.GET.get("weather_param", "temp_air")
 
-    # Build time-series charts (not cached — lightweight & parameterized)
+    # Build time-series charts
     time_series = {
         "ac_aoi": timeseries.ac_aoi_chart(
             simulation_data["ac_aoi"], ac_aoi_array, ac_aoi_param
@@ -677,9 +678,26 @@ def weather_view(request):
     return render(request, "analytics/weather.html", context)
 
 
-def climate_modelling_view(request):
+def nasa_climate_modelling_view(request):
+    if request.method == "POST":
+        nasa_params = {
+            "name": request.POST.get("name"),
+            "lat": request.POST.get("lat"),
+            "lon": request.POST.get("lon"),
+            "timestandard": request.POST.get("time_standard"),
+            "community": request.POST.get("community"),
+            "model": request.POST.get("climate_model"),
+            "scenario": request.POST.get("scenario"),
+            "crops": request.POST.getlist("crops"),
+            "start": request.POST.get("start"),
+            "end": request.POST.get("end"),
+        }
+        cm = climate_projector.SolarAgriProjector(nasa_params)
+        result = cm.run_simulation()
+        plots = climate_plots.generate_all_plots(result)
+
     context = {}
-    return render(request, "analytics/climate_modelling.html", context)
+    return render(request, "analytics/climate_modelling_nasa.html", context)
 
 
 def help_view(request):
@@ -690,6 +708,7 @@ def help_view(request):
 def repository_view(request):
     context = {}
     return render(request, "analytics/repository.html", context)
+
 
 
 def air_quality_view(request):

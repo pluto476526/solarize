@@ -221,7 +221,7 @@
                         <div class="text-center rounded py-3">
                             <div class="d-flex justify-content-between align-items-center">
                                 <h6 class="mb-0 text-warning px-3">
-                                    <i class="fas fa-book me-1"></i>NASA Climate Modeling Documentation
+                                    <i class="fas fa-book me-1"></i>Agricultural Climate Analysis Documentation
                                 </h6>
                                 <button class="btn btn-sm btn-outline-light"
                                         type="button"
@@ -234,124 +234,206 @@
                         <div class="collapse show" id="docsCollapse">
                             <div class="card-body p-3">
                                 <div class="row g-3">
-                                    <div class="col-md-4">
-                                        <h6 class="text-primary">Model Configuration</h6>
-                                        <ul class="small ps-3">
-                                            <li>
-                                                <strong>Climate Model:</strong> NASA's GISS ModelE, GEOS, or MERRA-2
-                                            </li>
-                                            <li>
-                                                <strong>Scenario:</strong> SSP pathways representing different future emissions
-                                            </li>
-                                            <li>
-                                                <strong>Time Period:</strong> Simulation years (historical or future projections)
-                                            </li>
-                                            <li>
-                                                <strong>Time Resolution:</strong> Temporal granularity of output data
-                                            </li>
-                                            <li>
-                                                <strong>Ensemble Member:</strong> Different initial conditions for uncertainty analysis
-                                            </li>
-                                        </ul>
-                                    </div>
+                                    <!-- Geographic Parameters -->
                                     <div class="col-md-4">
                                         <h6 class="text-primary">Geographic Parameters</h6>
                                         <ul class="small ps-3">
                                             <li>
-                                                <strong>Region:</strong> Geographic domain for analysis (global or regional)
+                                                <strong>Location/Project Name:</strong> Descriptive name for your agricultural site
                                             </li>
                                             <li>
-                                                <strong>Spatial Resolution:</strong> Grid spacing in degrees latitude/longitude
+                                                <strong>Time Standard:</strong> UTC for global consistency or LST for local solar time
                                             </li>
                                             <li>
-                                                <strong>Bounding Box:</strong> Custom geographic domain coordinates
+                                                <strong>Latitude:</strong> Geographic coordinate (-90° to 90°) affecting solar angle and seasons
+                                            </li>
+                                            <li>
+                                                <strong>Longitude:</strong> Geographic coordinate (-180° to 180°) affecting timezone and climate
                                             </li>
                                         </ul>
                                     </div>
+
+                                    <!-- Research Community & Model Configuration -->
                                     <div class="col-md-4">
-                                        <h6 class="text-primary">Climate Variables</h6>
+                                        <h6 class="text-primary">Research Configuration</h6>
                                         <ul class="small ps-3">
                                             <li>
-                                                <strong>Surface Temperature:</strong> Near-surface air temperature (°C)
+                                                <strong>Research Community:</strong> Renewable Energy (solar focus) or Agriculture (crop water focus)
                                             </li>
                                             <li>
-                                                <strong>Precipitation:</strong> Rainfall and snowfall (mm/day)
+                                                <strong>Climate Model:</strong> Multi-model ensemble for robust projections or specific model for detailed analysis
                                             </li>
                                             <li>
-                                                <strong>Sea Level Pressure:</strong> Atmospheric pressure at sea level (hPa)
-                                            </li>
-                                            <li>
-                                                <strong>Relative Humidity:</strong> Atmospheric moisture content (%)
-                                            </li>
-                                            <li>
-                                                <strong>Wind Speed:</strong> Near-surface wind velocity (m/s)
-                                            </li>
-                                            <li>
-                                                <strong>Solar Radiation:</strong> Incoming shortwave radiation (W/m²)
+                                                <strong>Scenario:</strong> SSP pathways representing different future climate and socioeconomic conditions
                                             </li>
                                         </ul>
                                     </div>
+
+                                    <!-- Crops Configuration -->
+                                    <div class="col-md-4">
+                                        <h6 class="text-primary">Crop Selection</h6>
+                                        <ul class="small ps-3">
+                                            <li>
+                                                <strong>Maize (Kc=1.15):</strong> Staple cereal crop, moderate water requirements
+                                            </li>
+                                            <li>
+                                                <strong>Wheat (Kc=1.15):</strong> Cool-season cereal, similar water needs to maize
+                                            </li>
+                                            <li>
+                                                <strong>Rice (Kc=1.20):</strong> High water requirement crop, typically flooded conditions
+                                            </li>
+                                            <li>
+                                                <strong>Tomato (Kc=1.15):</strong> Vegetable crop with moderate irrigation needs
+                                            </li>
+                                            <li>
+                                                <strong>Soybean (Kc=1.15):</strong> Legume crop, similar water needs to maize
+                                            </li>
+                                            <li>
+                                                <strong>Potato (Kc=1.15):</strong> Root vegetable with moderate water requirements
+                                            </li>
+                                            <li>
+                                                <strong>Sugarcane (Kc=1.25):</strong> High biomass crop with substantial water needs
+                                            </li>
+                                            <li>
+                                                <strong>Cotton (Kc=1.15):</strong> Fiber crop with moderate irrigation requirements
+                                            </li>
+                                            <li>
+                                                <strong>Grass (Kc=1.00):</strong> Reference crop for evapotranspiration calculations
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <!-- Simulation Parameters -->
                                     <div class="col-md-4">
                                         <h6 class="text-primary">Simulation Parameters</h6>
                                         <ul class="small ps-3">
                                             <li>
-                                                <strong>Ocean Model:</strong> Component simulating ocean circulation and heat transport
+                                                <strong>Start Year:</strong> Beginning of analysis period (minimum 1850 for historical data)
                                             </li>
                                             <li>
-                                                <strong>Sea Ice Model:</strong> Component simulating sea ice formation and melt
+                                                <strong>End Year:</strong> Conclusion of analysis period (maximum 2100 for projections)
                                             </li>
                                             <li>
-                                                <strong>Carbon Cycle:</strong> Interactive atmospheric CO₂ or prescribed concentrations
-                                            </li>
-                                            <li>
-                                                <strong>Aerosols:</strong> Atmospheric particles affecting climate (direct/indirect effects)
-                                            </li>
-                                            <li>
-                                                <strong>Spin-up Years:</strong> Initialization period for model equilibrium
+                                                <strong>Crop Coefficients (Kc):</strong> Multipliers converting reference ET to crop water requirements
                                             </li>
                                         </ul>
                                     </div>
+
+                                    <!-- Climate Models -->
                                     <div class="col-md-4">
-                                        <h6 class="text-primary">NASA GISS ModelE</h6>
+                                        <h6 class="text-primary">Available Climate Models</h6>
                                         <ul class="small ps-3">
                                             <li>
-                                                <strong>Atmosphere:</strong> 3D primitive equations, 40-120 vertical layers
+                                                <strong>Multi-Model Ensemble:</strong> Combined output from multiple models for reduced uncertainty
                                             </li>
                                             <li>
-                                                <strong>Resolution:</strong> Typically 2°×2.5°, with higher resolutions available
+                                                <strong>CMCC ESM2:</strong> Italian Euro-Mediterranean Climate Center Earth System Model
                                             </li>
                                             <li>
-                                                <strong>Physics:</strong> Radiation, clouds, convection, boundary layer, land surface
+                                                <strong>CNRM ESM2-1:</strong> French National Center for Meteorological Research model
                                             </li>
                                             <li>
-                                                <strong>Chemistry:</strong> Interactive aerosols and atmospheric chemistry
+                                                <strong>FGOALS G3:</strong> Chinese Flexible Global Ocean-Atmosphere-Land System model
                                             </li>
                                             <li>
-                                                <strong>Coupling:</strong> Fully coupled atmosphere-ocean-sea ice-land system
+                                                <strong>INM CM5.0:</strong> Russian Institute of Numerical Mathematics Climate Model
+                                            </li>
+                                            <li>
+                                                <strong>MRI ESM2.0:</strong> Japanese Meteorological Research Institute model
+                                            </li>
+                                            <li>
+                                                <strong>NorESM2 LM:</strong> Norwegian Earth System Model low-resolution version
                                             </li>
                                         </ul>
                                     </div>
+
+                                    <!-- SSP Scenarios -->
                                     <div class="col-md-4">
-                                        <h6 class="text-primary">SSP Scenarios</h6>
+                                        <h6 class="text-primary">SSP Climate Scenarios</h6>
                                         <ul class="small ps-3">
                                             <li>
-                                                <strong>SSP1-2.6:</strong> Sustainability pathway (~2.6 W/m² radiative forcing)
+                                                <strong>SSP1-2.6:</strong> Sustainable development with low emissions (~1.8°C warming)
                                             </li>
                                             <li>
-                                                <strong>SSP2-4.5:</strong> Middle-of-the-road pathway (~4.5 W/m²)
+                                                <strong>SSP2-4.5:</strong> Middle-of-the-road development with moderate emissions (~2.7°C warming)
                                             </li>
                                             <li>
-                                                <strong>SSP3-7.0:</strong> Regional rivalry pathway (~7.0 W/m²)
+                                                <strong>SSP3-7.0:</strong> Regional rivalry with high emissions (~3.6°C warming)
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <!-- Agricultural Parameters -->
+                                    <div class="col-md-4">
+                                        <h6 class="text-primary">Agricultural Analysis</h6>
+                                        <ul class="small ps-3">
+                                            <li>
+                                                <strong>Crop Water Requirement (CWR):</strong> Calculated as ET₀ × Crop Coefficient (Kc)
                                             </li>
                                             <li>
-                                                <strong>SSP5-8.5:</strong> Fossil-fueled development pathway (~8.5 W/m²)
+                                                <strong>Reference ET₀:</strong> Evapotranspiration from well-watered grass reference surface
+                                            </li>
+                                            <li>
+                                                <strong>Irrigation Need:</strong> Difference between crop water requirement and natural precipitation
+                                            </li>
+                                            <li>
+                                                <strong>Water Balance:</strong> Monthly and annual analysis of water surplus/deficit
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <!-- Output Parameters -->
+                                    <div class="col-md-4">
+                                        <h6 class="text-primary">Output Parameters</h6>
+                                        <ul class="small ps-3">
+                                            <li>
+                                                <strong>Solar Radiation:</strong> ALLSKY_SFC_SW_DWN - total surface solar radiation
+                                            </li>
+                                            <li>
+                                                <strong>Temperature:</strong> T2M (average), T2M_MAX (maximum), T2M_MIN (minimum)
+                                            </li>
+                                            <li>
+                                                <strong>Precipitation:</strong> PRECTOTCORR - bias-corrected total precipitation
+                                            </li>
+                                            <li>
+                                                <strong>Humidity:</strong> RH2M - relative humidity at 2 meters
+                                            </li>
+                                            <li>
+                                                <strong>Wind Speed:</strong> WS10M - wind speed at 10 meters height
+                                            </li>
+                                            <li>
+                                                <strong>ET₀ & CWR:</strong> Calculated crop water requirements and irrigation needs
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <!-- Technical Notes -->
+                                    <div class="col-md-4">
+                                        <h6 class="text-primary">Technical Notes</h6>
+                                        <ul class="small ps-3">
+                                            <li>
+                                                <strong>Data Source:</strong> NASA POWER (Prediction Of Worldwide Energy Resources)
+                                            </li>
+                                            <li>
+                                                <strong>Spatial Resolution:</strong> 0.5° × 0.5° (approximately 55 km × 55 km)
+                                            </li>
+                                            <li>
+                                                <strong>Temporal Resolution:</strong> Daily data aggregated to monthly and annual summaries
+                                            </li>
+                                            <li>
+                                                <strong>ET₀ Calculation:</strong> FAO Penman-Monteith equation using NASA meteorological data
+                                            </li>
+                                            <li>
+                                                <strong>Crop Coefficients:</strong> Standard values from FAO irrigation and drainage papers
                                             </li>
                                         </ul>
                                     </div>
                                 </div>
+
+                                <!-- Application Notes -->
                                 <div class="alert alert-info mt-3 p-2 small">
                                     <i class="fas fa-info-circle me-2"></i>
-                                    <strong>Note:</strong> NASA's climate models are complex Earth system models that simulate physical, chemical, and biological processes. Simulation times vary based on resolution and complexity, from hours to weeks for century-scale simulations.
+                                    <strong>Agricultural Application:</strong> This analysis helps farmers and agricultural planners understand climate impacts on crop water requirements, optimize irrigation scheduling, and assess solar energy potential for agricultural operations. The tool combines climate science with practical agricultural water management.
                                 </div>
                             </div>
                         </div>

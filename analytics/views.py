@@ -21,8 +21,10 @@ from data_factory.pvlib import general_analyzer, seasonal_analyzer, financial_an
 from data_factory.pvlib import plots, timeseries
 from data_factory import weather_analyzer, airquality_analyzer
 from analytics import utils, array_storage
+import pickle
 import json
 import logging
+import uuid
 
 logger = logging.getLogger(__name__)
 
@@ -696,9 +698,24 @@ def nasa_climate_modelling_view(request):
         result = cm.run_simulation()
         plots = climate_plots.generate_all_plots(result)
 
+        data = {"result": result, "plots": plots}
+        pickled_data = pickle.dumps(data)
+        
+        cache_key = uuid.uuid4()
+        cache.set(cache_key, pickled_data, timeout=3600)
+        return redirect("climate_results", key=cache_key)
     context = {}
     return render(request, "analytics/climate_modelling_nasa.html", context)
 
+
+def climate_results_view(request, key):
+    pickled_data = cache.get(key)
+    data = pickle.loads(pickled_data)
+    context = {
+        "insights": data["result"]["insights"],
+        "plots": data["plots"],
+    }
+    return render(request, "analytics/climate_results.html", context)
 
 def help_view(request):
     context = {}

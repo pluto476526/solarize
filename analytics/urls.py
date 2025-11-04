@@ -30,9 +30,14 @@ urlpatterns = [
         name="modelchain_result",
     ),
     path(
-        "climate-modelling/NASA/",
+        "climate-projection/NASA/",
         views.nasa_climate_modelling_view,
         name="nasa_climate_modelling",
+    ),
+    path(
+        "climate-projection/NASA/<str:key>",
+        views.climate_results_view,
+        name="climate_results"
     ),
     path("weather/", views.weather_view, name="weather"),
     path("air-quality/", views.air_quality_view, name="air_quality"),

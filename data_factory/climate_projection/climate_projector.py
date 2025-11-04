@@ -12,7 +12,6 @@ from scipy.stats import linregress
 
 from typing import List, Dict, Optional, Tuple
 
-session = requests_cache.CachedSession('nasa_power_cache', backend='sqlite', expire_after=3600)
 
 class SolarAgriProjector:
     """
@@ -46,13 +45,18 @@ class SolarAgriProjector:
         self.start = nasa_params["start"]
         self.end = nasa_params["end"]
 
+        self.session = requests_cache.CachedSession(
+            'nasa_power_cache',
+            backend='redis',
+            expire_after=timedelta(days=30),
+            allowable_methods=['GET'],
+            stale_if_error=True
+        )
+
+
     # ------------------------------------------------------------------
     # 1. FETCH DATA
     # ------------------------------------------------------------------
-   
-
-    # Initialize requests_cache globally (e.g., once in your class __init__ or module)
-    
 
     def fetch_nasa_projections(self) -> pd.DataFrame:
         """
@@ -73,7 +77,7 @@ class SolarAgriProjector:
         }
 
         try:
-            r = session.get(self.BASE_URL, params=params, timeout=30)
+            r = self.session.get(self.BASE_URL, params=params, timeout=30)
             r.raise_for_status()
             payload = r.json()
 

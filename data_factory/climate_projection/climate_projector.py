@@ -7,13 +7,12 @@ import numpy as np
 import requests_cache
 from datetime import timedelta
 from scipy.stats import linregress
-import plotly.graph_objects as go
-from plotly.subplots import make_subplots
 
 
 
 from typing import List, Dict, Optional, Tuple
 
+session = requests_cache.CachedSession('nasa_power_cache', backend='sqlite', expire_after=3600)
 
 class SolarAgriProjector:
     """
@@ -36,13 +35,6 @@ class SolarAgriProjector:
         "grass": 1.00,  # reference
     }
 
-    requests_cache.install_cache(
-        "nasa_power_cache",                 # cache name (sqlite by default)
-        expire_after=timedelta(days=30),    # cache expiration
-        allowable_methods=["GET"],          # cache GET requests
-        stale_if_error=True                 # use stale cache if request fails
-    )
-
     def __init__(self, nasa_params: Dict):
         self.name = nasa_params["name"]
         self.lat = float(nasa_params["lat"])
@@ -53,7 +45,6 @@ class SolarAgriProjector:
         self.scenario = nasa_params["scenario"]
         self.start = nasa_params["start"]
         self.end = nasa_params["end"]
-
 
     # ------------------------------------------------------------------
     # 1. FETCH DATA
@@ -82,7 +73,7 @@ class SolarAgriProjector:
         }
 
         try:
-            r = requests.get(self.BASE_URL, params=params, timeout=30)
+            r = session.get(self.BASE_URL, params=params, timeout=30)
             r.raise_for_status()
             payload = r.json()
 

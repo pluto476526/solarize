@@ -18,5 +18,5 @@ urlpatterns = [
     path("features/", views.features_view, name="features"),
     path("data-sources/", views.data_sources_view, name="data_sources"),
     path("solutions/", views.solutions_view, name="solutions"),
-    path("log-out/", views.signout_view, name="log-out"),
+    path("log-out/", views.signout_view, name="signout"),
 ]

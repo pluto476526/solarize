@@ -424,22 +424,29 @@ def bifacial_system_view(request):
     db = DataManager(conn)
 
     if request.method == "POST":
+
+        required_fields = ["lat", "lon", "alt", "tz", "start_date", "end_date"]
+        missing = [f for f in required_fields if not request.POST.get(f)]
+
+        if missing:
+            messages.error(request, f"Missing required fields: {', '.join(missing)}")
+            return redirect("bifacial_system")
+
+
         simulation_name = request.POST.get("name", "Bifacial_System")
         description = request.POST.get("description")
         arrays_file = request.FILES.get("arrays_json")
-        arrays_config = json.load(arrays_file) if arrays_file else {}
+        
+        if arrays_file:
+            try:
+                arrays_config = json.load(arrays_file)
+                if not isinstance(arrays_config, list):
+                    messages.error(request, "Invalid arrays file: must be a JSON array.")
+                    return redirect("bifacial_system")
+            except json.JSONDecodeError:
+                messages.error(request, "Invalid JSON in arrays file.")
+                return redirect("bifacial_system")
 
-        array_names = {}
-
-        for idx, arr in enumerate(arrays_config):
-            name = arr.get("name", f"Array_{idx}")
-            array_names[str(idx)] = name
-
-        index = len(array_names)
-        array_names[str(index)] = "MainArray"
-        array_storage.save_array_file(
-            request.user, f"{simulation_name}_bfs_arrays.json", array_names
-        )
 
         location_params = {
             "name": simulation_name,
@@ -491,22 +498,26 @@ def bifacial_system_view(request):
             "availability": request.POST.get("availability"),
         }
 
-        bpv = bifacial_simulation.BifacialPVSimulator(
-            location_params=location_params,
-            system_params=system_params,
-            losses_params=losses_params,
-        )
+        try:
+            bpv = bifacial_simulation.BifacialPVSimulator(
+                location_params=location_params,
+                system_params=system_params,
+                losses_params=losses_params,
+            )
 
-        result = bpv.run_simulation()
-        result_id = db.save_modelchain_result(
-            result=result,
-            array_names=array_names,
-            simulation_name=simulation_name,
-            description=description,
-        )
+            result = bpv.run_simulation()
+            result_id = db.save_modelchain_result(
+                result=result,
+                array_names=array_names,
+                simulation_name=simulation_name,
+                description=description,
+            )
+        except Exception as e:
+            logger.error(e)
+            messages.error(request, "Could not complete simulation. Check parameters and try again")
+            return redirect("bifacial_system")
 
-        db.close()
-        messages.success(request, f"Configured system with {len(arrays_config)} arrays")
+        messages.success(request, f"Configured bifacial system with {len(arrays_config) + 1} arrays")
         signer = Signer()
         token = signer.sign(result_id)
         return redirect("modelchain_result", token=token)

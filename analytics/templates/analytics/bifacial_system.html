@@ -43,7 +43,8 @@
                                        class="form-control form-control-sm"
                                        name="lat"
                                        value="-1.286389"
-                                       step="any">
+                                       step="any"
+                                       required>
                             </div>
                             <div class="col-6">
                                 <label class="form-label small">Longitude</label>
@@ -51,7 +52,8 @@
                                        class="form-control form-control-sm"
                                        name="lon"
                                        value="36.817223"
-                                       step="any">
+                                       step="any"
+                                       required>
                             </div>
                             <div class="col-4">
                                 <label class="form-label small">Altitude (m)</label>
@@ -59,20 +61,22 @@
                                        class="form-control form-control-sm"
                                        name="alt"
                                        value="0"
-                                       step="any">
+                                       step="any"
+                                       required>
                             </div>
                             <div class="col-4">
                                 <label class="form-label small">Albedo</label>
                                 <input type="number"
                                        name="albedo"
                                        class="form-control form-control-sm"
-                                       value="0.25">
+                                       value="0.25"
+                                       required>
                             </div>
                             <div class="col-4">
                                 <label class="form-label small">Timezone</label>
-                                <select class="form-select form-select-sm" name="tz">
+                                <select class="form-select form-select-sm" name="tz" required>
                                     <option selected value="Africa/Nairobi">Africa/Nairobi</option>
-                                    <option>UTC</option>
+                                    <option value="UTC">UTC</option>
                                 </select>
                             </div>
                             <div class="col-12">
@@ -102,7 +106,8 @@
                                        list="module-list"
                                        autocomplete="off"
                                        class="form-control form-control-sm"
-                                       placeholder="Type to search...">
+                                       placeholder="Type to search..."
+                                       required>
                                 <datalist id="module-list"></datalist>
                             </div>
                             <div class="col-12">
@@ -113,12 +118,13 @@
                                        list="inverter-list"
                                        autocomplete="off"
                                        class="form-control form-control-sm"
-                                       placeholder="Type to search...">
+                                       placeholder="Type to search..."
+                                       required>
                                 <datalist id="inverter-list"></datalist>
                             </div>
                             <div class="col-4">
                                 <label class="form-label small">Module Type</label>
-                                <select class="form-select form-select-sm" name="module_type">
+                                <select class="form-select form-select-sm" name="module_type" required>
                                     <option value="glass_polymer" selected>Glass Polymer</option>
                                     <option value="glass_glass">Glass Glass</option>
                                 </select>
@@ -128,14 +134,16 @@
                                 <input type="number"
                                        name="azimuth"
                                        class="form-control form-control-sm"
-                                       value="180">
+                                       value="180"
+                                       required>
                             </div>
                             <div class="col-4">
                                 <label class="form-label small">Surface Tilt (°)</label>
                                 <input type="number"
                                        name="tilt"
                                        class="form-control form-control-sm"
-                                       value="20">
+                                       value="20"
+                                       required>
                             </div>
                         </div>
                     </div>
@@ -154,14 +162,16 @@
                                 <input type="number"
                                        name="modules_per_string"
                                        class="form-control form-control-sm"
-                                       value="1">
+                                       value="18"
+                                       required>
                             </div>
                             <div class="col-4">
                                 <label class="form-label small">Number of Strings</label>
                                 <input type="number"
                                        name="strings"
                                        class="form-control form-control-sm"
-                                       value="1">
+                                       value="7"
+                                       required>
                             </div>
                             <div class="col-4">
                                 <label for="file-input" class="form-label small mb-1">

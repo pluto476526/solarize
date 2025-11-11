@@ -105,8 +105,7 @@ def pvwatts_modelling_view(request):
         logger.debug(reports)
         return redirect("pvwatts_report")
 
-    context = {}
-    return render(request, "analytics/pvwatts_modelling.html", context)
+    return render(request, "analytics/pvwatts_modelling.html", {})
 
 
 def pvwatts_report_view(request):
@@ -115,21 +114,14 @@ def pvwatts_report_view(request):
     if not reports:
         return redirect("pvwatts_modelling")
 
-    savings_chart = None
-
     for report in reports:
         monthly_savings = report["financial_analysis"]["monthly_savings_breakdown"]
-        savings_chart = utils.monthly_savings_chart(monthly_savings)
-        report["savings_chart"] = savings_chart
-
+        report["savings_chart"] = utils.monthly_savings_chart(monthly_savings)
+        
         scenario_data = report["scenario_analysis"]
-        efficiency_chart = utils.scenario_efficiency_chart(scenario_data)
-        report["efficiency_chart"] = efficiency_chart
+        report["efficiency_chart"] = utils.scenario_efficiency_chart(scenario_data)
 
-    context = {
-        "reports": reports,
-    }
-
+    context = {"reports": reports}
     return render(request, "analytics/pvwatts_report.html", context)
 
 

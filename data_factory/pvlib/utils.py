@@ -12,9 +12,7 @@ def fetch_TMY_data(lat, lon, year):
     Fetches PVGIS TMY data for the specified coordinates and year.
     Results are cached for performance.
     """
-    lat_rounded = round(lat, 3)
-    lon_rounded = round(lon, 3)
-    cache_key = f"tmy_{lat_rounded}_{lon_rounded}_{year}"
+    cache_key = f"tmy_{lat}_{lon}_{year}"
 
     weather = cache.get(cache_key)
     if weather is not None:

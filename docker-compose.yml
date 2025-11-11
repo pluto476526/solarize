@@ -1,0 +1,46 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: solarize_app
+    restart: always
+    env_file:
+      - .env
+    expose:
+      - "8000"  # internal port for Nginx reverse proxy
+    user: "1000:1000"  # matches solarize UID:GID inside container
+    read_only: true
+    tmpfs:
+      - /tmp  # writable temp directory
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      - ./solarize:/solarize:ro        # app code read-only
+      - ./media:/solarize/media        # writable media files
+      - ./static:/solarize/staticfiles      # static files
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    container_name: solarize_nginx
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - app
+    networks:
+      - webnet
+    volumes:
+      - ./media:/solarize/media               # for Nginx to serve media
+      - ./static:/solarize/staticfiles        # for Nginx to serve static files
+      - /etc/letsencrypt:/etc/letsencrypt:ro  # SSL certificates
+
+networks:
+  webnet:
+    driver: bridge
+

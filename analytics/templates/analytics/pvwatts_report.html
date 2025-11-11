@@ -279,28 +279,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- Incentive Impact -->
-                            <div class="mt-4 p-3 bg-dark rounded">
-                                <h6 class="text-warning mb-3">🎁 Incentive Impact</h6>
-                                <div class="d-flex justify-content-between mb-2">
-                                    <span class="text-muted">Tax Credit:</span>
-                                    <span class="fw-bold text-success">${{ r.financial_analysis.incentive_impact.estimated_tax_credit|floatformat:0 }}</span>
-                                </div>
-                                <div class="d-flex justify-content-between mb-2">
-                                    <span class="text-muted">Effective Cost:</span>
-                                    <span class="fw-bold text-info">${{ r.financial_analysis.incentive_impact.effective_initial_cost|floatformat:0 }}</span>
-                                </div>
-                                <div class="d-flex justify-content-between">
-                                    <span class="text-muted">Payback Period:</span>
-                                    <span class="fw-bold text-warning">{{ r.financial_analysis.incentive_impact.effective_payback_years }} years</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-12 col-xl-8">
-                        <div class="bg-secondary rounded p-4 h-100">
-                            <h5 class="mb-4">💰 Monthly Savings Breakdown</h5>
-                            {% if r.savings_chart %}<div class="mb-4">{{ r.savings_chart|safe }}</div>{% endif %}
+
                             <!-- Monthly Savings Grid -->
                             <div class="row">
                                 <div class="col-12">
@@ -317,6 +296,32 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <!-- Incentive Impact -->
+                            <div class="mt-4 p-3 bg-dark rounded">
+                                <h6 class="text-warning mb-3">🎁 Incentive Impact</h6>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span class="text-muted">Tax Credit:</span>
+                                    <span class="fw-bold text-success">${{ r.financial_analysis.incentive_impact.estimated_tax_credit|floatformat:0 }}</span>
+                                </div>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span class="text-muted">Effective Cost:</span>
+                                    <span class="fw-bold text-info">${{ r.financial_analysis.incentive_impact.effective_initial_cost|floatformat:0 }}</span>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <span class="text-muted">Payback Period:</span>
+                                    <span class="fw-bold text-warning">{{ r.financial_analysis.incentive_impact.effective_payback_years }} years</span>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-xl-8">
+                        <div class="bg-secondary rounded p-4 h-100">
+                            <h5 class="mb-4">💰 Monthly Savings Breakdown</h5>
+                            {% if r.savings_chart %}
+                            <div>{{ r.savings_chart|safe }}</div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -417,24 +422,74 @@
                         </div>
                     </div>
                 </div>
-                <!-- Comparative Analysis Section -->
-                {% if r.comparative_analysis and r.comparative_analysis.message != 'Add multiple locations for comparative analysis' %}
-                    <div class="row pt-4">
-                        <div class="col-12">
-                            <div class="bg-secondary rounded p-4">
-                                <h5 class="mb-4">📈 Comparative Analysis</h5>
-                                <div class="alert alert-info">
-                                    <i class="fas fa-info-circle me-2"></i>
-                                    {{ r.comparative_analysis.message }}
-                                </div>
+                <!--  -->
+                {% if r.comparative_analysis and not r.comparative_analysis.message %}
+                <div class="row pt-4">
+                    <div class="col-12">
+                        <div class="bg-secondary rounded p-4">
+                            <h5 class="mb-4">📈 Comparative Analysis</h5>
+
+                            <!-- Intro -->
+                            <div class="alert alert-dark mb-4">
+                                <i class="fas fa-info-circle me-2"></i>
+                                This comparison highlights each site’s solar generation potential and suitability ranking based on modeled irradiance and energy output.
+                            </div>
+
+                            <!-- Comparison Table -->
+                            <div class="table-responsive">
+                                <table class="table table-hover align-middle text-center">
+                                    <thead class="table-dark">
+                                        <tr>
+                                            <th>Location</th>
+                                            <th>Coordinates</th>
+                                            <th>Annual Potential (kWh)</th>
+                                            <th>Solar Score</th>
+                                            <th>Ranking</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for site in r.comparative_analysis %}
+                                        <tr>
+                                            <td class="fw-bold text-white">{{ site.location_name|title }}</td>
+                                            <td class="text-muted small">{{ site.coordinates }}</td>
+                                            <td>{{ site.annual_potential_kwh|floatformat:0 }}</td>
+                                            <td>
+                                                <span class="badge {% if site.solar_score >= 70 %}bg-success{% elif site.solar_score >= 60 %}bg-dark{% else %}bg-danger{% endif %}">
+                                                    {{ site.solar_score }}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span class="badge {% if site.ranking == 1 %}bg-primary{% else %}bg-dark{% endif %}">
+                                                    #{{ site.ranking }}
+                                                </span>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- Summary -->
+                            <div class="p-3 mt-3 bg-dark rounded">
+                                <h6 class="text-success mb-2">Key Insight</h6>
+                                <p class="small text-muted mb-0">
+                                    The analysis indicates that 
+                                    <strong>{{ r.comparative_analysis.0.location_name|title }}</strong> 
+                                    exhibits the highest annual solar potential ({{ r.comparative_analysis.0.annual_potential_kwh|floatformat:0 }} kWh)
+                                    and a superior solar score of {{ r.comparative_analysis.0.solar_score }}.
+                                    It is therefore recommended as the primary installation site.
+                                </p>
                             </div>
                         </div>
                     </div>
+                </div>
                 {% endif %}
+
             </div>
         {% endfor %}
+
         <!-- Documentation Section Start -->
-        <div class="container-fluid pt-4 px-4">
+        <div class="container-fluid pt-4">
             <div class="row g-4">
                 <div class="col-12">
                     <div class="bg-secondary rounded p-4">

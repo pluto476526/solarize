@@ -1,29 +1,33 @@
-# Base image
+# Base image: slim Python
 FROM python:3.12-slim
 
 # Environment variables
-ENV PYTHONDONTWRITEBYTECODE 1  # disables .pyc files
-ENV PYTHONUNBUFFERED 1         # output appears immediately
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
 
-# Create a non-root user and group
+# Create non-root user and group
 RUN groupadd -r solarize && useradd -r -g solarize -ms /bin/bash solarize
 
-# Set working directory and switch to non-root user
+# Set working directory
 WORKDIR /solarize
+
+# Pre-create staticfiles directory for mounting
+RUN mkdir -p /solarize/staticfiles /solarize/media \
+    && chown -R solarize:solarize /solarize/staticfiles /solarize/media
+
+# Switch to non-root user
 USER solarize
 
-# Copy requirements first for caching
+# Copy requirements and install dependencies
 COPY --chown=solarize:solarize requirements.txt .
-
-# Install Python dependencies without cache
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the rest of the project into the container
+# Copy the rest of the project
 COPY --chown=solarize:solarize . .
 
-# Expose Daphne port internally for Nginx to reach
+# Expose Daphne port
 EXPOSE 8000
 
-# Command to start Daphne
+# Start Daphne
 CMD ["daphne", "-b", "0.0.0.0", "-p", "8000", "solarize.asgi:application"]
 

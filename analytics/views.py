@@ -221,7 +221,7 @@ def spec_sheet_modelling_view(request):
     db = DataManager(conn)
 
     if request.method == "POST":
-        simulation_name = request.POST.get("name", "Spec_Sheet")
+        simulation_name = request.POST.get("name", "Custom PV System")
         description = request.POST.get("description")
         arrays_file = request.FILES.get("arrays_json")
         arrays_config = json.load(arrays_file) if arrays_file else {}
@@ -234,9 +234,6 @@ def spec_sheet_modelling_view(request):
 
         index = len(array_names)
         array_names[str(index)] = "MainArray"
-        array_storage.save_array_file(
-            request.user, f"{simulation_name}_ssm_arrays.json", array_names
-        )
 
         location_params = {
             "name": simulation_name,
@@ -253,6 +250,7 @@ def spec_sheet_modelling_view(request):
             "i_mp": float(request.POST.get("i_mp")),
             "v_oc": float(request.POST.get("v_oc")),
             "i_sc": float(request.POST.get("i_sc")),
+            "cells_in_series": int(request.POST.get("cells_in_series"))
         }
 
         temp_coefficients = {
@@ -274,12 +272,13 @@ def spec_sheet_modelling_view(request):
             "module_params": module_params,
             "temp_coefficients": temp_coefficients,
             "inverter_params": inverter_params,
-            "module_type": request.POST.get("module_type", "glass_glass"),
-            "celltype": request.POST.get("celltype", "monoSi"),
+            "module_type": request.POST.get("module_type"),
+            "celltype": request.POST.get("celltype"),
             "surface_azimuth": request.POST.get("azimuth"),
             "surface_tilt": request.POST.get("tilt"),
             "modules_per_string": request.POST.get("modules_per_string"),
             "strings": request.POST.get("strings"),
+            "racking_model": request.POST.get("racking_model"),
             "temp_model": request.POST.get("temp_model"),
             "temp_model_params": request.POST.get("temp_model_params"),
             "description": request.POST.get("description"),
@@ -305,7 +304,10 @@ def spec_sheet_modelling_view(request):
             losses_params=losses_params,
         )
 
-        result = sss.run_simulation()
+        if not sss.validate_inputs(request=request):
+            return redirect("spec_sheet_modelling")
+
+        result, config = sss.run_simulation()
         result_id = db.save_modelchain_result(
             result=result,
             array_names=array_names,
@@ -314,7 +316,6 @@ def spec_sheet_modelling_view(request):
         )
 
         db.close()
-        messages.success(request, f"Configured system with {len(arrays_config)} arrays")
         signer = Signer()
         token = signer.sign(result_id)
         return redirect("modelchain_result", token=token)

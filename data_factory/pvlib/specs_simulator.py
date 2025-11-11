@@ -1,4 +1,5 @@
 from typing import Dict, List, Optional, Union
+from django.contrib import messages
 import pvlib
 import pandas as pd
 import logging
@@ -16,7 +17,6 @@ class SpecSheetSimulator:
         """Initialize the PV simulator with system, location, and loss parameters.
 
         Args:
-            timeframe_params: Dictionary with 'start' and 'end' for simulation period (e.g., {'start': '2025-01-01', 'end': '2025-12-31'}).
             location_params: Dictionary with location details (name, lat, lon, alt, tz, albedo).
             system_params: Dictionary with system configuration (module, inverter, mount_type, etc.).
             losses_params: Dictionary with loss parameters (soiling, shading, etc.).
@@ -40,38 +40,84 @@ class SpecSheetSimulator:
         self.mount_config = {}
 
         # System parameters
-        self.module_type = system_params.get(
-            "module_type"
-        )  # glass_glass, glass_polymer
-        self.celltype = system_params.get(
-            "celltype"
-        )  #  monoSi, multiSi, polySi, cis, cigs, cdte, amorphous
+        self.module_type = system_params["module_type"]
+        self.celltype = system_params["celltype"]
         self.modules_per_string = int(system_params["modules_per_string"])
         self.strings = int(system_params["strings"])
-        self.arrays = system_params.get("arrays_config", [])
+        self.surface_tilt = system_params["surface_tilt"]
+        self.surface_azimuth = system_params["surface_azimuth"]
         self.temp_model = system_params["temp_model"]
         self.temp_model_params = system_params["temp_model_params"]
         self.description = system_params["description"]
-        self.racking_model = system_params.get(
-            "racking_model", "open_rack"
-        )  # open_rack, close_mount, insulated_back, freestanding, insulated
+        self.racking_model = system_params["racking_model"]
+        self.arrays = system_params.get("arrays_config", [])
 
         # Custom component parameters
         self.custom_module_params = system_params.get("module_params")
         self.custom_inverter_params = system_params.get("inverter_params")
         self.custom_temp_coefficients = system_params.get("temp_coefficients")
+        self.losses_params = losses_params
 
-        # Losses parameters
-        self.soiling = float(losses_params.get("soiling", 0))
-        self.shading = float(losses_params.get("shading", 0))
-        self.snow = float(losses_params.get("snow", 0))
-        self.mismatch = float(losses_params.get("mismatch", 0))
-        self.wiring = float(losses_params.get("wiring", 0))
-        self.connections = float(losses_params.get("connections", 0))
-        self.lid = float(losses_params.get("lid", 0))
-        self.nameplate = float(losses_params.get("nameplate", 0))
-        self.age = float(losses_params.get("age", 0))
-        self.availability = float(losses_params.get("availability", 0))
+
+    def validate_inputs(self, request=None) -> bool:
+        """
+        Validate input parameters.
+        Returns True if all inputs are valid, False otherwise.
+        """
+        issues = []
+
+        if not isinstance(self.lat, (int, float)) or not (-90 <= self.lat <= 90):
+            issues.append(f"Latitude {self.lat} must be a number between -90 and 90")
+        if not isinstance(self.lon, (int, float)) or not (-180 <= self.lon <= 180):
+            issues.append(f"Longitude {self.lon} must be a number between -180 and 180")
+        if not isinstance(self.alt, (int, float)) or self.alt < 0:
+            issues.append(f"Altitude {self.alt} must be non-negative")
+        if not isinstance(self.albedo, (int, float)) or not (0 <= self.albedo <= 1):
+            issues.append(f"Albedo {self.albedo} must be between 0 and 1")
+
+
+        module_params = self.custom_module_params or {}
+
+        if "v_mp" in module_params and module_params["v_mp"] <= 0:
+            issues.append("Maximum power voltage (Vmp) must be positive")
+        if "i_mp" in module_params and module_params["i_mp"] <= 0:
+            issues.append("Maximum power current (Imp) must be positive")
+        if "v_oc" in module_params and module_params["v_oc"] <= 0:
+            issues.append("Open-circuit voltage (Voc) must be positive")
+        if "i_sc" in module_params and module_params["i_sc"] <= 0:
+            issues.append("Short-circuit current (Isc) must be positive")
+        if "cells_in_series" in module_params and module_params["cells_in_series"] <= 0:
+            issues.append("Cells in series must be a positive integer")
+
+        if "v_mp" in module_params and "v_oc" in module_params:
+            if module_params["v_mp"] >= module_params["v_oc"]:
+                issues.append("Vmp must be less than Voc")
+        if "i_mp" in module_params and "i_sc" in module_params:
+            if module_params["i_mp"] >= module_params["i_sc"]:
+                issues.append("Imp must be less than Isc")
+
+
+
+        temp_coefficients = self.custom_temp_coefficients or {}
+
+        if not (-0.001 <= temp_coefficients["alpha_sc"] <= 0.015):
+            issues.append(f"alpha_sc out of typical range: {temp_coefficients['alpha_sc']:.3f} (expected -0.001 to +0.015)")
+
+        if not (-0.20 <= temp_coefficients["beta_voc"] <= -0.05):
+            issues.append(f"beta_voc out of typical range: {temp_coefficients['beta_voc']:.3f} (expected -0.20 to -0.05")
+
+        # gamma_pmp → usually %/°C  (direct input)
+        if not (-0.55 <= temp_coefficients["gamma_pmp"] <= -0.25):
+            issues.append(f"gamma_pmp out of typical range: {temp_coefficients['gamma_pmp']:.3f} (expected -0.55 to -0.25")
+
+        # --- Log and display issues ---
+        if issues:
+            for issue in issues:
+                messages.warning(request, issue)
+            return False
+
+        return True
+
 
     def create_location(self) -> pvlib.location.Location:
         """Create a pvlib Location object.
@@ -98,7 +144,7 @@ class SpecSheetSimulator:
             alpha_sc=self.custom_temp_coefficients.get("alpha_sc"),
             beta_voc=self.custom_temp_coefficients.get("beta_voc"),
             gamma_pmp=self.custom_temp_coefficients.get("gamma_pmp"),
-            cells_in_series=110,
+            cells_in_series=self.custom_module_params.get("cells_in_series"),
             temp_ref=25,
         )
 
@@ -169,16 +215,16 @@ class SpecSheetSimulator:
 
         # System-wide losses
         loss_params = pvlib.pvsystem.pvwatts_losses(
-            soiling=self.soiling,
-            shading=self.shading,
-            snow=self.snow,
-            mismatch=self.mismatch,
-            wiring=self.wiring,
-            connections=self.connections,
-            lid=self.lid,
-            nameplate_rating=self.nameplate,
-            age=self.age,
-            availability=self.availability,
+            soiling=float(self.losses_params["soiling"]),
+            shading=float(self.losses_params["shading"]),
+            snow=float(self.losses_params["snow"]),
+            mismatch=float(self.losses_params["mismatch"]),
+            wiring=float(self.losses_params["wiring"]),
+            connections=float(self.losses_params["connections"]),
+            lid=float(self.losses_params["lid"]),
+            nameplate_rating=float(self.losses_params["nameplate"]),
+            age=float(self.losses_params["age"]),
+            availability=float(self.losses_params["availability"]),
         )
 
         # Build array configurations
@@ -188,35 +234,29 @@ class SpecSheetSimulator:
         main_array_config = {
             "name": "MainArray",
             "mount_type": self.mount_type,
-            "surface_tilt": 30,
-            "surface_azimuth": 180,
+            "surface_tilt": self.surface_tilt,
+            "surface_azimuth": self.surface_azimuth,
             "modules_per_string": self.modules_per_string,
             "strings": self.strings,
             "albedo": self.albedo,
             "tracker_config": {},
-            "array_losses": {"mismatch": self.mismatch, "wiring": self.wiring},
+            "array_losses": {},
         }
         self.arrays.append(main_array_config)
 
         # Build PVLib Array objects
         arrays = []
         for config in self.arrays:
-            mount = self._create_mount(config)
-            array_losses = config.get(
-                "array_losses", {"mismatch": self.mismatch, "wiring": self.wiring}
-            )
-            albedo = float(config.get("albedo", self.albedo))
-
             arr = pvlib.pvsystem.Array(
                 name=config["name"],
-                mount=mount,
-                albedo=albedo,
+                mount=self._create_mount(config),
+                albedo=config["albedo"],
                 module_type=self.module_type,
                 module_parameters=self._get_CEC_params(),
                 temperature_model_parameters=temp_parameters,
                 modules_per_string=int(config["modules_per_string"]),
                 strings=int(config["strings"]),
-                array_losses_parameters=array_losses,
+                array_losses_parameters=config["array_losses"],
             )
             arrays.append(arr)
 
@@ -243,31 +283,47 @@ class SpecSheetSimulator:
         )
         return mc
 
-    def format_results(
-        self, results: pvlib.modelchain.ModelChainResult
-    ) -> pd.DataFrame:
-        """Format simulation results into a structured DataFrame.
-
-        Args:
-            results: ModelChain results object.
+    def get_system_summary(self) -> Dict:
+        """Get a detailed summary of the PV system configuration.
 
         Returns:
-            pd.DataFrame: Formatted results with key metrics and system summary in attrs.
+            Dict: Full system configuration details including location, components, 
+                  electrical specs, temperature coefficients, and losses.
         """
-        df = pd.DataFrame(
-            {
-                "ac_power": results.ac,
-                "dc_power": results.dc["p_mp"],
-                "ghi": results.weather["ghi"],
-                "dni": results.weather["dni"],
-                "dhi": results.weather["dhi"],
-                "effective_irradiance": results.effective_irradiance,
-                "cell_temperature": results.cell_temperature,
-            }
-        )
-        df["timestamp"] = df.index
-        df.attrs["system_summary"] = self.get_system_summary()
-        return df
+        return {
+            "system_type": "Custom PV System",
+            "description": getattr(self, "description", ""),
+            "location": {
+                "name": self.name,
+                "latitude": self.lat,
+                "longitude": self.lon,
+                "altitude": self.alt,
+                "timezone": self.tz,
+                "albedo": self.albedo,
+            },
+            "components": {
+                "module": {
+                    "type": getattr(self, "module_type", None),
+                    "cell_type": getattr(self, "celltype", None),
+                    "arrays": getattr(self, "arrays", []),
+                    "custom_params": self.custom_module_params,
+                },
+                "inverter": self.custom_inverter_params,
+            },
+            "electrical_specs": {
+                "v_mp": self.custom_module_params.get("v_mp") if self.custom_module_params else None,
+                "i_mp": self.custom_module_params.get("i_mp") if self.custom_module_params else None,
+                "v_oc": self.custom_module_params.get("v_oc") if self.custom_module_params else None,
+                "i_sc": self.custom_module_params.get("i_sc") if self.custom_module_params else None,
+                "cells_in_series": self.custom_module_params.get("cells_in_series"),
+            },
+            "temperature_model": {
+                "model": getattr(self, "temp_model", None),
+                "params": getattr(self, "temp_model_params", {}),
+                "coefficients": self.custom_temp_coefficients,
+            },
+        }
+
 
     def run_simulation(
         self, weather_data: Optional[pd.DataFrame] = None
@@ -288,4 +344,5 @@ class SpecSheetSimulator:
         )
         mc = self.simulation_setup()
         mc.run_model(weather_data)
-        return mc.results
+        system_config = self.get_system_summary()
+        return mc.results, system_config

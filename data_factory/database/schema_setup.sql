@@ -39,9 +39,22 @@ CREATE TABLE IF NOT EXISTS modelchain_results (
     albedo JSONB,
     losses NUMERIC,
     spectral_modifier JSONB,
-    tracking JSONB
+    system_type TEXT,
+    latitude TEXT,
+    longitude TEXT,
+    altitude TEXT,
+    timezone TEXT,
+    module_name TEXT,
+    module_type TEXT,
+    cell_type TEXT,
+    arrays JSONB,
+    custom_module_params JSONB,
+    inverter_name TEXT,
+    custom_inverter_params JSONB,
+    temperature_model TEXT,
+    temp_model_params TEXT,
+    custom_temp_params JSONB
 );
-
 -- ===============================================================
 -- 3. PVlib Time-Series Tables
 -- Each table includes `array_name` and a composite PK

@@ -7,7 +7,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.core.cache import cache
 from django.core.signing import Signer
-from data_factory.database.manager import DataManager
+from data_factory.database.db_manager import DataManager
 from data_factory.database.connection import DatabaseConnection
 from data_factory.pvwatts.simulator import PVWattsSimulator
 from data_factory.pvlib import (
@@ -300,11 +300,11 @@ def spec_sheet_modelling_view(request):
             return redirect("spec_sheet_modelling")
 
         result, config = sss.run_simulation()
+        logger.debug(config)
         result_id = db.save_modelchain_result(
             result=result,
-            array_names=array_names,
-            simulation_name=simulation_name,
-            description=description,
+            config=config,
+            array_names=array_names
         )
 
         db.close()
@@ -538,6 +538,9 @@ def modelchain_result_view(request, token):
 
     # Fetch or compute simulation data
     simulation_data = cache.get(data_key)
+    logger.debug(simulation_data)
+    # simulation_data = None
+
     if not simulation_data:
         conn = DatabaseConnection()
         db = DataManager(conn)
@@ -620,6 +623,21 @@ def modelchain_result_view(request, token):
 
     meta_data = {
         "simulation_name": simulation_data["simulation_name"],
+        "system_type": simulation_data["system_type"],
+        "latitude": simulation_data["latitude"],
+        "longitude": simulation_data["longitude"],
+        "altitude": simulation_data["altitude"],
+        "timezone": simulation_data["timezone"],
+        "module_name": simulation_data["module_name"],
+        "module_type": simulation_data["module_type"],
+        "cell_type": simulation_data["cell_type"],
+        "custom_module_params": simulation_data["custom_module_params"],
+        "arrays": simulation_data["arrays"],
+        "inverter_name": simulation_data["inverter_name"],
+        "custom_inverter_params": simulation_data["custom_inverter_params"],
+        "temperature_model": simulation_data["temperature_model"],
+        "temp_model_params": simulation_data["temp_model_params"],
+        "custom_temp_params": simulation_data["custom_temp_params"],
         "description": simulation_data["description"],
         "created_at": simulation_data["created_at"],
     }

@@ -1840,67 +1840,134 @@
                             <div class="row">
                                 <div class="col-6 mb-3">
                                     <div class="border rounded p-3 text-center bg-dark">
-                                        <div class="text-primary fw-bold fs-5">100 kW</div>
-                                        <small class="text-muted">System Capacity</small>
+                                        <div class="text-primary fw-bold fs-5">{{ meta_data.simulation_name|default:"Unnamed Simulation" }}</div>
+                                        <small class="text-muted">Simulation Name</small>
                                     </div>
                                 </div>
                                 <div class="col-6 mb-3">
                                     <div class="border rounded p-3 text-center bg-dark">
-                                        <div class="text-success fw-bold fs-5">1 Array</div>
-                                        <small class="text-muted">Number of Arrays</small>
+                                        <div class="text-success fw-bold fs-5">{{ meta_data.system_type|default:"Custom PV System" }}</div>
+                                        <small class="text-muted">System Type</small>
                                     </div>
                                 </div>
-                                <div class="col-6 mb-3">
-                                    <div class="border rounded p-3 text-center bg-dark">
-                                        <div class="text-info fw-bold fs-5">8760 hrs</div>
-                                        <small class="text-muted">Simulation Period</small>
-                                    </div>
-                                </div>
-                                <div class="col-6 mb-3">
-                                    <div class="border rounded p-3 text-center bg-dark">
-                                        <div class="text-success fw-bold fs-5">Hourly</div>
-                                        <small class="text-muted">Data Resolution</small>
-                                    </div>
-                                </div>
+                                
+                                <!-- Location Details -->
                                 <div class="col-6 mb-3">
                                     <div class="rounded p-3 bg-dark">
-                                        <h6 class="text-warning mb-3">ModelChain Configuration</h6>
+                                        <h6 class="text-warning mb-3">Location</h6>
                                         <div class="mb-2">
-                                            <span class="text-muted">AOI Model:</span>
-                                            <span class="fw-bold text-info float-end">ASHRAE</span>
+                                            <span class="text-muted">Latitude:</span>
+                                            <span class="fw-bold text-info float-end">{{ meta_data.latitude|default:"N/A" }}</span>
                                         </div>
                                         <div class="mb-2">
-                                            <span class="text-muted">Temperature Model:</span>
-                                            <span class="fw-bold text-info float-end">SAPM</span>
+                                            <span class="text-muted">Longitude:</span>
+                                            <span class="fw-bold text-info float-end">{{ meta_data.longitude|default:"N/A" }}</span>
                                         </div>
                                         <div class="mb-2">
-                                            <span class="text-muted">Spectral Model:</span>
-                                            <span class="fw-bold text-info float-end">No Loss</span>
+                                            <span class="text-muted">Altitude:</span>
+                                            <span class="fw-bold text-info float-end">{{ meta_data.altitude|default:"N/A" }} m</span>
                                         </div>
                                         <div class="mb-2">
-                                            <span class="text-muted">DC Model:</span>
-                                            <span class="fw-bold text-info float-end">Single Diode</span>
-                                        </div>
-                                        <div class="mb-2">
-                                            <span class="text-muted">AC Model:</span>
-                                            <span class="fw-bold text-info float-end">Standard</span>
+                                            <span class="text-muted">Timezone:</span>
+                                            <span class="fw-bold text-info float-end">{{ meta_data.timezone|default:"N/A" }}</span>
                                         </div>
                                     </div>
                                 </div>
+
+                                <!-- Module Specifications -->
                                 <div class="col-6 mb-3">
                                     <div class="rounded p-3 bg-dark">
-                                        <h6 class="text-warning mb-3">Simulation Data</h6>
-                                        <div class="d-flex justify-content-between mb-2">
-                                            <span class="text-muted">Data Source:</span>
-                                            <span class="fw-bold text-info">ModelChain Default</span>
+                                        <h6 class="text-warning mb-3">Module Specifications</h6>
+                                        <div class="mb-2">
+                                            <span class="text-muted">Module Name:</span>
+                                            <span class="fw-bold text-info float-end">{{ meta_data.module_name|default:"Custom Module" }}</span>
                                         </div>
-                                        <div class="d-flex justify-content-between mb-2">
-                                            <span class="text-muted">Period:</span>
-                                            <span class="fw-bold text-info">1990 Annual</span>
+                                        <div class="mb-2">
+                                            <span class="text-muted">Cell Type:</span>
+                                            <span class="fw-bold text-info float-end">{{ meta_data.cell_type|default:"N/A" }}</span>
                                         </div>
-                                        <div class="d-flex justify-content-between">
-                                            <span class="text-muted">Location:</span>
-                                            <span class="fw-bold text-info">Default Site</span>
+                                        {% if meta_data.custom_module_params %}
+                                        <div class="mb-2">
+                                            <span class="text-muted">PDC0:</span>
+                                            <span class="fw-bold text-info float-end">{{ meta_data.custom_module_params.pdc0|default:"N/A" }} W</span>
+                                        </div>
+                                        <div class="mb-2">
+                                            <span class="text-muted">V_mp:</span>
+                                            <span class="fw-bold text-info float-end">{{ meta_data.custom_module_params.v_mp|default:"N/A" }} V</span>
+                                        </div>
+                                        <div class="mb-2">
+                                            <span class="text-muted">I_mp:</span>
+                                            <span class="fw-bold text-info float-end">{{ meta_data.custom_module_params.i_mp|default:"N/A" }} A</span>
+                                        </div>
+                                        {% else %}
+                                        <div class="text-muted text-center">No module parameters</div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+
+                                <!-- Arrays Section -->
+                                {% for array in meta_data.arrays %}
+                                <div class="col-6 mb-3">
+                                    <div class="rounded p-3 bg-dark">
+                                        <h6 class="text-warning mb-3">{{ array.name|default:"Array" }}</h6>
+                                        <div class="mb-2">
+                                            <span class="text-muted">Tilt:</span>
+                                            <span class="fw-bold text-info float-end">{{ array.surface_tilt|default:"N/A" }}°</span>
+                                        </div>
+                                        <div class="mb-2">
+                                            <span class="text-muted">Azimuth:</span>
+                                            <span class="fw-bold text-info float-end">{{ array.surface_azimuth|default:"N/A" }}°</span>
+                                        </div>
+                                        <div class="mb-2">
+                                            <span class="text-muted">Mount Type:</span>
+                                            <span class="fw-bold text-info float-end">{{ array.mount_type|default:"N/A" }}</span>
+                                        </div>
+                                        <div class="mb-2">
+                                            <span class="text-muted">Strings:</span>
+                                            <span class="fw-bold text-info float-end">{{ array.strings|default:"N/A" }}</span>
+                                        </div>
+                                        <div class="mb-2">
+                                            <span class="text-muted">Modules per String:</span>
+                                            <span class="fw-bold text-info float-end">{{ array.modules_per_string|default:"N/A" }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+
+                                <!-- Inverter Details -->
+                                <div class="col-6 mb-3">
+                                    <div class="rounded p-3 bg-dark">
+                                        <h6 class="text-warning mb-3">Inverter Details</h6>
+                                        <div class="mb-2">
+                                            <span class="text-muted">Inverter Name:</span>
+                                            <span class="fw-bold text-info float-end">{{ meta_data.inverter_name|default:"Custom Inverter" }}</span>
+                                        </div>
+                                        {% if meta_data.custom_inverter_params %}
+                                        <div class="mb-2">
+                                            <span class="text-muted">PDC0:</span>
+                                            <span class="fw-bold text-info float-end">{{ meta_data.custom_inverter_params.pdc0|default:"N/A" }} W</span>
+                                        </div>
+                                        <div class="mb-2">
+                                            <span class="text-muted">Efficiency Nom:</span>
+                                            <span class="fw-bold text-info float-end">{{ meta_data.custom_inverter_params.eta_inv_nom|default:"N/A" }}</span>
+                                        </div>
+                                        {% else %}
+                                        <div class="text-muted text-center">No inverter parameters</div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+
+                                <!-- Temperature Model -->
+                                <div class="col-6 mb-3">
+                                    <div class="rounded p-3 bg-dark">
+                                        <h6 class="text-warning mb-3">Temperature Model</h6>
+                                        <div class="mb-2">
+                                            <span class="text-muted">Model:</span>
+                                            <span class="fw-bold text-info float-end">{{ meta_data.temperature_model|default:"N/A" }}</span>
+                                        </div>
+                                        <div class="mb-2">
+                                            <span class="text-muted">Parameters:</span>
+                                            <span class="fw-bold text-info float-end">{{ meta_data.temp_model_params|default:"N/A" }}</span>
                                         </div>
                                     </div>
                                 </div>

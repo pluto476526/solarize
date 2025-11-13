@@ -291,10 +291,10 @@ class SpecSheetSimulator:
                   electrical specs, temperature coefficients, and losses.
         """
         return {
+            "simulation_name": self.name,
             "system_type": "Custom PV System",
             "description": getattr(self, "description", ""),
             "location": {
-                "name": self.name,
                 "latitude": self.lat,
                 "longitude": self.lon,
                 "altitude": self.alt,
@@ -303,21 +303,18 @@ class SpecSheetSimulator:
             },
             "components": {
                 "module": {
-                    "type": getattr(self, "module_type", None),
+                    "name": "",
+                    "module_type": getattr(self, "module_type", None),
                     "cell_type": getattr(self, "celltype", None),
-                    "arrays": getattr(self, "arrays", []),
                     "custom_params": self.custom_module_params,
                 },
-                "inverter": self.custom_inverter_params,
+                "inverter": {
+                    "name": "",
+                    "custom_params": self.custom_inverter_params,
+                },
+                "arrays": getattr(self, "arrays", []),
             },
-            "electrical_specs": {
-                "v_mp": self.custom_module_params.get("v_mp") if self.custom_module_params else None,
-                "i_mp": self.custom_module_params.get("i_mp") if self.custom_module_params else None,
-                "v_oc": self.custom_module_params.get("v_oc") if self.custom_module_params else None,
-                "i_sc": self.custom_module_params.get("i_sc") if self.custom_module_params else None,
-                "cells_in_series": self.custom_module_params.get("cells_in_series"),
-            },
-            "temperature_model": {
+            "temperature": {
                 "model": getattr(self, "temp_model", None),
                 "params": getattr(self, "temp_model_params", {}),
                 "coefficients": self.custom_temp_coefficients,

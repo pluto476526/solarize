@@ -66,25 +66,20 @@ class DataManager:
             logger.error(f"No data: {e}")
             return pd.DataFrame()
 
-    def save_modelchain_result(
-        self,
-        result,
-        array_names,
-        simulation_name="Fixed Mount Simulation",
-        description="",
-    ):
+    def save_modelchain_result(self, result, config, array_names):
         with self.db.cursor() as cur:
-            # Insert simulation metadata
+            # Insert simulation metadata,
             cur.execute(
                 """
                 INSERT INTO modelchain_results 
-                    (simulation_name, description, albedo, losses, spectral_modifier, tracking)
-                VALUES (%s, %s, %s, %s, %s, %s)
+                    (simulation_name, system_type, description, albedo, losses, spectral_modifier, latitude, longitude, altitude, timezone, module_name, module_type, cell_type, custom_module_params, arrays, inverter_name, custom_inverter_params, temperature_model, temp_model_params, custom_temp_params)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                 RETURNING result_id
             """,
                 (
-                    simulation_name,
-                    description,
+                    config["simulation_name"],
+                    config["system_type"],
+                    config["description"],
                     (
                         json.dumps(result.albedo)
                         if isinstance(result.albedo, tuple)
@@ -92,7 +87,20 @@ class DataManager:
                     ),
                     result.losses,
                     json.dumps(result.spectral_modifier),
-                    None if result.tracking is None else json.dumps(result.tracking),
+                    config["location"]["latitude"],
+                    config["location"]["longitude"],
+                    config["location"]["altitude"],
+                    config["location"]["timezone"],
+                    config["components"]["module"]["name"],
+                    config["components"]["module"]["module_type"],
+                    config["components"]["module"]["cell_type"],
+                    json.dumps(config["components"]["module"]["custom_params"]),
+                    json.dumps(config["components"]["arrays"]),
+                    config["components"]["inverter"]["name"],
+                    json.dumps(config["components"]["inverter"]["custom_params"]),
+                    config["temperature"]["model"],
+                    config["temperature"]["params"],
+                    json.dumps(config["temperature"]["coefficients"]),
                 ),
             )
             result_id = cur.fetchone()[0]
@@ -237,7 +245,7 @@ class DataManager:
             # Fetch metadata
             cur.execute(
                 """
-                SELECT simulation_name, description, created_at, albedo, losses, spectral_modifier, tracking
+                SELECT simulation_name, system_type, description, created_at, losses, spectral_modifier, latitude, longitude, altitude, timezone, module_name, module_type, cell_type, custom_module_params, arrays, inverter_name, custom_inverter_params, temperature_model, temp_model_params, custom_temp_params
                 FROM modelchain_results
                 WHERE result_id = %s
             """,
@@ -250,12 +258,25 @@ class DataManager:
             result.update(
                 {
                     "simulation_name": row[0],
-                    "description": row[1],
-                    "created_at": row[2],
-                    "albedo": row[3],
+                    "system_type": row[1],
+                    "description": row[2],
+                    "created_at": row[3],
                     "losses": row[4],
                     "spectral_modifier": row[5],
-                    "tracking": json.loads(row[6]) if row[6] else None,
+                    "latitude": row[6],
+                    "longitude": row[7],
+                    "altitude": row[8],
+                    "timezone": row[9],
+                    "module_name": row[10],
+                    "module_type": row[11],
+                    "cell_type": row[12],
+                    "custom_module_params": row[13],
+                    "arrays": row[14],
+                    "inverter_name": row[15],
+                    "custom_inverter_params": row[16],
+                    "temperature_model": row[17],
+                    "temp_model_params": row[18],
+                    "custom_temp_params": row[19]
                 }
             )
 

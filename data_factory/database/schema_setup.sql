@@ -66,6 +66,12 @@ CREATE TABLE IF NOT EXISTS ac (
     utc_time TIMESTAMPTZ NOT NULL,
     array_name TEXT,
     ac NUMERIC,
+    i_sc NUMERIC,
+    v_oc NUMERIC,
+    i_mp NUMERIC,
+    v_mp NUMERIC,
+    i_x NUMERIC,
+    i_xx NUMERIC,
     PRIMARY KEY (result_id, utc_time, array_name)
 );
 SELECT create_hypertable('ac', 'utc_time', chunk_time_interval => INTERVAL '1 month', if_not_exists => TRUE);

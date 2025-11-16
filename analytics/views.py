@@ -327,7 +327,7 @@ def spec_sheet_modelling_view(request):
         except Exception as e:
             logger.debug(e)
             messages.error(request, "Could not complete simulation. Check parameters and try again.")
-            return redirect(spec_sheet_modelling)
+            return redirect("spec_sheet_modelling")
 
         signer = Signer()
         token = signer.sign(result_id)
@@ -566,9 +566,8 @@ def modelchain_result_view(request, token):
     charts_key = f"mc_charts_{user_id}_{result_id}_v{version}"
 
     # Fetch or compute simulation data
-    simulation_data = cache.get(data_key)
-    logger.debug(simulation_data["ac"])
     # simulation_data = None
+    simulation_data = cache.get(data_key)
 
     if not simulation_data:
         conn = DatabaseConnection()
@@ -622,9 +621,10 @@ def modelchain_result_view(request, token):
     ac_param = request.GET.get("ac_param", "ac")
     aoi_param = request.GET.get("aoi_param", "aoi")
     dc_output_param = request.GET.get("dc_output_param", "i_sc")
-    diode_params_param = request.GET.get("diode_params_param", "i_l").lower()
+    diode_params_param = request.GET.get("diode_params_param", "i_l")
     irradiance_param = request.GET.get("irradiance_param", "poa_global")
     weather_param = request.GET.get("weather_param", "temp_air")
+    solar_position_param = request.GET.get("solar_position_param", "zenith")
 
     # Build time-series charts
     time_series = {
@@ -647,6 +647,7 @@ def modelchain_result_view(request, token):
             simulation_data["irradiance"], irradiance_param
         ),
         "weather": timeseries.weather_chart(simulation_data["weather"], weather_param),
+        "solar_position": timeseries.solar_position_chart(simulation_data["solar_position"], solar_position_param)
     }
 
     meta_data = {

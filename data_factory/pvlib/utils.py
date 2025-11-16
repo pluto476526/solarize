@@ -23,9 +23,11 @@ def fetch_TMY_data(lat, lon, year):
             latitude=lat,
             longitude=lon,
             url="https://re.jrc.ec.europa.eu/api/v5_2/",
-            coerce_year=year,
+            coerce_year=year
         )
 
+        
+        # weather.tz_convert(tz)
         weather.index.name = "utc_time"
         cache.set(cache_key, weather, timeout=604800)
 

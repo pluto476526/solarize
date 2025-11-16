@@ -1171,13 +1171,6 @@
                                 <div class="dropdown-menu dropdown-menu-end p-3 bg-secondary"
                                      style="min-width: 250px">
                                     <form method="get">
-                                        <!-- Array Selection -->
-                                        <div class="mb-3">
-                                            <label class="form-label small fw-bold text-muted">Arrays</label>
-                                            <select class="form-select form-select-sm" required name="dc_output_array">
-                                                {% for key, value in arrays.items %}<option value="{{ key }}">{{ value }}</option>{% endfor %}
-                                            </select>
-                                        </div>
                                         <!-- Parameter Selection -->
                                         <div class="mb-3">
                                             <label class="form-label small fw-bold text-muted">Parameters</label>
@@ -1277,11 +1270,11 @@
                     </div>
                 </div>
 
-                <!-- AC_AOI -->
+                <!-- AC -->
                 <div class="row pt-4 px-3">
                     <div class="bg-secondary rounded p-4">
                         <div class="d-flex align-items-center justify-content-between mb-4">
-                            <h5 class="mb-0">AC AOI</h5>
+                            <h5 class="mb-0">AC OUTPUT</h5>
                             <div class="dropdown">
                                 <a href="#"
                                    class=""
@@ -1292,18 +1285,11 @@
                                 <div class="dropdown-menu dropdown-menu-end p-3 bg-secondary"
                                      style="min-width: 250px">
                                     <form method="get">
-                                        <!-- Array Selection -->
-                                        <div class="mb-3">
-                                            <label class="form-label small fw-bold text-muted">Arrays</label>
-                                            <select class="form-select form-select-sm" required name="ac_aoi_array">
-                                                {% for key, value in arrays.items %}<option value="{{ key }}">{{ value }}</option>{% endfor %}
-                                            </select>
-                                        </div>
                                         <!-- Parameter Selection -->
                                         <div class="mb-3">
                                             <label class="form-label small fw-bold text-muted">Parameters</label>
-                                            <select class="form-select form-select-sm" required name="ac_aoi_param">
-                                                {% for col in ac_aoi_cols %}<option value="{{ col }}">{{ col }}</option>{% endfor %}
+                                            <select class="form-select form-select-sm" required name="ac_param">
+                                                {% for col in ac_cols %}<option value="{{ col }}">{{ col }}</option>{% endfor %}
                                             </select>
                                         </div>
                                         <!-- Apply Button -->
@@ -1312,7 +1298,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row g-4">{{ timeseries.ac_aoi|safe }}</div>
+                        <div class="row g-4">{{ timeseries.ac|safe }}</div>
                         <!-- Parameter Details -->
                         <div class="row mt-4">
                             <div class="col-12">
@@ -1336,6 +1322,57 @@
                                                     The AC power output from the photovoltaic system after inversion from DC, measured in watts (W) or kilowatts (kW). Represents the usable electricity delivered to the grid or load.
                                                 </td>
                                             </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AOI -->
+                <div class="row pt-4 px-3">
+                    <div class="bg-secondary rounded p-4">
+                        <div class="d-flex align-items-center justify-content-between mb-4">
+                            <h5 class="mb-0">AOI - Angle of Incidence</h5>
+                            <div class="dropdown">
+                                <a href="#"
+                                   class=""
+                                   type="button"
+                                   id="optionsDropdown"
+                                   data-bs-toggle="dropdown"
+                                   aria-expanded="false">Options</a>
+                                <div class="dropdown-menu dropdown-menu-end p-3 bg-secondary"
+                                     style="min-width: 250px">
+                                    <form method="get">
+                                        <!-- Parameter Selection -->
+                                        <div class="mb-3">
+                                            <label class="form-label small fw-bold text-muted">Parameters</label>
+                                            <select class="form-select form-select-sm" required name="aoi_param">
+                                                {% for col in aoi_cols %}<option value="{{ col }}">{{ col }}</option>{% endfor %}
+                                            </select>
+                                        </div>
+                                        <!-- Apply Button -->
+                                        <button type="submit" class="btn btn-sm btn-primary w-100">Apply Filters</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row g-4">{{ timeseries.aoi|safe }}</div>
+                        <!-- Parameter Details -->
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <h6>Parameter Details:</h6>
+                                <div class="table-responsive">
+                                    <table class="table table-sm table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Parameter</th>
+                                                <th>Full Name</th>
+                                                <th>Description</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
                                             <tr>
                                                 <td>
                                                     <code>aoi</code>
@@ -1376,13 +1413,6 @@
                                 <div class="dropdown-menu dropdown-menu-end p-3 bg-secondary"
                                      style="min-width: 250px">
                                     <form method="get">
-                                        <!-- Array Selection -->
-                                        <div class="mb-3">
-                                            <label class="form-label small fw-bold text-muted">Arrays</label>
-                                            <select class="form-select form-select-sm" required name="irradiance_array">
-                                                {% for key, value in arrays.items %}<option value="{{ key }}">{{ value }}</option>{% endfor %}
-                                            </select>
-                                        </div>
                                         <!-- Parameter Selection -->
                                         <div class="mb-3">
                                             <label class="form-label small fw-bold text-muted">Parameters</label>
@@ -1478,13 +1508,6 @@
                                 <div class="dropdown-menu dropdown-menu-end p-3 bg-secondary"
                                      style="min-width: 250px">
                                     <form method="get">
-                                        <!-- Array Selection -->
-                                        <div class="mb-3">
-                                            <label class="form-label small fw-bold text-muted">Arrays</label>
-                                            <select class="form-select form-select-sm" required name="cell_temp_array">
-                                                {% for key, value in arrays.items %}<option value="{{ key }}">{{ value }}</option>{% endfor %}
-                                            </select>
-                                        </div>
                                         <!-- Parameter Selection -->
                                         <div class="mb-3">
                                             <label class="form-label small fw-bold text-muted">Parameters</label>
@@ -1745,13 +1768,6 @@
                                 <div class="dropdown-menu dropdown-menu-end p-3 bg-secondary"
                                      style="min-width: 250px">
                                     <form method="get">
-                                        <!-- Array Selection -->
-                                        <div class="mb-3">
-                                            <label class="form-label small fw-bold text-muted">Arrays</label>
-                                            <select class="form-select form-select-sm" required name="diode_params_array">
-                                                {% for key, value in arrays.items %}<option value="{{ key }}">{{ value }}</option>{% endfor %}
-                                            </select>
-                                        </div>
                                         <!-- Parameter Selection -->
                                         <div class="mb-3">
                                             <label class="form-label small fw-bold text-muted">Parameters</label>

@@ -20,7 +20,7 @@ from data_factory.climate_projection import climate_projector, climate_plots
 from data_factory.pvlib import general_analyzer, seasonal_analyzer, financial_analysis
 from data_factory.pvlib import plots, timeseries
 from data_factory import weather_analyzer, airquality_analyzer
-from analytics import utils, array_storage
+from analytics import utils
 import pickle
 import json
 import logging
@@ -102,7 +102,6 @@ def pvwatts_modelling_view(request):
             location_idx += 1
 
         request.session["pvwatts_report"] = reports
-        logger.debug(reports)
         return redirect("pvwatts_report")
 
     return render(request, "analytics/pvwatts_modelling.html", {})
@@ -130,6 +129,14 @@ def fixed_mount_system_view(request):
     db = DataManager(conn)
 
     if request.method == "POST":
+
+        required_fields = ["lat", "lon", "alt", "tz"]
+        missing = [f for f in required_fields if not request.POST.get(f)]
+
+        if missing:
+            messages.error(request, f"Missing required fields: {', '.join(missing)}")
+            return redirect("fixed_mount_system")
+
         simulation_name = request.POST.get("name", "Fixed_Mount")
         description = request.POST.get("description")
         arrays_file = request.FILES.get("arrays_json")
@@ -143,9 +150,6 @@ def fixed_mount_system_view(request):
 
         index = len(array_names)
         array_names[str(index)] = "MainArray"
-        array_storage.save_array_file(
-            request.user, f"{simulation_name}_fms_arrays.json", array_names
-        )
 
         location_params = {
             "name": simulation_name,
@@ -184,22 +188,26 @@ def fixed_mount_system_view(request):
             "availability": request.POST.get("availability"),
         }
 
-        fms = fixed_mount_simulator.FixedMountSimulator(
-            location_params=location_params,
-            system_params=system_params,
-            losses_params=losses_params,
-        )
+        try:
+            fms = fixed_mount_simulator.FixedMountSimulator(
+                location_params=location_params,
+                system_params=system_params,
+                losses_params=losses_params,
+            )
 
-        result = fms.run_simulation()
-        result_id = db.save_modelchain_result(
-            result=result,
-            array_names=array_names,
-            simulation_name=simulation_name,
-            description=description,
-        )
+            result, config = fms.run_simulation()
+            result_id = db.save_modelchain_result(
+                result=result,
+                config=config,
+                array_names=array_names
+            )
+            db.close()
 
-        db.close()
-        messages.success(request, f"Configured system with {len(arrays_config)} arrays")
+        except Exception as e:
+            logger.error(e)
+            messages.warning(request, "Could not complete simulation. Check parameters and try again.")
+            return redirect("fixed_mount_system")
+
         signer = Signer()
         token = signer.sign(result_id)
         return redirect("modelchain_result", token=token)
@@ -213,6 +221,14 @@ def spec_sheet_modelling_view(request):
     db = DataManager(conn)
 
     if request.method == "POST":
+
+        required_fields = ["lat", "lon", "alt", "tz"]
+        missing = [f for f in required_fields if not request.POST.get(f)]
+
+        if missing:
+            messages.error(request, f"Missing required fields: {', '.join(missing)}")
+            return redirect("spec_sheet_modelling")
+
         simulation_name = request.POST.get("name", "Custom PV System")
         description = request.POST.get("description")
         arrays_file = request.FILES.get("arrays_json")
@@ -290,24 +306,29 @@ def spec_sheet_modelling_view(request):
             "availability": request.POST.get("availability"),
         }
 
-        sss = specs_simulator.SpecSheetSimulator(
-            location_params=location_params,
-            system_params=system_params,
-            losses_params=losses_params,
-        )
+        try:
+            sss = specs_simulator.SpecSheetSimulator(
+                location_params=location_params,
+                system_params=system_params,
+                losses_params=losses_params,
+            )
 
-        if not sss.validate_inputs(request=request):
-            return redirect("spec_sheet_modelling")
+            if not sss.validate_inputs(request=request):
+                return redirect("spec_sheet_modelling")
 
-        result, config = sss.run_simulation()
-        logger.debug(config)
-        result_id = db.save_modelchain_result(
-            result=result,
-            config=config,
-            array_names=array_names
-        )
+            result, config = sss.run_simulation()
+            result_id = db.save_modelchain_result(
+                result=result,
+                config=config,
+                array_names=array_names
+            )
+            db.close()
 
-        db.close()
+        except Exception as e:
+            logger.debug(e)
+            messages.error(request, "Could not complete simulation. Check parameters and try again.")
+            return redirect(spec_sheet_modelling)
+
         signer = Signer()
         token = signer.sign(result_id)
         return redirect("modelchain_result", token=token)
@@ -321,6 +342,14 @@ def axis_tracking_view(request):
     db = DataManager(conn)
 
     if request.method == "POST":
+
+        required_fields = ["lat", "lon", "alt", "tz"]
+        missing = [f for f in required_fields if not request.POST.get(f)]
+
+        if missing:
+            messages.error(request, f"Missing required fields: {', '.join(missing)}")
+            return redirect("axis_tracking")
+
         simulation_name = request.POST.get("name", "Single_Dual_Axis_Tracking")
         description = request.POST.get("description")
         arrays_file = request.FILES.get("arrays_json")
@@ -334,9 +363,6 @@ def axis_tracking_view(request):
 
         index = len(array_names)
         array_names[str(index)] = "MainArray"
-        array_storage.save_array_file(
-            request.user, f"{simulation_name}_sdt_arrays.json", array_names
-        )
 
         timeframe_params = {
             "start_date": request.POST.get("start_date"),
@@ -387,23 +413,27 @@ def axis_tracking_view(request):
             "availability": request.POST.get("availability"),
         }
 
-        sdt = axis_tracking.SingleDualAxisTracker(
-            location_params=location_params,
-            system_params=system_params,
-            tracking_params=tracking_params,
-            losses_params=losses_params,
-        )
+        try:
+            sdt = axis_tracking.SingleDualAxisTracker(
+                location_params=location_params,
+                system_params=system_params,
+                tracking_params=tracking_params,
+                losses_params=losses_params,
+            )
 
-        result = sdt.run_simulation()
-        result_id = db.save_modelchain_result(
-            result=result,
-            array_names=array_names,
-            simulation_name=simulation_name,
-            description=description,
-        )
+            result, config = sdt.run_simulation()
+            result_id = db.save_modelchain_result(
+                result=result,
+                config=config,
+                array_names=array_names
+            )
+            db.close()
 
-        db.close()
-        messages.success(request, f"Configured system with {len(arrays_config)} arrays")
+        except Exception as e:
+            logger.error(e)
+            messages.error(request, "Could not complete simulation. Check parameters and try again.")
+            return redirect("axis_tracking")
+
         signer = Signer()
         token = signer.sign(result_id)
         return redirect("modelchain_result", token=token)
@@ -418,7 +448,7 @@ def bifacial_system_view(request):
 
     if request.method == "POST":
 
-        required_fields = ["lat", "lon", "alt", "tz", "start_date", "end_date"]
+        required_fields = ["lat", "lon", "alt", "tz"]
         missing = [f for f in required_fields if not request.POST.get(f)]
 
         if missing:
@@ -507,10 +537,9 @@ def bifacial_system_view(request):
             )
         except Exception as e:
             logger.error(e)
-            messages.error(request, "Could not complete simulation. Check parameters and try again")
+            messages.error(request, "Could not complete simulation. Check parameters and try again.")
             return redirect("bifacial_system")
 
-        messages.success(request, f"Configured bifacial system with {len(arrays_config) + 1} arrays")
         signer = Signer()
         token = signer.sign(result_id)
         return redirect("modelchain_result", token=token)
@@ -538,7 +567,7 @@ def modelchain_result_view(request, token):
 
     # Fetch or compute simulation data
     simulation_data = cache.get(data_key)
-    logger.debug(simulation_data)
+    logger.debug(simulation_data["ac"])
     # simulation_data = None
 
     if not simulation_data:
@@ -553,7 +582,7 @@ def modelchain_result_view(request, token):
     if not normalized_data:
         normalized_data = {
             "dc": plots.normalize_pv_tuple(simulation_data["dc"]),
-            "ac": plots.normalize_pv_tuple(simulation_data["ac_aoi"]),
+            "ac": plots.normalize_pv_tuple(simulation_data["ac"]),
             "irr": plots.normalize_pv_tuple(simulation_data["irradiance"]),
             "weather": plots.normalize_pv_tuple(simulation_data["weather"]),
             "cell_temp": plots.normalize_pv_tuple(simulation_data["cell_temperature"]),
@@ -590,33 +619,32 @@ def modelchain_result_view(request, token):
         cache.set(charts_key, charts, timeout=86400)
 
     # User-specific visualization parameters
-    ac_aoi_param = request.GET.get("ac_aoi_param", "ac")
-    ac_aoi_array = int(request.GET.get("ac_aoi_array", 0))
-    cell_temp_array = int(request.GET.get("cell_temp_array", 0))
+    ac_param = request.GET.get("ac_param", "ac")
+    aoi_param = request.GET.get("aoi_param", "aoi")
     dc_output_param = request.GET.get("dc_output_param", "i_sc")
-    dc_output_array = int(request.GET.get("dc_output_array", 0))
     diode_params_param = request.GET.get("diode_params_param", "i_l").lower()
-    diode_params_array = int(request.GET.get("diode_params_array", 0))
     irradiance_param = request.GET.get("irradiance_param", "poa_global")
-    irradiance_array = int(request.GET.get("irradiance_array", 0))
     weather_param = request.GET.get("weather_param", "temp_air")
 
     # Build time-series charts
     time_series = {
-        "ac_aoi": timeseries.ac_aoi_chart(
-            simulation_data["ac_aoi"], ac_aoi_array, ac_aoi_param
+        "ac": timeseries.ac_chart(
+            simulation_data["ac"], ac_param
+        ),
+        "aoi": timeseries.aoi_chart(
+            simulation_data["aoi"], aoi_param
         ),
         "cell_temp": timeseries.cell_temp_chart(
-            simulation_data["cell_temperature"], cell_temp_array
+            simulation_data["cell_temperature"]
         ),
         "dc_output": timeseries.dc_output_chart(
-            simulation_data["dc"], dc_output_array, dc_output_param
+            simulation_data["dc"], dc_output_param
         ),
         "diode_params": timeseries.diode_params_chart(
-            simulation_data["diode_params"], diode_params_array, diode_params_param
+            simulation_data["diode_params"], diode_params_param
         ),
         "irradiance": timeseries.total_irradiance_chart(
-            simulation_data["irradiance"], irradiance_array, irradiance_param
+            simulation_data["irradiance"], irradiance_param
         ),
         "weather": timeseries.weather_chart(simulation_data["weather"], weather_param),
     }
@@ -642,7 +670,7 @@ def modelchain_result_view(request, token):
         "created_at": simulation_data["created_at"],
     }
 
-    # Analysis modules (can also be cached individually if expensive)
+    # Analysis modules
     gm = general_analyzer.Analyzer(simulation_data)
     sa = seasonal_analyzer.SeasonalAnalyzer(simulation_data)
     fn = financial_analysis.FinancialAnalyzer(simulation_data)
@@ -657,7 +685,8 @@ def modelchain_result_view(request, token):
         "financial_data": financial_metrics,
         "charts": charts,
         "timeseries": time_series,
-        "ac_aoi_cols": ["ac", "aoi", "aoi_modifier"],
+        "ac_cols": ["ac"],
+        "aoi_cols": ["aoi", "aoi_modifier"],
         "cell_temp_cols": ["temperature"],
         "dc_output_cols": ["i_sc", "v_oc", "i_mp", "v_mp", "p_mp", "i_x", "i_xx"],
         "diode_params_cols": ["I_L", "I_o", "R_s", "R_sh", "nNsVth"],
@@ -677,9 +706,7 @@ def modelchain_result_view(request, token):
             "apparent_elevation",
             "equation_of_time",
         ],
-        "arrays": array_storage.load_array_file(
-            request.user, "random_simulation_arrays.json"
-        ),
+        "arrays": {},
     }
 
     return render(request, "analytics/modelchain_result.html", context)

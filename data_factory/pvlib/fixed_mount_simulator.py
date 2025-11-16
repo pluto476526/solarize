@@ -178,5 +178,4 @@ class FixedMountSimulator:
         weather_data = utils.fetch_TMY_data(self.lat, self.lon, self.year)
         mc = self.simulation_setup()
         mc.run_model(weather_data)
-        logger.debug(mc.results)
-        return mc.results
+        return mc.results, self.get_system_summary()

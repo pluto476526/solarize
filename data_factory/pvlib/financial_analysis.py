@@ -20,7 +20,7 @@ class FinancialAnalyzer:
         """
         # Extract AC power data from simulation results
         self.ac_power = utils.aggregate_timeseries(
-            simulation_data["ac_aoi"], column="ac"
+            simulation_data["ac"], column="ac"
         )
 
         # Set default financial parameters (typical US residential solar values)

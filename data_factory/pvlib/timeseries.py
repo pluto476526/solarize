@@ -1,169 +1,151 @@
 import plotly.graph_objects as go
 from plotly.offline import plot
 import pandas as pd
+import logging
 
+logger = logging.getLogger(__name__)
 
-# def _get_array_data(df, array, param):
-#     """
-#     Get the parameter series for a given array (by name or index)
-#     from a DataFrame that may have multi-level or single-level columns.
-#     """
-#     if isinstance(df, pd.Series):
-#         return df  # already 1D data
-
-#     # Case 1: MultiIndex columns (array, param)
-#     if isinstance(df.columns, pd.MultiIndex):
-#         if isinstance(array, int):
-#             array = df.columns.levels[0][array]  # get array name by index
-#         if (array, param) in df.columns:
-#             return df[(array, param)]
-#         # fallback: try first array, given param
-#         first_array = df.columns.levels[0][0]
-#         return df.get((first_array, param), df.iloc[:, 0])
-
-#     # Case 2: Single-level columns (only parameters)
-#     if param in df.columns:
-#         return df[param]
-#     # fallback
-#     return df.iloc[:, 0]
-
-
-def _get_array_data(data, array, param=None):
+def _prepare_data(data, param=None):
     """
-    Extracts a specific parameter column from simulation data.
-    Designed for tuples like (DataFrame,) or plain Series/DataFrame.
-
-    Parameters:
-        data: tuple | pd.DataFrame | pd.Series
-            Simulation data entry (usually (DataFrame,) as from simulation_data)
-        array: str | int
-            Ignored in this context (for compatibility with chart calls)
-        param: str
-            Column name to extract (e.g. 'ac', 'aoi', 'aoi_modifier')
+    Simple data preparation that handles Series, DataFrame, or tuple.
+    Returns a dictionary with array names as keys and Series as values.
     """
-    # Unpack if tuple, e.g. (DataFrame,)
+    result = {}
+    
+    # Handle tuple of DataFrames (multiple arrays)
     if isinstance(data, tuple):
-        data = data[0]
+        for i, item in enumerate(data):
+            array_name = f"Array_{i+1}"
+            if isinstance(item, pd.DataFrame) and param and param in item.columns:
+                series = item[param]
+                if isinstance(series.index, pd.DatetimeIndex):
+                    series = series.resample("D").mean()
+                result[array_name] = series
+            elif isinstance(item, pd.Series):
+                series = item
+                if isinstance(series.index, pd.DatetimeIndex):
+                    series = series.resample("D").mean()
+                result[array_name] = series
+    
+    # Handle single DataFrame
+    elif isinstance(data, pd.DataFrame):
+        if param and param in data.columns:
+            series = data[param]
+            if isinstance(series.index, pd.DatetimeIndex):
+                series = series.resample("D").mean()
+            result["Array"] = series
+    
+    # Handle single Series
+    elif isinstance(data, pd.Series):
+        series = data
+        if isinstance(series.index, pd.DatetimeIndex):
+            series = series.resample("D").mean()
+        result["Array"] = series
+    
+    return result
 
-    # --- Case 1: Series
-    if isinstance(data, pd.Series):
-        return data
-
-    # --- Case 2: DataFrame
-    if isinstance(data, pd.DataFrame):
-        if param in data.columns:
-            return data[param]
-
-    # --- Case 3: Anything else
-    raise TypeError(f"Unsupported data type: {type(data)}")
-
-
-def _prepare_and_resample_data(df, param):
-    """
-    Helper function to prepare data and resample to daily averages.
-    """
-    df = pd.DataFrame(df)
-
-    # Resample to get daily averages if we have a datetime index
-    if isinstance(df.index, pd.DatetimeIndex):
-        return df[param].resample("D").mean()
-    else:
-        # Fallback if no datetime index
-        return df[param]
-
-
-def _plot_timeseries(series, title, y_axis_title=None):
-    """
-    Helper function to create a Plotly chart from a time series.
-    """
-    # Handle all-NaN case
-    if series.isna().all():
-        fig = go.Figure()
-        fig.update_layout(
-            title=f"No data available for '{title}'", template="plotly_dark"
-        )
-        return plot(fig, output_type="div", include_plotlyjs=False)
-
-    # Plot the data
+def _create_chart(series_dict, title, y_axis_title):
+    """Create a Plotly chart from series dictionary."""
     fig = go.Figure()
-    fig.add_trace(
-        go.Scatter(
-            x=series.index,
-            y=series.values,
-            mode="lines",
-            connectgaps=True,
-            name=f"Avg Daily {title}",
+    
+    has_data = False
+    for name, series in series_dict.items():
+        if series.empty or series.isna().all():
+            continue
+            
+        valid_data = series.dropna()
+        if not valid_data.empty:
+            has_data = True
+            fig.add_trace(
+                go.Scatter(
+                    x=valid_data.index,
+                    y=valid_data.values,
+                    mode="lines",
+                    name=name,
+                    hovertemplate=f"<b>{name}</b><br>Date: %{{x}}<br>{y_axis_title}: %{{y:.2f}}<extra></extra>"
+                )
+            )
+    
+    if not has_data:
+        fig.update_layout(title=f"No data available", template="plotly_dark")
+    else:
+        fig.update_layout(
+            template="plotly_dark",
+            title=title,
+            xaxis_title="Date",
+            yaxis_title=y_axis_title,
+            legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
+            hovermode="x unified"
         )
-    )
-
-    y_axis_title = y_axis_title or title
-
-    fig.update_layout(
-        template="plotly_dark",
-        title=title,
-        xaxis_title="Day",
-        yaxis_title=y_axis_title,
-        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
-    )
-
+    
     return plot(fig, output_type="div", include_plotlyjs=False)
 
+# Unified chart function that works for all data types and parameters
+def create_timeseries_chart(data, param=None, title=None, y_axis_title=None):
+    """
+    Create a timeseries chart that handles Series, DataFrame, or tuple data.
+    
+    Parameters:
+        data: Series, DataFrame, or tuple of DataFrames
+        param: Column name to plot (required for DataFrames)
+        title: Chart title
+        y_axis_title: Y-axis title
+    """
+    # Prepare data
+    series_dict = _prepare_data(data, param)
+    
+    if not series_dict:
+        return _create_chart({}, "No Data", "")
+    
+    # Set default titles
+    if not title:
+        if param:
+            title = f"Daily {param.upper()}"
+        else:
+            title = "Time Series"
+    
+    if not y_axis_title:
+        if param:
+            # Simple mapping of common parameters to units
+            units_map = {
+                "ac": "Power (W)", "aoi": "Angle (°)", "temperature": "Temperature (°C)",
+                "i_sc": "Current (A)", "v_oc": "Voltage (V)", "i_mp": "Current (A)", 
+                "v_mp": "Voltage (V)", "aoi_modifier": "Modifier"
+            }
+            y_axis_title = units_map.get(param, f"{param.upper()} (Units)")
+        else:
+            y_axis_title = "Value"
+    
+    return _create_chart(series_dict, title, y_axis_title)
 
-def ac_aoi_chart(ac_aoi, array, param):
-    """Plot the average daily AC power for a given array."""
-    data = _get_array_data(ac_aoi, array, param)
-    daily_avg = _prepare_and_resample_data(data, param)
-    title = f"{array}, Daily {param.upper()}"
-    y_axis_title = f"{param.upper()} (W)"
-    return _plot_timeseries(daily_avg, title, y_axis_title)
+# Specific chart functions for convenience
+def ac_chart(data, param):
+    return create_timeseries_chart(data, param, f"Daily {param.upper()}", f"{param.upper()} (W)")
 
+def aoi_chart(data, param):
+    return create_timeseries_chart(data, param, f"Daily {param.upper()}", f"{param.upper()}")
 
-def cell_temp_chart(cell_temp, array):
-    """Plot cell temperature data."""
-    data = _get_array_data(cell_temp, array, "temperature")
-    daily_avg = _prepare_and_resample_data(data, "temperature")
-    title = f"{array}, Cell Temperature"
-    return _plot_timeseries(daily_avg, title, "Temperature (°C)")
+def cell_temp_chart(data):
+    return create_timeseries_chart(data, "temperature", "Cell Temperature", "Temperature (°C)")
 
+def dc_output_chart(data, param):
+    return create_timeseries_chart(data, param, f"Daily {param.upper()}", f"{param.upper()} (W)")
 
-def dc_output_chart(dc_output, array, param):
-    """Plot DC output parameters."""
-    data = _get_array_data(dc_output, array, param)
-    daily_avg = _prepare_and_resample_data(data, param)
-    title = f"{array}, {param.upper()}"
-    return _plot_timeseries(daily_avg, title, f"{param} (W)")
+def diode_params_chart(data, param):
+    return create_timeseries_chart(data, param, f"Daily {param.upper()}")
 
+def total_irradiance_chart(data, param):
+    return create_timeseries_chart(data, param, f"Daily {param.upper()}", "Irradiance (W/m²)")
 
-def diode_params_chart(diode_params, array, param):
-    """Plot diode parameters."""
-    data = _get_array_data(diode_params, array, param)
-    daily_avg = _prepare_and_resample_data(data, param)
-    return _plot_timeseries(daily_avg, f"{array}, {param.upper()}")
+def solar_position_chart(data, param):
+    y_title = "Angle (°)" if "angle" in str(param).lower() else str(param)
+    return create_timeseries_chart(data, param, f"Solar {param.upper()}", y_title)
 
-
-def total_irradiance_chart(total_irradiance, array, param):
-    """Plot total irradiance parameters."""
-    data = _get_array_data(total_irradiance, array, param)
-    daily_avg = _prepare_and_resample_data(data, param)
-    title = f"{array}, {param.upper()}"
-    return _plot_timeseries(daily_avg, title, "Irradiance (W/m²)")
-
-
-def solar_position_chart(solar_position, param):
-    """Plot solar position parameters."""
-    daily_avg = _prepare_and_resample_data(solar_position, param)
-    y_axis_title = "Angle (°)" if "angle" in param.lower() else param
-    return _plot_timeseries(daily_avg, param.upper(), y_axis_title)
-
-
-def weather_chart(weather, param):
-    """Plot weather parameters."""
-    daily_avg = _prepare_and_resample_data(weather, param)
-    if "temp_air" in param.lower():
-        y_axis_title = "Temperature (°C)"
-    elif "wind_speed" in param.lower():
-        y_axis_title = "Speed (Km/h)"
+def weather_chart(data, param):
+    if "temp_air" in str(param).lower():
+        y_title = "Temperature (°C)"
+    elif "wind_speed" in str(param).lower():
+        y_title = "Speed (Km/h)"
     else:
-        y_axis_title = f"{param} (W/m²)"
-
-    return _plot_timeseries(daily_avg, param.upper(), y_axis_title)
+        y_title = f"{param} (W/m²)"
+    return create_timeseries_chart(data, param, f"Weather {param.upper()}", y_title)

@@ -60,23 +60,28 @@ CREATE TABLE IF NOT EXISTS modelchain_results (
 -- Each table includes `array_name` and a composite PK
 -- ===============================================================
 
--- AC & AOI
-CREATE TABLE IF NOT EXISTS ac_aoi (
+-- AC
+CREATE TABLE IF NOT EXISTS ac (
     result_id INT NOT NULL REFERENCES modelchain_results(result_id),
     utc_time TIMESTAMPTZ NOT NULL,
     array_name TEXT,
     ac NUMERIC,
-    i_sc NUMERIC,
-    v_oc NUMERIC,
-    i_mp NUMERIC,
-    v_mp NUMERIC,
-    i_x NUMERIC,
-    i_xx NUMERIC,
+    PRIMARY KEY (result_id, utc_time, array_name)
+);
+SELECT create_hypertable('ac', 'utc_time', chunk_time_interval => INTERVAL '1 month', if_not_exists => TRUE);
+
+
+-- AOI
+CREATE TABLE IF NOT EXISTS aoi (
+    result_id INT NOT NULL REFERENCES modelchain_results(result_id),
+    utc_time TIMESTAMPTZ NOT NULL,
+    array_name TEXT,
     aoi NUMERIC,
     aoi_modifier NUMERIC,
     PRIMARY KEY (result_id, utc_time, array_name)
 );
-SELECT create_hypertable('ac_aoi', 'utc_time', chunk_time_interval => INTERVAL '1 month', if_not_exists => TRUE);
+SELECT create_hypertable('aoi', 'utc_time', chunk_time_interval => INTERVAL '1 month', if_not_exists => TRUE);
+
 
 -- Airmass
 CREATE TABLE IF NOT EXISTS airmass (

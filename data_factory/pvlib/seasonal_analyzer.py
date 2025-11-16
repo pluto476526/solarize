@@ -10,7 +10,7 @@ class SeasonalAnalyzer:
             simulation_data["irradiance"], column="poa_global"
         )
         self.ac_power = utils.aggregate_timeseries(
-            simulation_data["ac_aoi"], column="ac"
+            simulation_data["ac"], column="ac"
         )
         self.hourly_energy_kwh = self.ac_power / 1000
 

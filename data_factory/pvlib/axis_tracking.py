@@ -163,10 +163,46 @@ class SingleDualAxisTracker:
         )
         return mc
 
+    def get_system_summary(self):
+        """Get a detailed summary of the PV system configuration.
+
+        Returns:
+            Dict: Full system configuration details including location, components, 
+                  electrical specs, temperature coefficients, and losses.
+        """
+        return {
+            "simulation_name": self.name,
+            "system_type": "Fixed Mount System",
+            "description": getattr(self, "description", ""),
+            "location": {
+                "latitude": self.lat,
+                "longitude": self.lon,
+                "altitude": self.alt,
+                "timezone": self.tz,
+                "albedo": self.albedo,
+            },
+            "components": {
+                "module": {
+                    "name": getattr(self, "module", None),
+                    "module_type": getattr(self, "module_type", None),
+                    "custom_params": {},
+                    "cell_type": "",
+                },
+                "inverter": {
+                    "name": self.inverter,
+                    "custom_params": {}
+                },
+                "arrays": getattr(self, "arrays", []),
+            },
+            "temperature": {
+                "model": getattr(self, "temp_model", None),
+                "params": getattr(self, "temp_model_params", None),
+                "coefficients": {}
+            },
+        }
+
     def run_simulation(self):
         weather_data = utils.fetch_TMY_data(self.lat, self.lon, self.year)
         mc = self.simulation_setup()
         mc.run_model(weather_data)
-        logger.debug(mc.results)
-
-        return mc.results
+        return mc.results, self.get_system_summary()

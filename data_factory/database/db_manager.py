@@ -148,14 +148,14 @@ class DataManager:
             if result.ac is not None:
                 # Handle Series case
                 if isinstance(result.ac, pd.Series):
-                    insert_timeseries(result.ac.to_frame(name="ac"), "ac_aoi")
+                    insert_timeseries(result.ac.to_frame(name="ac"), "ac")
                 # Handle DataFrame case
                 elif isinstance(result.ac, pd.DataFrame):
                     if "p_mp" in result.ac.columns:
                         df = result.ac.rename(columns={"p_mp": "ac"})
-                        insert_timeseries(df, "ac_aoi")
+                        insert_timeseries(df, "ac")
                     elif "ac" in result.ac.columns:
-                        insert_timeseries(result.ac, "ac_aoi")
+                        insert_timeseries(result.ac, "ac")
 
             if hasattr(result, "aoi") and result.aoi is not None:
                 aoi_tuple = (
@@ -166,17 +166,14 @@ class DataManager:
                     mod_tuple = (mod_tuple,) * len(aoi_tuple)
                 dfs = []
                 for aoi_data, aoi_mod in zip(aoi_tuple, mod_tuple):
-                    if aoi_mod is None:
-                        aoi_mod = pd.Series(
-                            [None] * len(aoi_data), index=aoi_data.index
-                        )
                     dfs.append(
                         pd.DataFrame(
                             {"aoi": aoi_data, "aoi_modifier": aoi_mod},
                             index=aoi_data.index,
                         )
                     )
-                insert_timeseries(tuple(dfs), "ac_aoi")
+                insert_timeseries(tuple(dfs), "aoi")
+
 
             if hasattr(result, "airmass") and result.airmass is not None:
                 dfs = (
@@ -300,7 +297,8 @@ class DataManager:
                 return tuple(array_groups) if len(array_groups) > 1 else array_groups[0]
 
             # Fetch all fields
-            result["ac_aoi"] = fetch_timeseries("ac_aoi")
+            result["ac"] = fetch_timeseries("ac")
+            result["aoi"] = fetch_timeseries("aoi")
             result["airmass"] = fetch_timeseries("airmass")
             result["cell_temperature"] = fetch_timeseries("cell_temperature")
             result["dc"] = fetch_timeseries("dc_output")

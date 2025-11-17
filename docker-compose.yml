@@ -28,6 +28,7 @@ services:
       dockerfile: Dockerfile
     container_name: solarize-nginx
     restart: unless-stopped
+    user: nginx
     ports:
       - "80:80"
       - "443:443"

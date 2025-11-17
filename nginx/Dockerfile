@@ -1,10 +1,8 @@
 # Use stable Alpine Nginx image
 FROM nginx:stable-alpine
 
-# Remove only the default site, but keep the main nginx.conf
-RUN rm /etc/nginx/conf.d/default.conf
-
-# Replace the entire main config
+# Replace the main nginx.conf
 COPY nginx.conf /etc/nginx/nginx.conf
 
+# nginx user inside the container is uid/gid 101 → tmpfs already uses that
 EXPOSE 80 443

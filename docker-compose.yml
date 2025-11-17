@@ -31,6 +31,9 @@ services:
     ports:
       - "80:80"
       - "443:443"
+    depends_on:
+      app:
+        condition: service_healthy
     volumes:
       - ./var/www/media:/app/media:ro
       - ./var/www/staticfiles:/app/staticfiles:ro

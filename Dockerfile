@@ -1,34 +1,38 @@
-# Base image: slim Python
+# Solarize Dockerfile
+
 FROM python:3.12-slim
 
-# Environment variables
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
+# Avoid interactive prompts & buffer output
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
 
 # Create non-root user early
-RUN groupadd -r solarize && \
-    useradd -r -g solarize -d /home/solarize -m solarize
+ARG APP_USER=solarize
+ARG APP_UID=1000
+ARG APP_GID=1000
 
-# Pre-create staticfiles directory for mounting
-RUN mkdir -p /solarize/staticfiles /solarize/media \
-    && chown -R solarize:solarize /solarize/staticfiles /solarize/media
+RUN groupadd --gid $APP_GID $APP_USER && \
+    useradd --uid $APP_UID --gid $APP_GID --create-home --shell /bin/bash $APP_USER && \
+    mkdir -p /app/staticfiles /app/media && \
+    chown $APP_USER:$APP_USER /app/staticfiles /app/media
 
-WORKDIR /solarize
+WORKDIR /app
 
-# Switch to non-root user
-USER solarize
+# Switch to non-root user BEFORE installing packages
+USER $APP_USER
 
-# Install Python dependencies AS the non-root user
-COPY --chown=solarize:solarize requirements.txt .
+# Install Python dependencies into user-local (so they survive read-only root)
+COPY --chown=$APP_USER:$APP_USER requirements.txt .
 RUN pip install --no-cache-dir --user -r requirements.txt
 
-# Copy the rest of the code
-COPY --chown=solarize:solarize . .
+# Ensure user-local bin directory is on PATH
+ENV PATH="/home/$APP_USER/.local/bin:${PATH}"
 
+# Copy application code (read-only in production)
+COPY --chown=$APP_USER:$APP_USER . .
 
-
-# Make sure .local/bin is in PATH
-ENV PATH="/home/solarize/.local/bin:${PATH}"
-
+# Expose Daphne port
 EXPOSE 8000
+
+# Run Daphne (Channels ASGI server)
 CMD ["daphne", "-b", "0.0.0.0", "-p", "8000", "solarize.asgi:application"]

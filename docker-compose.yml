@@ -3,43 +3,44 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: solarize_app
-    restart: always
+    container_name: solarize-app
+    restart: unless-stopped
     env_file:
       - .env
     expose:
-      - "8000"  # internal port for Nginx reverse proxy
-    read_only: true
+      - "8000"
+    read_only: true                      # Keep root filesystem read-only
     tmpfs:
-      - /tmp  # writable temp directory
+      - /tmp
+      - /home/solarize/.local:size=100M   # Required for --user pip installs
     cap_drop:
       - ALL
     security_opt:
       - no-new-privileges:true
     volumes:
-      - ./solarize:/solarize:ro        # app code read-only
-      - ./media:/solarize/media        # writable media files
-      - ./static:/solarize/staticfiles      # static files
+      - ./:/app:ro                        # Source code (read-only)
+      - ./var/www/media:/app/media        # User uploads
+      - ./var/www/staticfiles:/app/staticfiles:ro
 
   nginx:
     build:
       context: ./nginx
       dockerfile: Dockerfile
-    container_name: solarize_nginx
-    restart: always
+    container_name: solarize-nginx
+    restart: unless-stopped
     ports:
       - "80:80"
       - "443:443"
     depends_on:
-      - app
+      app:
+        condition: service_healthy
+    volumes:
+      - ./var/www/media:/app/media:ro
+      - ./var/www/staticfiles:/app/staticfiles:ro
+      - /etc/letsencrypt:/etc/letsencrypt:ro
     networks:
       - webnet
-    volumes:
-      - ./media:/solarize/media               # for Nginx to serve media
-      - ./static:/solarize/staticfiles        # for Nginx to serve static files
-      - /etc/letsencrypt:/etc/letsencrypt:ro  # SSL certificates
 
 networks:
   webnet:
     driver: bridge
-

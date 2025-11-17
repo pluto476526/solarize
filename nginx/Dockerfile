@@ -1,12 +1,10 @@
 # Use stable Alpine Nginx image
 FROM nginx:stable-alpine
 
-# Remove default configuration
+# Remove only the default site, but keep the main nginx.conf
 RUN rm /etc/nginx/conf.d/default.conf
 
-# Copy custom configuration into container
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Replace the entire main config
+COPY nginx.conf /etc/nginx/nginx.conf
 
-# Expose ports for HTTP and HTTPS
 EXPOSE 80 443
-

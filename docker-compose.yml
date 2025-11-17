@@ -9,17 +9,17 @@ services:
       - .env
     expose:
       - "8000"
-    read_only: true                      # Keep root filesystem read-only
+    read_only: true
     tmpfs:
       - /tmp
-      - /home/solarize/.local:size=100M   # Required for --user pip installs
+      - /home/solarize/.local:size=100M
     cap_drop:
       - ALL
     security_opt:
       - no-new-privileges:true
     volumes:
-      - ./:/app:ro                        # Source code (read-only)
-      - ./var/www/media:/app/media        # User uploads
+      - ./:/app:ro
+      - ./var/www/media:/app/media
       - ./var/www/staticfiles:/app/staticfiles:ro
 
   nginx:
@@ -31,9 +31,6 @@ services:
     ports:
       - "80:80"
       - "443:443"
-    depends_on:
-      app:
-        condition: service_healthy
     volumes:
       - ./var/www/media:/app/media:ro
       - ./var/www/staticfiles:/app/staticfiles:ro

@@ -42,6 +42,33 @@ services:
     networks:
       - webnet
 
+  db:
+    image: postgres:17-alpine
+    container_name: solarize-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: solarize
+      POSTGRES_USER: solarize
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-supersecretpassword}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backups:/backups          # optional: easy pg_dump access
+    tmpfs:
+      - /var/lib/postgresql/tmp:size=100M
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U solarize -d solarize"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - webnet
+
+volumes:
+  postgres_data:
+    driver: local
+
 networks:
   webnet:
     driver: bridge

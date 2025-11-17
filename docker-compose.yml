@@ -9,7 +9,6 @@ services:
       - .env
     expose:
       - "8000"  # internal port for Nginx reverse proxy
-    user: "1000:1000"  # matches solarize UID:GID inside container
     read_only: true
     tmpfs:
       - /tmp  # writable temp directory

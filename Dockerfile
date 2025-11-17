@@ -15,6 +15,9 @@ RUN mkdir -p /solarize/staticfiles /solarize/media \
 
 WORKDIR /solarize
 
+# Switch to non-root user
+USER solarize
+
 # Install Python dependencies AS the non-root user
 COPY --chown=solarize:solarize requirements.txt .
 RUN pip install --no-cache-dir --user -r requirements.txt
@@ -22,8 +25,7 @@ RUN pip install --no-cache-dir --user -r requirements.txt
 # Copy the rest of the code
 COPY --chown=solarize:solarize . .
 
-# Switch to non-root user
-USER solarize
+
 
 # Make sure .local/bin is in PATH
 ENV PATH="/home/solarize/.local/bin:${PATH}"

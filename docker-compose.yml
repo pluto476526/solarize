@@ -1,4 +1,24 @@
+version: "3.9"
+
 services:
+  db:
+    image: postgres:17-alpine
+    container_name: solarize-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_NAME:-solarize}
+      POSTGRES_USER: ${DB_USER:-pluto}
+      POSTGRES_PASSWORD: ${DB_PASS}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backups:/backups
+    tmpfs:
+      - /var/lib/postgresql/tmp:size=100M
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - webnet
+
   app:
     build:
       context: .
@@ -21,6 +41,8 @@ services:
       - ./:/app:ro
       - ./var/www/media:/app/media
       - ./var/www/staticfiles:/app/staticfiles:ro
+    networks:
+      - webnet
 
   nginx:
     build:
@@ -28,7 +50,6 @@ services:
       dockerfile: Dockerfile
     container_name: solarize-nginx
     restart: unless-stopped
-    user: nginx
     ports:
       - "80:80"
       - "443:443"
@@ -42,27 +63,8 @@ services:
     networks:
       - webnet
 
-  db:
-    image: postgres:17-alpine
-    container_name: solarize-db
-    restart: unless-stopped
-    environment:
-      POSTGRES_DB: solarize
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASS}
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-      - ./backups:/backups # easy pg_dump access
-    tmpfs:
-      - /var/lib/postgresql/tmp:size=100M
-    security_opt:
-      - no-new-privileges:true
-    networks:
-      - webnet
-
 volumes:
   postgres_data:
-    driver: local
 
 networks:
   webnet:

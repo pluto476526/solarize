@@ -3,7 +3,6 @@
 ![Django](https://img.shields.io/badge/Django-5.2.6-green)
 ![PostgreSQL](https://img.shields.io/badge/TimescaleDB-Supported-blue)
 ![Plotly](https://img.shields.io/badge/Plotly-Charts-orange)
-![PVlib](https://img.shields.io/badge/pvlib-13.9--yellow)
 
 Solarize is a comprehensive solar modeling platform that provides reliable energy production estimates using industry-standard modeling tools.
 

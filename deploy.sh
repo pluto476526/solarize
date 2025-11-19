@@ -7,6 +7,10 @@ root@wgvpn:/var/www/solarize# cat deploy.sh
 set -euo pipefail
 IFS=$'\n\t'
 
+set -a
+source .env
+set +a
+
 # ----------------------------- CONFIG ---------------------------------------
 APP_SERVICE="solarize-app"
 DB_SERVICE="solarize-db"
@@ -14,8 +18,8 @@ REDIS_SERVICE="solarize-redis"
 CELERY_SERVICE="celery"
 CELERY_BEAT_SERVICE="celery-beat"
 
-DB_USER="pluto"
-DB_NAME="solarize"
+DB_USER=$DB_USER
+DB_NAME=$DB_NAME
 SQL_SCRIPT="schema_setup.sql"
 
 MAX_RETRIES=20

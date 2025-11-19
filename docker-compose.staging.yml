@@ -1,26 +1,26 @@
 services:
   db:
     image: timescale/timescaledb:latest-pg18
-    container_name: solarize-db
+    container_name: solarize-db-staging
     restart: unless-stopped
     environment:
-      POSTGRES_DB: ${DB_NAME:-solarize}
-      POSTGRES_USER: ${DB_USER:-pluto}
+      POSTGRES_DB: solarize_staging
+      POSTGRES_USER: pluto
       POSTGRES_PASSWORD: ${DB_PASS}
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_data_staging:/var/lib/postgresql/data
     tmpfs:
       - /var/lib/postgresql/tmp:size=100M
     security_opt:
       - no-new-privileges:true
     networks:
-      - webnet
+      - webnet_staging
 
   app:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: solarize-app
+    container_name: solarize-app-staging
     restart: unless-stopped
     env_file:
       - .env
@@ -33,60 +33,61 @@ services:
     security_opt:
       - no-new-privileges:true
     volumes:
-      - static_volume:/app/staticfiles
-      - ./var/www/media:/app/media
+      - static_volume_staging:/app/staticfiles
+      - ./var/www/media_staging:/app/media
     networks:
-      - webnet
-  
+      - webnet_staging
+
   redis:
     image: redis:7-alpine
-    container_name: solarize-redis
+    container_name: solarize-redis-staging
     restart: unless-stopped
     networks:
-      - webnet
+      - webnet_staging
 
   celery:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: solarize-celery
+    container_name: solarize-celery-staging
     command: celery -A data_factory.celery:app worker --loglevel=info
     networks:
-      - webnet
+      - webnet_staging
 
   celery-beat:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: solarize-celery-beat
+    container_name: solarize-celery-beat-staging
     command: celery -A data_factory.celery:app beat --loglevel=info
     networks:
-      - webnet
+      - webnet_staging
 
-  nginx:    
+  nginx:
     build:
       context: ./nginx
       dockerfile: Dockerfile
-    container_name: solarize-nginx
+    container_name: solarize-nginx-staging
     restart: unless-stopped
     ports:
-      - "80:80"
-      - "443:443"
+      - "8080:80"    # staging HTTP
+      - "8443:443"   # staging HTTPS
     volumes:
-      - static_volume:/app/staticfiles:ro
-      - ./var/www/media:/app/media:ro
+      - static_volume_staging:/app/staticfiles:ro
+      - ./var/www/media_staging:/app/media:ro
       - /etc/letsencrypt:/etc/letsencrypt:ro
     tmpfs:
       - /var/cache/nginx:uid=101,gid=101,size=50M
       - /var/run:uid=101,gid=101,size=10M
     networks:
-      - webnet
+      - webnet_staging
 
 volumes:
-  static_volume:
-  postgres_data:
+  static_volume_staging:
+  postgres_data_staging:
     driver: local
 
 networks:
-  webnet:
+  webnet_staging:
     driver: bridge
+

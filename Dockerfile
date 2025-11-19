@@ -1,38 +1,34 @@
-# Solarize Dockerfile
-
 FROM python:3.12-slim
 
-# Avoid interactive prompts & buffer output
+# Environment settings
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
-# Create non-root user early
-ARG APP_USER=solarize
-ARG APP_UID=1000
-ARG APP_GID=1000
-
-RUN groupadd --gid $APP_GID $APP_USER && \
-    useradd --uid $APP_UID --gid $APP_GID --create-home --shell /bin/bash $APP_USER && \
-    mkdir -p /app/staticfiles /app/media && \
-    chown $APP_USER:$APP_USER /app/staticfiles /app/media
-
+# Create app directory
 WORKDIR /app
 
-# Switch to non-root user BEFORE installing packages
-USER $APP_USER
+# Copy requirements early to use Docker cache
+COPY requirements.txt /app/
 
-# Install Python dependencies into user-local (so they survive read-only root)
-COPY --chown=$APP_USER:$APP_USER requirements.txt .
-RUN pip install --no-cache-dir --user -r requirements.txt
+# Copy the rest of the project
+COPY . /app/
 
-# Ensure user-local bin directory is on PATH
-ENV PATH="/home/$APP_USER/.local/bin:${PATH}"
+# Create directories that Django needs
+RUN touch /app/debug.log \
+    && mkdir -p /app/static \
+    && mkdir -p /app/media \
+    && groupadd -r solarize \
+    && useradd -r -g solarize -ms /bin/bash solarize \
+    && chown -R solarize:solarize /app \
+    && pip install --no-cache-dir -r requirements.txt \
+    && python manage.py collectstatic --noinput
 
-# Copy application code (read-only in production)
-COPY --chown=$APP_USER:$APP_USER . .
 
-# Expose Daphne port
+# Switch to the non-root user
+USER solarize
+
+# Expose port
 EXPOSE 8000
 
-# Run Daphne (Channels ASGI server)
+# Default command
 CMD ["daphne", "-b", "0.0.0.0", "-p", "8000", "solarize.asgi:application"]

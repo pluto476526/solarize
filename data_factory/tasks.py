@@ -16,7 +16,7 @@ import requests
 import os
 import openmeteo_requests
 from data_factory.database.connection import DatabaseConnection
-from data_factory.database.manager import DataManager
+from data_factory.database.db_manager import DataManager
 from decouple import config
 from data_factory.apis import data_utils
 
@@ -52,6 +52,7 @@ def process_nasa_data(data):
 
     if all_dfs:
         return pd.concat(all_dfs, ignore_index=True)
+        
     return pd.DataFrame(
         columns=["date", "parameter", "value", "units", "lon", "lat", "elev", "source"]
     )

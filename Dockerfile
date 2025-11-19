@@ -20,8 +20,7 @@ RUN touch /app/debug.log \
     && groupadd -r solarize \
     && useradd -r -g solarize -ms /bin/bash solarize \
     && chown -R solarize:solarize /app \
-    && pip install --no-cache-dir -r requirements.txt \
-    && python manage.py collectstatic --noinput
+    && pip install --no-cache-dir -r requirements.txt
 
 
 # Switch to the non-root user

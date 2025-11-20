@@ -72,9 +72,12 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - static_volume:/app/staticfiles:ro
       - ./var/media:/app/media:ro
-      - /etc/letsencrypt:/etc/letsencrypt:ro
+      - static_volume:/app/staticfiles:ro
+      - /etc/letsencrypt/live:/etc/letsencrypt/live:ro
+      - /etc/letsencrypt/archive:/etc/letsencrypt/archive:ro
+      - /etc/letsencrypt/options-ssl-nginx.conf:/etc/letsencrypt/options-ssl-nginx.conf:ro
+      - /etc/letsencrypt/ssl-dhparams.pem:/etc/letsencrypt/ssl-dhparams.pem:ro
     tmpfs:
       - /var/cache/nginx:uid=101,gid=101,size=50M
       - /var/run:uid=101,gid=101,size=10M

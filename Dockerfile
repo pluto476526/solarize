@@ -1,33 +1,24 @@
 FROM python:3.12-slim
 
-# Environment settings
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
-# Create app directory
 WORKDIR /app
 
-# Copy requirements early to use Docker cache
 COPY requirements.txt /app/
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the rest of the project
 COPY . /app/
 
-# Create directories that Django needs
-RUN touch /app/debug.log \
-    && mkdir -p /app/static \
-    && mkdir -p /app/media \
+RUN mkdir -p /app/staticfiles /app/media \
+    && touch /app/debug.log \
     && groupadd -r solarize \
     && useradd -r -g solarize -ms /bin/bash solarize \
-    && chown -R solarize:solarize /app \
-    && pip install --no-cache-dir -r requirements.txt
+    && chown -R solarize:solarize /app
 
-
-# Switch to the non-root user
 USER solarize
 
-# Expose port
-EXPOSE 8000
+RUN python3 manage.py collectstatic --no-input
 
-# Default command
+EXPOSE 8000
 CMD ["daphne", "-b", "0.0.0.0", "-p", "8000", "solarize.asgi:application"]

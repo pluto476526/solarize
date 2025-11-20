@@ -34,7 +34,6 @@ services:
       - no-new-privileges:true
     volumes:
       - static_volume:/app/staticfiles
-      - ./var/www/media:/app/media
     networks:
       - webnet
   
@@ -74,7 +73,7 @@ services:
       - "443:443"
     volumes:
       - static_volume:/app/staticfiles:ro
-      - ./var/www/media:/app/media:ro
+      - ./var/media:/app/media:ro
       - /etc/letsencrypt:/etc/letsencrypt:ro
     tmpfs:
       - /var/cache/nginx:uid=101,gid=101,size=50M

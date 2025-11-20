@@ -1,4 +1,3 @@
-root@wgvpn:/var/www/solarize# cat deploy.sh 
 #!/bin/bash
 # =============================================================================
 # Solarize – Production-grade, zero-downtime deploy script with FULL DEBUGGING
@@ -128,14 +127,18 @@ else
     exit 1
 fi
 
-# ============================= FINAL SUCCESS ================================
+# =============================== FINAL SUCCESS ===============================
 echo
-echo "╔══════════════════════════════════════════════════════════════════╗"
-echo "║                   DEPLOYMENT SUCCESSFUL!                         ║"
-echo "║                                                                  ║"
-echo "║   Enjoy        → https://$(echo "milky-way.space")               ║"
-echo "╚══════════════════════════════════════════════════════════════════╝"
+echo "╔═══════════════════════════════════════════════════════════════════════╗"
+echo "║                         SOLARIZE DEPLOYED!                            ║"
+echo "║                                                                       ║"
+echo "║             System online. All services running smoothly.             ║"
+echo "║             Containers rebuilt, migrations applied, done.             ║"
+echo "║                                                                       ║"
+echo "║                >>>  SMOOTH  •  CLEAN  •  READY  <<<                   ║"
+echo "╚═══════════════════════════════════════════════════════════════════════╝"
 echo
+
 
 docker-compose ps --services | grep -E "(app|celery|db|redis|nginx)" | \
     xargs -I {} sh -c "echo '→ {}: '; docker-compose ps {} | tail -1"

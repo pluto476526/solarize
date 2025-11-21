@@ -42,9 +42,13 @@
             <div class="container-fluid">
                 <div class="box-header">
                     <div class="box-logo">
-                        <span class="" style="cursor: pointer; display: flex; align-items: center; font-size: 2rem">
+                        <span class=""
+                              style="cursor: pointer;
+                                     display: flex;
+                                     align-items: center;
+                                     font-size: 2rem">
                             <img src="{% static 'onboarding/img/logo-small.png' %}" alt="SOLARIZE">
-                            &nbsp; SOLARIZE</span>
+                        &nbsp; SOLARIZE</span>
                     </div>
                     <!-- box-nav -->
                     <a class="box-primary-nav-trigger d-none d-lg-block" href="#0">
@@ -56,17 +60,33 @@
                 <nav>
                     <ul class="box-primary-nav">
                         <li class="box-label">SOLARIZE</li>
-                        <li><a href="#what-is-pv">What is PV Modeling</a></li>
-                        <li><a href="#why-model">Why Model PV Systems</a></li>
-                        <li><a href="#how-modeling-works">How PV Modeling Works</a></li>
-                        <li><a href="#python">Python and Data Analysis</a></li>
-                        <li><a href="#solutions">Our Solutions</a></li>
+                        <li>
+                            <a href="#what-is-pv">What is PV Modeling</a>
+                        </li>
+                        <li>
+                            <a href="#why-model">Why Model PV Systems</a>
+                        </li>
+                        <li>
+                            <a href="#how-modeling-works">How PV Modeling Works</a>
+                        </li>
+                        <li>
+                            <a href="#python">Python and Data Analysis</a>
+                        </li>
+                        <li>
+                            <a href="#solutions">Our Solutions</a>
+                        </li>
                         <li class="box-label">ACCOUNT</li>
                         {% if request.user.is_authenticated %}
-                            <li><a href="{% url 'dash' %}">Dashboard</a></li>
-                            <li><a href="{% url 'signout' %}">Log out</a></li>
+                            <li>
+                                <a href="{% url 'dash' %}">Dashboard</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'signout' %}">Log out</a>
+                            </li>
                         {% else %}
-                            <li><a href="{% url 'signin' %}">Sign In</a></li>
+                            <li>
+                                <a href="{% url 'signin' %}">Sign In</a>
+                            </li>
                         {% endif %}
                     </ul>
                 </nav>
@@ -78,77 +98,95 @@
                     <div class="mobile-menu">
                         <ul class="mobile-primary-nav">
                             <li class="mobile-label">SOLARIZE</li>
-                            <li><a href="#what-is-pv">What is PV Modeling</a></li>
-                            <li><a href="#why-model">Why Model PV Systems</a></li>
-                            <li><a href="#how-modeling-works">How PV Modeling Works</a></li>
-                            <li><a href="#python">Python and Data Analysis</a></li>
-                            <li><a href="#solutions">Our Solutions</a></li>
-                            <li><a href="#climate-projection">Climate Projection</a></li>
+                            <li>
+                                <a href="#what-is-pv">What is PV Modeling</a>
+                            </li>
+                            <li>
+                                <a href="#why-model">Why Model PV Systems</a>
+                            </li>
+                            <li>
+                                <a href="#how-modeling-works">How PV Modeling Works</a>
+                            </li>
+                            <li>
+                                <a href="#python">Python and Data Analysis</a>
+                            </li>
+                            <li>
+                                <a href="#solutions">Our Solutions</a>
+                            </li>
+                            <li>
+                                <a href="#climate-projection">Climate Projection</a>
+                            </li>
                             {% if request.user.is_authenticated %}
-                                <li><a href="{% url 'dash' %}">Dashboard</a></li>
-                                <li><a href="{% url 'signout' %}">Log out</a></li>
+                                <li>
+                                    <a href="{% url 'dash' %}">Dashboard</a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'signout' %}">Log out</a>
+                                </li>
                             {% else %}
-                                <li><a href="{% url 'signin' %}">Sign In</a></li>
+                                <li>
+                                    <a href="{% url 'signin' %}">Sign In</a>
+                                </li>
                             {% endif %}
-                            </ul>
+                        </ul>
+                    </div>
+                </div>
+                <!-- end nav -->
+                <!-- box-intro -->
+                <section class="box-intro"
+                         style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url({% static 'onboarding/img/hero1.jpg' %})">
+                    <div class="table-cell">
+                        <h3 class="box-headline letters rotate-2">
+                            <span class="box-words-wrapper" style="color: aliceblue;">
+                                <b class="is-visible">PRECISE • RELIABLE</b>
+                                <b>ADVANCED • SOLAR • SIMULATION</b>
+                            </span>
+                        </h3>
+                        <h1 style="color: aliceblue;">SOLAR ENERGY MODELING</h1>
+                        <h4 style="color: aliceblue;">Harnessing the power of the sun with data intelligence.</h4>
+                        <p class="text-warning">
+                            <span id="hero"></span><span id="cursor">|</span>
+                        </p>
+                        <div class="mt-50">
+                            <a href="https://youtu.be/tWhK9ODQtKc" class="default-btn text-warning">Demo</a> &nbsp;
+                            {% if request.user.is_authenticated %}
+                                <a href="{% url 'dash' %}" class="default-btn text-info">Go to Dashboard</a>
+                            {% else %}
+                                <a href="{% url 'dash' %}" class="default-btn text-info">Start Free Trial</a>
+                            {% endif %}
                         </div>
                     </div>
-                    <!-- end nav -->
-                    <!-- box-intro -->
-                    <section class="box-intro"
-                             style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url({% static 'onboarding/img/hero1.jpg' %})">
-                        <div class="table-cell">
-                            <h3 class="box-headline letters rotate-2">
-                                <span class="box-words-wrapper" style="color: aliceblue;">
-                                    <b class="is-visible">PRECISE • RELIABLE</b>
-                                    <b>ADVANCED • SOLAR • SIMULATION</b>
-                                </span>
-                            </h3>
-                            <h1 style="color: aliceblue;">SOLAR ENERGY MODELING</h1>
-                            <h4 style="color: aliceblue;">Harnessing the power of the sun with data intelligence.</h4>
-                            <p class="text-warning">
-                                <span id="hero"></span><span id="cursor">|</span>
-                            </p>
-                            <div class="mt-50">
-                                <a href="https://youtu.be/tWhK9ODQtKc" class="default-btn text-warning">Demo</a> &nbsp;
-                                {% if request.user.is_authenticated %}
-                                    <a href="{% url 'dash' %}" class="default-btn text-info">Go to Dashboard</a>
-                                {% else %}
-                                    <a href="{% url 'dash' %}" class="default-btn text-info">Start Free Trial</a>
-                                {% endif %}
-                            </div>
-                        </div>
-                        <div class="mouse">
-                            <div class="scroll"></div>
-                        </div>
-                    </section>
-                    <!-- end box-intro -->
-                </div>
-            </header>
-            {% block main %}{% endblock %}
-            {% include 'onboarding/footer.html' %}
-            <!-- SCRIPTS -->
-            <script type="text/javascript"
-                    src="{% static 'onboarding/js/jquery-2.2.3.min.js' %}"></script>
-            <script type="text/javascript"
-                    src="{% static 'onboarding/js/animated-headline.js' %}"></script>
-            <script type="text/javascript" src="{% static 'onboarding/js/menu.js' %}"></script>
-            <script type="text/javascript"
-                    src="{% static 'onboarding/js/modernizr.js' %}"></script>
-            <script type="text/javascript"
-                    src="{% static 'onboarding/js/isotope.pkgd.min.js' %}"></script>
-            <script type="text/javascript"
-                    src="{% static 'onboarding/js/jquery.animsition.min.js' %}"></script>
-            <script type="text/javascript" src="{% static 'onboarding/js/init.js' %}"></script>
-            <script type="text/javascript" src="{% static 'onboarding/js/main.js' %}"></script>
-            <script type="text/javascript"
-                    src="{% static 'onboarding/js/smooth-scroll.js' %}"></script>
-            <script type="text/javascript"
-                    src="{% static 'onboarding/js/numscroller.js' %}"></script>
-            <script type="text/javascript" src="{% static 'onboarding/js/wow.min.js' %}"></script>
-            <script type="text/javascript"
-                    src="{% static 'onboarding/js/owl.carousel.min.js' %}"></script>
-            <script type="text/javascript">
+                    <div class="mouse">
+                        <div class="scroll"></div>
+                    </div>
+                </section>
+                <!-- end box-intro -->
+            </div>
+        </header>
+        {% block main %}{% endblock %}
+        {% include 'onboarding/footer.html' %}
+        <!-- SCRIPTS -->
+        <script type="text/javascript"
+                src="{% static 'onboarding/js/jquery-2.2.3.min.js' %}"></script>
+        <script type="text/javascript"
+                src="{% static 'onboarding/js/animated-headline.js' %}"></script>
+        <script type="text/javascript" src="{% static 'onboarding/js/menu.js' %}"></script>
+        <script type="text/javascript"
+                src="{% static 'onboarding/js/modernizr.js' %}"></script>
+        <script type="text/javascript"
+                src="{% static 'onboarding/js/isotope.pkgd.min.js' %}"></script>
+        <script type="text/javascript"
+                src="{% static 'onboarding/js/jquery.animsition.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'onboarding/js/init.js' %}"></script>
+        <script type="text/javascript" src="{% static 'onboarding/js/main.js' %}"></script>
+        <script type="text/javascript"
+                src="{% static 'onboarding/js/smooth-scroll.js' %}"></script>
+        <script type="text/javascript"
+                src="{% static 'onboarding/js/numscroller.js' %}"></script>
+        <script type="text/javascript" src="{% static 'onboarding/js/wow.min.js' %}"></script>
+        <script type="text/javascript"
+                src="{% static 'onboarding/js/owl.carousel.min.js' %}"></script>
+        <script type="text/javascript">
       $(window).load(function() {
         new WOW().init();
         smoothScroll.init();
@@ -225,6 +263,6 @@
             menu.classList.toggle('open');
         });
     })();
-            </script>
-        </body>
-    </html>
+        </script>
+    </body>
+</html>

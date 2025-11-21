@@ -333,25 +333,25 @@
                     <div class="mt-4">
                         <h3 class="mb-3">PVlib Architecture:</h3>
                         <p>
-                            PVlib follows a modular architecture that allows users to mix and match different modeling approaches and customize the modeling chain to specific requirements.
+                            PVlib is designed with a highly modular and flexible architecture. Users can combine different modeling methods, select the most appropriate physical models for each step, and fully customize the simulation workflow to match their specific project needs or research objectives.
                         </p>
                         <div class="bg-dark p-4 rounded mt-4">
                             <h6 class="text-warning">Key Modules:</h6>
                             <ul class="list-unstyled text-light small">
                                 <li class="mb-2">
-                                    <i class="fa fa-cube text-info me-2"></i><strong>pvlib.pvsystem:</strong> System component modeling
+                                    <i class="fa fa-cube text-info me-2"></i><strong>pvlib.pvsystem:</strong> Core photovoltaic system component models (PV arrays, inverters, electrical characteristics, single-diode model, etc.)
                                 </li>
                                 <li class="mb-2">
-                                    <i class="fa fa-cube text-info me-2"></i><strong>pvlib.modelchain:</strong> High-level modeling workflow
+                                    <i class="fa fa-cube text-info me-2"></i><strong>pvlib.modelchain:</strong> High-level interface that automates and orchestrates the complete PV performance modeling workflow
                                 </li>
                                 <li class="mb-2">
-                                    <i class="fa fa-cube text-info me-2"></i><strong>pvlib.irradiance:</strong> Solar radiation calculations
+                                    <i class="fa fa-cube text-info me-2"></i><strong>pvlib.irradiance:</strong> Comprehensive solar irradiance modeling, including transposition, decomposition, and global-to-plane-of-array calculations
                                 </li>
                                 <li class="mb-2">
-                                    <i class="fa fa-cube text-info me-2"></i><strong>pvlib.temperature:</strong> Thermal modeling
+                                    <i class="fa fa-cube text-info me-2"></i><strong>pvlib.temperature:</strong> Module and cell temperature models (e.g., SAPM, Faiman, NOCT, and others)
                                 </li>
                                 <li>
-                                    <i class="fa fa-cube text-info me-2"></i><strong>pvlib.bifacial:</strong> Bifacial system modeling
+                                    <i class="fa fa-cube text-info me-2"></i><strong>pvlib.bifacial:</strong> Specialized tools for modeling bifacial PV modules and systems
                                 </li>
                             </ul>
                         </div>

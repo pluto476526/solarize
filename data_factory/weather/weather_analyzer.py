@@ -26,9 +26,15 @@ class WeatherAnalyzer:
         self.hourly_df = hourly_weather
         self.daily_df = daily_weather
 
-        # Convert time columns to datetime if they exist
+        if "date" in self.hourly_df.columns:
+            self.hourly_df.rename(columns={"date": "time"}, inplace=True)
+
+        if "date" in self.daily_df.columns:
+            self.daily_df.rename(columns={"date": "time"}, inplace=True)
+
         if not self.hourly_df.empty and "time" in self.hourly_df.columns:
             self.hourly_df["time"] = pd.to_datetime(self.hourly_df["time"])
+
         if not self.daily_df.empty and "time" in self.daily_df.columns:
             self.daily_df["time"] = pd.to_datetime(self.daily_df["time"])
 
@@ -41,17 +47,25 @@ class WeatherAnalyzer:
         return round(float(value), decimals)
 
     def _format_timestamp(self, timestamp: Any) -> Optional[str]:
-        """Convert timestamp to ISO format string, handling various input types."""
+        """Convert timestamp to a human-readable ISO datetime string."""
         if timestamp is None or pd.isna(timestamp):
             return None
 
+        # --- Case 1: pandas or Python datetime ---
         if isinstance(timestamp, (pd.Timestamp, datetime)):
-            return timestamp.isoformat()
-        elif isinstance(timestamp, str):
+            return timestamp
+
+        # --- Case 2: UNIX timestamp (int or float) ---
+        if isinstance(timestamp, (int, float)) and timestamp > 10**9:
+            return datetime.fromtimestamp(timestamp)
+
+        # --- Case 3: string timestamp ---
+        if isinstance(timestamp, str):
             try:
-                return pd.to_datetime(timestamp).isoformat()
-            except:
+                return pd.to_datetime(timestamp)
+            except Exception:
                 return None
+
         return str(timestamp)
 
     def analyze_weather(self) -> Dict[str, Any]:
@@ -69,7 +83,7 @@ class WeatherAnalyzer:
             "weather_alerts": self._generate_weather_alerts(),
             "summary": self._generate_summary(),
             "timestamps": {
-                "analysis_time": datetime.now(timezone.utc).isoformat(),
+                "analysis_time": datetime.now(timezone.utc),
                 "data_freshness": self._check_data_freshness(),
             },
         }

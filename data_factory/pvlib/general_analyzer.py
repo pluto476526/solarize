@@ -5,9 +5,7 @@ from data_factory.pvlib import utils
 
 class Analyzer:
     def __init__(self, simulation_data: Dict):
-        self.ac_power = utils.aggregate_timeseries(
-            simulation_data["ac"], column="ac"
-        )
+        self.ac_power = utils.aggregate_timeseries(simulation_data["ac"], column="ac")
         self.poa_global = utils.aggregate_timeseries(
             simulation_data["irradiance"], column="poa_global"
         )

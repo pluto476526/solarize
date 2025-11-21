@@ -108,7 +108,13 @@ class SolarAgriProjector:
     # ------------------------------------------------------------------
     def compute_fao56_et0(self):
         """Compute Reference Evapotranspiration (ET₀) using FAO-56 PM equation."""
-        required = ["max_temp", "min_temp", "solar_radiation", "relative_humidity", "wind_speed"]
+        required = [
+            "max_temp",
+            "min_temp",
+            "solar_radiation",
+            "relative_humidity",
+            "wind_speed",
+        ]
         self.et0 = {}
 
         for scn in self.raw_data:
@@ -116,13 +122,16 @@ class SolarAgriProjector:
                 print(f"  [Skip ET₀] {scn}: missing data")
                 continue
 
-            df = pd.concat([
-                self.raw_data[scn]["max_temp"],
-                self.raw_data[scn]["min_temp"],
-                self.raw_data[scn]["solar_radiation"],
-                self.raw_data[scn]["relative_humidity"],
-                self.raw_data[scn]["wind_speed"]
-            ], axis=1)
+            df = pd.concat(
+                [
+                    self.raw_data[scn]["max_temp"],
+                    self.raw_data[scn]["min_temp"],
+                    self.raw_data[scn]["solar_radiation"],
+                    self.raw_data[scn]["relative_humidity"],
+                    self.raw_data[scn]["wind_speed"],
+                ],
+                axis=1,
+            )
 
             # Daily values (assume monthly average = daily)
             Tmax = df["max_temp"].values
@@ -141,9 +150,14 @@ class SolarAgriProjector:
             ws = np.arccos(-np.tan(lat_rad) * np.tan(delta))
             # Extraterrestrial radiation (Ra)
             dr = 1 + 0.033 * np.cos(2 * np.pi * J / 365)
-            Ra = (24 * 60 / np.pi) * 0.0820 * dr * (
-                ws * np.sin(lat_rad) * np.sin(delta) +
-                np.cos(lat_rad) * np.cos(delta) * np.sin(ws)
+            Ra = (
+                (24 * 60 / np.pi)
+                * 0.0820
+                * dr
+                * (
+                    ws * np.sin(lat_rad) * np.sin(delta)
+                    + np.cos(lat_rad) * np.cos(delta) * np.sin(ws)
+                )
             )  # MJ/m²/day
 
             # Clear-sky radiation (Rso)
@@ -153,7 +167,7 @@ class SolarAgriProjector:
             Rns = 0.77 * Rs * 3.6  # Rs in kWh → MJ
             sigma = 2.04e-10  # MJ/m²/K⁴/day
             Tmean = (Tmax + Tmin) / 2 + 273.15
-            Rnl = sigma * (Tmax + 273.15)**4 - sigma * (Tmin + 273.15)**4
+            Rnl = sigma * (Tmax + 273.15) ** 4 - sigma * (Tmin + 273.15) ** 4
             Rnl *= (0.34 - 0.14 * np.sqrt(RH / 100)) * (1.35 * Rs / Rso - 0.35)
             Rn = Rns - Rnl
 
@@ -165,10 +179,12 @@ class SolarAgriProjector:
             ea = es * RH / 100
 
             # Delta (slope of saturation curve)
-            delta_s = 4098 * es / (Tmean + 237.3)**2
+            delta_s = 4098 * es / (Tmean + 237.3) ** 2
 
             # ET₀
-            numerator = 0.408 * delta_s * (Rn - 0) + gamma * (37 / (Tmean - 35)) * u2 * (es - ea)
+            numerator = 0.408 * delta_s * (Rn - 0) + gamma * (
+                37 / (Tmean - 35)
+            ) * u2 * (es - ea)
             denominator = delta_s + gamma * (1 + 0.34 * u2)
             et0 = np.where(denominator != 0, numerator / denominator, np.nan)
 
@@ -178,7 +194,9 @@ class SolarAgriProjector:
     # ------------------------------------------------------------------
     # 3. CROP WATER REQUIREMENT & BALANCE
     # ------------------------------------------------------------------
-    def crop_water_requirement(self, crop: str, kc_monthly: Optional[List[float]] = None):
+    def crop_water_requirement(
+        self, crop: str, kc_monthly: Optional[List[float]] = None
+    ):
         """
         CWR = Kc × ET₀
         kc_monthly: list of 12 values (Jan–Dec), else use single Kc from library
@@ -191,8 +209,7 @@ class SolarAgriProjector:
             et0 = self.et0[scn]["ET0_mm_day"]
             if kc_monthly:
                 kc_series = pd.Series(
-                    np.tile(kc_monthly, len(et0) // 12 + 1)[:len(et0)],
-                    index=et0.index
+                    np.tile(kc_monthly, len(et0) // 12 + 1)[: len(et0)], index=et0.index
                 )
             else:
                 kc = self.CROP_KC[crop]
@@ -233,15 +250,31 @@ class SolarAgriProjector:
                     trend_decade = slope * 10
                 else:
                     trend_decade, p = np.nan, np.nan
-                baseline = df["1981":"2000"].mean().iloc[0] if "1981" in df.index.year else np.nan
-                future = df["2081":"2100"].mean().iloc[0] if "2081" in df.index.year else np.nan
-                change = future - baseline if not (np.isnan(baseline) or np.isnan(future)) else np.nan
+                baseline = (
+                    df["1981":"2000"].mean().iloc[0]
+                    if "1981" in df.index.year
+                    else np.nan
+                )
+                future = (
+                    df["2081":"2100"].mean().iloc[0]
+                    if "2081" in df.index.year
+                    else np.nan
+                )
+                change = (
+                    future - baseline
+                    if not (np.isnan(baseline) or np.isnan(future))
+                    else np.nan
+                )
 
                 self.insights[scn][p] = {
                     "mean": round(mean_val, 2),
-                    "trend_per_decade": round(trend_decade, 3) if not np.isnan(trend_decade) else None,
+                    "trend_per_decade": (
+                        round(trend_decade, 3) if not np.isnan(trend_decade) else None
+                    ),
                     "p_value": round(p, 4) if not np.isnan(p) else None,
-                    "projected_change": round(change, 2) if not np.isnan(change) else None,
+                    "projected_change": (
+                        round(change, 2) if not np.isnan(change) else None
+                    ),
                 }
 
         # Add ET₀ and CWR insights
@@ -251,7 +284,9 @@ class SolarAgriProjector:
             et0_y = self.et0[scn].resample("Y").mean()
             self.insights[scn]["ET0"] = {
                 "mean": round(self.et0[scn].mean().iloc[0], 2),
-                "trend_per_decade": round(linregress(np.arange(len(et0_y)), et0_y.iloc[:,0])[0]*10, 3),
+                "trend_per_decade": round(
+                    linregress(np.arange(len(et0_y)), et0_y.iloc[:, 0])[0] * 10, 3
+                ),
             }
             if scn in self.cwr:
                 cwr_y = self.cwr[scn].resample("Y").mean()
@@ -271,7 +306,7 @@ class SolarAgriProjector:
                     "temperature": "°C",
                     "precipitation": "mm/day",
                     "ET0": "mm/day",
-                    "CWR": "mm/day"
+                    "CWR": "mm/day",
                 }.get(p, "")
                 print(f"  • {p.replace('_', ' ').title()}: Mean = {s['mean']} {unit}")
                 if "trend_per_decade" in s and s["trend_per_decade"] is not None:
@@ -283,20 +318,29 @@ class SolarAgriProjector:
     def plot_crop_water(self, crop: str):
         """Plot ET₀, CWR, Precip, Irrigation Need"""
         fig = make_subplots(
-            rows=4, cols=1,
-            subplot_titles=("Solar Radiation", "ET₀ (Reference)", f"CWR ({crop.title()})", "Water Balance"),
+            rows=4,
+            cols=1,
+            subplot_titles=(
+                "Solar Radiation",
+                "ET₀ (Reference)",
+                f"CWR ({crop.title()})",
+                "Water Balance",
+            ),
             shared_xaxes=True,
-            vertical_spacing=0.05
+            vertical_spacing=0.05,
         )
 
         colors = {"historical": "#2E2E2E", "ssp245": "#E67E22", "ssp585": "#C0392B"}
 
-        for row, (param, title) in enumerate([
-            ("solar_radiation", "Solar Radiation (kWh/m²/day)"),
-            ("ET0", "ET₀ (mm/day)"),
-            ("CWR", f"CWR {crop.title()} (mm/day)"),
-            ("irrigation_need", "Irrigation Need (mm/day)")
-        ], 1):
+        for row, (param, title) in enumerate(
+            [
+                ("solar_radiation", "Solar Radiation (kWh/m²/day)"),
+                ("ET0", "ET₀ (mm/day)"),
+                ("CWR", f"CWR {crop.title()} (mm/day)"),
+                ("irrigation_need", "Irrigation Need (mm/day)"),
+            ],
+            1,
+        ):
             for scn in self.SCENARIOS:
                 if scn not in self.raw_data:
                     continue
@@ -313,14 +357,21 @@ class SolarAgriProjector:
 
                 fig.add_trace(
                     go.Scatter(
-                        x=data.index, y=data.iloc[:,0],
-                        name=scn.upper(), line=dict(color=colors[scn]),
-                        legendgroup=scn, showlegend=(row == 1)
+                        x=data.index,
+                        y=data.iloc[:, 0],
+                        name=scn.upper(),
+                        line=dict(color=colors[scn]),
+                        legendgroup=scn,
+                        showlegend=(row == 1),
                     ),
-                    row=row, col=1
+                    row=row,
+                    col=1,
                 )
 
-        fig.update_layout(height=900, title=f"FAO-56 Crop Water: {crop.title()} @ ({self.lat}, {self.lon})")
+        fig.update_layout(
+            height=900,
+            title=f"FAO-56 Crop Water: {crop.title()} @ ({self.lat}, {self.lon})",
+        )
         fig.show()
 
 
@@ -331,10 +382,16 @@ if __name__ == "__main__":
     proj = SolarAgriProjector(latitude=2.5, longitude=37.9)
 
     # 1. Fetch required data
-    proj.fetch([
-        "solar_radiation", "max_temp", "min_temp",
-        "precipitation", "relative_humidity", "wind_speed"
-    ])
+    proj.fetch(
+        [
+            "solar_radiation",
+            "max_temp",
+            "min_temp",
+            "precipitation",
+            "relative_humidity",
+            "wind_speed",
+        ]
+    )
 
     # 2. Compute ET₀
     proj.compute_fao56_et0()

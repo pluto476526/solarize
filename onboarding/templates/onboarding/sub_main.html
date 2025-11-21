@@ -68,16 +68,30 @@
                 <nav>
                     <ul class="box-primary-nav">
                         <li class="box-label">PV MODELING</li>
-                        <li><a href="{% url 'home' %}">Home</a> <i class="lnr lnr-home"></i></li>
-                        <li><a href="{% url 'climate_projection' %}">Climate Projection</a></li>
-                        <li><a href="{% url 'data_sources' %}">Data Sources</a></li>
-                        <li><a href="{% url 'solutions' %}">What We Do</a></li>
+                        <li>
+                            <a href="{% url 'home' %}">Home</a> <i class="lnr lnr-home"></i>
+                        </li>
+                        <li>
+                            <a href="{% url 'climate_projection' %}">Climate Projection</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'data_sources' %}">Data Sources</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'solutions' %}">What We Do</a>
+                        </li>
                         <li class="box-label">ACCOUNT</li>
                         {% if request.user.is_authenticated %}
-                            <li><a href="{% url 'dash' %}">Dashboard</a></li>
-                            <li><a href="{% url 'signout' %}">Log out</a></li>
+                            <li>
+                                <a href="{% url 'dash' %}">Dashboard</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'signout' %}">Log out</a>
+                            </li>
                         {% else %}
-                            <li><a href="{% url 'signin' %}">Sign In</a></li>
+                            <li>
+                                <a href="{% url 'signin' %}">Sign In</a>
+                            </li>
                         {% endif %}
                         <li class="box-label">SOCIAL</li>
                         <li class="box-social">
@@ -100,46 +114,60 @@
                     <div class="mobile-menu">
                         <ul class="mobile-primary-nav">
                             <li class="mobile-label">SOLARIZE</li>
-                            <li><a href="{% url 'home' %}">Home</a></li>
-                            <li><a href="{% url 'climate_projection' %}">Climate Projection</a></li>
-                            <li><a href="{% url 'data_sources' %}">Data Sources</a></li>
-                            <li><a href="{% url 'solutions' %}">What We Do</a></li>
+                            <li>
+                                <a href="{% url 'home' %}">Home</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'climate_projection' %}">Climate Projection</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'data_sources' %}">Data Sources</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'solutions' %}">What We Do</a>
+                            </li>
                             {% if request.user.is_authenticated %}
-                                <li><a href="{% url 'dash' %}">Dashboard</a></li>
-                                <li><a href="{% url 'signout' %}">Log out</a></li>
+                                <li>
+                                    <a href="{% url 'dash' %}">Dashboard</a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'signout' %}">Log out</a>
+                                </li>
                             {% else %}
-                                <li><a href="{% url 'signin' %}">Sign In</a></li>
+                                <li>
+                                    <a href="{% url 'signin' %}">Sign In</a>
+                                </li>
                             {% endif %}
-                            </ul>
-                        </div>
+                        </ul>
                     </div>
-                    <!-- end nav -->
                 </div>
-            </header>
-            {% block main %}{% endblock %}
-            {% include 'onboarding/footer.html' %}
-            <!-- SCRIPTS -->
-            <script type="text/javascript"
-                    src="{% static 'onboarding/js/jquery-2.2.3.min.js' %}"></script>
-            <script type="text/javascript"
-                    src="{% static 'onboarding/js/animated-headline.js' %}"></script>
-            <script type="text/javascript" src="{% static 'onboarding/js/menu.js' %}"></script>
-            <script type="text/javascript"
-                    src="{% static 'onboarding/js/modernizr.js' %}"></script>
-            <script type="text/javascript"
-                    src="{% static 'onboarding/js/isotope.pkgd.min.js' %}"></script>
-            <script type="text/javascript"
-                    src="{% static 'onboarding/js/jquery.animsition.min.js' %}"></script>
-            <script type="text/javascript" src="{% static 'onboarding/js/init.js' %}"></script>
-            <script type="text/javascript" src="{% static 'onboarding/js/main.js' %}"></script>
-            <script type="text/javascript"
-                    src="{% static 'onboarding/js/smooth-scroll.js' %}"></script>
-            <script type="text/javascript"
-                    src="{% static 'onboarding/js/numscroller.js' %}"></script>
-            <script type="text/javascript" src="{% static 'onboarding/js/wow.min.js' %}"></script>
-            <script type="text/javascript"
-                    src="{% static 'onboarding/js/owl.carousel.min.js' %}"></script>
-            <script type="text/javascript">
+                <!-- end nav -->
+            </div>
+        </header>
+        {% block main %}{% endblock %}
+        {% include 'onboarding/footer.html' %}
+        <!-- SCRIPTS -->
+        <script type="text/javascript"
+                src="{% static 'onboarding/js/jquery-2.2.3.min.js' %}"></script>
+        <script type="text/javascript"
+                src="{% static 'onboarding/js/animated-headline.js' %}"></script>
+        <script type="text/javascript" src="{% static 'onboarding/js/menu.js' %}"></script>
+        <script type="text/javascript"
+                src="{% static 'onboarding/js/modernizr.js' %}"></script>
+        <script type="text/javascript"
+                src="{% static 'onboarding/js/isotope.pkgd.min.js' %}"></script>
+        <script type="text/javascript"
+                src="{% static 'onboarding/js/jquery.animsition.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'onboarding/js/init.js' %}"></script>
+        <script type="text/javascript" src="{% static 'onboarding/js/main.js' %}"></script>
+        <script type="text/javascript"
+                src="{% static 'onboarding/js/smooth-scroll.js' %}"></script>
+        <script type="text/javascript"
+                src="{% static 'onboarding/js/numscroller.js' %}"></script>
+        <script type="text/javascript" src="{% static 'onboarding/js/wow.min.js' %}"></script>
+        <script type="text/javascript"
+                src="{% static 'onboarding/js/owl.carousel.min.js' %}"></script>
+        <script type="text/javascript">
 		(function(){
 	        var toggle = document.querySelector('.mobile-menu-toggle');
 	        var menu = document.querySelector('.mobile-menu');
@@ -150,6 +178,6 @@
 	            menu.classList.toggle('open');
 	        });
 	    })();
-            </script>
-        </body>
-    </html>
+        </script>
+    </body>
+</html>

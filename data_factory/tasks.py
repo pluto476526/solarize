@@ -52,7 +52,7 @@ def process_nasa_data(data):
 
     if all_dfs:
         return pd.concat(all_dfs, ignore_index=True)
-        
+
     return pd.DataFrame(
         columns=["date", "parameter", "value", "units", "lon", "lat", "elev", "source"]
     )

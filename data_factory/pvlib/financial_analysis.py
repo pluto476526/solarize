@@ -19,9 +19,7 @@ class FinancialAnalyzer:
             financial_params: Optional dictionary to override default financial assumptions
         """
         # Extract AC power data from simulation results
-        self.ac_power = utils.aggregate_timeseries(
-            simulation_data["ac"], column="ac"
-        )
+        self.ac_power = utils.aggregate_timeseries(simulation_data["ac"], column="ac")
 
         # Set default financial parameters (typical US residential solar values)
         self.params = {

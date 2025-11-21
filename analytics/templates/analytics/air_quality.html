@@ -119,7 +119,7 @@
                         <h6 class="mb-3 text-primary">OpenMeteo Status</h6>
                         <div class="d-flex justify-content-between mb-2">
                             <span>Last Update</span>
-                            <small>{{ air_quality.timestamps.data_freshness.current_data_age }}</small>
+                            <small>{{ air_quality.timestamps.analysis_time }}</small>
                         </div>
                         <div class="d-flex justify-content-between mb-2">
                             <span>Data Quality</span>
@@ -311,8 +311,6 @@
                                 <div class="alert alert-info mb-2 py-2">
                                     <small>
                                         <strong>No Alerts</strong>
-                                        <br>
-                                        Enjoy...
                                     </small>
                                 </div>
                             {% endfor %}
@@ -451,7 +449,8 @@
                         </h6>
                     </div>
                     <div class="card-body">
-                        <div class="row g-2">
+                        <form method="post" class="row g-2">
+                            {% csrf_token %}
                             <div class="col-6">
                                 <label class="form-label small">Latitude</label>
                                 <input type="number"
@@ -489,7 +488,7 @@
                                     </button>
                                 </div>
                             </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>

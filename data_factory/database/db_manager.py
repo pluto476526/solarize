@@ -174,7 +174,6 @@ class DataManager:
                     )
                 insert_timeseries(tuple(dfs), "aoi")
 
-
             if hasattr(result, "airmass") and result.airmass is not None:
                 dfs = (
                     result.airmass
@@ -273,7 +272,7 @@ class DataManager:
                     "custom_inverter_params": row[16],
                     "temperature_model": row[17],
                     "temp_model_params": row[18],
-                    "custom_temp_params": row[19]
+                    "custom_temp_params": row[19],
                 }
             )
 
@@ -454,11 +453,14 @@ class DataManager:
 
         self.db.commit()
 
-    def fetch_openmeteo_data(self, lat: float, lon: float):
+    def fetch_weather_data(self, locn):
         """
         Retrieve and reconstruct current, hourly, and daily weather data
         using SQLAlchemy and location coordinates.
         """
+        lat = locn["lat"]
+        lon = locn["lon"]
+
         engine = sqlalchemy.create_engine(
             f'postgresql+psycopg2://{config("DB_USER")}:{config("DB_PASS")}@{config("DB_HOST")}:{config("DB_PORT")}/{config("DB_NAME")}'
         )
@@ -599,10 +601,13 @@ class DataManager:
 
         self.db.commit()
 
-    def fetch_air_quality_data(self, lat, lon):
+    def fetch_air_quality_data(self, loc):
         """
         Retrieve and reconstruct air quality data using SQLAlchemy.
         """
+        lat = loc["lat"]
+        lon = loc["lon"]
+
         engine = sqlalchemy.create_engine(
             f'postgresql+psycopg2://{config("DB_USER")}:{config("DB_PASS")}@'
             f'{config("DB_HOST")}:{config("DB_PORT")}/{config("DB_NAME")}'

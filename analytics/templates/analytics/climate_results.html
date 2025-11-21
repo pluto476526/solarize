@@ -6,238 +6,59 @@
         <!-- Navbar Start -->
         {% include 'analytics/nav.html' %}
         <!-- Navbar End -->
-    
         <!-- Navigation -->
         <nav class="navbar navbar-expand-lg navbar-dark bg-secondary">
             <div class="container">
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <button class="navbar-toggler"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#navbarNav">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
-                        <li class="nav-item"><a class="nav-link" href="#summary">Summary</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#solar">Solar</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#temperature">Temperature</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#water">Water</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#agriculture">Agriculture</a></li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#summary">Summary</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#solar">Solar</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#temperature">Temperature</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#water">Water</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#agriculture">Agriculture</a>
+                        </li>
                     </ul>
                 </div>
             </div>
         </nav>
-
         <div class="container-fluid py-4">
-        <!-- Header Section -->
-        <div class="row mb-4">
-            <div class="col-12">
-                <div class="bg-secondary rounded p-4">
-                    <div class="row align-items-center">
-                        <div class="col-md-8">
-                            <h2 class="text-warning mb-2">
-                                <i class="bi bi-geo-alt-fill me-2"></i>Climate Analysis Report
-                            </h2>
-                            <p class="lead mb-0">
-                                Location: 40.80565°N, 73.9652°W | Period: 2020-2025 | Elevation: 75.84m
-                            </p>
-                            <small class="text-muted">Data Source: NASA POWER</small>
-                        </div>
-                        <div class="col-md-4 text-md-end">
-                            <div class="bg-dark rounded p-3">
-                                <h5 class="text-success mb-2">Analysis Period</h5>
-                                <div class="d-flex justify-content-between">
-                                    <span>Start:</span>
-                                    <span class="fw-bold">2020-01-01</span>
-                                </div>
-                                <div class="d-flex justify-content-between">
-                                    <span>End:</span>
-                                    <span class="fw-bold">2025-12-31</span>
-                                </div>
+            <!-- Header Section -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="bg-secondary rounded p-4">
+                        <div class="row align-items-center">
+                            <div class="col-md-8">
+                                <h2 class="text-warning mb-2">
+                                    <i class="bi bi-geo-alt-fill me-2"></i>Climate Analysis Report
+                                </h2>
+                                <p class="lead mb-0">Location: 40.80565°N, 73.9652°W | Period: 2020-2025 | Elevation: 75.84m</p>
+                                <small class="text-muted">Data Source: NASA POWER</small>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Summary Dashboard -->
-        <!-- Summary Dashboard -->
-        <div class="row mb-4" id="summary">
-            <div class="col-12">
-                <div class="bg-secondary rounded p-4">
-                    <h3 class="mb-4"><i class="bi bi-speedometer2 me-2"></i>Key Metrics Summary</h3>
-                    <div class="row g-4">
-                        <!-- Solar Radiation -->
-                        <div class="col-sm-6 col-xl-3">
-                            <div class="bg-dark rounded p-4 h-100">
-                                <div class="d-flex align-items-center mb-3">
-                                    <i class="bi bi-brightness-high text-warning fs-2 me-3"></i>
-                                    <div>
-                                        <h5 class="mb-0">Solar Radiation</h5>
-                                        <small class="text-muted">ALLSKY_SFC_SW_DWN</small>
+                            <div class="col-md-4 text-md-end">
+                                <div class="bg-dark rounded p-3">
+                                    <h5 class="text-success mb-2">Analysis Period</h5>
+                                    <div class="d-flex justify-content-between">
+                                        <span>Start:</span>
+                                        <span class="fw-bold">2020-01-01</span>
                                     </div>
-                                </div>
-                                <div class="text-center">
-                                    <h2 class="text-warning fw-bold">{{ insights.ALLSKY_SFC_SW_DWN.mean }}</h2>
-                                    <p class="mb-1">kW-hr/m²/day</p>
-                                    <span class="badge bg-success">{{ insights.ALLSKY_SFC_SW_DWN.trend_per_decade }} per decade</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Temperature -->
-                        <div class="col-sm-6 col-xl-3">
-                            <div class="bg-dark rounded p-4 h-100">
-                                <div class="d-flex align-items-center mb-3">
-                                    <i class="bi bi-thermometer-half text-danger fs-2 me-3"></i>
-                                    <div>
-                                        <h5 class="mb-0">Temperature</h5>
-                                        <small class="text-muted">T2M Average</small>
-                                    </div>
-                                </div>
-                                <div class="text-center">
-                                    <h2 class="text-danger fw-bold">{{ insights.T2M.mean }}°C</h2>
-                                    <p class="mb-1">Annual Mean</p>
-                                    <span class="badge bg-danger">{{ insights.T2M.trend_per_decade }}°C per decade</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Precipitation -->
-                        <div class="col-sm-6 col-xl-3">
-                            <div class="bg-dark rounded p-4 h-100">
-                                <div class="d-flex align-items-center mb-3">
-                                    <i class="bi bi-cloud-rain text-info fs-2 me-3"></i>
-                                    <div>
-                                        <h5 class="mb-0">Precipitation</h5>
-                                        <small class="text-muted">PRECTOTCORR</small>
-                                    </div>
-                                </div>
-                                <div class="text-center">
-                                    <h2 class="text-info fw-bold">{{ insights.PRECTOTCORR.mean }} mm/day</h2>
-                                    <p class="mb-1">Daily Average</p>
-                                    <span class="badge bg-info">{{ insights.PRECTOTCORR.trend_per_decade }} mm per decade</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Crop Water Requirement -->
-                        <div class="col-sm-6 col-xl-3">
-                            <div class="bg-dark rounded p-4 h-100">
-                                <div class="d-flex align-items-center mb-3">
-                                    <i class="bi bi-droplet text-primary fs-2 me-3"></i>
-                                    <div>
-                                        <h5 class="mb-0">Crop Water Need</h5>
-                                        <small class="text-muted">CWR</small>
-                                    </div>
-                                </div>
-                                <div class="text-center">
-                                    <h2 class="text-primary fw-bold">{{ insights.CWR.mean_mm_day }} mm/day</h2>
-                                    <p class="mb-1">Daily Average</p>
-                                    <span class="badge bg-primary">{{ insights.CWR.trend_per_decade_mm_day }} mm per decade</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Additional Metrics Row -->
-                    <div class="row g-4 mt-2">
-                        <!-- Relative Humidity -->
-                        <div class="col-sm-6 col-xl-3">
-                            <div class="bg-dark rounded p-4 h-100">
-                                <div class="d-flex align-items-center mb-3">
-                                    <i class="bi bi-moisture text-success fs-2 me-3"></i>
-                                    <div>
-                                        <h5 class="mb-0">Humidity</h5>
-                                        <small class="text-muted">RH2M</small>
-                                    </div>
-                                </div>
-                                <div class="text-center">
-                                    <h2 class="text-success fw-bold">{{ insights.RH2M.mean }}%</h2>
-                                    <p class="mb-1">Relative Humidity</p>
-                                    <span class="badge bg-success">{{ insights.RH2M.trend_per_decade }} per decade</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Wind Speed -->
-                        <div class="col-sm-6 col-xl-3">
-                            <div class="bg-dark rounded p-4 h-100">
-                                <div class="d-flex align-items-center mb-3">
-                                    <i class="bi bi-wind text-purple fs-2 me-3"></i>
-                                    <div>
-                                        <h5 class="mb-0">Wind Speed</h5>
-                                        <small class="text-muted">WS10M</small>
-                                    </div>
-                                </div>
-                                <div class="text-center">
-                                    <h2 class="text-purple fw-bold">{{ insights.WS10M.mean }} m/s</h2>
-                                    <p class="mb-1">Average at 10m</p>
-                                    <span class="badge bg-purple">{{ insights.WS10M.trend_per_decade }} per decade</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Reference Evapotranspiration -->
-                        <div class="col-sm-6 col-xl-3">
-                            <div class="bg-dark rounded p-4 h-100">
-                                <div class="d-flex align-items-center mb-3">
-                                    <i class="bi bi-cloud-sun text-warning fs-2 me-3"></i>
-                                    <div>
-                                        <h5 class="mb-0">Reference ET₀</h5>
-                                        <small class="text-muted">Evapotranspiration</small>
-                                    </div>
-                                </div>
-                                <div class="text-center">
-                                    <h2 class="text-warning fw-bold">{{ insights.ET0.mean_mm_day }} mm/day</h2>
-                                    <p class="mb-1">Daily Average</p>
-                                    <span class="badge bg-warning">{{ insights.ET0.trend_per_decade_mm_day }} mm per decade</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Water Balance -->
-                        <div class="col-sm-6 col-xl-3">
-                            <div class="bg-dark rounded p-4 h-100">
-                                <div class="d-flex align-items-center mb-3">
-                                    <i class="bi bi-water text-info fs-2 me-3"></i>
-                                    <div>
-                                        <h5 class="mb-0">Water Balance</h5>
-                                        <small class="text-muted">Irrigation Need</small>
-                                    </div>
-                                </div>
-                                <div class="text-center">
-                                    <h2 class="text-info fw-bold">{{ insights.IrrigationBalance.mean_irrigation_need_mm_day }} mm/day</h2>
-                                    <p class="mb-1">Average Surplus</p>
-                                    <span class="badge bg-success">Favorable</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Statistical Highlights -->
-                    <div class="row mt-4">
-                        <div class="col-12">
-                            <div class="bg-dark rounded p-3">
-                                <h6 class="text-warning mb-3">Statistical Highlights</h6>
-                                <div class="row text-center">
-                                    <div class="col-md-3">
-                                        <small class="text-muted">Peak Solar Radiation</small>
-                                        <div class="fw-bold text-warning">{{ insights.ALLSKY_SFC_SW_DWN.max }} kW-hr/m²/day</div>
-                                        <small class="text-muted">on {{ insights.ALLSKY_SFC_SW_DWN.max_date }}</small>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <small class="text-muted">Max Temperature</small>
-                                        <div class="fw-bold text-danger">{{ insights.T2M_MAX.max }}°C</div>
-                                        <small class="text-muted">on {{ insights.T2M_MAX.max_date }}</small>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <small class="text-muted">Heaviest Rainfall</small>
-                                        <div class="fw-bold text-info">{{ insights.PRECTOTCORR.max }} mm/day</div>
-                                        <small class="text-muted">on {{ insights.PRECTOTCORR.max_date }}</small>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <small class="text-muted">Peak CWR</small>
-                                        <div class="fw-bold text-primary">{{ insights.CWR.seasonal_climatology.7 }} mm/day</div>
-                                        <small class="text-muted">July Average</small>
+                                    <div class="d-flex justify-content-between">
+                                        <span>End:</span>
+                                        <span class="fw-bold">2025-12-31</span>
                                     </div>
                                 </div>
                             </div>
@@ -245,508 +66,180 @@
                     </div>
                 </div>
             </div>
-        </div>
-
-
-
-
-        <!-- Solar Energy Analysis -->
-        <div class="row mb-4" id="solar">
-            <div class="col-12">
-                <div class="bg-secondary rounded p-4">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h3><i class="bi bi-sun me-2"></i>Solar Energy Analysis</h3>
-                        <button class="btn btn-outline-warning" type="button" data-bs-toggle="collapse" data-bs-target="#solarDetails">
-                            <i class="bi bi-info-circle me-1"></i> Details
-                        </button>
-                    </div>
-                    
-                    <div class="collapse mb-4" id="solarDetails">
-                        <div class="card card-body bg-dark border-warning">
-                            <p class="mb-3">Solar radiation analysis shows the availability of solar energy throughout the year. This data is critical for both solar power generation and agricultural planning.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="row g-4">
-                        <!-- Daily Solar Radiation -->
-                        <div class="col-12">
-                            <div class="bg-dark rounded p-3">
-                                <h5 class="text-warning mb-3">Solar Radiation Time Series (ALLSKY_SFC_SW_DWN)</h5>
-                                <div>{{ plots.solar_daily|safe }}</div>
-                            </div>
-                        </div>
-                        
-                        <!-- Monthly Climatology -->
-                        <div class="col-lg-6">
-                            <div class="bg-dark rounded p-3">
-                                <h5 class="text-warning mb-3">Monthly Solar Radiation</h5>
-                                <div>{{ plots.solar_monthly|safe }}</div>
-                            </div>
-                        </div>
-                        
-                        <!-- Annual Trends -->
-                        <div class="col-lg-6">
-                            <div class="bg-dark rounded p-3">
-                                <h5 class="text-warning mb-3">Annual Solar Radiation Trends</h5>
-                                <div>{{ plots.solar_annual|safe }}</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Temperature Analysis -->
-        <div class="row mb-4" id="temperature">
-            <div class="col-12">
-                <div class="bg-secondary rounded p-4">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h3><i class="bi bi-thermometer me-2"></i>Temperature Analysis</h3>
-                        <button class="btn btn-outline-danger" type="button" data-bs-toggle="collapse" data-bs-target="#tempDetails">
-                            <i class="bi bi-info-circle me-1"></i> Details
-                        </button>
-                    </div>
-                    
-                    <div class="collapse mb-4" id="tempDetails">
-                        <div class="card card-body bg-dark border-danger">
-                            <p class="mb-3">Temperature analysis provides insights into thermal conditions affecting both crop growth and solar panel efficiency.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="row g-4">
-                        <!-- Daily Temperature -->
-                        <div class="col-lg-12">
-                            <div class="bg-dark rounded p-3">
-                                <h5 class="text-danger mb-3">Daily Temperature Time Series</h5>
-                                <div>{{ plots.temperature_daily|safe }}</div>
-                            </div>
-                        </div>
-                        
-                        <!-- Monthly Climatology -->
-                        <div class="col-lg-6">
-                            <div class="bg-dark rounded p-3">
-                                <h5 class="text-danger mb-3">Monthly Temperature</h5>
-                                <div>{{ plots.temperature_climatology|safe }}</div>
-                            </div>
-                        </div>
-                        
-                        <!-- Temperature Distribution -->
-                        <div class="col-lg-6">
-                            <div class="bg-dark rounded p-3">
-                                <h5 class="text-danger mb-3">Temperature Distribution</h5>
-                                <div>{{ plots.temperature_distribution|safe }}</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Water & Hydrological Analysis -->
-        <div class="row mb-4" id="water">
-            <div class="col-12">
-                <div class="bg-secondary rounded p-4">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h3><i class="bi bi-droplet me-2"></i>Water & Hydrological Analysis</h3>
-                        <button class="btn btn-outline-info" type="button" data-bs-toggle="collapse" data-bs-target="#waterDetails">
-                            <i class="bi bi-info-circle me-1"></i> Details
-                        </button>
-                    </div>
-                    
-                    <div class="collapse mb-4" id="waterDetails">
-                        <div class="card card-body bg-dark border-info">
-                            <p class="mb-3">Water balance analysis examines precipitation, humidity, and wind patterns to understand water availability for agricultural use.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="row g-4">
-                        <!-- Precipitation Daily -->
-                        <div class="col-lg-8">
-                            <div class="bg-dark rounded p-3">
-                                <h5 class="text-info mb-3">Daily Precipitation</h5>
-                                <div>{{ plots.precipitation_daily|safe }}</div>
-                            </div>
-                        </div>
-
-                        <!-- Precipitation Climatology -->
-                        <div class="col-lg-4">
-                            <div class="bg-dark rounded p-3">
-                                <h5 class="text-info mb-3">Monthly Precipitation</h5>
-                                <div>{{ plots.precipitation_climatology|safe }}</div>
-                            </div>
-                        </div>
-
-
-                        <!-- Humidity Climatology -->
-                        <div class="col-lg-4">
-                            <div class="bg-dark rounded p-3">
-                                <h5 class="text-info mb-3">Monthly Humidity</h5>
-                                <div>{{ plots.humidity_climatology|safe }}</div>
-                            </div>
-                        </div>
-                        
-                        <!-- Humidity Daily -->
-                        <div class="col-lg-8">
-                            <div class="bg-dark rounded p-3">
-                                <h5 class="text-info mb-3">Daily Relative Humidity</h5>
-                                <div>{{ plots.humidity_daily|safe }}</div>
-                            </div>
-                        </div>
-                        
-                        
-                        
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Wind Analysis -->
-        <div class="row mb-4" id="wind">
-            <div class="col-12">
-                <div class="bg-secondary rounded p-4">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h3><i class="bi bi-wind me-2"></i>Wind Speed Analysis</h3>
-                        <button class="btn btn-outline-purple" type="button" data-bs-toggle="collapse" data-bs-target="#windDetails">
-                            <i class="bi bi-info-circle me-1"></i> Details
-                        </button>
-                    </div>
-                    
-                    <div class="collapse mb-4" id="windDetails">
-                        <div class="card card-body bg-dark border-purple">
-                            <p class="mb-3">Wind analysis shows patterns that affect evaporation rates, crop transpiration, and potential for wind power generation.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="row g-4">
-                        <!-- Wind Daily -->
-                        <div class="col-lg-12">
-                            <div class="bg-dark rounded p-3">
-                                <h5 class="text-purple mb-3">Daily Wind Speed</h5>
-                                <div>{{ plots.wind_daily|safe }}</div>
-                            </div>
-                        </div>
-                        
-                        <!-- Wind Climatology -->
-                        <div class="col-lg-4">
-                            <div class="bg-dark rounded p-3">
-                                <h5 class="text-purple mb-3">Monthly Wind Speed</h5>
-                                <div>{{ plots.wind_climatology|safe }}</div>
-                            </div>
-                        </div>
-                        
-                        <!-- Wind Annual -->
-                        <div class="col-lg-4">
-                            <div class="bg-dark rounded p-3">
-                                <h5 class="text-purple mb-3">Annual Wind Speed Trends</h5>
-                                <div>{{ plots.wind_annual|safe }}</div>
-                            </div>
-                        </div>
-                        
-                        <!-- Wind Distribution -->
-                        <div class="col-lg-4">
-                            <div class="bg-dark rounded p-3">
-                                <h5 class="text-purple mb-3">Wind Speed Distribution</h5>
-                                <div>{{ plots.wind_distribution|safe }}</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Agricultural Water Management -->
-        <div class="row mb-4" id="agriculture">
-            <div class="col-12">
-                <div class="bg-secondary rounded p-4">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h3><i class="bi bi-tree me-2"></i>Agricultural Water Management</h3>
-                        <button class="btn btn-outline-success" type="button" data-bs-toggle="collapse" data-bs-target="#agDetails">
-                            <i class="bi bi-info-circle me-1"></i> Details
-                        </button>
-                    </div>
-                    
-                    <div class="collapse mb-4" id="agDetails">
-                        <div class="card card-body bg-dark border-success">
-                            <p class="mb-3">Agricultural water management analysis compares crop water requirements with precipitation to determine irrigation needs.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="row g-4">
-                        <!-- ET0 and CWR Daily -->
-                        <div class="col-lg-12">
-                            <div class="bg-dark rounded p-3">
-                                <h5 class="text-success mb-3">Daily ET₀ and Crop Water Requirement</h5>
-                                <div>{{ plots.et0_cwr_daily|safe }}</div>
-                            </div>
-                        </div>
-                        
-                        <!-- Water Balance Monthly -->
-                        <div class="col-lg-12">
-                            <div class="bg-dark rounded p-3">
-                                <h5 class="text-success mb-3">Monthly Water Balance</h5>
-                                <div>{{ plots.water_balance_monthly|safe }}</div>
-                            </div>
-                        </div>
-                        
-                        <!-- ET0 Climatology -->
-                        <div class="col-lg-6">
-                            <div class="bg-dark rounded p-3">
-                                <h5 class="text-success mb-3">ET₀ Monthly</h5>
-                                <div>{{ plots.et0_climatology|safe }}</div>
-                            </div>
-                        </div>
-                        
-                        <!-- CWR Climatology -->
-                        <div class="col-lg-6">
-                            <div class="bg-dark rounded p-3">
-                                <h5 class="text-success mb-3">CWR Monthly</h5>
-                                <div>{{ plots.cwr_climatology|safe }}</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Irrigation Analysis -->
-        <div class="row mb-4" id="irrigation">
-            <div class="col-12">
-                <div class="bg-secondary rounded p-4">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h2><i class="bi bi-moisture me-2"></i>Irrigation Analysis</h2>
-                        <button class="btn btn-outline-warning" type="button" data-bs-toggle="collapse" data-bs-target="#irrigationDetails">
-                            <i class="bi bi-info-circle me-1"></i> Details
-                        </button>
-                    </div>
-                    
-                    <div class="collapse mb-4" id="irrigationDetails">
-                        <div class="card card-body bg-dark border-warning">
-                            <p class="mb-3">Irrigation analysis identifies periods when crop water requirements exceed natural precipitation, indicating the need for supplemental irrigation.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="row g-4">
-                        <!-- Irrigation Need Monthly -->
-                        <div class="col-lg-12">
-                            <div class="bg-dark rounded p-3">
-                                <h5 class="text-warning mb-3">Monthly Irrigation Need</h5>
-                                <div>{{ plots.irrigation_need_monthly|safe }}</div>
-                            </div>
-                        </div>
-                        
-                        <!-- Irrigation Deficit Annual -->
-                        <div class="col-lg-4">
-                            <div class="bg-dark rounded p-3">
-                                <h5 class="text-warning mb-3">Annual Irrigation Deficit</h5>
-                                <div>{{ plots.irrigation_deficit_annual|safe }}</div>
-                            </div>
-                        </div>
-                        
-                        <!-- Seasonal Pattern -->
-                        <div class="col-lg-4">
-                            <div class="bg-dark rounded p-3">
-                                <h5 class="text-warning mb-3">Seasonal Deficit Pattern</h5>
-                                <div>{{ plots.irrigation_seasonal_pattern|safe }}</div>
-                            </div>
-                        </div>
-                        
-                        <!-- Deficit Distribution -->
-                        <div class="col-lg-4">
-                            <div class="bg-dark rounded p-3">
-                                <h5 class="text-warning mb-3">Irrigation Need Distribution</h5>
-                                <div>{{ plots.irrigation_deficit_distribution|safe }}</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Key Insights -->
-        <div class="row mb-4">
-            <div class="col-12">
-                <div class="bg-secondary rounded p-4">
-                    <h3 class="mb-4"><i class="bi bi-lightbulb me-2"></i>Key Insights & Recommendations</h3>
-                    <div class="row g-4">
-                        <!-- Solar Radiation Insights -->
-                        <div class="col-md-6 col-lg-3">
-                            <div class="bg-dark rounded p-3 h-100">
-                                <div class="d-flex align-items-center mb-3">
-                                    <i class="bi bi-sun text-warning fs-4 me-2"></i>
-                                    <h5 class="mb-0 text-warning">Solar Radiation</h5>
-                                </div>
-                                <div class="small">
-                                    <strong>Mean:</strong> {{ insights.ALLSKY_SFC_SW_DWN.mean }} kW-hr/m²/day<br>
-                                    <strong>Trend:</strong> {{ insights.ALLSKY_SFC_SW_DWN.trend_per_decade }} per decade<br>
-                                    <strong>Peak:</strong> {{ insights.ALLSKY_SFC_SW_DWN.max }} kW-hr/m²/day<br>
-                                    <strong>Date:</strong> {{ insights.ALLSKY_SFC_SW_DWN.max_date }}<br>
-                                    <strong>Lowest:</strong> {{ insights.ALLSKY_SFC_SW_DWN.min }} kW-hr/m²/day<br>
-                                    <strong>Date:</strong> {{ insights.ALLSKY_SFC_SW_DWN.min_date }}
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Temperature Insights -->
-                        <div class="col-md-6 col-lg-3">
-                            <div class="bg-dark rounded p-3 h-100">
-                                <div class="d-flex align-items-center mb-3">
-                                    <i class="bi bi-thermometer text-danger fs-4 me-2"></i>
-                                    <h5 class="mb-0 text-danger">Temperature</h5>
-                                </div>
-                                <div class="small">
-                                    <strong>Avg Temp:</strong> {{ insights.T2M.mean }}°C<br>
-                                    <strong>Trend:</strong> {{ insights.T2M.trend_per_decade }}°C per decade<br>
-                                    <strong>Max Temp:</strong> {{ insights.T2M_MAX.max }}°C<br>
-                                    <strong>Date:</strong> {{ insights.T2M_MAX.max_date }}<br>
-                                    <strong>Min Temp:</strong> {{ insights.T2M_MIN.min }}°C<br>
-                                    <strong>Date:</strong> {{ insights.T2M_MIN.min_date }}
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Precipitation Insights -->
-                        <div class="col-md-6 col-lg-3">
-                            <div class="bg-dark rounded p-3 h-100">
-                                <div class="d-flex align-items-center mb-3">
-                                    <i class="bi bi-droplet text-info fs-4 me-2"></i>
-                                    <h5 class="mb-0 text-info">Precipitation</h5>
-                                </div>
-                                <div class="small">
-                                    <strong>Mean:</strong> {{ insights.PRECTOTCORR.mean }} mm/day<br>
-                                    <strong>Trend:</strong> {{ insights.PRECTOTCORR.trend_per_decade }} mm per decade<br>
-                                    <strong>Max Rainfall:</strong> {{ insights.PRECTOTCORR.max }} mm/day<br>
-                                    <strong>Date:</strong> {{ insights.PRECTOTCORR.max_date }}<br>
-                                    <strong>Median:</strong> {{ insights.PRECTOTCORR.median }} mm/day
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Humidity Insights -->
-                        <div class="col-md-6 col-lg-3">
-                            <div class="bg-dark rounded p-3 h-100">
-                                <div class="d-flex align-items-center mb-3">
-                                    <i class="bi bi-moisture text-success fs-4 me-2"></i>
-                                    <h5 class="mb-0 text-success">Humidity</h5>
-                                </div>
-                                <div class="small">
-                                    <strong>Mean:</strong> {{ insights.RH2M.mean }}%<br>
-                                    <strong>Trend:</strong> {{ insights.RH2M.trend_per_decade }} per decade<br>
-                                    <strong>Max Humidity:</strong> {{ insights.RH2M.max }}%<br>
-                                    <strong>Date:</strong> {{ insights.RH2M.max_date }}<br>
-                                    <strong>Min Humidity:</strong> {{ insights.RH2M.min }}%<br>
-                                    <strong>Date:</strong> {{ insights.RH2M.min_date }}
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Wind Insights -->
-                        <div class="col-md-6 col-lg-3">
-                            <div class="bg-dark rounded p-3 h-100">
-                                <div class="d-flex align-items-center mb-3">
-                                    <i class="bi bi-wind text-purple fs-4 me-2"></i>
-                                    <h5 class="mb-0 text-purple">Wind Speed</h5>
-                                </div>
-                                <div class="small">
-                                    <strong>Mean:</strong> {{ insights.WS10M.mean }} m/s<br>
-                                    <strong>Trend:</strong> {{ insights.WS10M.trend_per_decade }} per decade<br>
-                                    <strong>Max Wind:</strong> {{ insights.WS10M.max }} m/s<br>
-                                    <strong>Date:</strong> {{ insights.WS10M.max_date }}<br>
-                                    <strong>Min Wind:</strong> {{ insights.WS10M.min }} m/s<br>
-                                    <strong>Date:</strong> {{ insights.WS10M.min_date }}
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- ET0 Insights -->
-                        <div class="col-md-6 col-lg-3">
-                            <div class="bg-dark rounded p-3 h-100">
-                                <div class="d-flex align-items-center mb-3">
-                                    <i class="bi bi-cloud-sun text-warning fs-4 me-2"></i>
-                                    <h5 class="mb-0 text-warning">Reference ET₀</h5>
-                                </div>
-                                <div class="small">
-                                    <strong>Mean:</strong> {{ insights.ET0.mean_mm_day }} mm/day<br>
-                                    <strong>Trend:</strong> {{ insights.ET0.trend_per_decade_mm_day }} mm per decade<br>
-                                    <strong>Peak Month:</strong> {{ insights.ET0.seasonal_peak_month }}<br>
-                                    <strong>Peak Value:</strong> {{ insights.ET0.seasonal_climatology.7 }} mm/day
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- CWR Insights -->
-                        <div class="col-md-6 col-lg-3">
-                            <div class="bg-dark rounded p-3 h-100">
-                                <div class="d-flex align-items-center mb-3">
-                                    <i class="bi bi-droplet text-primary fs-4 me-2"></i>
-                                    <h5 class="mb-0 text-primary">Crop Water Requirement</h5>
-                                </div>
-                                <div class="small">
-                                    <strong>Mean:</strong> {{ insights.CWR.mean_mm_day }} mm/day<br>
-                                    <strong>Trend:</strong> {{ insights.CWR.trend_per_decade_mm_day }} mm per decade<br>
-                                    <strong>Annual Total:</strong> {{ insights.CWR.annual_total_mm_year }} mm/year<br>
-                                    <strong>Peak Month:</strong> {{ insights.CWR.seasonal_peak_month }}<br>
-                                    <strong>Peak Value:</strong> {{ insights.CWR.seasonal_climatology.7 }} mm/day
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Water Balance Insights -->
-                        <div class="col-md-6 col-lg-3">
-                            <div class="bg-dark rounded p-3 h-100">
-                                <div class="d-flex align-items-center mb-3">
-                                    <i class="bi bi-water text-info fs-4 me-2"></i>
-                                    <h5 class="mb-0 text-info">Water Balance</h5>
-                                </div>
-                                <div class="small">
-                                    <strong>Irrigation Need:</strong> {{ insights.IrrigationBalance.mean_irrigation_need_mm_day }} mm/day<br>
-                                    <strong>Max Monthly Deficit:</strong> {{ insights.IrrigationBalance.max_monthly_deficit_mm_day }} mm/day<br>
-                                    <strong>Worst Month:</strong> {{ insights.IrrigationBalance.worst_month_date }}<br>
-                                    <strong>Months with Need:</strong> {{ insights.IrrigationBalance.months_per_year_with_need }}<br>
-                                    <strong>Percent Months:</strong> {{ insights.IrrigationBalance.percent_months_need }}%
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Statistical Summary -->
-                    <div class="row mt-4">
-                        <div class="col-12">
-                            <div class="bg-dark rounded p-4">
-                                <h5 class="text-warning mb-3">Detailed Statistical Summary</h5>
-                                <div class="row">
-                                    <!-- Solar Statistics -->
-                                    <div class="col-md-4 mb-3">
-                                        <h6 class="text-warning">Solar Radiation</h6>
-                                        <div class="small">
-                                            <strong>Mean:</strong> {{ insights.ALLSKY_SFC_SW_DWN.mean }}<br>
-                                            <strong>Median:</strong> {{ insights.ALLSKY_SFC_SW_DWN.median }}<br>
-                                            <strong>Std Dev:</strong> {{ insights.ALLSKY_SFC_SW_DWN.std }}<br>
-                                            <strong>10th %ile:</strong> {{ insights.ALLSKY_SFC_SW_DWN.pct10 }}<br>
-                                            <strong>90th %ile:</strong> {{ insights.ALLSKY_SFC_SW_DWN.pct90 }}
+            <!-- Summary Dashboard -->
+            <!-- Summary Dashboard -->
+            <div class="row mb-4" id="summary">
+                <div class="col-12">
+                    <div class="bg-secondary rounded p-4">
+                        <h3 class="mb-4">
+                            <i class="bi bi-speedometer2 me-2"></i>Key Metrics Summary
+                        </h3>
+                        <div class="row g-4">
+                            <!-- Solar Radiation -->
+                            <div class="col-sm-6 col-xl-3">
+                                <div class="bg-dark rounded p-4 h-100">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <i class="bi bi-brightness-high text-warning fs-2 me-3"></i>
+                                        <div>
+                                            <h5 class="mb-0">Solar Radiation</h5>
+                                            <small class="text-muted">ALLSKY_SFC_SW_DWN</small>
                                         </div>
                                     </div>
-                                    
-                                    <!-- Temperature Statistics -->
-                                    <div class="col-md-4 mb-3">
-                                        <h6 class="text-danger">Temperature Stats</h6>
-                                        <div class="small">
-                                            <strong>Avg Mean:</strong> {{ insights.T2M.mean }}°C<br>
-                                            <strong>Avg Max:</strong> {{ insights.T2M_MAX.mean }}°C<br>
-                                            <strong>Avg Min:</strong> {{ insights.T2M_MIN.mean }}°C<br>
-                                            <strong>Max Temp:</strong> {{ insights.T2M_MAX.max }}°C<br>
-                                            <strong>Min Temp:</strong> {{ insights.T2M_MIN.min }}°C
+                                    <div class="text-center">
+                                        <h2 class="text-warning fw-bold">{{ insights.ALLSKY_SFC_SW_DWN.mean }}</h2>
+                                        <p class="mb-1">kW-hr/m²/day</p>
+                                        <span class="badge bg-success">{{ insights.ALLSKY_SFC_SW_DWN.trend_per_decade }} per decade</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Temperature -->
+                            <div class="col-sm-6 col-xl-3">
+                                <div class="bg-dark rounded p-4 h-100">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <i class="bi bi-thermometer-half text-danger fs-2 me-3"></i>
+                                        <div>
+                                            <h5 class="mb-0">Temperature</h5>
+                                            <small class="text-muted">T2M Average</small>
                                         </div>
                                     </div>
-                                    
-                                    <!-- Water Statistics -->
-                                    <div class="col-md-4 mb-3">
-                                        <h6 class="text-info">Water Balance</h6>
-                                        <div class="small">
-                                            <strong>Precip Mean:</strong> {{ insights.PRECTOTCORR.mean }}<br>
-                                            <strong>Humidity Mean:</strong> {{ insights.RH2M.mean }}<br>
-                                            <strong>ET₀ Mean:</strong> {{ insights.ET0.mean_mm_day }}<br>
-                                            <strong>CWR Mean:</strong> {{ insights.CWR.mean_mm_day }}<br>
-                                            <strong>Irrigation Need:</strong> {{ insights.IrrigationBalance.mean_irrigation_need_mm_day }}
+                                    <div class="text-center">
+                                        <h2 class="text-danger fw-bold">{{ insights.T2M.mean }}°C</h2>
+                                        <p class="mb-1">Annual Mean</p>
+                                        <span class="badge bg-danger">{{ insights.T2M.trend_per_decade }}°C per decade</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Precipitation -->
+                            <div class="col-sm-6 col-xl-3">
+                                <div class="bg-dark rounded p-4 h-100">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <i class="bi bi-cloud-rain text-info fs-2 me-3"></i>
+                                        <div>
+                                            <h5 class="mb-0">Precipitation</h5>
+                                            <small class="text-muted">PRECTOTCORR</small>
+                                        </div>
+                                    </div>
+                                    <div class="text-center">
+                                        <h2 class="text-info fw-bold">{{ insights.PRECTOTCORR.mean }} mm/day</h2>
+                                        <p class="mb-1">Daily Average</p>
+                                        <span class="badge bg-info">{{ insights.PRECTOTCORR.trend_per_decade }} mm per decade</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Crop Water Requirement -->
+                            <div class="col-sm-6 col-xl-3">
+                                <div class="bg-dark rounded p-4 h-100">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <i class="bi bi-droplet text-primary fs-2 me-3"></i>
+                                        <div>
+                                            <h5 class="mb-0">Crop Water Need</h5>
+                                            <small class="text-muted">CWR</small>
+                                        </div>
+                                    </div>
+                                    <div class="text-center">
+                                        <h2 class="text-primary fw-bold">{{ insights.CWR.mean_mm_day }} mm/day</h2>
+                                        <p class="mb-1">Daily Average</p>
+                                        <span class="badge bg-primary">{{ insights.CWR.trend_per_decade_mm_day }} mm per decade</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Additional Metrics Row -->
+                        <div class="row g-4 mt-2">
+                            <!-- Relative Humidity -->
+                            <div class="col-sm-6 col-xl-3">
+                                <div class="bg-dark rounded p-4 h-100">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <i class="bi bi-moisture text-success fs-2 me-3"></i>
+                                        <div>
+                                            <h5 class="mb-0">Humidity</h5>
+                                            <small class="text-muted">RH2M</small>
+                                        </div>
+                                    </div>
+                                    <div class="text-center">
+                                        <h2 class="text-success fw-bold">{{ insights.RH2M.mean }}%</h2>
+                                        <p class="mb-1">Relative Humidity</p>
+                                        <span class="badge bg-success">{{ insights.RH2M.trend_per_decade }} per decade</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Wind Speed -->
+                            <div class="col-sm-6 col-xl-3">
+                                <div class="bg-dark rounded p-4 h-100">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <i class="bi bi-wind text-purple fs-2 me-3"></i>
+                                        <div>
+                                            <h5 class="mb-0">Wind Speed</h5>
+                                            <small class="text-muted">WS10M</small>
+                                        </div>
+                                    </div>
+                                    <div class="text-center">
+                                        <h2 class="text-purple fw-bold">{{ insights.WS10M.mean }} m/s</h2>
+                                        <p class="mb-1">Average at 10m</p>
+                                        <span class="badge bg-purple">{{ insights.WS10M.trend_per_decade }} per decade</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Reference Evapotranspiration -->
+                            <div class="col-sm-6 col-xl-3">
+                                <div class="bg-dark rounded p-4 h-100">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <i class="bi bi-cloud-sun text-warning fs-2 me-3"></i>
+                                        <div>
+                                            <h5 class="mb-0">Reference ET₀</h5>
+                                            <small class="text-muted">Evapotranspiration</small>
+                                        </div>
+                                    </div>
+                                    <div class="text-center">
+                                        <h2 class="text-warning fw-bold">{{ insights.ET0.mean_mm_day }} mm/day</h2>
+                                        <p class="mb-1">Daily Average</p>
+                                        <span class="badge bg-warning">{{ insights.ET0.trend_per_decade_mm_day }} mm per decade</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Water Balance -->
+                            <div class="col-sm-6 col-xl-3">
+                                <div class="bg-dark rounded p-4 h-100">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <i class="bi bi-water text-info fs-2 me-3"></i>
+                                        <div>
+                                            <h5 class="mb-0">Water Balance</h5>
+                                            <small class="text-muted">Irrigation Need</small>
+                                        </div>
+                                    </div>
+                                    <div class="text-center">
+                                        <h2 class="text-info fw-bold">{{ insights.IrrigationBalance.mean_irrigation_need_mm_day }} mm/day</h2>
+                                        <p class="mb-1">Average Surplus</p>
+                                        <span class="badge bg-success">Favorable</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Statistical Highlights -->
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <div class="bg-dark rounded p-3">
+                                    <h6 class="text-warning mb-3">Statistical Highlights</h6>
+                                    <div class="row text-center">
+                                        <div class="col-md-3">
+                                            <small class="text-muted">Peak Solar Radiation</small>
+                                            <div class="fw-bold text-warning">{{ insights.ALLSKY_SFC_SW_DWN.max }} kW-hr/m²/day</div>
+                                            <small class="text-muted">on {{ insights.ALLSKY_SFC_SW_DWN.max_date }}</small>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <small class="text-muted">Max Temperature</small>
+                                            <div class="fw-bold text-danger">{{ insights.T2M_MAX.max }}°C</div>
+                                            <small class="text-muted">on {{ insights.T2M_MAX.max_date }}</small>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <small class="text-muted">Heaviest Rainfall</small>
+                                            <div class="fw-bold text-info">{{ insights.PRECTOTCORR.max }} mm/day</div>
+                                            <small class="text-muted">on {{ insights.PRECTOTCORR.max_date }}</small>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <small class="text-muted">Peak CWR</small>
+                                            <div class="fw-bold text-primary">{{ insights.CWR.seasonal_climatology.7 }} mm/day</div>
+                                            <small class="text-muted">July Average</small>
                                         </div>
                                     </div>
                                 </div>
@@ -755,385 +248,548 @@
                     </div>
                 </div>
             </div>
-        </div>
-
-
-
-        <!-- Compact Documentation -->
-        <div class="row mb-4">
-            <div class="col-12">
-                <div class="card shadow-sm bg-secondary">
-                    <div class="text-center rounded p-3">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <h6 class="mb-0 text-warning px-3">
-                                <i class="fas fa-book me-1"></i>Agricultural Solar Monitoring Dashboard Documentation
-                            </h6>
-                            <button class="btn btn-sm btn-outline-light"
+            <!-- Solar Energy Analysis -->
+            <div class="row mb-4" id="solar">
+                <div class="col-12">
+                    <div class="bg-secondary rounded p-4">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h3>
+                                <i class="bi bi-sun me-2"></i>Solar Energy Analysis
+                            </h3>
+                            <button class="btn btn-outline-warning"
                                     type="button"
                                     data-bs-toggle="collapse"
-                                    data-bs-target="#agDocsCollapse">
-                                <i class="fas fa-chevron-down"></i>
+                                    data-bs-target="#solarDetails">
+                                <i class="bi bi-info-circle me-1"></i> Details
                             </button>
                         </div>
-                    </div>
-                    <div class="collapse show" id="agDocsCollapse">
-                        <div class="card-body p-3">
-                            <div class="row g-3">
-                                <!-- Summary Dashboard -->
-                                <div class="col-md-6">
-                                    <h6 class="text-warning">Summary Dashboard</h6>
-                                    <ul class="small ps-3">
-                                        <li>
-                                            <strong>Purpose:</strong> Overview of key climate and agricultural metrics with decade trends
-                                        </li>
-                                        <li>
-                                            <strong>Metrics Displayed:</strong> Solar radiation, temperature, precipitation, humidity, wind speed, ET₀, CWR
-                                        </li>
-                                        <li>
-                                            <strong>Trend Indicators:</strong> Delta values show change per decade (positive/negative trends)
-                                        </li>
-                                        <li class="text-info">
-                                            <i class="fas fa-lightbulb me-1"></i><strong>Tip:</strong> Use this dashboard for quick assessment of overall site suitability
-                                        </li>
-                                        <li class="text-muted">
-                                            <small><strong>Note:</strong> All metrics are calculated from NASA POWER data using standardized agricultural models</small>
-                                        </li>
-                                    </ul>
-                                </div>
-
-                                <!-- Solar Energy Analysis -->
-                                <div class="col-md-6">
-                                    <h6 class="text-warning">Solar Energy Analysis</h6>
-                                    <ul class="small ps-3">
-                                        <li>
-                                            <strong>Daily Solar Radiation:</strong> Time series with 30-day moving average showing daily variability
-                                        </li>
-                                        <li>
-                                            <strong>Monthly Climatology:</strong> Average solar radiation by month, revealing seasonal patterns
-                                        </li>
-                                        <li>
-                                            <strong>Annual Trends:</strong> Year-to-year changes in average solar radiation
-                                        </li>
-                                        <li class="text-info">
-                                            <i class="fas fa-lightbulb me-1"></i><strong>Tip:</strong> June typically shows peak solar availability, December the lowest
-                                        </li>
-                                        <li class="text-muted">
-                                            <small><strong>Note:</strong> ALLSKY_SFC_SW_DWN parameter includes both direct and diffuse radiation under all sky conditions</small>
-                                        </li>
-                                    </ul>
-                                </div>
-
-                                <!-- Temperature Analysis -->
-                                <div class="col-md-6">
-                                    <h6 class="text-danger">Temperature Analysis</h6>
-                                    <ul class="small ps-3">
-                                        <li>
-                                            <strong>Daily Time Series:</strong> T2M (average), T2M_MAX (maximum), T2M_MIN (minimum) temperatures
-                                        </li>
-                                        <li>
-                                            <strong>Monthly Climatology:</strong> Average monthly patterns for all three temperature metrics
-                                        </li>
-                                        <li>
-                                            <strong>Temperature Distribution:</strong> Box plots showing statistical distribution of temperature ranges
-                                        </li>
-                                        <li class="text-info">
-                                            <i class="fas fa-lightbulb me-1"></i><strong>Tip:</strong> Temperature ranges affect both crop growth stages and solar panel efficiency
-                                        </li>
-                                        <li class="text-muted">
-                                            <small><strong>Note:</strong> T2M represents air temperature at 2 meters height, standard for agricultural applications</small>
-                                        </li>
-                                    </ul>
-                                </div>
-
-                                <!-- Hydrological Analysis -->
-                                <div class="col-md-6">
-                                    <h6 class="text-info">Hydrological Analysis</h6>
-                                    <ul class="small ps-3">
-                                        <li>
-                                            <strong>Daily Precipitation:</strong> PRECTOTCORR time series with filled area showing rainfall patterns
-                                        </li>
-                                        <li>
-                                            <strong>Daily Humidity:</strong> RH2M (relative humidity at 2m) time series
-                                        </li>
-                                        <li>
-                                            <strong>Monthly Climatology:</strong> Average monthly precipitation and humidity patterns
-                                        </li>
-                                        <li class="text-info">
-                                            <i class="fas fa-lightbulb me-1"></i><strong>Tip:</strong> High humidity can reduce solar panel efficiency but benefit certain crops
-                                        </li>
-                                        <li class="text-muted">
-                                            <small><strong>Note:</strong> PRECTOTCORR is bias-corrected precipitation data, more accurate for agricultural planning</small>
-                                        </li>
-                                    </ul>
-                                </div>
-
-                                <!-- Wind Analysis -->
-                                <div class="col-md-6">
-                                    <h6 class="text-purple">Wind Speed Analysis</h6>
-                                    <ul class="small ps-3">
-                                        <li>
-                                            <strong>Daily Wind Speed:</strong> WS10M (wind speed at 10m) time series
-                                        </li>
-                                        <li>
-                                            <strong>Monthly Climatology:</strong> Average wind patterns by month
-                                        </li>
-                                        <li>
-                                            <strong>Annual Trends:</strong> Long-term changes in wind speed patterns
-                                        </li>
-                                        <li>
-                                            <strong>Wind Distribution:</strong> Histogram showing frequency of different wind speeds
-                                        </li>
-                                        <li class="text-info">
-                                            <i class="fas fa-lightbulb me-1"></i><strong>Tip:</strong> Wind affects evapotranspiration rates and can cool solar panels
-                                        </li>
-                                        <li class="text-muted">
-                                            <small><strong>Note:</strong> WS10M measured at 10m height standard for energy and agricultural applications</small>
-                                        </li>
-                                    </ul>
-                                </div>
-
-                                <!-- Agricultural Water Management -->
-                                <div class="col-md-6">
-                                    <h6 class="text-success">Agricultural Water Management</h6>
-                                    <ul class="small ps-3">
-                                        <li>
-                                            <strong>Daily ET₀ & CWR:</strong> Reference evapotranspiration and Crop Water Requirement time series
-                                        </li>
-                                        <li>
-                                            <strong>Monthly Water Balance:</strong> Comparison of CWR, precipitation, and irrigation needs
-                                        </li>
-                                        <li>
-                                            <strong>ET₀ Climatology:</strong> Average monthly reference evapotranspiration patterns
-                                        </li>
-                                        <li>
-                                            <strong>CWR Climatology:</strong> Average monthly crop water requirement patterns
-                                        </li>
-                                        <li class="text-info">
-                                            <i class="fas fa-lightbulb me-1"></i><strong>Tip:</strong> Positive irrigation need values indicate water deficit requiring supplementation
-                                        </li>
-                                        <li class="text-muted">
-                                            <small><strong>Note:</strong> ET₀ calculated using FAO Penman-Monteith equation, CWR based on crop coefficients</small>
-                                        </li>
-                                    </ul>
-                                </div>
-
-                                <!-- Irrigation Analysis -->
-                                <div class="col-md-6">
-                                    <h6 class="text-warning">Irrigation Analysis</h6>
-                                    <ul class="small ps-3">
-                                        <li>
-                                            <strong>Monthly Irrigation Need:</strong> Bar chart showing irrigation requirements by month
-                                        </li>
-                                        <li>
-                                            <strong>Annual Irrigation Deficit:</strong> Total yearly water deficit/surplus
-                                        </li>
-                                        <li>
-                                            <strong>Seasonal Deficit Pattern:</strong> Average monthly deficit patterns across years
-                                        </li>
-                                        <li>
-                                            <strong>Irrigation Need Distribution:</strong> Histogram of irrigation requirement frequencies
-                                        </li>
-                                        <li class="text-info">
-                                            <i class="fas fa-lightbulb me-1"></i><strong>Tip:</strong> Negative values indicate water surplus, positive values indicate irrigation need
-                                        </li>
-                                        <li class="text-muted">
-                                            <small><strong>Note:</strong> Irrigation need = CWR - Precipitation, represents net water requirement</small>
-                                        </li>
-                                    </ul>
-                                </div>
-
-                                <!-- Data Sources & Parameters -->
-                                <div class="col-md-6">
-                                    <h6 class="text-primary">Data Sources & Parameters</h6>
-                                    <ul class="small ps-3">
-                                        <li>
-                                            <strong>NASA POWER Data:</strong> Satellite-derived meteorological parameters at 0.5° resolution
-                                        </li>
-                                        <li>
-                                            <strong>Time Period:</strong> Typically 20+ years of historical data for robust climatology
-                                        </li>
-                                        <li>
-                                            <strong>Parameters:</strong> ALLSKY_SFC_SW_DWN, T2M, T2M_MAX, T2M_MIN, PRECTOTCORR, RH2M, WS10M
-                                        </li>
-                                        <li class="text-info">
-                                            <i class="fas fa-lightbulb me-1"></i><strong>Tip:</strong> All data represents agrometeorological conditions suitable for crop modeling
-                                        </li>
-                                        <li class="text-muted">
-                                            <small><strong>Note:</strong> Data quality validated for agricultural applications, may differ from ground station measurements</small>
-                                        </li>
-                                    </ul>
-                                </div>
-
-                                <!-- Agricultural Parameters -->
-                                <div class="col-md-6">
-                                    <h6 class="text-primary">Agricultural Parameters</h6>
-                                    <ul class="small ps-3">
-                                        <li>
-                                            <strong>Reference Evapotranspiration (ET₀):</strong> Potential water use by well-watered grass reference crop
-                                        </li>
-                                        <li>
-                                            <strong>Crop Water Requirement (CWR):</strong> Actual water need for specific crops (mm/day)
-                                        </li>
-                                        <li>
-                                            <strong>Irrigation Need:</strong> Difference between CWR and natural precipitation
-                                        </li>
-                                        <li class="text-info">
-                                            <i class="fas fa-lightbulb me-1"></i><strong>Tip:</strong> CWR varies by crop type, growth stage, and local conditions
-                                        </li>
-                                        <li class="text-muted">
-                                            <small><strong>Note:</strong> Default CWR calculations assume standard crop coefficients - adjust for specific crops</small>
-                                        </li>
-                                    </ul>
-                                </div>
-
-                                <!-- Technical Calculations -->
-                                <div class="col-md-6">
-                                    <h6 class="text-primary">Technical Calculations</h6>
-                                    <ul class="small ps-3">
-                                        <li>
-                                            <strong>Moving Averages:</strong> 30-day centered moving average for trend visualization
-                                        </li>
-                                        <li>
-                                            <strong>Climatology:</strong> Long-term monthly averages based on complete historical record
-                                        </li>
-                                        <li>
-                                            <strong>Trend Analysis:</strong> Linear regression for decade-scale changes in parameters
-                                        </li>
-                                        <li class="text-info">
-                                            <i class="fas fa-lightbulb me-1"></i><strong>Tip:</strong> Climatology helps identify typical seasonal patterns for crop planning
-                                        </li>
-                                        <li class="text-muted">
-                                            <small><strong>Note:</strong> All calculations use agricultural standard methodologies (FAO, ASABE)</small>
-                                        </li>
-                                    </ul>
-                                </div>
-
-                                <!-- Interpretation Guidelines -->
-                                <div class="col-md-6">
-                                    <h6 class="text-success">Interpretation Guidelines</h6>
-                                    <ul class="small ps-3">
-                                        <li>
-                                            <strong>Solar Radiation:</strong> Values >5 kW-hr/m²/day indicate excellent solar potential
-                                        </li>
-                                        <li>
-                                            <strong>Temperature:</strong> Most crops thrive between 10-30°C average temperatures
-                                        </li>
-                                        <li>
-                                            <strong>Precipitation:</strong> Compare with CWR to assess irrigation requirements
-                                        </li>
-                                        <li>
-                                            <strong>Water Balance:</strong> Positive values = irrigation needed, negative = water surplus
-                                        </li>
-                                        <li class="text-info">
-                                            <i class="fas fa-lightbulb me-1"></i><strong>Tip:</strong> Use multiple charts together for comprehensive agricultural planning
-                                        </li>
-                                        <li class="text-muted">
-                                            <small><strong>Note:</strong> Local soil conditions and crop varieties will affect actual water requirements</small>
-                                        </li>
-                                    </ul>
-                                </div>
-
-                                <!-- Agricultural Planning Tips -->
-                                <div class="col-md-6">
-                                    <h6 class="text-success">Agricultural Planning Tips</h6>
-                                    <ul class="small ps-3">
-                                        <li>
-                                            <strong>Crop Selection:</strong> Match crop water requirements to local precipitation patterns
-                                        </li>
-                                        <li>
-                                            <strong>Planting Dates:</strong> Use temperature charts to avoid frost risks and optimize growing seasons
-                                        </li>
-                                        <li>
-                                            <strong>Irrigation Scheduling:</strong> Plan based on monthly water deficit patterns
-                                        </li>
-                                        <li>
-                                            <strong>Solar Integration:</strong> High radiation months correlate with peak irrigation energy needs
-                                        </li>
-                                        <li class="text-info">
-                                            <i class="fas fa-lightbulb me-1"></i><strong>Tip:</strong> Coordinate crop water needs with seasonal solar availability for optimal solar irrigation
-                                        </li>
-                                        <li class="text-muted">
-                                            <small><strong>Note:</strong> Consider crop-specific sensitivity to temperature extremes and water stress</small>
-                                        </li>
-                                    </ul>
-                                </div>
-
-                                <!-- Climate Change Considerations -->
-                                <div class="col-md-6">
-                                    <h6 class="text-danger">Climate Change Considerations</h6>
-                                    <ul class="small ps-3">
-                                        <li>
-                                            <strong>Temperature Trends:</strong> Warming trends may extend growing seasons but increase water demand
-                                        </li>
-                                        <li>
-                                            <strong>Precipitation Patterns:</strong> Changing rainfall distribution affects water availability
-                                        </li>
-                                        <li>
-                                            <strong>Extreme Events:</strong> Increased frequency of droughts/floods requires resilient planning
-                                        </li>
-                                        <li class="text-info">
-                                            <i class="fas fa-lightbulb me-1"></i><strong>Tip:</strong> Use trend analysis to anticipate future conditions and plan adaptation strategies
-                                        </li>
-                                        <li class="text-muted">
-                                            <small><strong>Note:</strong> Decade-scale trends provide early warning of climate shifts affecting agriculture</small>
-                                        </li>
-                                    </ul>
+                        <div class="collapse mb-4" id="solarDetails">
+                            <div class="card card-body bg-dark border-warning">
+                                <p class="mb-3">
+                                    Solar radiation analysis shows the availability of solar energy throughout the year. This data is critical for both solar power generation and agricultural planning.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row g-4">
+                            <!-- Daily Solar Radiation -->
+                            <div class="col-12">
+                                <div class="bg-dark rounded p-3">
+                                    <h5 class="text-warning mb-3">Solar Radiation Time Series (ALLSKY_SFC_SW_DWN)</h5>
+                                    <div>{{ plots.solar_daily|safe }}</div>
                                 </div>
                             </div>
-
-                            <!-- Quick Reference Table -->
-                            <div class="row mt-4">
-                                <div class="col-12">
-                                    <h6 class="text-primary border-bottom pb-2">Chart Quick Reference</h6>
-                                    <div class="table-responsive">
-                                        <table class="table table-sm table-dark small">
-                                            <thead>
-                                                <tr>
-                                                    <th>Chart Type</th>
-                                                    <th>Primary Use</th>
-                                                    <th>Key Parameters</th>
-                                                    <th>Agricultural Significance</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>Solar Daily</td>
-                                                    <td>Daily variability</td>
-                                                    <td>ALLSKY_SFC_SW_DWN</td>
-                                                    <td>Solar potential, crop photosynthesis</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Solar Monthly</td>
-                                                    <td>Seasonal patterns</td>
-                                                    <td>Monthly averages</td>
-                                                    <td>Growing season planning</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Temperature Series</td>
-                                                    <td>Thermal regimes</td>
-                                                    <td>T2M, T2M_MAX, T2M_MIN</td>
-                                                    <td>Crop growth stages, frost risk</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Water Balance</td>
-                                                    <td>Irrigation planning</td>
-                                                    <td>CWR, Precipitation, ET₀</td>
-                                                    <td>Water management, scheduling</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Wind Analysis</td>
-                                                    <td>Evaporation impact</td>
-                                                    <td>WS10M</td>
-                                                    <td>ET₀ rates, system cooling</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Irrigation Need</td>
-                                                    <td>Deficit analysis</td>
-                                                    <td>Irrigation need</td>
-                                                    <td>Water requirement timing</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                            <!-- Monthly Climatology -->
+                            <div class="col-lg-6">
+                                <div class="bg-dark rounded p-3">
+                                    <h5 class="text-warning mb-3">Monthly Solar Radiation</h5>
+                                    <div>{{ plots.solar_monthly|safe }}</div>
+                                </div>
+                            </div>
+                            <!-- Annual Trends -->
+                            <div class="col-lg-6">
+                                <div class="bg-dark rounded p-3">
+                                    <h5 class="text-warning mb-3">Annual Solar Radiation Trends</h5>
+                                    <div>{{ plots.solar_annual|safe }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Temperature Analysis -->
+            <div class="row mb-4" id="temperature">
+                <div class="col-12">
+                    <div class="bg-secondary rounded p-4">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h3>
+                                <i class="bi bi-thermometer me-2"></i>Temperature Analysis
+                            </h3>
+                            <button class="btn btn-outline-danger"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#tempDetails">
+                                <i class="bi bi-info-circle me-1"></i> Details
+                            </button>
+                        </div>
+                        <div class="collapse mb-4" id="tempDetails">
+                            <div class="card card-body bg-dark border-danger">
+                                <p class="mb-3">
+                                    Temperature analysis provides insights into thermal conditions affecting both crop growth and solar panel efficiency.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row g-4">
+                            <!-- Daily Temperature -->
+                            <div class="col-lg-12">
+                                <div class="bg-dark rounded p-3">
+                                    <h5 class="text-danger mb-3">Daily Temperature Time Series</h5>
+                                    <div>{{ plots.temperature_daily|safe }}</div>
+                                </div>
+                            </div>
+                            <!-- Monthly Climatology -->
+                            <div class="col-lg-6">
+                                <div class="bg-dark rounded p-3">
+                                    <h5 class="text-danger mb-3">Monthly Temperature</h5>
+                                    <div>{{ plots.temperature_climatology|safe }}</div>
+                                </div>
+                            </div>
+                            <!-- Temperature Distribution -->
+                            <div class="col-lg-6">
+                                <div class="bg-dark rounded p-3">
+                                    <h5 class="text-danger mb-3">Temperature Distribution</h5>
+                                    <div>{{ plots.temperature_distribution|safe }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Water & Hydrological Analysis -->
+            <div class="row mb-4" id="water">
+                <div class="col-12">
+                    <div class="bg-secondary rounded p-4">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h3>
+                                <i class="bi bi-droplet me-2"></i>Water & Hydrological Analysis
+                            </h3>
+                            <button class="btn btn-outline-info"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#waterDetails">
+                                <i class="bi bi-info-circle me-1"></i> Details
+                            </button>
+                        </div>
+                        <div class="collapse mb-4" id="waterDetails">
+                            <div class="card card-body bg-dark border-info">
+                                <p class="mb-3">
+                                    Water balance analysis examines precipitation, humidity, and wind patterns to understand water availability for agricultural use.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row g-4">
+                            <!-- Precipitation Daily -->
+                            <div class="col-lg-8">
+                                <div class="bg-dark rounded p-3">
+                                    <h5 class="text-info mb-3">Daily Precipitation</h5>
+                                    <div>{{ plots.precipitation_daily|safe }}</div>
+                                </div>
+                            </div>
+                            <!-- Precipitation Climatology -->
+                            <div class="col-lg-4">
+                                <div class="bg-dark rounded p-3">
+                                    <h5 class="text-info mb-3">Monthly Precipitation</h5>
+                                    <div>{{ plots.precipitation_climatology|safe }}</div>
+                                </div>
+                            </div>
+                            <!-- Humidity Climatology -->
+                            <div class="col-lg-4">
+                                <div class="bg-dark rounded p-3">
+                                    <h5 class="text-info mb-3">Monthly Humidity</h5>
+                                    <div>{{ plots.humidity_climatology|safe }}</div>
+                                </div>
+                            </div>
+                            <!-- Humidity Daily -->
+                            <div class="col-lg-8">
+                                <div class="bg-dark rounded p-3">
+                                    <h5 class="text-info mb-3">Daily Relative Humidity</h5>
+                                    <div>{{ plots.humidity_daily|safe }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Wind Analysis -->
+            <div class="row mb-4" id="wind">
+                <div class="col-12">
+                    <div class="bg-secondary rounded p-4">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h3>
+                                <i class="bi bi-wind me-2"></i>Wind Speed Analysis
+                            </h3>
+                            <button class="btn btn-outline-purple"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#windDetails">
+                                <i class="bi bi-info-circle me-1"></i> Details
+                            </button>
+                        </div>
+                        <div class="collapse mb-4" id="windDetails">
+                            <div class="card card-body bg-dark border-purple">
+                                <p class="mb-3">
+                                    Wind analysis shows patterns that affect evaporation rates, crop transpiration, and potential for wind power generation.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row g-4">
+                            <!-- Wind Daily -->
+                            <div class="col-lg-12">
+                                <div class="bg-dark rounded p-3">
+                                    <h5 class="text-purple mb-3">Daily Wind Speed</h5>
+                                    <div>{{ plots.wind_daily|safe }}</div>
+                                </div>
+                            </div>
+                            <!-- Wind Climatology -->
+                            <div class="col-lg-4">
+                                <div class="bg-dark rounded p-3">
+                                    <h5 class="text-purple mb-3">Monthly Wind Speed</h5>
+                                    <div>{{ plots.wind_climatology|safe }}</div>
+                                </div>
+                            </div>
+                            <!-- Wind Annual -->
+                            <div class="col-lg-4">
+                                <div class="bg-dark rounded p-3">
+                                    <h5 class="text-purple mb-3">Annual Wind Speed Trends</h5>
+                                    <div>{{ plots.wind_annual|safe }}</div>
+                                </div>
+                            </div>
+                            <!-- Wind Distribution -->
+                            <div class="col-lg-4">
+                                <div class="bg-dark rounded p-3">
+                                    <h5 class="text-purple mb-3">Wind Speed Distribution</h5>
+                                    <div>{{ plots.wind_distribution|safe }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Agricultural Water Management -->
+            <div class="row mb-4" id="agriculture">
+                <div class="col-12">
+                    <div class="bg-secondary rounded p-4">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h3>
+                                <i class="bi bi-tree me-2"></i>Agricultural Water Management
+                            </h3>
+                            <button class="btn btn-outline-success"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#agDetails">
+                                <i class="bi bi-info-circle me-1"></i> Details
+                            </button>
+                        </div>
+                        <div class="collapse mb-4" id="agDetails">
+                            <div class="card card-body bg-dark border-success">
+                                <p class="mb-3">
+                                    Agricultural water management analysis compares crop water requirements with precipitation to determine irrigation needs.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row g-4">
+                            <!-- ET0 and CWR Daily -->
+                            <div class="col-lg-12">
+                                <div class="bg-dark rounded p-3">
+                                    <h5 class="text-success mb-3">Daily ET₀ and Crop Water Requirement</h5>
+                                    <div>{{ plots.et0_cwr_daily|safe }}</div>
+                                </div>
+                            </div>
+                            <!-- Water Balance Monthly -->
+                            <div class="col-lg-12">
+                                <div class="bg-dark rounded p-3">
+                                    <h5 class="text-success mb-3">Monthly Water Balance</h5>
+                                    <div>{{ plots.water_balance_monthly|safe }}</div>
+                                </div>
+                            </div>
+                            <!-- ET0 Climatology -->
+                            <div class="col-lg-6">
+                                <div class="bg-dark rounded p-3">
+                                    <h5 class="text-success mb-3">ET₀ Monthly</h5>
+                                    <div>{{ plots.et0_climatology|safe }}</div>
+                                </div>
+                            </div>
+                            <!-- CWR Climatology -->
+                            <div class="col-lg-6">
+                                <div class="bg-dark rounded p-3">
+                                    <h5 class="text-success mb-3">CWR Monthly</h5>
+                                    <div>{{ plots.cwr_climatology|safe }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Irrigation Analysis -->
+            <div class="row mb-4" id="irrigation">
+                <div class="col-12">
+                    <div class="bg-secondary rounded p-4">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h2>
+                                <i class="bi bi-moisture me-2"></i>Irrigation Analysis
+                            </h2>
+                            <button class="btn btn-outline-warning"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#irrigationDetails">
+                                <i class="bi bi-info-circle me-1"></i> Details
+                            </button>
+                        </div>
+                        <div class="collapse mb-4" id="irrigationDetails">
+                            <div class="card card-body bg-dark border-warning">
+                                <p class="mb-3">
+                                    Irrigation analysis identifies periods when crop water requirements exceed natural precipitation, indicating the need for supplemental irrigation.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row g-4">
+                            <!-- Irrigation Need Monthly -->
+                            <div class="col-lg-12">
+                                <div class="bg-dark rounded p-3">
+                                    <h5 class="text-warning mb-3">Monthly Irrigation Need</h5>
+                                    <div>{{ plots.irrigation_need_monthly|safe }}</div>
+                                </div>
+                            </div>
+                            <!-- Irrigation Deficit Annual -->
+                            <div class="col-lg-4">
+                                <div class="bg-dark rounded p-3">
+                                    <h5 class="text-warning mb-3">Annual Irrigation Deficit</h5>
+                                    <div>{{ plots.irrigation_deficit_annual|safe }}</div>
+                                </div>
+                            </div>
+                            <!-- Seasonal Pattern -->
+                            <div class="col-lg-4">
+                                <div class="bg-dark rounded p-3">
+                                    <h5 class="text-warning mb-3">Seasonal Deficit Pattern</h5>
+                                    <div>{{ plots.irrigation_seasonal_pattern|safe }}</div>
+                                </div>
+                            </div>
+                            <!-- Deficit Distribution -->
+                            <div class="col-lg-4">
+                                <div class="bg-dark rounded p-3">
+                                    <h5 class="text-warning mb-3">Irrigation Need Distribution</h5>
+                                    <div>{{ plots.irrigation_deficit_distribution|safe }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Key Insights -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="bg-secondary rounded p-4">
+                        <h3 class="mb-4">
+                            <i class="bi bi-lightbulb me-2"></i>Key Insights & Recommendations
+                        </h3>
+                        <div class="row g-4">
+                            <!-- Solar Radiation Insights -->
+                            <div class="col-md-6 col-lg-3">
+                                <div class="bg-dark rounded p-3 h-100">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <i class="bi bi-sun text-warning fs-4 me-2"></i>
+                                        <h5 class="mb-0 text-warning">Solar Radiation</h5>
+                                    </div>
+                                    <div class="small">
+                                        <strong>Mean:</strong> {{ insights.ALLSKY_SFC_SW_DWN.mean }} kW-hr/m²/day
+                                        <br>
+                                        <strong>Trend:</strong> {{ insights.ALLSKY_SFC_SW_DWN.trend_per_decade }} per decade
+                                        <br>
+                                        <strong>Peak:</strong> {{ insights.ALLSKY_SFC_SW_DWN.max }} kW-hr/m²/day
+                                        <br>
+                                        <strong>Date:</strong> {{ insights.ALLSKY_SFC_SW_DWN.max_date }}
+                                        <br>
+                                        <strong>Lowest:</strong> {{ insights.ALLSKY_SFC_SW_DWN.min }} kW-hr/m²/day
+                                        <br>
+                                        <strong>Date:</strong> {{ insights.ALLSKY_SFC_SW_DWN.min_date }}
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Temperature Insights -->
+                            <div class="col-md-6 col-lg-3">
+                                <div class="bg-dark rounded p-3 h-100">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <i class="bi bi-thermometer text-danger fs-4 me-2"></i>
+                                        <h5 class="mb-0 text-danger">Temperature</h5>
+                                    </div>
+                                    <div class="small">
+                                        <strong>Avg Temp:</strong> {{ insights.T2M.mean }}°C
+                                        <br>
+                                        <strong>Trend:</strong> {{ insights.T2M.trend_per_decade }}°C per decade
+                                        <br>
+                                        <strong>Max Temp:</strong> {{ insights.T2M_MAX.max }}°C
+                                        <br>
+                                        <strong>Date:</strong> {{ insights.T2M_MAX.max_date }}
+                                        <br>
+                                        <strong>Min Temp:</strong> {{ insights.T2M_MIN.min }}°C
+                                        <br>
+                                        <strong>Date:</strong> {{ insights.T2M_MIN.min_date }}
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Precipitation Insights -->
+                            <div class="col-md-6 col-lg-3">
+                                <div class="bg-dark rounded p-3 h-100">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <i class="bi bi-droplet text-info fs-4 me-2"></i>
+                                        <h5 class="mb-0 text-info">Precipitation</h5>
+                                    </div>
+                                    <div class="small">
+                                        <strong>Mean:</strong> {{ insights.PRECTOTCORR.mean }} mm/day
+                                        <br>
+                                        <strong>Trend:</strong> {{ insights.PRECTOTCORR.trend_per_decade }} mm per decade
+                                        <br>
+                                        <strong>Max Rainfall:</strong> {{ insights.PRECTOTCORR.max }} mm/day
+                                        <br>
+                                        <strong>Date:</strong> {{ insights.PRECTOTCORR.max_date }}
+                                        <br>
+                                        <strong>Median:</strong> {{ insights.PRECTOTCORR.median }} mm/day
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Humidity Insights -->
+                            <div class="col-md-6 col-lg-3">
+                                <div class="bg-dark rounded p-3 h-100">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <i class="bi bi-moisture text-success fs-4 me-2"></i>
+                                        <h5 class="mb-0 text-success">Humidity</h5>
+                                    </div>
+                                    <div class="small">
+                                        <strong>Mean:</strong> {{ insights.RH2M.mean }}%
+                                        <br>
+                                        <strong>Trend:</strong> {{ insights.RH2M.trend_per_decade }} per decade
+                                        <br>
+                                        <strong>Max Humidity:</strong> {{ insights.RH2M.max }}%
+                                        <br>
+                                        <strong>Date:</strong> {{ insights.RH2M.max_date }}
+                                        <br>
+                                        <strong>Min Humidity:</strong> {{ insights.RH2M.min }}%
+                                        <br>
+                                        <strong>Date:</strong> {{ insights.RH2M.min_date }}
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Wind Insights -->
+                            <div class="col-md-6 col-lg-3">
+                                <div class="bg-dark rounded p-3 h-100">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <i class="bi bi-wind text-purple fs-4 me-2"></i>
+                                        <h5 class="mb-0 text-purple">Wind Speed</h5>
+                                    </div>
+                                    <div class="small">
+                                        <strong>Mean:</strong> {{ insights.WS10M.mean }} m/s
+                                        <br>
+                                        <strong>Trend:</strong> {{ insights.WS10M.trend_per_decade }} per decade
+                                        <br>
+                                        <strong>Max Wind:</strong> {{ insights.WS10M.max }} m/s
+                                        <br>
+                                        <strong>Date:</strong> {{ insights.WS10M.max_date }}
+                                        <br>
+                                        <strong>Min Wind:</strong> {{ insights.WS10M.min }} m/s
+                                        <br>
+                                        <strong>Date:</strong> {{ insights.WS10M.min_date }}
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- ET0 Insights -->
+                            <div class="col-md-6 col-lg-3">
+                                <div class="bg-dark rounded p-3 h-100">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <i class="bi bi-cloud-sun text-warning fs-4 me-2"></i>
+                                        <h5 class="mb-0 text-warning">Reference ET₀</h5>
+                                    </div>
+                                    <div class="small">
+                                        <strong>Mean:</strong> {{ insights.ET0.mean_mm_day }} mm/day
+                                        <br>
+                                        <strong>Trend:</strong> {{ insights.ET0.trend_per_decade_mm_day }} mm per decade
+                                        <br>
+                                        <strong>Peak Month:</strong> {{ insights.ET0.seasonal_peak_month }}
+                                        <br>
+                                        <strong>Peak Value:</strong> {{ insights.ET0.seasonal_climatology.7 }} mm/day
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- CWR Insights -->
+                            <div class="col-md-6 col-lg-3">
+                                <div class="bg-dark rounded p-3 h-100">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <i class="bi bi-droplet text-primary fs-4 me-2"></i>
+                                        <h5 class="mb-0 text-primary">Crop Water Requirement</h5>
+                                    </div>
+                                    <div class="small">
+                                        <strong>Mean:</strong> {{ insights.CWR.mean_mm_day }} mm/day
+                                        <br>
+                                        <strong>Trend:</strong> {{ insights.CWR.trend_per_decade_mm_day }} mm per decade
+                                        <br>
+                                        <strong>Annual Total:</strong> {{ insights.CWR.annual_total_mm_year }} mm/year
+                                        <br>
+                                        <strong>Peak Month:</strong> {{ insights.CWR.seasonal_peak_month }}
+                                        <br>
+                                        <strong>Peak Value:</strong> {{ insights.CWR.seasonal_climatology.7 }} mm/day
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Water Balance Insights -->
+                            <div class="col-md-6 col-lg-3">
+                                <div class="bg-dark rounded p-3 h-100">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <i class="bi bi-water text-info fs-4 me-2"></i>
+                                        <h5 class="mb-0 text-info">Water Balance</h5>
+                                    </div>
+                                    <div class="small">
+                                        <strong>Irrigation Need:</strong> {{ insights.IrrigationBalance.mean_irrigation_need_mm_day }} mm/day
+                                        <br>
+                                        <strong>Max Monthly Deficit:</strong> {{ insights.IrrigationBalance.max_monthly_deficit_mm_day }} mm/day
+                                        <br>
+                                        <strong>Worst Month:</strong> {{ insights.IrrigationBalance.worst_month_date }}
+                                        <br>
+                                        <strong>Months with Need:</strong> {{ insights.IrrigationBalance.months_per_year_with_need }}
+                                        <br>
+                                        <strong>Percent Months:</strong> {{ insights.IrrigationBalance.percent_months_need }}%
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Statistical Summary -->
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <div class="bg-dark rounded p-4">
+                                    <h5 class="text-warning mb-3">Detailed Statistical Summary</h5>
+                                    <div class="row">
+                                        <!-- Solar Statistics -->
+                                        <div class="col-md-4 mb-3">
+                                            <h6 class="text-warning">Solar Radiation</h6>
+                                            <div class="small">
+                                                <strong>Mean:</strong> {{ insights.ALLSKY_SFC_SW_DWN.mean }}
+                                                <br>
+                                                <strong>Median:</strong> {{ insights.ALLSKY_SFC_SW_DWN.median }}
+                                                <br>
+                                                <strong>Std Dev:</strong> {{ insights.ALLSKY_SFC_SW_DWN.std }}
+                                                <br>
+                                                <strong>10th %ile:</strong> {{ insights.ALLSKY_SFC_SW_DWN.pct10 }}
+                                                <br>
+                                                <strong>90th %ile:</strong> {{ insights.ALLSKY_SFC_SW_DWN.pct90 }}
+                                            </div>
+                                        </div>
+                                        <!-- Temperature Statistics -->
+                                        <div class="col-md-4 mb-3">
+                                            <h6 class="text-danger">Temperature Stats</h6>
+                                            <div class="small">
+                                                <strong>Avg Mean:</strong> {{ insights.T2M.mean }}°C
+                                                <br>
+                                                <strong>Avg Max:</strong> {{ insights.T2M_MAX.mean }}°C
+                                                <br>
+                                                <strong>Avg Min:</strong> {{ insights.T2M_MIN.mean }}°C
+                                                <br>
+                                                <strong>Max Temp:</strong> {{ insights.T2M_MAX.max }}°C
+                                                <br>
+                                                <strong>Min Temp:</strong> {{ insights.T2M_MIN.min }}°C
+                                            </div>
+                                        </div>
+                                        <!-- Water Statistics -->
+                                        <div class="col-md-4 mb-3">
+                                            <h6 class="text-info">Water Balance</h6>
+                                            <div class="small">
+                                                <strong>Precip Mean:</strong> {{ insights.PRECTOTCORR.mean }}
+                                                <br>
+                                                <strong>Humidity Mean:</strong> {{ insights.RH2M.mean }}
+                                                <br>
+                                                <strong>ET₀ Mean:</strong> {{ insights.ET0.mean_mm_day }}
+                                                <br>
+                                                <strong>CWR Mean:</strong> {{ insights.CWR.mean_mm_day }}
+                                                <br>
+                                                <strong>Irrigation Need:</strong> {{ insights.IrrigationBalance.mean_irrigation_need_mm_day }}
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -1141,23 +797,390 @@
                     </div>
                 </div>
             </div>
-        </div>
-
-        <!-- Footer -->
-        <div class="row">
-            <div class="col-12">
-                <div class="bg-secondary rounded p-3 text-center">
-                    <p class="mb-0">
-                        <small class="text-muted">
-                            Climate & Agricultural Analysis Report | Generated on {% now "Y-m-d" %} | Data Source: NASA POWER
-                        </small>
-                    </p>
+            <!-- Compact Documentation -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="card shadow-sm bg-secondary">
+                        <div class="text-center rounded p-3">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h6 class="mb-0 text-warning px-3">
+                                    <i class="fas fa-book me-1"></i>Agricultural Solar Monitoring Dashboard Documentation
+                                </h6>
+                                <button class="btn btn-sm btn-outline-light"
+                                        type="button"
+                                        data-bs-toggle="collapse"
+                                        data-bs-target="#agDocsCollapse">
+                                    <i class="fas fa-chevron-down"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="collapse show" id="agDocsCollapse">
+                            <div class="card-body p-3">
+                                <div class="row g-3">
+                                    <!-- Summary Dashboard -->
+                                    <div class="col-md-6">
+                                        <h6 class="text-warning">Summary Dashboard</h6>
+                                        <ul class="small ps-3">
+                                            <li>
+                                                <strong>Purpose:</strong> Overview of key climate and agricultural metrics with decade trends
+                                            </li>
+                                            <li>
+                                                <strong>Metrics Displayed:</strong> Solar radiation, temperature, precipitation, humidity, wind speed, ET₀, CWR
+                                            </li>
+                                            <li>
+                                                <strong>Trend Indicators:</strong> Delta values show change per decade (positive/negative trends)
+                                            </li>
+                                            <li class="text-info">
+                                                <i class="fas fa-lightbulb me-1"></i><strong>Tip:</strong> Use this dashboard for quick assessment of overall site suitability
+                                            </li>
+                                            <li class="text-muted">
+                                                <small><strong>Note:</strong> All metrics are calculated from NASA POWER data using standardized agricultural models</small>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <!-- Solar Energy Analysis -->
+                                    <div class="col-md-6">
+                                        <h6 class="text-warning">Solar Energy Analysis</h6>
+                                        <ul class="small ps-3">
+                                            <li>
+                                                <strong>Daily Solar Radiation:</strong> Time series with 30-day moving average showing daily variability
+                                            </li>
+                                            <li>
+                                                <strong>Monthly Climatology:</strong> Average solar radiation by month, revealing seasonal patterns
+                                            </li>
+                                            <li>
+                                                <strong>Annual Trends:</strong> Year-to-year changes in average solar radiation
+                                            </li>
+                                            <li class="text-info">
+                                                <i class="fas fa-lightbulb me-1"></i><strong>Tip:</strong> June typically shows peak solar availability, December the lowest
+                                            </li>
+                                            <li class="text-muted">
+                                                <small><strong>Note:</strong> ALLSKY_SFC_SW_DWN parameter includes both direct and diffuse radiation under all sky conditions</small>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <!-- Temperature Analysis -->
+                                    <div class="col-md-6">
+                                        <h6 class="text-danger">Temperature Analysis</h6>
+                                        <ul class="small ps-3">
+                                            <li>
+                                                <strong>Daily Time Series:</strong> T2M (average), T2M_MAX (maximum), T2M_MIN (minimum) temperatures
+                                            </li>
+                                            <li>
+                                                <strong>Monthly Climatology:</strong> Average monthly patterns for all three temperature metrics
+                                            </li>
+                                            <li>
+                                                <strong>Temperature Distribution:</strong> Box plots showing statistical distribution of temperature ranges
+                                            </li>
+                                            <li class="text-info">
+                                                <i class="fas fa-lightbulb me-1"></i><strong>Tip:</strong> Temperature ranges affect both crop growth stages and solar panel efficiency
+                                            </li>
+                                            <li class="text-muted">
+                                                <small><strong>Note:</strong> T2M represents air temperature at 2 meters height, standard for agricultural applications</small>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <!-- Hydrological Analysis -->
+                                    <div class="col-md-6">
+                                        <h6 class="text-info">Hydrological Analysis</h6>
+                                        <ul class="small ps-3">
+                                            <li>
+                                                <strong>Daily Precipitation:</strong> PRECTOTCORR time series with filled area showing rainfall patterns
+                                            </li>
+                                            <li>
+                                                <strong>Daily Humidity:</strong> RH2M (relative humidity at 2m) time series
+                                            </li>
+                                            <li>
+                                                <strong>Monthly Climatology:</strong> Average monthly precipitation and humidity patterns
+                                            </li>
+                                            <li class="text-info">
+                                                <i class="fas fa-lightbulb me-1"></i><strong>Tip:</strong> High humidity can reduce solar panel efficiency but benefit certain crops
+                                            </li>
+                                            <li class="text-muted">
+                                                <small><strong>Note:</strong> PRECTOTCORR is bias-corrected precipitation data, more accurate for agricultural planning</small>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <!-- Wind Analysis -->
+                                    <div class="col-md-6">
+                                        <h6 class="text-purple">Wind Speed Analysis</h6>
+                                        <ul class="small ps-3">
+                                            <li>
+                                                <strong>Daily Wind Speed:</strong> WS10M (wind speed at 10m) time series
+                                            </li>
+                                            <li>
+                                                <strong>Monthly Climatology:</strong> Average wind patterns by month
+                                            </li>
+                                            <li>
+                                                <strong>Annual Trends:</strong> Long-term changes in wind speed patterns
+                                            </li>
+                                            <li>
+                                                <strong>Wind Distribution:</strong> Histogram showing frequency of different wind speeds
+                                            </li>
+                                            <li class="text-info">
+                                                <i class="fas fa-lightbulb me-1"></i><strong>Tip:</strong> Wind affects evapotranspiration rates and can cool solar panels
+                                            </li>
+                                            <li class="text-muted">
+                                                <small><strong>Note:</strong> WS10M measured at 10m height standard for energy and agricultural applications</small>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <!-- Agricultural Water Management -->
+                                    <div class="col-md-6">
+                                        <h6 class="text-success">Agricultural Water Management</h6>
+                                        <ul class="small ps-3">
+                                            <li>
+                                                <strong>Daily ET₀ & CWR:</strong> Reference evapotranspiration and Crop Water Requirement time series
+                                            </li>
+                                            <li>
+                                                <strong>Monthly Water Balance:</strong> Comparison of CWR, precipitation, and irrigation needs
+                                            </li>
+                                            <li>
+                                                <strong>ET₀ Climatology:</strong> Average monthly reference evapotranspiration patterns
+                                            </li>
+                                            <li>
+                                                <strong>CWR Climatology:</strong> Average monthly crop water requirement patterns
+                                            </li>
+                                            <li class="text-info">
+                                                <i class="fas fa-lightbulb me-1"></i><strong>Tip:</strong> Positive irrigation need values indicate water deficit requiring supplementation
+                                            </li>
+                                            <li class="text-muted">
+                                                <small><strong>Note:</strong> ET₀ calculated using FAO Penman-Monteith equation, CWR based on crop coefficients</small>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <!-- Irrigation Analysis -->
+                                    <div class="col-md-6">
+                                        <h6 class="text-warning">Irrigation Analysis</h6>
+                                        <ul class="small ps-3">
+                                            <li>
+                                                <strong>Monthly Irrigation Need:</strong> Bar chart showing irrigation requirements by month
+                                            </li>
+                                            <li>
+                                                <strong>Annual Irrigation Deficit:</strong> Total yearly water deficit/surplus
+                                            </li>
+                                            <li>
+                                                <strong>Seasonal Deficit Pattern:</strong> Average monthly deficit patterns across years
+                                            </li>
+                                            <li>
+                                                <strong>Irrigation Need Distribution:</strong> Histogram of irrigation requirement frequencies
+                                            </li>
+                                            <li class="text-info">
+                                                <i class="fas fa-lightbulb me-1"></i><strong>Tip:</strong> Negative values indicate water surplus, positive values indicate irrigation need
+                                            </li>
+                                            <li class="text-muted">
+                                                <small><strong>Note:</strong> Irrigation need = CWR - Precipitation, represents net water requirement</small>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <!-- Data Sources & Parameters -->
+                                    <div class="col-md-6">
+                                        <h6 class="text-primary">Data Sources & Parameters</h6>
+                                        <ul class="small ps-3">
+                                            <li>
+                                                <strong>NASA POWER Data:</strong> Satellite-derived meteorological parameters at 0.5° resolution
+                                            </li>
+                                            <li>
+                                                <strong>Time Period:</strong> Typically 20+ years of historical data for robust climatology
+                                            </li>
+                                            <li>
+                                                <strong>Parameters:</strong> ALLSKY_SFC_SW_DWN, T2M, T2M_MAX, T2M_MIN, PRECTOTCORR, RH2M, WS10M
+                                            </li>
+                                            <li class="text-info">
+                                                <i class="fas fa-lightbulb me-1"></i><strong>Tip:</strong> All data represents agrometeorological conditions suitable for crop modeling
+                                            </li>
+                                            <li class="text-muted">
+                                                <small><strong>Note:</strong> Data quality validated for agricultural applications, may differ from ground station measurements</small>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <!-- Agricultural Parameters -->
+                                    <div class="col-md-6">
+                                        <h6 class="text-primary">Agricultural Parameters</h6>
+                                        <ul class="small ps-3">
+                                            <li>
+                                                <strong>Reference Evapotranspiration (ET₀):</strong> Potential water use by well-watered grass reference crop
+                                            </li>
+                                            <li>
+                                                <strong>Crop Water Requirement (CWR):</strong> Actual water need for specific crops (mm/day)
+                                            </li>
+                                            <li>
+                                                <strong>Irrigation Need:</strong> Difference between CWR and natural precipitation
+                                            </li>
+                                            <li class="text-info">
+                                                <i class="fas fa-lightbulb me-1"></i><strong>Tip:</strong> CWR varies by crop type, growth stage, and local conditions
+                                            </li>
+                                            <li class="text-muted">
+                                                <small><strong>Note:</strong> Default CWR calculations assume standard crop coefficients - adjust for specific crops</small>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <!-- Technical Calculations -->
+                                    <div class="col-md-6">
+                                        <h6 class="text-primary">Technical Calculations</h6>
+                                        <ul class="small ps-3">
+                                            <li>
+                                                <strong>Moving Averages:</strong> 30-day centered moving average for trend visualization
+                                            </li>
+                                            <li>
+                                                <strong>Climatology:</strong> Long-term monthly averages based on complete historical record
+                                            </li>
+                                            <li>
+                                                <strong>Trend Analysis:</strong> Linear regression for decade-scale changes in parameters
+                                            </li>
+                                            <li class="text-info">
+                                                <i class="fas fa-lightbulb me-1"></i><strong>Tip:</strong> Climatology helps identify typical seasonal patterns for crop planning
+                                            </li>
+                                            <li class="text-muted">
+                                                <small><strong>Note:</strong> All calculations use agricultural standard methodologies (FAO, ASABE)</small>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <!-- Interpretation Guidelines -->
+                                    <div class="col-md-6">
+                                        <h6 class="text-success">Interpretation Guidelines</h6>
+                                        <ul class="small ps-3">
+                                            <li>
+                                                <strong>Solar Radiation:</strong> Values >5 kW-hr/m²/day indicate excellent solar potential
+                                            </li>
+                                            <li>
+                                                <strong>Temperature:</strong> Most crops thrive between 10-30°C average temperatures
+                                            </li>
+                                            <li>
+                                                <strong>Precipitation:</strong> Compare with CWR to assess irrigation requirements
+                                            </li>
+                                            <li>
+                                                <strong>Water Balance:</strong> Positive values = irrigation needed, negative = water surplus
+                                            </li>
+                                            <li class="text-info">
+                                                <i class="fas fa-lightbulb me-1"></i><strong>Tip:</strong> Use multiple charts together for comprehensive agricultural planning
+                                            </li>
+                                            <li class="text-muted">
+                                                <small><strong>Note:</strong> Local soil conditions and crop varieties will affect actual water requirements</small>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <!-- Agricultural Planning Tips -->
+                                    <div class="col-md-6">
+                                        <h6 class="text-success">Agricultural Planning Tips</h6>
+                                        <ul class="small ps-3">
+                                            <li>
+                                                <strong>Crop Selection:</strong> Match crop water requirements to local precipitation patterns
+                                            </li>
+                                            <li>
+                                                <strong>Planting Dates:</strong> Use temperature charts to avoid frost risks and optimize growing seasons
+                                            </li>
+                                            <li>
+                                                <strong>Irrigation Scheduling:</strong> Plan based on monthly water deficit patterns
+                                            </li>
+                                            <li>
+                                                <strong>Solar Integration:</strong> High radiation months correlate with peak irrigation energy needs
+                                            </li>
+                                            <li class="text-info">
+                                                <i class="fas fa-lightbulb me-1"></i><strong>Tip:</strong> Coordinate crop water needs with seasonal solar availability for optimal solar irrigation
+                                            </li>
+                                            <li class="text-muted">
+                                                <small><strong>Note:</strong> Consider crop-specific sensitivity to temperature extremes and water stress</small>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <!-- Climate Change Considerations -->
+                                    <div class="col-md-6">
+                                        <h6 class="text-danger">Climate Change Considerations</h6>
+                                        <ul class="small ps-3">
+                                            <li>
+                                                <strong>Temperature Trends:</strong> Warming trends may extend growing seasons but increase water demand
+                                            </li>
+                                            <li>
+                                                <strong>Precipitation Patterns:</strong> Changing rainfall distribution affects water availability
+                                            </li>
+                                            <li>
+                                                <strong>Extreme Events:</strong> Increased frequency of droughts/floods requires resilient planning
+                                            </li>
+                                            <li class="text-info">
+                                                <i class="fas fa-lightbulb me-1"></i><strong>Tip:</strong> Use trend analysis to anticipate future conditions and plan adaptation strategies
+                                            </li>
+                                            <li class="text-muted">
+                                                <small><strong>Note:</strong> Decade-scale trends provide early warning of climate shifts affecting agriculture</small>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <!-- Quick Reference Table -->
+                                <div class="row mt-4">
+                                    <div class="col-12">
+                                        <h6 class="text-primary border-bottom pb-2">Chart Quick Reference</h6>
+                                        <div class="table-responsive">
+                                            <table class="table table-sm table-dark small">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Chart Type</th>
+                                                        <th>Primary Use</th>
+                                                        <th>Key Parameters</th>
+                                                        <th>Agricultural Significance</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Solar Daily</td>
+                                                        <td>Daily variability</td>
+                                                        <td>ALLSKY_SFC_SW_DWN</td>
+                                                        <td>Solar potential, crop photosynthesis</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Solar Monthly</td>
+                                                        <td>Seasonal patterns</td>
+                                                        <td>Monthly averages</td>
+                                                        <td>Growing season planning</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Temperature Series</td>
+                                                        <td>Thermal regimes</td>
+                                                        <td>T2M, T2M_MAX, T2M_MIN</td>
+                                                        <td>Crop growth stages, frost risk</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Water Balance</td>
+                                                        <td>Irrigation planning</td>
+                                                        <td>CWR, Precipitation, ET₀</td>
+                                                        <td>Water management, scheduling</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Wind Analysis</td>
+                                                        <td>Evaporation impact</td>
+                                                        <td>WS10M</td>
+                                                        <td>ET₀ rates, system cooling</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Irrigation Need</td>
+                                                        <td>Deficit analysis</td>
+                                                        <td>Irrigation need</td>
+                                                        <td>Water requirement timing</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Footer -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="bg-secondary rounded p-3 text-center">
+                        <p class="mb-0">
+                            <small class="text-muted">
+                                Climate & Agricultural Analysis Report | Generated on {% now "Y-m-d" %} | Data Source: NASA POWER
+                            </small>
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-
-    <style>
+        <style>
         .border-purple {
             border-color: #6f42c1 !important;
         }
@@ -1172,8 +1195,7 @@
             background-color: #6f42c1;
             color: white;
         }
-    </style>
-
+        </style>
         {% include 'analytics/footer.html' %}
     </div>
 {% endblock %}

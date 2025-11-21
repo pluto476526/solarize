@@ -228,8 +228,7 @@
                     <div class="card h-100 bg-secondary border-0">
                         <div class="card-body p-4">
                             <div class="text-center mb-4">
-                                <i class="fa fa-chevron-right text-warning mb-3"
-                                   style="font-size: 48px"></i>
+                                <i class="fa fa-chevron-right text-warning mb-3" style="font-size: 48px"></i>
                                 <h5 class="text-warning">Wind & Atmospheric Data</h5>
                             </div>
                             <p class="card-text">
@@ -662,16 +661,16 @@
                     <div class="bg-secondary rounded p-5">
                         <div class="d-flex justify-content-center gap-3 flex-wrap">
                             {% if request.user.is_authenticated %}
-                            <a href="{% url 'dash' %}" class="default-btn text-warning"> Access Climate Data 
-                                <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-                            </a>
+                                <a href="{% url 'dash' %}" class="default-btn text-warning"> Access Climate Data
+                                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                                </a>
                             {% else %}
-                            <a href="{% url 'signin' %}" class="default-btn text-warning"> Start Climate Analysis 
-                                <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-                            </a>
-                            <a href="{% url 'signup' %}" class="default-btn btn-light"> Free Trial 
-                                <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-                            </a>
+                                <a href="{% url 'signin' %}" class="default-btn text-warning"> Start Climate Analysis
+                                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                                </a>
+                                <a href="{% url 'signup' %}" class="default-btn btn-light"> Free Trial
+                                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                                </a>
                             {% endif %}
                         </div>
                         <div class="mt-4 text-light">

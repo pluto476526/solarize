@@ -9,7 +9,6 @@ from datetime import timedelta
 from scipy.stats import linregress
 
 
-
 from typing import List, Dict, Optional, Tuple
 
 
@@ -18,6 +17,7 @@ class SolarAgriProjector:
     NASA POWER + FAO-56 Crop Water Requirement (ET₀, CWR, Irrigation Need)
     Interactive Plotly visualisations.
     """
+
     BASE_URL = "https://power.larc.nasa.gov/api/projection/daily/point"
     PARAMETERS = "ALLSKY_SFC_SW_DWN,T2M,T2M_MAX,T2M_MIN,PRECTOTCORR,RH2M,WS10M"
 
@@ -46,13 +46,12 @@ class SolarAgriProjector:
         self.end = nasa_params["end"]
 
         self.session = requests_cache.CachedSession(
-            'nasa_power_cache',
-            backend='redis',
+            "nasa_power_cache",
+            backend="redis",
             expire_after=timedelta(days=30),
-            allowable_methods=['GET'],
-            stale_if_error=True
+            allowable_methods=["GET"],
+            stale_if_error=True,
         )
-
 
     # ------------------------------------------------------------------
     # 1. FETCH DATA
@@ -81,7 +80,9 @@ class SolarAgriProjector:
             r.raise_for_status()
             payload = r.json()
 
-            coords = payload.get("geometry", {}).get("coordinates", [self.lon, self.lat, None])
+            coords = payload.get("geometry", {}).get(
+                "coordinates", [self.lon, self.lat, None]
+            )
             lon, lat, elev = coords if len(coords) == 3 else (self.lon, self.lat, None)
             parameters_info = payload.get("parameters", {})  # optional
 
@@ -107,7 +108,20 @@ class SolarAgriProjector:
                 df["elev"] = elev
                 df["source"] = "NASA_POWER"
 
-                all_dfs.append(df[["date", "parameter", "value", "units", "lon", "lat", "elev", "source"]])
+                all_dfs.append(
+                    df[
+                        [
+                            "date",
+                            "parameter",
+                            "value",
+                            "units",
+                            "lon",
+                            "lat",
+                            "elev",
+                            "source",
+                        ]
+                    ]
+                )
 
             if all_dfs:
                 df_final = pd.concat(all_dfs, ignore_index=True)
@@ -119,7 +133,18 @@ class SolarAgriProjector:
                 return df_final
             else:
                 print("No valid data returned.")
-                return pd.DataFrame(columns=["date", "parameter", "value", "units", "lon", "lat", "elev", "source"])
+                return pd.DataFrame(
+                    columns=[
+                        "date",
+                        "parameter",
+                        "value",
+                        "units",
+                        "lon",
+                        "lat",
+                        "elev",
+                        "source",
+                    ]
+                )
 
         except Exception as e:
             print(f"[Fetch Failed]: {e}")
@@ -145,7 +170,9 @@ class SolarAgriProjector:
         """
 
         # Pivot to wide format (parameters as columns)
-        df_wide = df.pivot(index="date", columns="parameter", values="value").sort_index()
+        df_wide = df.pivot(
+            index="date", columns="parameter", values="value"
+        ).sort_index()
 
         # Required NASA parameters
         try:
@@ -180,9 +207,14 @@ class SolarAgriProjector:
         delta = 0.409 * np.sin(2 * np.pi * J / 365 - 1.39)
         ws = np.arccos(-np.tan(lat_rad) * np.tan(delta))
         dr = 1 + 0.033 * np.cos(2 * np.pi * J / 365)
-        Ra = (24 * 60 / np.pi) * 0.0820 * dr * (
-            ws * np.sin(lat_rad) * np.sin(delta)
-            + np.cos(lat_rad) * np.cos(delta) * np.sin(ws)
+        Ra = (
+            (24 * 60 / np.pi)
+            * 0.0820
+            * dr
+            * (
+                ws * np.sin(lat_rad) * np.sin(delta)
+                + np.cos(lat_rad) * np.cos(delta) * np.sin(ws)
+            )
         )
         Rso = (0.75 + 2e-5 * elev) * Ra
         Rns = 0.77 * Rs
@@ -192,7 +224,9 @@ class SolarAgriProjector:
         Rn = Rns - Rnl
 
         # Step 5: ET₀ computation (mm/day)
-        numerator = 0.408 * delta_s * Rn + gamma * (900 / (Tmean + 273)) * u2 * (es - ea)
+        numerator = 0.408 * delta_s * Rn + gamma * (900 / (Tmean + 273)) * u2 * (
+            es - ea
+        )
         denominator = delta_s + gamma * (1 + 0.34 * u2)
         et0 = np.where(denominator != 0, numerator / denominator, np.nan)
 
@@ -200,10 +234,9 @@ class SolarAgriProjector:
         et0_df = pd.DataFrame({"date": df_wide.index, "ET0_mm_day": et0})
         return et0_df
 
-
-
-    def crop_water_requirement(self, df_et0: pd.DataFrame, crop: str,
-                           kc_monthly: Optional[List[float]] = None) -> pd.DataFrame:
+    def crop_water_requirement(
+        self, df_et0: pd.DataFrame, crop: str, kc_monthly: Optional[List[float]] = None
+    ) -> pd.DataFrame:
         """
         Compute Crop Water Requirement (CWR = Kc × ET₀).
         Parameters
@@ -238,15 +271,21 @@ class SolarAgriProjector:
 
         return df[["date", "ET0_mm_day", "Kc", "CWR_mm_day"]]
 
-    def water_balance(self, df_cwr: pd.DataFrame, df_nasa: pd.DataFrame) -> pd.DataFrame:
+    def water_balance(
+        self, df_cwr: pd.DataFrame, df_nasa: pd.DataFrame
+    ) -> pd.DataFrame:
         """
         Compute irrigation need = CWR - precipitation.
         Positive => irrigation required.
         """
-        df_pivot = df_nasa.pivot(index="date", columns="parameter", values="value").sort_index()
+        df_pivot = df_nasa.pivot(
+            index="date", columns="parameter", values="value"
+        ).sort_index()
 
         if "PRECTOTCORR" not in df_pivot.columns:
-            raise ValueError("Precipitation data (PRECTOTCORR) missing from NASA dataset.")
+            raise ValueError(
+                "Precipitation data (PRECTOTCORR) missing from NASA dataset."
+            )
 
         df = pd.merge(df_cwr, df_pivot[["PRECTOTCORR"]], on="date", how="left")
         df.rename(columns={"PRECTOTCORR": "precip_mm_day"}, inplace=True)
@@ -258,14 +297,20 @@ class SolarAgriProjector:
         # Optional: aggregate monthly totals
         df["month"] = df["date"].dt.to_period("M")
         df_monthly = (
-            df.groupby("month")[["ET0_mm_day", "CWR_mm_day", "precip_mm_day",
-                                 "irrigation_need_mm_day", "surplus_deficit_mm_day"]]
+            df.groupby("month")[
+                [
+                    "ET0_mm_day",
+                    "CWR_mm_day",
+                    "precip_mm_day",
+                    "irrigation_need_mm_day",
+                    "surplus_deficit_mm_day",
+                ]
+            ]
             .mean()
             .reset_index()
         )
 
         return df_monthly
-
 
     def compute_insights(self, raw_data, et0, cwr, balance):
         """
@@ -311,7 +356,11 @@ class SolarAgriProjector:
             season = _seasonal_climatology(s)
             baseline = _period_mean(s, 1981, 2000)
             future = _period_mean(s, 2081, 2100)
-            projected_change = future - baseline if baseline is not None and future is not None else None
+            projected_change = (
+                future - baseline
+                if baseline is not None and future is not None
+                else None
+            )
             pct10, pct90 = np.nanpercentile(s, [10, 90])
             insights[param] = {
                 "mean": round(s.mean(), 3),
@@ -323,13 +372,21 @@ class SolarAgriProjector:
                 "max_date": str(s.idxmax().date()),
                 "pct10": round(pct10, 3),
                 "pct90": round(pct90, 3),
-                "seasonal_climatology_monthly": {m: round(v, 3) for m, v in season.items()},
+                "seasonal_climatology_monthly": {
+                    m: round(v, 3) for m, v in season.items()
+                },
                 "annual_mean_or_sum": round(float(annual.mean()), 3),
                 "trend_per_decade": round(trend, 4) if trend else None,
                 "trend_p_value": round(pval, 4) if pval else None,
-                "baseline_1981_2000_mean": round(baseline, 3) if baseline is not None else None,
-                "future_2081_2100_mean": round(future, 3) if future is not None else None,
-                "projected_change_2081_2100_vs_1981_2000": round(projected_change, 3) if projected_change else None,
+                "baseline_1981_2000_mean": (
+                    round(baseline, 3) if baseline is not None else None
+                ),
+                "future_2081_2100_mean": (
+                    round(future, 3) if future is not None else None
+                ),
+                "projected_change_2081_2100_vs_1981_2000": (
+                    round(projected_change, 3) if projected_change else None
+                ),
             }
 
         # --- ET0 ---
@@ -373,14 +430,14 @@ class SolarAgriProjector:
             "annual_mean_need_mm_day": round(_annual_series(s).mean(), 3),
             "months_per_year_with_need": months_need,
             "percent_months_need": round(pct_months_need, 1),
-            "mean_deficit_mm_day_when_needed": round(monthly[monthly > 0].mean(), 3) if (monthly > 0).any() else 0,
+            "mean_deficit_mm_day_when_needed": (
+                round(monthly[monthly > 0].mean(), 3) if (monthly > 0).any() else 0
+            ),
             "max_monthly_deficit_mm_day": round(monthly.max(), 3),
             "worst_month_date": str(monthly.idxmax().date()),
         }
 
         return insights
-
-
 
     def run_simulation(self):
         nasa_data = self.fetch_nasa_projections()
@@ -396,4 +453,3 @@ class SolarAgriProjector:
             "balance_df": balance_df,
             "insights": insights,
         }
-        

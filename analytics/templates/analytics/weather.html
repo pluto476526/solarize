@@ -384,7 +384,8 @@
                         </h6>
                     </div>
                     <div class="card-body">
-                        <div class="row g-2">
+                        <form method="post" class="row g-2">
+                            {% csrf_token %}
                             <div class="col-6">
                                 <label class="form-label small">Latitude</label>
                                 <input type="number"
@@ -422,7 +423,7 @@
                                     </button>
                                 </div>
                             </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>

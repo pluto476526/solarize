@@ -58,7 +58,6 @@ class SpecSheetSimulator:
         self.custom_temp_coefficients = system_params.get("temp_coefficients")
         self.losses_params = losses_params
 
-
     def validate_inputs(self, request=None) -> bool:
         """
         Validate input parameters.
@@ -74,7 +73,6 @@ class SpecSheetSimulator:
             issues.append(f"Altitude {self.alt} must be non-negative")
         if not isinstance(self.albedo, (int, float)) or not (0 <= self.albedo <= 1):
             issues.append(f"Albedo {self.albedo} must be between 0 and 1")
-
 
         module_params = self.custom_module_params or {}
 
@@ -96,19 +94,23 @@ class SpecSheetSimulator:
             if module_params["i_mp"] >= module_params["i_sc"]:
                 issues.append("Imp must be less than Isc")
 
-
-
         temp_coefficients = self.custom_temp_coefficients or {}
 
         if not (-0.001 <= temp_coefficients["alpha_sc"] <= 0.015):
-            issues.append(f"alpha_sc out of typical range: {temp_coefficients['alpha_sc']:.3f} (expected -0.001 to +0.015)")
+            issues.append(
+                f"alpha_sc out of typical range: {temp_coefficients['alpha_sc']:.3f} (expected -0.001 to +0.015)"
+            )
 
         if not (-0.20 <= temp_coefficients["beta_voc"] <= -0.05):
-            issues.append(f"beta_voc out of typical range: {temp_coefficients['beta_voc']:.3f} (expected -0.20 to -0.05")
+            issues.append(
+                f"beta_voc out of typical range: {temp_coefficients['beta_voc']:.3f} (expected -0.20 to -0.05"
+            )
 
         # gamma_pmp → usually %/°C  (direct input)
         if not (-0.55 <= temp_coefficients["gamma_pmp"] <= -0.25):
-            issues.append(f"gamma_pmp out of typical range: {temp_coefficients['gamma_pmp']:.3f} (expected -0.55 to -0.25")
+            issues.append(
+                f"gamma_pmp out of typical range: {temp_coefficients['gamma_pmp']:.3f} (expected -0.55 to -0.25"
+            )
 
         # --- Log and display issues ---
         if issues:
@@ -117,7 +119,6 @@ class SpecSheetSimulator:
             return False
 
         return True
-
 
     def create_location(self) -> pvlib.location.Location:
         """Create a pvlib Location object.
@@ -287,7 +288,7 @@ class SpecSheetSimulator:
         """Get a detailed summary of the PV system configuration.
 
         Returns:
-            Dict: Full system configuration details including location, components, 
+            Dict: Full system configuration details including location, components,
                   electrical specs, temperature coefficients, and losses.
         """
         return {
@@ -320,7 +321,6 @@ class SpecSheetSimulator:
                 "coefficients": self.custom_temp_coefficients,
             },
         }
-
 
     def run_simulation(
         self, weather_data: Optional[pd.DataFrame] = None

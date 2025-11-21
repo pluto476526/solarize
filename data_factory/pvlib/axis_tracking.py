@@ -167,7 +167,7 @@ class SingleDualAxisTracker:
         """Get a detailed summary of the PV system configuration.
 
         Returns:
-            Dict: Full system configuration details including location, components, 
+            Dict: Full system configuration details including location, components,
                   electrical specs, temperature coefficients, and losses.
         """
         return {
@@ -188,16 +188,13 @@ class SingleDualAxisTracker:
                     "custom_params": {},
                     "cell_type": "",
                 },
-                "inverter": {
-                    "name": self.inverter,
-                    "custom_params": {}
-                },
+                "inverter": {"name": self.inverter, "custom_params": {}},
                 "arrays": getattr(self, "arrays", []),
             },
             "temperature": {
                 "model": getattr(self, "temp_model", None),
                 "params": getattr(self, "temp_model_params", None),
-                "coefficients": {}
+                "coefficients": {},
             },
         }
 

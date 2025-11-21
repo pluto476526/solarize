@@ -19,7 +19,8 @@ from data_factory.pvlib import (
 from data_factory.climate_projection import climate_projector, climate_plots
 from data_factory.pvlib import general_analyzer, seasonal_analyzer, financial_analysis
 from data_factory.pvlib import plots, timeseries
-from data_factory import weather_analyzer, airquality_analyzer
+from data_factory.weather import weather_analyzer, weather_utils
+from data_factory.air_quality import aq_analyzer, aq_utils
 from analytics import utils
 import pickle
 import json
@@ -116,7 +117,7 @@ def pvwatts_report_view(request):
     for report in reports:
         monthly_savings = report["financial_analysis"]["monthly_savings_breakdown"]
         report["savings_chart"] = utils.monthly_savings_chart(monthly_savings)
-        
+
         scenario_data = report["scenario_analysis"]
         report["efficiency_chart"] = utils.scenario_efficiency_chart(scenario_data)
 
@@ -197,15 +198,16 @@ def fixed_mount_system_view(request):
 
             result, config = fms.run_simulation()
             result_id = db.save_modelchain_result(
-                result=result,
-                config=config,
-                array_names=array_names
+                result=result, config=config, array_names=array_names
             )
             db.close()
 
         except Exception as e:
             logger.error(e)
-            messages.warning(request, "Could not complete simulation. Check parameters and try again.")
+            messages.warning(
+                request,
+                "Could not complete simulation. Check parameters and try again.",
+            )
             return redirect("fixed_mount_system")
 
         signer = Signer()
@@ -258,7 +260,7 @@ def spec_sheet_modelling_view(request):
             "i_mp": float(request.POST.get("i_mp")),
             "v_oc": float(request.POST.get("v_oc")),
             "i_sc": float(request.POST.get("i_sc")),
-            "cells_in_series": int(request.POST.get("cells_in_series"))
+            "cells_in_series": int(request.POST.get("cells_in_series")),
         }
 
         temp_coefficients = {
@@ -318,15 +320,16 @@ def spec_sheet_modelling_view(request):
 
             result, config = sss.run_simulation()
             result_id = db.save_modelchain_result(
-                result=result,
-                config=config,
-                array_names=array_names
+                result=result, config=config, array_names=array_names
             )
             db.close()
 
         except Exception as e:
             logger.debug(e)
-            messages.error(request, "Could not complete simulation. Check parameters and try again.")
+            messages.error(
+                request,
+                "Could not complete simulation. Check parameters and try again.",
+            )
             return redirect("spec_sheet_modelling")
 
         signer = Signer()
@@ -423,15 +426,16 @@ def axis_tracking_view(request):
 
             result, config = sdt.run_simulation()
             result_id = db.save_modelchain_result(
-                result=result,
-                config=config,
-                array_names=array_names
+                result=result, config=config, array_names=array_names
             )
             db.close()
 
         except Exception as e:
             logger.error(e)
-            messages.error(request, "Could not complete simulation. Check parameters and try again.")
+            messages.error(
+                request,
+                "Could not complete simulation. Check parameters and try again.",
+            )
             return redirect("axis_tracking")
 
         signer = Signer()
@@ -455,21 +459,21 @@ def bifacial_system_view(request):
             messages.error(request, f"Missing required fields: {', '.join(missing)}")
             return redirect("bifacial_system")
 
-
         simulation_name = request.POST.get("name", "Bifacial_System")
         description = request.POST.get("description")
         arrays_file = request.FILES.get("arrays_json")
-        
+
         if arrays_file:
             try:
                 arrays_config = json.load(arrays_file)
                 if not isinstance(arrays_config, list):
-                    messages.error(request, "Invalid arrays file: must be a JSON array.")
+                    messages.error(
+                        request, "Invalid arrays file: must be a JSON array."
+                    )
                     return redirect("bifacial_system")
             except json.JSONDecodeError:
                 messages.error(request, "Invalid JSON in arrays file.")
                 return redirect("bifacial_system")
-
 
         location_params = {
             "name": simulation_name,
@@ -537,7 +541,10 @@ def bifacial_system_view(request):
             )
         except Exception as e:
             logger.error(e)
-            messages.error(request, "Could not complete simulation. Check parameters and try again.")
+            messages.error(
+                request,
+                "Could not complete simulation. Check parameters and try again.",
+            )
             return redirect("bifacial_system")
 
         signer = Signer()
@@ -628,18 +635,10 @@ def modelchain_result_view(request, token):
 
     # Build time-series charts
     time_series = {
-        "ac": timeseries.ac_chart(
-            simulation_data["ac"], ac_param
-        ),
-        "aoi": timeseries.aoi_chart(
-            simulation_data["aoi"], aoi_param
-        ),
-        "cell_temp": timeseries.cell_temp_chart(
-            simulation_data["cell_temperature"]
-        ),
-        "dc_output": timeseries.dc_output_chart(
-            simulation_data["dc"], dc_output_param
-        ),
+        "ac": timeseries.ac_chart(simulation_data["ac"], ac_param),
+        "aoi": timeseries.aoi_chart(simulation_data["aoi"], aoi_param),
+        "cell_temp": timeseries.cell_temp_chart(simulation_data["cell_temperature"]),
+        "dc_output": timeseries.dc_output_chart(simulation_data["dc"], dc_output_param),
         "diode_params": timeseries.diode_params_chart(
             simulation_data["diode_params"], diode_params_param
         ),
@@ -647,7 +646,9 @@ def modelchain_result_view(request, token):
             simulation_data["irradiance"], irradiance_param
         ),
         "weather": timeseries.weather_chart(simulation_data["weather"], weather_param),
-        "solar_position": timeseries.solar_position_chart(simulation_data["solar_position"], solar_position_param)
+        "solar_position": timeseries.solar_position_chart(
+            simulation_data["solar_position"], solar_position_param
+        ),
     }
 
     meta_data = {
@@ -714,20 +715,71 @@ def modelchain_result_view(request, token):
 
 
 def weather_view(request):
-    conn = DatabaseConnection()
-    db = DataManager(conn)
-    lat, lon = -1.2921, 36.8219
-    location_data, current_df, hourly_df, daily_df = db.fetch_openmeteo_data(lat, lon)
-    db.close()
+    if request.method == "POST":
+        location = {
+            "lat": request.POST.get("lat"),
+            "lon": request.POST.get("lon"),
+            "tz": request.POST.get("tz"),
+            "name": request.POST.get("name"),
+        }
+        weather_data = weather_utils.fetch_weather_data
+    else:
+        location = {
+            "lat": -1.2921,
+            "lon": 36.8219,
+        }
+        conn = DatabaseConnection()
+        db = DataManager(conn)
+        weather_data = db.fetch_weather_data
+
+    location_data, current_df, hourly_df, daily_df = weather_data(location)
+
+    if request.method == "GET":
+        db.close()
+
     wa = weather_analyzer.WeatherAnalyzer(
         location_data=location_data,
         current_weather=current_df,
         hourly_weather=hourly_df,
         daily_weather=daily_df,
     )
-    analysis = wa.analyze_weather()
-    context = {"analysis": analysis}
+
+    context = {"analysis": wa.analyze_weather()}
     return render(request, "analytics/weather.html", context)
+
+
+def air_quality_view(request):
+    if request.method == "POST":
+        location = {
+            "lat": request.POST.get("lat"),
+            "lon": request.POST.get("lon"),
+            "tz": request.POST.get("tz"),
+            "name": request.POST.get("name"),
+        }
+        aq_data = aq_utils.fetch_openmeteo_airquality
+
+    else:
+        location = {
+            "lat": -1.2921,
+            "lon": 36.8219,
+        }
+        conn = DatabaseConnection()
+        db = DataManager(conn)
+        aq_data = db.fetch_air_quality_data
+
+    location_data, current_df, hourly_df = aq_data(location)
+
+    if request.method == "GET":
+        db.close()
+
+    aq = aq_analyzer.AirQualityAnalyzer(
+        location_data=location_data,
+        current_weather=current_df,
+        hourly_weather=hourly_df,
+    )
+    analysis = aq.analyze_air_quality()
+    context = {"air_quality": analysis}
+    return render(request, "analytics/air_quality.html", context)
 
 
 def nasa_climate_modelling_view(request):
@@ -750,7 +802,7 @@ def nasa_climate_modelling_view(request):
 
         data = {"result": result, "plots": plots}
         pickled_data = pickle.dumps(data)
-        
+
         cache_key = uuid.uuid4()
         cache.set(cache_key, pickled_data, timeout=3600)
         return redirect("climate_results", key=cache_key)
@@ -767,6 +819,7 @@ def climate_results_view(request, key):
     }
     return render(request, "analytics/climate_results.html", context)
 
+
 def help_view(request):
     context = {}
     return render(request, "analytics/help.html", context)
@@ -775,23 +828,6 @@ def help_view(request):
 def repository_view(request):
     context = {}
     return render(request, "analytics/repository.html", context)
-
-
-
-def air_quality_view(request):
-    conn = DatabaseConnection()
-    db = DataManager(conn)
-    lat, lon = -1.2921, 36.8219
-    location_data, current_df, hourly_df = db.fetch_air_quality_data(lat, lon)
-    db.close()
-    aq = airquality_analyzer.AirQualityAnalyzer(
-        location_data=location_data,
-        current_weather=current_df,
-        hourly_weather=hourly_df,
-    )
-    analysis = aq.analyze_air_quality()
-    context = {"air_quality": analysis}
-    return render(request, "analytics/air_quality.html", context)
 
 
 def module_search(request):

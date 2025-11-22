@@ -13,7 +13,7 @@ class Profile(models.Model):
     userID = models.CharField(max_length=10, unique=True, null=True)
     full_name = models.CharField(max_length=255, blank=True, null=True)
     bio = models.CharField(max_length=100, default="I love solar energy.")
-    avatar = models.ImageField(default="user.jpg")
+    avatar = models.ImageField(default="avatar.jpg")
     job_title = models.CharField(max_length=50, default="Solar Enthusiast")
     department = models.CharField(max_length=50, default="Energy Simulation")
     phone = models.CharField(max_length=20, null=True, blank=True)

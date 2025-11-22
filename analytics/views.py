@@ -1,15 +1,17 @@
-## visualisation/views.py
+## analytics/views.py
 ## pkibuka@milky-way.space
 
-from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.conf import settings
 from django.contrib import messages
 from django.core.cache import cache
 from django.core.signing import Signer
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
 from data_factory.database.db_manager import DataManager
 from data_factory.database.connection import DatabaseConnection
 from data_factory.pvwatts.simulator import PVWattsSimulator
+from data_factory.pvwatts import pvwatts_plots
 from data_factory.pvlib import (
     fixed_mount_simulator,
     specs_simulator,
@@ -33,9 +35,10 @@ logger = logging.getLogger(__name__)
 def index_view(request):
     locations = utils.load_locations()
     conn = DatabaseConnection()
-    dbm = DataManager(conn)
-    df = dbm.get_irradiance_ohlc_data(bucket="1 week")
-
+    db = DataManager(conn)
+    df = db.get_irradiance_ohlc_data(bucket="1 week")
+    db.close()
+    
     if df.empty:
         irradiance_chart = "<p>No data available</p>"
 
@@ -71,12 +74,11 @@ def index_view(request):
 
 
 def pvwatts_modelling_view(request):
-    simulator = PVWattsSimulator()
     reports = []
     location_idx = 0
 
     if request.method == "POST":
-        # Get system config parameters
+        simulator = PVWattsSimulator()
         system_config = {
             "system_capacity": float(request.POST.get("system_capacity", 5)),
             "azimuth": int(request.POST.get("azimuth", 180)),
@@ -97,37 +99,40 @@ def pvwatts_modelling_view(request):
                 break
 
             simulator.add_location(name=loc_name, lat=float(lat), lon=float(lon))
-            report = simulator.generate_report(loc_name, config=system_config)
-            reports.append(report)
+            report, base_data = simulator.generate_report(loc_name, config=system_config)
 
+            charts = pvwatts_plots.generate_all_analytics(base_data["hourly_data"])
+            report["analytics_charts"] = charts
+
+            monthly_savings = report["financial_analysis"]["monthly_savings_breakdown"]
+            report["savings_chart"] = utils.monthly_savings_chart(monthly_savings)
+
+            scenario_data = report["scenario_analysis"]
+            report["efficiency_chart"] = utils.scenario_efficiency_chart(scenario_data)
+
+            reports.append(report)
             location_idx += 1
 
-        request.session["pvwatts_report"] = reports
-        return redirect("pvwatts_report")
+        data = {"reports": reports}
+        pickled_data = pickle.dumps(data)
+        cache_key = uuid.uuid4()
+        cache.set(cache_key, pickled_data, timeout=3600)
+        return redirect("pvwatts_report", key=cache_key)
 
     return render(request, "analytics/pvwatts_modelling.html", {})
 
 
-def pvwatts_report_view(request):
-    reports = request.session.get("pvwatts_report")
-
+def pvwatts_report_view(request, key):
+    pickled_data = cache.get(key)
+    reports = pickle.loads(pickled_data)
     if not reports:
         return redirect("pvwatts_modelling")
 
-    for report in reports:
-        monthly_savings = report["financial_analysis"]["monthly_savings_breakdown"]
-        report["savings_chart"] = utils.monthly_savings_chart(monthly_savings)
-
-        scenario_data = report["scenario_analysis"]
-        report["efficiency_chart"] = utils.scenario_efficiency_chart(scenario_data)
-
-    context = {"reports": reports}
+    context = {"reports": reports["reports"]}
     return render(request, "analytics/pvwatts_report.html", context)
 
 
 def fixed_mount_system_view(request):
-    conn = DatabaseConnection()
-    db = DataManager(conn)
 
     if request.method == "POST":
 
@@ -197,8 +202,10 @@ def fixed_mount_system_view(request):
             )
 
             result, config = fms.run_simulation()
+            conn = DatabaseConnection()
+            db = DataManager(conn)
             result_id = db.save_modelchain_result(
-                result=result, config=config, array_names=array_names
+                user=1, result=result, config=config, array_names=array_names
             )
             db.close()
 
@@ -219,9 +226,6 @@ def fixed_mount_system_view(request):
 
 
 def spec_sheet_modelling_view(request):
-    conn = DatabaseConnection()
-    db = DataManager(conn)
-
     if request.method == "POST":
 
         required_fields = ["lat", "lon", "alt", "tz"]
@@ -319,8 +323,10 @@ def spec_sheet_modelling_view(request):
                 return redirect("spec_sheet_modelling")
 
             result, config = sss.run_simulation()
+            conn = DatabaseConnection()
+            db = DataManager(conn)
             result_id = db.save_modelchain_result(
-                result=result, config=config, array_names=array_names
+                user=request.user.id, result=result, config=config, array_names=array_names
             )
             db.close()
 
@@ -341,9 +347,6 @@ def spec_sheet_modelling_view(request):
 
 
 def axis_tracking_view(request):
-    conn = DatabaseConnection()
-    db = DataManager(conn)
-
     if request.method == "POST":
 
         required_fields = ["lat", "lon", "alt", "tz"]
@@ -425,8 +428,10 @@ def axis_tracking_view(request):
             )
 
             result, config = sdt.run_simulation()
+            conn = DatabaseConnection()
+            db = DataManager(conn)
             result_id = db.save_modelchain_result(
-                result=result, config=config, array_names=array_names
+                user=request.user.id, result=result, config=config, array_names=array_names
             )
             db.close()
 
@@ -447,9 +452,6 @@ def axis_tracking_view(request):
 
 
 def bifacial_system_view(request):
-    conn = DatabaseConnection()
-    db = DataManager(conn)
-
     if request.method == "POST":
 
         required_fields = ["lat", "lon", "alt", "tz"]
@@ -462,18 +464,16 @@ def bifacial_system_view(request):
         simulation_name = request.POST.get("name", "Bifacial_System")
         description = request.POST.get("description")
         arrays_file = request.FILES.get("arrays_json")
+        arrays_config = json.load(arrays_file) if arrays_file else {}
 
-        if arrays_file:
-            try:
-                arrays_config = json.load(arrays_file)
-                if not isinstance(arrays_config, list):
-                    messages.error(
-                        request, "Invalid arrays file: must be a JSON array."
-                    )
-                    return redirect("bifacial_system")
-            except json.JSONDecodeError:
-                messages.error(request, "Invalid JSON in arrays file.")
-                return redirect("bifacial_system")
+        array_names = {}
+
+        for idx, arr in enumerate(arrays_config):
+            name = arr.get("name", f"Array_{idx}")
+            array_names[str(idx)] = name
+
+        index = len(array_names)
+        array_names[str(index)] = "MainArray"
 
         location_params = {
             "name": simulation_name,
@@ -532,12 +532,11 @@ def bifacial_system_view(request):
                 losses_params=losses_params,
             )
 
-            result = bpv.run_simulation()
+            result, config = bpv.run_simulation()
+            conn = DatabaseConnection()
+            db = DataManager(conn)
             result_id = db.save_modelchain_result(
-                result=result,
-                array_names=array_names,
-                simulation_name=simulation_name,
-                description=description,
+                user=request.user.id, result=result, config=config, array_names=array_names
             )
         except Exception as e:
             logger.error(e)
@@ -820,14 +819,24 @@ def climate_results_view(request, key):
     return render(request, "analytics/climate_results.html", context)
 
 
+@login_required
+def repository_view(request):
+    conn = DatabaseConnection()
+    db = DataManager(conn)
+    sim_data = db.fetch_user_simulations(1)
+    db.close()
+    signer = Signer()
+
+    for sim in sim_data["simulations"]:
+        sim["token"] = signer.sign(str(sim["result_id"]))
+        
+    context = {"sim_data": sim_data}
+    return render(request, "analytics/repository.html", context)
+
+
 def help_view(request):
     context = {}
     return render(request, "analytics/help.html", context)
-
-
-def repository_view(request):
-    context = {}
-    return render(request, "analytics/repository.html", context)
 
 
 def module_search(request):
@@ -854,3 +863,4 @@ def inverter_search(request):
         :50
     ]  # limit to 50 results
     return JsonResponse(results, safe=False)
+

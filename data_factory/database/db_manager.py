@@ -66,17 +66,18 @@ class DataManager:
             logger.error(f"No data: {e}")
             return pd.DataFrame()
 
-    def save_modelchain_result(self, result, config, array_names):
+    def save_modelchain_result(self, user, result, config, array_names):
         with self.db.cursor() as cur:
             # Insert simulation metadata,
             cur.execute(
                 """
                 INSERT INTO modelchain_results 
-                    (simulation_name, system_type, description, albedo, losses, spectral_modifier, latitude, longitude, altitude, timezone, module_name, module_type, cell_type, custom_module_params, arrays, inverter_name, custom_inverter_params, temperature_model, temp_model_params, custom_temp_params)
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                    (user_id, simulation_name, system_type, description, albedo, losses, spectral_modifier, latitude, longitude, altitude, timezone, module_name, module_type, cell_type, custom_module_params, arrays, inverter_name, custom_inverter_params, temperature_model, temp_model_params, custom_temp_params)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                 RETURNING result_id
             """,
                 (
+                    user,
                     config["simulation_name"],
                     config["system_type"],
                     config["description"],
@@ -307,6 +308,59 @@ class DataManager:
             result["weather"] = fetch_timeseries("weather")
 
         return result
+
+    def fetch_user_simulations(self, user_id: float):
+        """
+        Fetch all simulations for the given user and compute simple metrics.
+        Includes:
+          - total simulations
+          - total simulations per system_type
+        """
+        simulations = []
+        system_type_counts = {}
+
+        with self.db.cursor() as cur:
+            cur.execute(
+                """
+                SELECT 
+                    result_id, simulation_name, latitude, longitude,
+                    system_type, description, arrays, created_at
+                FROM modelchain_results
+                WHERE user_id = %s
+                ORDER BY created_at DESC
+                """,
+                (user_id,),
+            )
+            rows = cur.fetchall()
+
+        for r in rows:
+            system_type = r[4] or "Unknown"
+            system_type_counts[system_type] = system_type_counts.get(system_type, 0) + 1
+
+            simulations.append(
+                {
+                    "result_id": r[0],
+                    "simulation_name": r[1],
+                    "latitude": r[2],
+                    "longitude": r[3],
+                    "system_type": r[4],
+                    "description": r[5],
+                    "arrays": len(r[6]),
+                    "created_at": r[7],
+                }
+            )
+
+        metrics = {
+            "total_simulations": len(simulations),
+            "system_type_counts": system_type_counts,
+        }
+
+        return {
+            "simulations": simulations,
+            "metrics": metrics,
+        }
+
+
 
     def get_or_create_location(
         self,

@@ -33,6 +33,7 @@ SELECT create_hypertable(
 -- ===============================================================
 CREATE TABLE IF NOT EXISTS modelchain_results (
     result_id SERIAL PRIMARY KEY,
+    user_id NUMERIC,
     simulation_name TEXT,
     description TEXT,
     created_at TIMESTAMPTZ DEFAULT NOW(),
@@ -55,6 +56,8 @@ CREATE TABLE IF NOT EXISTS modelchain_results (
     temp_model_params TEXT,
     custom_temp_params JSONB
 );
+CREATE INDEX IF NOT EXISTS idx_modelchain_user_id ON modelchain_results(user_id);
+
 -- ===============================================================
 -- 3. PVlib Time-Series Tables
 -- Each table includes `array_name` and a composite PK
@@ -186,10 +189,11 @@ SELECT create_hypertable('weather', 'utc_time', chunk_time_interval => INTERVAL 
 
 CREATE TABLE IF NOT EXISTS weather_location (
     id BIGSERIAL PRIMARY KEY,
-    provider TEXT NOT NULL,
-    model TEXT,
     latitude DOUBLE PRECISION NOT NULL,
     longitude DOUBLE PRECISION NOT NULL,
+    name TEXT,
+    provider TEXT,
+    model TEXT,
     elevation_m DOUBLE PRECISION,
     timezone TEXT,
     tz_abbreviation TEXT,
@@ -243,6 +247,7 @@ CREATE TABLE IF NOT EXISTS weather_hourly (
 
 CREATE TABLE weather_daily (
     id BIGSERIAL NOT NULL,
+    name TEXT,
     location_id BIGINT NOT NULL REFERENCES weather_location(id) ON DELETE CASCADE,
     time TIMESTAMPTZ NOT NULL,
     sunrise BIGINT,

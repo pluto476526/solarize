@@ -2,7 +2,7 @@
 ## pkibuka@milky-way.space
 
 from django.shortcuts import render, redirect
-from django.contrib.auth import models, authenticate, login, logout
+from django.contrib.auth import models, authenticate, login, logout, decorators
 from django.contrib import messages
 from onboarding.models import Profile
 import logging
@@ -15,6 +15,7 @@ def home_view(request):
     return render(request, "onboarding/index.html", context)
 
 
+@decorators.login_required
 def profile_view(request):
     try:
         profile = Profile.objects.get(user=request.user)
@@ -71,15 +72,16 @@ def signin_view(request):
     if request.method == "POST":
         username = request.POST.get("username")
         password = request.POST.get("password")
+        next_url = request.POST.get("next", "home")
 
         user = authenticate(request, username=username, password=password)
         if user:
             login(request, user)
-            return redirect("home")
+            return redirect(next_url)
         else:
             messages.error(request, "Please check your credentials and try again")
 
-    context = {}
+    context = {"next": request.GET.get("next", "")}
     return render(request, "onboarding/signin.html", context)
 
 

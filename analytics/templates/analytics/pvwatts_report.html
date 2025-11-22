@@ -179,6 +179,564 @@
                         </div>
                     </div>
                 </div>
+
+
+
+                <div class="container-fluid pt-3">
+                    <!-- ============================
+                    1. POWER GENERATION ANALYSIS
+                    ============================== -->
+                    <div class="row g-4 pt-2">
+                        <div class="col-12">
+                            <div class="bg-secondary rounded p-4">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h4 class="mb-0">⚡ Power Generation Analysis</h4>
+                                    <a class="btn btn-outline-primary btn-sm"
+                                       data-bs-toggle="collapse"
+                                       href="#powerDetails"
+                                       role="button"
+                                       aria-expanded="false">
+                                        <i class="bi bi-chevron-down me-1"></i> Show Details
+                                    </a>
+                                </div>
+                                <div class="collapse" id="powerDetails">
+                                    <div class="card card-body border bg-secondary">
+                                        <p class="mb-3">
+                                            This section provides comprehensive analysis of AC and DC power generation patterns,
+                                            system efficiency, and temporal performance trends throughout the year.
+                                        </p>
+                                        <div class="row g-3">
+                                            <!-- Power Time Series Card -->
+                                            <div class="col-md-6">
+                                                <div class="card h-100 border-0 bg-dark">
+                                                    <div class="card-body p-3">
+                                                        <h6 class="card-title d-flex align-items-center">
+                                                            <span class="badge bg-primary me-2">1</span>
+                                                            Daily Power Generation
+                                                        </h6>
+                                                        <p class="card-text small mb-0">
+                                                            Shows daily average AC and DC power generation over time.
+                                                            Reveals seasonal trends, system performance consistency, and long-term patterns.
+                                                        </p>
+                                                        <div class="mt-2">
+                                                            <span class="badge bg-light text-dark small">Time Series</span>
+                                                            <span class="badge bg-light text-dark small">Seasonal Trends</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Power Heatmaps Card -->
+                                            <div class="col-md-6">
+                                                <div class="card h-100 border-0 bg-dark">
+                                                    <div class="card-body p-3">
+                                                        <h6 class="card-title d-flex align-items-center">
+                                                            <span class="badge bg-primary me-2">2</span>
+                                                            Power Generation Heatmaps
+                                                        </h6>
+                                                        <p class="card-text small mb-0">
+                                                            Visualizes power generation patterns across hours of the day and days of the year.
+                                                            Identifies daily peak production hours and seasonal performance variations.
+                                                        </p>
+                                                        <div class="mt-2">
+                                                            <span class="badge bg-light text-dark small">Heatmap</span>
+                                                            <span class="badge bg-light text-dark small">Daily Patterns</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Monthly Average Power Card -->
+                                            <div class="col-md-6">
+                                                <div class="card h-100 border-0 bg-dark">
+                                                    <div class="card-body p-3">
+                                                        <h6 class="card-title d-flex align-items-center">
+                                                            <span class="badge bg-primary me-2">3</span>
+                                                            Monthly Average Power
+                                                        </h6>
+                                                        <p class="card-text small mb-0">
+                                                            Shows average AC and DC power generation by month.
+                                                            Helps identify seasonal performance patterns and system consistency.
+                                                        </p>
+                                                        <div class="mt-2">
+                                                            <span class="badge bg-light text-dark small">Bar Chart</span>
+                                                            <span class="badge bg-light text-dark small">Monthly Trends</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Monthly Maximum Power Card -->
+                                            <div class="col-md-6">
+                                                <div class="card h-100 border-0 bg-dark">
+                                                    <div class="card-body p-3">
+                                                        <h6 class="card-title d-flex align-items-center">
+                                                            <span class="badge bg-primary me-2">4</span>
+                                                            Monthly Maximum Power
+                                                        </h6>
+                                                        <p class="card-text small mb-0">
+                                                            Displays peak AC and DC power output by month.
+                                                            Reveals system capacity utilization and performance limits.
+                                                        </p>
+                                                        <div class="mt-2">
+                                                            <span class="badge bg-light text-dark small">Line Chart</span>
+                                                            <span class="badge bg-light text-dark small">Peak Performance</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Monthly Total Energy Card -->
+                                            <div class="col-md-6">
+                                                <div class="card h-100 border-0 bg-dark">
+                                                    <div class="card-body p-3">
+                                                        <h6 class="card-title d-flex align-items-center">
+                                                            <span class="badge bg-primary me-2">5</span>
+                                                            Monthly Total Energy
+                                                        </h6>
+                                                        <p class="card-text small mb-0">
+                                                            Shows total AC energy production by month.
+                                                            Essential for energy production analysis and performance benchmarking.
+                                                        </p>
+                                                        <div class="mt-2">
+                                                            <span class="badge bg-light text-dark small">Bar Chart</span>
+                                                            <span class="badge bg-light text-dark small">Energy Production</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Monthly Efficiency Card -->
+                                            <div class="col-md-6">
+                                                <div class="card h-100 border-0 bg-dark">
+                                                    <div class="card-body p-3">
+                                                        <h6 class="card-title d-flex align-items-center">
+                                                            <span class="badge bg-primary me-2">6</span>
+                                                            Monthly System Efficiency
+                                                        </h6>
+                                                        <p class="card-text small mb-0">
+                                                            Tracks inverter efficiency (AC/DC ratio) by month.
+                                                            Identifies seasonal variations in system conversion performance.
+                                                        </p>
+                                                        <div class="mt-2">
+                                                            <span class="badge bg-light text-dark small">Line Chart</span>
+                                                            <span class="badge bg-light text-dark small">Efficiency Trends</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Charts Section -->
+                                <div class="row g-4 mt-3">
+                                    <div class="col-lg-12">{{ r.analytics_charts.power_timeseries|safe }}</div>
+                                    <div class="col-lg-6">{{ r.analytics_charts.ac_power_heatmap|safe }}</div>
+                                    <div class="col-lg-6">{{ r.analytics_charts.dc_power_heatmap|safe }}</div>
+                                    <div class="col-lg-6">{{ r.analytics_charts.monthly_average_power|safe }}</div>
+                                    <div class="col-lg-6">{{ r.analytics_charts.monthly_maximum_power|safe }}</div>
+                                    <div class="col-lg-6">{{ r.analytics_charts.monthly_total_energy|safe }}</div>
+                                    <div class="col-lg-6">{{ r.analytics_charts.monthly_efficiency|safe }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ============================
+                    2. IRRADIANCE ANALYSIS
+                    ============================== -->
+                    <div class="row g-4 pt-2">
+                        <div class="col-12">
+                            <div class="bg-secondary rounded p-4">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h4 class="mb-0">☀️ Irradiance Analysis</h4>
+                                    <a class="btn btn-outline-warning btn-sm"
+                                       data-bs-toggle="collapse"
+                                       href="#irradianceDetails"
+                                       role="button"
+                                       aria-expanded="false">
+                                        <i class="bi bi-chevron-down me-1"></i> Show Details
+                                    </a>
+                                </div>
+                                <div class="collapse" id="irradianceDetails">
+                                    <div class="card card-body bg-secondary border">
+                                        <p class="mb-3">
+                                            This section analyzes solar irradiance patterns and their relationship with power generation.
+                                            Understanding irradiance behavior helps optimize system performance and identify environmental impacts.
+                                        </p>
+                                        <div class="row g-3">
+                                            <!-- Daily Patterns Card -->
+                                            <div class="col-md-6">
+                                                <div class="card h-100 border-0 bg-dark">
+                                                    <div class="card-body p-3">
+                                                        <h6 class="card-title d-flex align-items-center">
+                                                            <span class="badge bg-warning text-dark me-2">1</span>
+                                                            Daily Irradiance Patterns
+                                                        </h6>
+                                                        <p class="card-text small mb-0">
+                                                            Shows average POA irradiance patterns throughout the day for each month.
+                                                            Reveals seasonal variations in daylight hours and peak irradiance timing.
+                                                        </p>
+                                                        <div class="mt-2">
+                                                            <span class="badge bg-light text-dark small">Daily Profile</span>
+                                                            <span class="badge bg-light text-dark small">Monthly Comparison</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Irradiance vs Power Card -->
+                                            <div class="col-md-6">
+                                                <div class="card h-100 border-0 bg-dark">
+                                                    <div class="card-body p-3">
+                                                        <h6 class="card-title d-flex align-items-center">
+                                                            <span class="badge bg-warning text-dark me-2">2</span>
+                                                            Irradiance vs Power Generation
+                                                        </h6>
+                                                        <p class="card-text small mb-0">
+                                                            Scatter plots showing the relationship between POA irradiance and both AC/DC power output.
+                                                            Helps identify system response and efficiency under different light conditions.
+                                                        </p>
+                                                        <div class="mt-2">
+                                                            <span class="badge bg-light text-dark small">Scatter Plot</span>
+                                                            <span class="badge bg-light text-dark small">Correlation</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Interpretation Guide -->
+                                        <div class="mt-4 p-3 bg-dark rounded">
+                                            <h6 class="text-warning mb-2">💡 Interpretation Guide</h6>
+                                            <ul class="small text-muted mb-0">
+                                                <li>
+                                                    <strong>Bell-shaped curves:</strong> Normal daily irradiance patterns - expect steeper curves in summer, wider in winter
+                                                </li>
+                                                <li>
+                                                    <strong>Scatter plot clustering:</strong> Tight clusters indicate consistent system performance; scattered points suggest variable conditions
+                                                </li>
+                                                <li>
+                                                    <strong>Linearity:</strong> Power should increase linearly with irradiance up to system capacity
+                                                </li>
+                                                <li>
+                                                    <strong>Seasonal shifts:</strong> Earlier peaks in summer, later peaks in winter due to sun position changes
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Charts Section -->
+                                <div class="row g-4 mt-3">
+                                    <div class="col-lg-12">{{ r.analytics_charts.irradiance_patterns|safe }}</div>
+                                    <div class="col-lg-12">{{ r.analytics_charts.irradiance_vs_power|safe }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ============================
+                    3. SEASONAL PERFORMANCE ANALYSIS
+                    ============================== -->
+                    <div class="row g-4 pt-2">
+                        <div class="col-12">
+                            <div class="bg-secondary rounded p-4">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h4 class="mb-0">📈 Seasonal Performance Analysis</h4>
+                                    <a class="btn btn-outline-success btn-sm"
+                                       data-bs-toggle="collapse"
+                                       href="#seasonalDetails"
+                                       role="button"
+                                       aria-expanded="false">
+                                        <i class="bi bi-chevron-down me-1"></i> Show Details
+                                    </a>
+                                </div>
+                                <div class="collapse" id="seasonalDetails">
+                                    <div class="card card-body bg-secondary border">
+                                        <p class="mb-3">
+                                            This section provides comprehensive analysis of system performance across different seasons,
+                                            highlighting seasonal variations in power generation, efficiency, and energy production.
+                                        </p>
+                                        <div class="row g-3">
+                                            <!-- Seasonal Average Power Card -->
+                                            <div class="col-md-6">
+                                                <div class="card h-100 border-0 bg-dark">
+                                                    <div class="card-body p-3">
+                                                        <h6 class="card-title d-flex align-items-center">
+                                                            <span class="badge bg-success me-2">1</span>
+                                                            Average Power by Season
+                                                        </h6>
+                                                        <p class="card-text small mb-0">
+                                                            Shows average AC and DC power generation across different seasons.
+                                                            Reveals seasonal performance patterns and system consistency.
+                                                        </p>
+                                                        <div class="mt-2">
+                                                            <span class="badge bg-light text-dark small">Bar Chart</span>
+                                                            <span class="badge bg-light text-dark small">Seasonal Comparison</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Seasonal Total Energy Card -->
+                                            <div class="col-md-6">
+                                                <div class="card h-100 border-0 bg-dark">
+                                                    <div class="card-body p-3">
+                                                        <h6 class="card-title d-flex align-items-center">
+                                                            <span class="badge bg-success me-2">2</span>
+                                                            Total Energy by Season
+                                                        </h6>
+                                                        <p class="card-text small mb-0">
+                                                            Displays total AC energy production by season.
+                                                            Essential for understanding seasonal energy yield and system productivity.
+                                                        </p>
+                                                        <div class="mt-2">
+                                                            <span class="badge bg-light text-dark small">Bar Chart</span>
+                                                            <span class="badge bg-light text-dark small">Energy Production</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Seasonal Maximum Power Card -->
+                                            <div class="col-md-6">
+                                                <div class="card h-100 border-0 bg-dark">
+                                                    <div class="card-body p-3">
+                                                        <h6 class="card-title d-flex align-items-center">
+                                                            <span class="badge bg-success me-2">3</span>
+                                                            Maximum Power by Season
+                                                        </h6>
+                                                        <p class="card-text small mb-0">
+                                                            Shows peak AC and DC power output by season.
+                                                            Reveals seasonal capacity utilization and performance limits.
+                                                        </p>
+                                                        <div class="mt-2">
+                                                            <span class="badge bg-light text-dark small">Line Chart</span>
+                                                            <span class="badge bg-light text-dark small">Peak Performance</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Seasonal Irradiance Card -->
+                                            <div class="col-md-6">
+                                                <div class="card h-100 border-0 bg-dark">
+                                                    <div class="card-body p-3">
+                                                        <h6 class="card-title d-flex align-items-center">
+                                                            <span class="badge bg-success me-2">4</span>
+                                                            Average Irradiance by Season
+                                                        </h6>
+                                                        <p class="card-text small mb-0">
+                                                            Displays average POA irradiance levels by season.
+                                                            Correlates solar resource availability with system performance.
+                                                        </p>
+                                                        <div class="mt-2">
+                                                            <span class="badge bg-light text-dark small">Bar Chart</span>
+                                                            <span class="badge bg-light text-dark small">Solar Resource</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Seasonal Patterns -->
+                                        <div class="mt-4 p-3 bg-dark rounded">
+                                            <h6 class="text-success mb-2">🌍 Seasonal Patterns (Northern Hemisphere)</h6>
+                                            <div class="row small text-muted">
+                                                <div class="col-md-3">
+                                                    <strong>Winter</strong>
+                                                    <p class="mb-1">Lowest production due to shorter days and lower sun angle</p>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <strong>Spring</strong>
+                                                    <p class="mb-1">Increasing production with longer days and moderate temperatures</p>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <strong>Summer</strong>
+                                                    <p class="mb-1">Highest irradiance but potential temperature-related efficiency losses</p>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <strong>Fall</strong>
+                                                    <p class="mb-1">Gradual production decrease as days shorten and sun angle lowers</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Performance Insights -->
+                                        <div class="mt-3 p-3 bg-dark rounded border">
+                                            <h6 class="text-success mb-2">📊 Performance Insights</h6>
+                                            <ul class="small text-muted mb-0">
+                                                <li>
+                                                    <strong>Summer peaks:</strong> Highest maximum power but watch for temperature derating
+                                                </li>
+                                                <li>
+                                                    <strong>Spring efficiency:</strong> Often shows best performance due to optimal temperature/irradiance balance
+                                                </li>
+                                                <li>
+                                                    <strong>Winter consistency:</strong> Lower but more predictable output with less temperature variation
+                                                </li>
+                                                <li>
+                                                    <strong>Seasonal totals:</strong> Compare against expected production based on location and system design
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Charts Section -->
+                                <div class="row g-4 mt-3">
+                                    <div class="col-lg-6">{{ r.analytics_charts.seasonal_average_power|safe }}</div>
+                                    <div class="col-lg-6">{{ r.analytics_charts.seasonal_total_energy|safe }}</div>
+                                    <div class="col-lg-6">{{ r.analytics_charts.seasonal_maximum_power|safe }}</div>
+                                    <div class="col-lg-6">{{ r.analytics_charts.seasonal_irradiance|safe }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ============================
+                    4. SYSTEM EFFICIENCY & PERFORMANCE
+                    ============================== -->
+                    <div class="row g-4 pt-2">
+                        <div class="col-12">
+                            <div class="bg-secondary rounded p-4">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h4 class="mb-0">🔧 System Efficiency & Performance</h4>
+                                    <a class="btn btn-outline-info btn-sm"
+                                       data-bs-toggle="collapse"
+                                       href="#efficiencyDetails"
+                                       role="button"
+                                       aria-expanded="false">
+                                        <i class="bi bi-chevron-down me-1"></i> Show Details
+                                    </a>
+                                </div>
+                                <div class="collapse" id="efficiencyDetails">
+                                    <div class="card card-body bg-secondary border">
+                                        <p class="mb-3">
+                                            Detailed analysis of system conversion efficiency, performance ratios, and operational characteristics.
+                                            Essential for identifying optimization opportunities and monitoring system health.
+                                        </p>
+                                        <div class="row g-3">
+                                            <!-- Efficiency Distribution Card -->
+                                            <div class="col-md-6">
+                                                <div class="card h-100 border-0 bg-dark">
+                                                    <div class="card-body p-3">
+                                                        <h6 class="card-title d-flex align-items-center">
+                                                            <span class="badge bg-info me-2">1</span>
+                                                            Efficiency Distribution
+                                                        </h6>
+                                                        <p class="card-text small mb-0">
+                                                            Shows the frequency distribution of system efficiency values.
+                                                            Reveals the most common operating efficiency and performance consistency.
+                                                        </p>
+                                                        <div class="mt-2">
+                                                            <span class="badge bg-light text-dark small">Histogram</span>
+                                                            <span class="badge bg-light text-dark small">Distribution</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Efficiency by Month Card -->
+                                            <div class="col-md-6">
+                                                <div class="card h-100 border-0 bg-dark">
+                                                    <div class="card-body p-3">
+                                                        <h6 class="card-title d-flex align-items-center">
+                                                            <span class="badge bg-info me-2">2</span>
+                                                            Efficiency by Month
+                                                        </h6>
+                                                        <p class="card-text small mb-0">
+                                                            Displays average system efficiency by month.
+                                                            Identifies seasonal variations in inverter performance and conversion efficiency.
+                                                        </p>
+                                                        <div class="mt-2">
+                                                            <span class="badge bg-light text-dark small">Bar Chart</span>
+                                                            <span class="badge bg-light text-dark small">Monthly Trends</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Efficiency vs Irradiance Card -->
+                                            <div class="col-md-6">
+                                                <div class="card h-100 border-0 bg-dark">
+                                                    <div class="card-body p-3">
+                                                        <h6 class="card-title d-flex align-items-center">
+                                                            <span class="badge bg-info me-2">3</span>
+                                                            Efficiency vs Irradiance
+                                                        </h6>
+                                                        <p class="card-text small mb-0">
+                                                            Shows how system efficiency varies with different irradiance levels.
+                                                            Helps identify optimal operating conditions and performance characteristics.
+                                                        </p>
+                                                        <div class="mt-2">
+                                                            <span class="badge bg-light text-dark small">Scatter Plot</span>
+                                                            <span class="badge bg-light text-dark small">Correlation</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Efficiency by Hour Card -->
+                                            <div class="col-md-6">
+                                                <div class="card h-100 border-0 bg-dark">
+                                                    <div class="card-body p-3">
+                                                        <h6 class="card-title d-flex align-items-center">
+                                                            <span class="badge bg-info me-2">4</span>
+                                                            Efficiency by Hour
+                                                        </h6>
+                                                        <p class="card-text small mb-0">
+                                                            Displays average system efficiency throughout the day.
+                                                            Reveals daily performance patterns and operational characteristics.
+                                                        </p>
+                                                        <div class="mt-2">
+                                                            <span class="badge bg-light text-dark small">Line Chart</span>
+                                                            <span class="badge bg-light text-dark small">Daily Patterns</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Efficiency Metrics -->
+                                        <div class="mt-4 p-3 bg-dark rounded">
+                                            <h6 class="text-info mb-2">⚡ Efficiency Metrics Explained</h6>
+                                            <div class="row small text-muted">
+                                                <div class="col-md-6">
+                                                    <strong>AC/DC Ratio</strong>
+                                                    <p class="mb-1">Measures inverter efficiency - typically 95-98% for modern inverters</p>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <strong>Performance Ratio</strong>
+                                                    <p class="mb-1">Overall system efficiency compared to ideal conditions - good systems achieve 75-85%</p>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <strong>Temperature Coefficient</strong>
+                                                    <p class="mb-1">Most panels lose 0.3-0.5% efficiency per °C above 25°C</p>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <strong>Capacity Factor</strong>
+                                                    <p class="mb-1">Actual output vs maximum theoretical output - typically 15-25% for fixed systems</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Optimization Tips -->
+                                        <div class="mt-3 p-3 bg-dark rounded border">
+                                            <h6 class="text-info mb-2">💡 Optimization Opportunities</h6>
+                                            <ul class="small text-muted mb-0">
+                                                <li>
+                                                    <strong>Low-light performance:</strong> Check efficiency at low irradiance levels
+                                                </li>
+                                                <li>
+                                                    <strong>Temperature sensitivity:</strong> Monitor efficiency drop with increasing module temperature
+                                                </li>
+                                                <li>
+                                                    <strong>Seasonal variations:</strong> Identify if efficiency changes significantly between seasons
+                                                </li>
+                                                <li>
+                                                    <strong>Daily patterns:</strong> Look for consistent efficiency throughout operational hours
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Charts Section -->
+                                <div class="row g-4 mt-3">
+                                    <div class="col-lg-6">{{ r.analytics_charts.efficiency_distribution|safe }}</div>
+                                    <div class="col-lg-6">{{ r.analytics_charts.efficiency_by_month|safe }}</div>
+                                    <div class="col-lg-6">{{ r.analytics_charts.efficiency_vs_irradiance|safe }}</div>
+                                    <div class="col-lg-6">{{ r.analytics_charts.efficiency_by_hour|safe }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
                 <!-- Scenario Analysis Section -->
                 <div class="row pt-4">
                     <div class="col-12">

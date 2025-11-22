@@ -87,7 +87,7 @@ class PVWattsSimulator:
             "location_info": {
                 "name": location.name,
                 "coordinates": f"{location.lat}, {location.lon}",
-                "report_date": datetime.now().isoformat(),
+                "report_date": datetime.now(),
             },
             "scenario_analysis": scenario_analysis,
             "financial_analysis": financial_analysis,
@@ -98,4 +98,4 @@ class PVWattsSimulator:
             "comparative_analysis": comparative_analysis,
         }
 
-        return report
+        return report, base_data

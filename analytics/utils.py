@@ -43,7 +43,7 @@ def monthly_savings_chart(monthly_savings: Dict):
     # Sort months (1–12) and map to names
     months = sorted(map(int, monthly_savings.keys()))
     month_names = [calendar.month_abbr[m] for m in months]
-    savings = [monthly_savings[str(m)] for m in months]
+    savings = [monthly_savings[m] for m in months]
 
     # Create line chart
     fig = go.Figure(

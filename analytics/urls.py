@@ -11,34 +11,40 @@ urlpatterns = [
     path(
         "PVWatts-energy-modelling/",
         views.pvwatts_modelling_view,
-        name="pvwatts_modelling",
+        name="pvwatts_modelling"
     ),
-    path("PVWatts-report/", views.pvwatts_report_view, name="pvwatts_report"),
     path(
-        "fixed-mount-system/", views.fixed_mount_system_view, name="fixed_mount_system"
+        "PVWatts-report/<str:key>",
+        views.pvwatts_report_view,
+        name="pvwatts_report"
     ),
-    path("axis-tracking/", views.axis_tracking_view, name="axis_tracking"),
+    path(
+        "fixed-mount-system/",
+        views.fixed_mount_system_view,
+        name="fixed_mount_system"
+    ),
     path(
         "spec-sheet-modelling/",
         views.spec_sheet_modelling_view,
-        name="spec_sheet_modelling",
+        name="spec_sheet_modelling"
     ),
-    path("bifacial-system/", views.bifacial_system_view, name="bifacial_system"),
     path(
         "modelchain-result/<str:token>",
         views.modelchain_result_view,
-        name="modelchain_result",
+        name="modelchain_result"
     ),
     path(
         "climate-projection/NASA/",
         views.nasa_climate_modelling_view,
-        name="nasa_climate_modelling",
+        name="nasa_climate_modelling"
     ),
     path(
         "climate-projection/NASA/<str:key>",
         views.climate_results_view,
-        name="climate_results",
+        name="climate_results"
     ),
+    path("axis-tracking/", views.axis_tracking_view, name="axis_tracking"),
+    path("bifacial-system/", views.bifacial_system_view, name="bifacial_system"),
     path("weather/", views.weather_view, name="weather"),
     path("air-quality/", views.air_quality_view, name="air_quality"),
     path("help&FAQs/", views.help_view, name="help"),

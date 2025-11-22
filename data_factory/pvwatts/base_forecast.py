@@ -1,23 +1,27 @@
-## data_factory/solar_advisor/base_forecast.py
+## data_factory/pvwatts/base_forecast.py
 ## pkibuka@milky-way.space
 
 from decouple import config
 from typing import Dict
-import requests
+import requests_cache
 import logging
+import requests
 import pandas as pd
 
 logger = logging.getLogger(__name__)
 
 
 class FetchNRELData:
-    def __init__(self, location, system_config: Dict):
+    def __init__(self, location, system_config: Dict, cache_expire=3600):
         self.nrel_api_key = config("NREL_API_KEY")
         self.location = location
         self.config = system_config
 
+        # Create a persistent cache file
+        self.session = requests_cache.CachedSession(".cache", expire_after=3600)
+
     def get_base_forecast(self) -> Dict:
-        """Get fundamental NREL data"""
+        """Get fundamental NREL data (cached)."""
         url = "https://developer.nrel.gov/api/pvwatts/v8.json"
 
         params = {
@@ -33,11 +37,11 @@ class FetchNRELData:
             "timeframe": "hourly",
         }
 
-        response = requests.get(url, params=params)
+        # Cached request
+        response = self.session.get(url, params=params)
         data = response.json()
 
-        # create hourly dataframe for the year
-        hours = 8760  # 1 year
+        hours = 8760
         timestamps = pd.date_range(start="2024-01-01", periods=hours, freq="h")
 
         base_forecast = {
@@ -56,6 +60,7 @@ class FetchNRELData:
             ),
             "annual_total": sum(data["outputs"]["ac"]),
             "capacity_factor": data["outputs"]["capacity_factor"],
+            "cached": getattr(response, "from_cache", False),
         }
 
         return base_forecast

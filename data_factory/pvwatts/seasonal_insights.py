@@ -1,6 +1,7 @@
 ## data_factory/solarize/seasonal_metrics.py
 ## pkibuka@milky-way.space
 
+import calendar
 from typing import Dict
 
 
@@ -28,9 +29,12 @@ class SeasonalInsights:
         best_day = daily_totals.idxmax()
         best_day_production = daily_totals.max()
 
+        # Calculate monthly average
+        monthly_average = monthly_totals.mean()
+
         metrics = {
-            "best_performing_month": int(best_month),
-            "worst_performing_month": int(worst_month),
+            "best_performing_month": calendar.month_name[best_month],
+            "worst_performing_month": calendar.month_name[worst_month],
             "seasonal_variation_percent": round(seasonal_variation, 1),
             "summer_winter_ratio": round(
                 monthly_totals[6] / monthly_totals[12], 2
@@ -38,8 +42,12 @@ class SeasonalInsights:
             "peak_daily_production": round(best_day_production, 2),
             "peak_production_date": best_day.strftime("%Y-%m-%d"),
             "monthly_breakdown": {
-                month: round(energy, 2) for month, energy in monthly_totals.items()
+                calendar.month_name[month]: round(energy, 2) 
+                for month, energy in monthly_totals.items()
             },
+            "monthly_average": round(monthly_average, 2),
+            "months_above_average": len([energy for energy in monthly_totals if energy > monthly_average]),
+            "months_below_average": len([energy for energy in monthly_totals if energy < monthly_average]),
         }
 
         return metrics

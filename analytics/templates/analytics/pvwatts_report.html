@@ -124,7 +124,7 @@
                                                 {% endfor %}
                                             </span>
                                         </div>
-                                        <div class="text-end small text-muted">Month {{ r.seasonal_insights.best_performing_month }}</div>
+                                        <div class="text-end small text-muted">{{ r.seasonal_insights.best_performing_month }}</div>
                                     </div>
                                     <div class="border rounded p-3 bg-dark">
                                         <div class="d-flex justify-content-between align-items-center">
@@ -144,7 +144,7 @@
                                                 {% endfor %}
                                             </span>
                                         </div>
-                                        <div class="text-end small text-muted">Month {{ r.seasonal_insights.worst_performing_month }}</div>
+                                        <div class="text-end small text-muted">{{ r.seasonal_insights.worst_performing_month }}</div>
                                     </div>
                                     <div class="border rounded p-3 bg-dark">
                                         <div class="d-flex justify-content-between align-items-center">
@@ -157,7 +157,7 @@
                             </div>
                             <!-- Monthly Production Summary -->
                             <div class="row mb-4">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="border rounded p-3 mb-3 bg-dark">
                                         <div class="d-flex justify-content-between align-items-center">
                                             <span class="fw-bold">Annual Production</span>
@@ -166,13 +166,26 @@
                                         <div class="text-end small text-muted">Total yearly output</div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="border rounded p-3 mb-3 bg-dark">
                                         <div class="d-flex justify-content-between align-items-center">
                                             <span class="fw-bold">Avg Monthly</span>
-                                            <span class="text-primary">{{ r.system_recommendations.estimated_annual_production_kwh|floatformat:0 }} kWh</span>
+                                            <span class="text-primary">{{ r.seasonal_insights.monthly_average|floatformat:0 }} kWh</span>
                                         </div>
                                         <div class="text-end small text-muted">Monthly average</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="border rounded p-3 mb-3 bg-dark">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <span class="fw-bold">Performance</span>
+                                            <span>
+                                                <span class="text-success">{{ r.seasonal_insights.months_above_average }}</span>
+                                                <span class="text-muted">/</span>
+                                                <span class="text-danger">{{ r.seasonal_insights.months_below_average }}</span>
+                                            </span>
+                                        </div>
+                                        <div class="text-end small text-muted">Months Above/Below Avg</div>
                                     </div>
                                 </div>
                             </div>

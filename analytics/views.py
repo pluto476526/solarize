@@ -33,43 +33,7 @@ logger = logging.getLogger(__name__)
 
 
 def index_view(request):
-    locations = utils.load_locations()
-    conn = DatabaseConnection()
-    db = DataManager(conn)
-    df = db.get_irradiance_ohlc_data(bucket="1 week")
-    db.close()
-    
-    if df.empty:
-        irradiance_chart = "<p>No data available</p>"
-
-    else:
-        df.dropna(subset=["open", "high", "low", "close"], how="all", inplace=True)
-
-        fig = go.Figure(
-            data=[
-                go.Candlestick(
-                    x=df["bucket"],
-                    open=df["open"],
-                    high=df["high"],
-                    low=df["low"],
-                    close=df["close"],
-                )
-            ]
-        )
-
-        fig.update_layout(
-            xaxis_title="Date",
-            yaxis_title="kWh/m²/day",
-            xaxis_rangeslider_visible=False,
-            template="plotly_dark",
-        )
-
-        irradiance_chart = plot(fig, output_type="div", include_plotlyjs=False)
-
-    context = {
-        "locations": locations,
-        "irradiance_chart": irradiance_chart,
-    }
+    context = {}
     return render(request, "analytics/index.html", context)
 
 
@@ -566,8 +530,8 @@ def modelchain_result_view(request, token):
     charts_key = f"mc_charts_{user_id}_{result_id}_v{version}"
 
     # Fetch or compute simulation data
-    # simulation_data = None
-    simulation_data = cache.get(data_key)
+    simulation_data = None
+    # simulation_data = cache.get(data_key)
 
     if not simulation_data:
         conn = DatabaseConnection()
@@ -588,8 +552,9 @@ def modelchain_result_view(request, token):
         }
         cache.set(norm_key, normalized_data, timeout=86400)
 
-    # Cache heavy chart objects separately for modular control
-    charts = cache.get(charts_key)
+    # Cache chart objects
+    # charts = cache.get(charts_key)
+    charts = None
     if not charts:
         nd = normalized_data
         charts = {

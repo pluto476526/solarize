@@ -9,31 +9,29 @@ from django.core.cache import cache
 
 def fetch_TMY_data(lat, lon, year):
     """
-    Fetches PVGIS TMY data for the specified coordinates and year.
-    Results are cached for performance.
+    Fetches PVGIS TMY data and returns it with local time.
     """
     cache_key = f"tmy_{lat}_{lon}_{year}"
-
     weather = cache.get(cache_key)
+
     if weather is not None:
         return weather
 
     try:
-        weather, _ = pvlib.iotools.get_pvgis_tmy(
+        weather, meta = pvlib.iotools.get_pvgis_tmy(
             latitude=lat,
             longitude=lon,
             url="https://re.jrc.ec.europa.eu/api/v5_2/",
             coerce_year=year,
+            map_variables=True,
         )
 
-        # weather.tz_convert(tz)
         weather.index.name = "utc_time"
         cache.set(cache_key, weather, timeout=604800)
+        return weather
 
     except Exception as e:
         raise RuntimeError(f"Failed to fetch TMY data: {e}")
-
-    return weather
 
 
 def fetch_cec_params(module, inverter):

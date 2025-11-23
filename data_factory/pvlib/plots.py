@@ -117,12 +117,17 @@ def irradiance_breakdown_chart(weather):
 
 def poa_heatmap(irradiance):
     df = irradiance.copy()
+    df.index = df.index.tz_convert('Africa/Nairobi')
     df["day"] = df.index.dayofyear
     df["hour"] = df.index.hour
     pivot = df.pivot_table(index="day", columns="hour", values="poa_global")
     fig = go.Figure(
         go.Heatmap(
-            z=pivot.values, x=pivot.columns, y=pivot.index, colorbar=dict(title="W/m²")
+            z=pivot.values,
+            x=pivot.columns,
+            y=pivot.index,
+            colorbar=dict(title="W/m²"),
+            hovertemplate="Day: %{y}<br>Hour: %{x}:00<br>POA: %{z} W/m²<extra></extra>"
         )
     )
     fig.update_layout(
@@ -130,6 +135,8 @@ def poa_heatmap(irradiance):
         xaxis_title="Hour",
         yaxis_title="Day of Year",
     )
+    fig.update_xaxes(tickvals=list(range(0, 24, 2)))
+
     return chart(fig)
 
 
@@ -260,6 +267,7 @@ def monthly_yield(ac):
 
 def power_heatmap(ac):
     df = ac.copy()
+    df.index = df.index.tz_convert('Africa/Nairobi')
     df["day"] = df.index.dayofyear
     df["hour"] = df.index.hour
     fig = go.Figure()
@@ -270,7 +278,8 @@ def power_heatmap(ac):
             x=pivot.columns,
             y=pivot.index,
             name="",
-            colorbar=dict(title="AC"),
+            colorbar=dict(title="AC (W)"),
+            hovertemplate="Day: %{y}<br>Hour: %{x}:00<br>AC: %{z} W<extra></extra>"
         )
     )
     fig.update_layout(
@@ -278,6 +287,7 @@ def power_heatmap(ac):
         xaxis_title="Hour",
         yaxis_title="Day of Year",
     )
+    fig.update_xaxes(tickvals=list(range(0, 24, 2)))
     return chart(fig)
 
 

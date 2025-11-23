@@ -2,6 +2,9 @@
 ## pkibuka@milky-way.space
 
 from typing import Dict
+import plotly.graph_objects as go
+from plotly.offline import plot
+import calendar
 
 
 class FinancialMetrics:
@@ -15,8 +18,44 @@ class FinancialMetrics:
     def calculate_monthly_savings(self) -> Dict:
         hourly_data = self.data["hourly_data"]
         savings = hourly_data.groupby("month")["ac_power"].sum() * self.electricity_rate
-        monthly_savings = {month: round(amt, 2) for month, amt in savings.items()}
+        
+        # Map month number to month name
+        monthly_savings = {
+            calendar.month_name[month]: round(amt, 2) 
+            for month, amt in savings.items()
+        }
+
         return monthly_savings
+
+    def monthly_savings_chart(self, monthly_savings: Dict):
+        # Create a mapping from month names to numbers for proper sorting
+        month_to_num = {month: index for index, month in enumerate(calendar.month_name) if month}
+        
+        # Sort months by their numerical value (January=1, February=2, etc.)
+        sorted_months = sorted(monthly_savings.keys(), key=lambda x: month_to_num[x])
+        
+        # Get month abbreviations and savings in correct order
+        month_names = [calendar.month_abbr[month_to_num[month]] for month in sorted_months]
+        savings = [monthly_savings[month] for month in sorted_months]
+
+        # Create line chart
+        fig = go.Figure(
+            data=[
+                go.Scatter(x=month_names, y=savings, mode="lines+markers", name="Savings")
+            ]
+        )
+
+        fig.update_layout(
+            xaxis_title="Month",
+            yaxis_title="Savings",
+            xaxis=dict(tickmode="array", tickvals=month_names),
+            xaxis_rangeslider_visible=False,
+            template="plotly_dark",
+        )
+
+        # Convert figure to HTML div
+        savings_chart = plot(fig, output_type="div", include_plotlyjs=False)
+        return savings_chart
 
     def estimate_incentive_impact(self, annual_savings: float) -> Dict:
         tax_credit = self.initial_cost * 0.30  # Assume 30% federal tax credit
@@ -40,6 +79,7 @@ class FinancialMetrics:
         twenty_year_savings = (annual_savings * 20) - self.initial_cost
         twenty_year_roi = (twenty_year_savings / self.initial_cost) * 100
         monthly_savings = self.calculate_monthly_savings()
+        savings_chart = self.monthly_savings_chart(monthly_savings)
         incentive_impact = self.estimate_incentive_impact(annual_savings=annual_savings)
 
         metrics = {
@@ -49,6 +89,7 @@ class FinancialMetrics:
             "20_year_net_savings": round(twenty_year_savings, 2),
             "20_year_ROI_percent": round(twenty_year_roi, 1),
             "monthly_savings_breakdown": monthly_savings,
+            "savings_chart": savings_chart,
             "incentive_impact": incentive_impact,
         }
 

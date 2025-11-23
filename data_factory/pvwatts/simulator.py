@@ -58,6 +58,7 @@ class PVWattsSimulator:
         # Scenario Modelling
         sm = ScenarioModelling(location)
         scenario_analysis = sm.compare_panel_config()
+        scenario_efficiency = sm.scenario_efficiency_chart(scenario_analysis)
 
         # Financial Metrics
         fin = FinancialMetrics(base_data, 20000, 0.4)
@@ -90,6 +91,7 @@ class PVWattsSimulator:
                 "report_date": datetime.now(),
             },
             "scenario_analysis": scenario_analysis,
+            "scenario_efficiency": scenario_efficiency,
             "financial_analysis": financial_analysis,
             "location_score": location_score,
             "seasonal_insights": seasonal_insights,

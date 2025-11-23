@@ -434,3 +434,4 @@ def generate_all_analytics(df):
     charts['seasonal_irradiance'] = seasonal_irradiance(df)
     
     return charts
+    

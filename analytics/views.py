@@ -104,12 +104,6 @@ def pvwatts_modelling_view(request):
             charts = pvwatts_plots.generate_all_analytics(base_data["hourly_data"])
             report["analytics_charts"] = charts
 
-            monthly_savings = report["financial_analysis"]["monthly_savings_breakdown"]
-            report["savings_chart"] = utils.monthly_savings_chart(monthly_savings)
-
-            scenario_data = report["scenario_analysis"]
-            report["efficiency_chart"] = utils.scenario_efficiency_chart(scenario_data)
-
             reports.append(report)
             location_idx += 1
 
@@ -564,7 +558,7 @@ def modelchain_result_view(request, token):
 
     user_id = request.user.id
     cache_version_key = f"mc_result_version_{user_id}_{result_id}"
-    version = cache.get(cache_version_key, 1)  # used for invalidation control
+    version = cache.get(cache_version_key, 1)
 
     # Primary cache keys
     data_key = f"mc_data_{user_id}_{result_id}_v{version}"
